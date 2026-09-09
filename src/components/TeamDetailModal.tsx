@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, MapPin, Mail, Phone, Linkedin, Github, Award, CheckCircle2, Briefcase } from 'lucide-react';
+import { X, MapPin, Mail, Phone, Award, CheckCircle2, Briefcase } from 'lucide-react';
 import { TeamMember } from '../types';
 
 interface TeamDetailModalProps {

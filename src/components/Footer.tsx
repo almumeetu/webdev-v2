@@ -1,9 +1,5 @@
 import React from 'react';
 import { 
-  Facebook, 
-  Twitter, 
-  Instagram, 
-  Linkedin, 
   Mail, 
   Phone, 
   MapPin, 
@@ -11,6 +7,7 @@ import {
   Shield,
   Globe
 } from 'lucide-react';
+import { GithubIcon, LinkedinIcon, TwitterIcon } from './SocialIcons';
 
 interface FooterProps {
   onNavigate: (view: string, subParam?: string) => void;
@@ -50,13 +47,13 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenQuote }) => {
             {/* Social icons */}
             <div className="flex items-center space-x-3 pt-2">
               <a 
-                href="https://facebook.com" 
+                href="https://github.com/almumeetusaikat" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="w-9 h-9 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors"
-                aria-label="Facebook"
+                aria-label="GitHub"
               >
-                <Facebook className="w-4 h-4" />
+                <GithubIcon className="w-4 h-4" />
               </a>
               <a 
                 href="https://x.com" 
@@ -65,16 +62,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenQuote }) => {
                 className="w-9 h-9 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors"
                 aria-label="Twitter"
               >
-                <Twitter className="w-4 h-4" />
-              </a>
-              <a 
-                href="https://instagram.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="w-9 h-9 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-4 h-4" />
+                <TwitterIcon className="w-4 h-4" />
               </a>
               <a 
                 href="https://linkedin.com" 
@@ -83,7 +71,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenQuote }) => {
                 className="w-9 h-9 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors"
                 aria-label="LinkedIn"
               >
-                <Linkedin className="w-4 h-4" />
+                <LinkedinIcon className="w-4 h-4" />
               </a>
             </div>
           </div>
@@ -176,29 +164,18 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenQuote }) => {
               <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
                 <div className="font-bold text-white flex items-center gap-1.5 mb-1">
                   <MapPin className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-                  <span>Bangladesh Headquarters</span>
+                  <span>Headquarters</span>
                 </div>
-                <p className="text-slate-400">Joypurhat Sadar, Rajshahi Division, Bangladesh</p>
-                <a href="tel:+8801700928374" className="mt-1 inline-block font-mono text-indigo-400 hover:text-indigo-300 font-semibold">
-                  +880 1700-928374
-                </a>
-              </div>
-
-              <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-                <div className="font-bold text-white flex items-center gap-1.5 mb-1">
-                  <MapPin className="w-3.5 h-3.5 text-purple-400 shrink-0" />
-                  <span>Germany Branch</span>
-                </div>
-                <p className="text-slate-400">Heinrich-von-Stephan-Str., 51373 Leverkusen, Germany</p>
-                <a href="tel:+49214839201" className="mt-1 inline-block font-mono text-purple-400 hover:text-purple-300 font-semibold">
-                  +49 214 839201
+                <p className="text-slate-400">Housing Estate, Word No: 07, Joypurhat-5900, Bangladesh</p>
+                <a href="tel:+8801712009617" className="mt-1 inline-block font-mono text-indigo-400 hover:text-indigo-300 font-semibold">
+                  +880 1712-009617
                 </a>
               </div>
 
               <div className="pt-1">
                 <div className="text-slate-400 text-[11px]">General Enquiries:</div>
-                <a href="mailto:contact@webdevsoftware.com" className="text-white hover:text-indigo-400 font-medium break-all">
-                  contact@webdevsoftware.com
+                <a href="mailto:info@webdevsoftwaresolutions.com" className="text-white hover:text-indigo-400 font-medium break-all">
+                  info@webdevsoftwaresolutions.com
                 </a>
               </div>
             </div>

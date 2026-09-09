@@ -75,6 +75,10 @@ export function animateStagger(
   yOffset: number = 40
 ) {
   if (!triggerEl) return;
+  if (typeof targets === 'string') {
+    const found = triggerEl.querySelectorAll(targets);
+    if (found.length === 0) return;
+  }
   gsap.fromTo(
     targets,
     { opacity: 0, y: yOffset },

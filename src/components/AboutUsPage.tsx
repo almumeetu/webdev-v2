@@ -137,7 +137,7 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Joypurhat Sadar, Rajshahi Division, Bangladesh</span>
+                  <span>Housing Estate, Word No: 07, Joypurhat-5900, Bangladesh</span>
                 </li>
               </ul>
             </div>

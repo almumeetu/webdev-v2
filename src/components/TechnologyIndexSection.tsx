@@ -89,14 +89,14 @@ export const TechnologyIndexSection: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
               
               {/* Floating tech badge */}
-              <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 bg-slate-900/90 backdrop-blur-md p-3.5 sm:p-4 rounded-2xl border border-slate-700 text-white flex items-center justify-between">
+              <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 bg-slate-900/90 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-slate-700/80 text-white flex items-center justify-between shadow-2xl">
                 <div>
-                  <div className="text-[10px] sm:text-xs text-indigo-400 font-mono font-semibold">CROSS-BORDER DELIVERY</div>
-                  <div className="text-xs sm:text-sm font-bold">Joypurhat (BD) & Leverkusen (DE)</div>
+                  <div className="text-[10px] sm:text-xs text-indigo-400 font-mono font-bold tracking-wider">GLOBAL ENGINEERING DELIVERY</div>
+                  <div className="text-xs sm:text-sm font-bold text-slate-100">Joypurhat, Bangladesh • Worldwide Clients</div>
                 </div>
                 <div 
                   ref={badgeNumRef} 
-                  className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center font-bold text-base sm:text-lg shrink-0"
+                  className="w-11 h-11 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center font-bold text-base sm:text-lg shadow-lg shrink-0 ml-3"
                 >
                   99%
                 </div>
@@ -129,7 +129,7 @@ export const TechnologyIndexSection: React.FC = () => {
                 <div>
                   <h4 className="text-sm font-bold text-slate-900 font-['Outfit']">Experience</h4>
                   <p className="text-xs text-slate-500 mt-1">
-                    We give you the best service and German engineering rigor for your project.
+                    We deliver premier engineering excellence and modern architecture for your software.
                   </p>
                 </div>
               </div>
@@ -141,7 +141,7 @@ export const TechnologyIndexSection: React.FC = () => {
                 <div>
                   <h4 className="text-sm font-bold text-slate-900 font-['Outfit']">Quick Support</h4>
                   <p className="text-xs text-slate-500 mt-1">
-                    We are always here at your support 24/7 across CET and BST timezones.
+                    Dedicated 24/7 technical monitoring and rapid support across global timezones.
                   </p>
                 </div>
               </div>

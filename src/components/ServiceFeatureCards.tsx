@@ -57,8 +57,8 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
     {
       id: 'feat-global',
       icon: Globe2,
-      title: 'Dual Hub Delivery',
-      desc: 'Leverkusen, Germany quality assurance with Joypurhat, Bangladesh agility.',
+      title: 'Global Delivery',
+      desc: 'Joypurhat, Bangladesh engineering hub delivering solutions worldwide.',
       color: 'text-purple-400',
       bgGlow: 'hover:border-purple-500/60'
     }

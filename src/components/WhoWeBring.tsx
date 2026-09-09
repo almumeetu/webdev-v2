@@ -82,7 +82,7 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
 
             {/* Subtext */}
             <p className="who-content-item text-sm sm:text-base text-slate-600 leading-relaxed">
-              We have over 10+ years of collective experience across Bangladesh and Germany in all stages of software design, cloud server engineering, high-load e-commerce, and enterprise system maintenance.
+              We have over 10+ years of collective experience in all stages of modern software architecture, cloud server engineering, high-load e-commerce, and enterprise systems, serving clients across North America, Europe, and worldwide.
             </p>
 
             {/* 4 Feature Checklist */}
@@ -118,7 +118,7 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
 
             {/* Secondary Paragraph */}
             <p className="who-content-item text-xs sm:text-sm text-slate-500 italic leading-relaxed pt-1">
-              "Our teams know how to harness the power of scalable cloud servers, full-stack MERN engineering, and modern headless frameworks to optimize operations and drive sustainable revenue for German, Bangladeshi, and global businesses."
+              "Our engineering teams harness the power of scalable cloud servers, full-stack MERN architecture, and modern headless frameworks to optimize operations and drive sustainable revenue for global enterprises."
             </p>
 
             {/* Action button & Founder Signature */}
@@ -132,14 +132,14 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </button>
 
-              {/* Founder signature illustration */}
+              {/* Founder signature */}
               <div className="flex items-center gap-3">
                 <div className="font-serif italic text-xl sm:text-2xl font-bold text-indigo-900 tracking-wider font-['Outfit'] select-none">
-                  Tanvir Hossain
+                  Md Moyen Uddin
                 </div>
                 <div className="text-left border-l border-slate-300 pl-3">
-                  <div className="text-xs font-bold text-slate-800">Founder & CTO</div>
-                  <div className="text-[11px] text-slate-500">WebDev Software Solutions</div>
+                  <div className="text-xs font-bold text-slate-800">CEO & Founder</div>
+                  <div className="text-[11px] text-slate-500">WEBDEV Software Solutions</div>
                 </div>
               </div>
             </div>
@@ -160,16 +160,16 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
               </div>
 
-              {/* Floating secondary overlapping photo card (bottom-left) - safe relative positioning */}
-              <div className="absolute bottom-2 left-2 sm:-bottom-6 sm:-left-6 w-44 sm:w-60 rounded-2xl overflow-hidden shadow-2xl border-4 border-white bg-white">
+              {/* Floating secondary photo card (bottom-left) - safe positioning */}
+              <div className="absolute bottom-2 left-2 sm:-bottom-4 sm:-left-4 w-44 sm:w-60 rounded-2xl overflow-hidden shadow-2xl border-4 border-white bg-white">
                 <img
                   src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80"
                   alt="Software engineers collaborating"
                   className="w-full h-24 sm:h-36 object-cover"
                 />
                 <div className="p-2 sm:p-3 bg-white">
-                  <div className="text-[11px] sm:text-xs font-bold text-slate-900">Leverkusen & Joypurhat</div>
-                  <div className="text-[10px] sm:text-[11px] text-indigo-600 font-medium">Cross-Border Delivery</div>
+                  <div className="text-[11px] sm:text-xs font-bold text-slate-900">Joypurhat, Bangladesh</div>
+                  <div className="text-[10px] sm:text-[11px] text-indigo-600 font-medium">Global Delivery Hub</div>
                 </div>
               </div>
 

@@ -81,52 +81,51 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
           </p>
         </div>
 
-        {/* 3x2 Grid of visual cards with bottom floating circular icon matching reference video */}
+        {/* 3x2 Grid of visual cards with clean international standard layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {initialServices.map((service) => (
             <div
               key={service.id}
               onClick={() => onSelectService(service.id)}
-              className="service-card-item group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer flex flex-col border border-slate-100"
+              className="service-card-item group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer flex flex-col border border-slate-200/80"
             >
-              {/* Card visual banner with photo & dark gradient overlay */}
-              <div className="relative h-56 sm:h-60 overflow-hidden bg-slate-900">
+              {/* Card visual banner with photo & subtle gradient overlay */}
+              <div className="relative h-52 sm:h-56 overflow-hidden bg-slate-900">
                 <img
                   src={service.image}
                   alt={service.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/40 to-transparent"></div>
-                
-                {/* Floating circular purple/violet icon badge at bottom center */}
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 z-10 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-indigo-600 to-purple-700 text-white flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 border-4 border-white">
-                  {getIcon(service.iconName)}
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent"></div>
 
-                {/* Top right tag */}
-                <div className="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-md text-[11px] font-mono font-semibold text-indigo-300 px-3 py-1 rounded-full border border-slate-700">
+                {/* Top right category tag */}
+                <div className="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-md text-[11px] font-mono font-semibold text-indigo-300 px-3 py-1 rounded-full border border-slate-700/80 shadow-sm">
                   Engineering
                 </div>
               </div>
 
-              {/* Card text content */}
-              <div className="pt-9 sm:pt-10 p-6 flex-1 flex flex-col justify-between text-center">
+              {/* Card text content with dedicated, unclipped icon badge */}
+              <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between text-left">
                 <div>
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 text-white flex items-center justify-center shadow-lg shadow-indigo-600/25 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300 mb-4">
+                    {getIcon(service.iconName)}
+                  </div>
+
                   <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors font-['Outfit']">
                     {service.title}
                   </h3>
-                  <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm text-slate-600 line-clamp-3 leading-relaxed">
+                  <p className="mt-2 text-xs sm:text-sm text-slate-600 line-clamp-3 leading-relaxed">
                     {service.shortDesc}
                   </p>
                 </div>
 
                 {/* Tech chips preview & CTA trigger */}
-                <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+                <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
                   <div className="flex items-center gap-1.5 flex-wrap">
                     {service.techs.slice(0, 3).map((tech, i) => (
                       <span
                         key={i}
-                        className="text-[10px] bg-slate-100 text-slate-700 font-medium px-2 py-0.5 rounded"
+                        className="text-[10px] bg-slate-100 text-slate-700 font-medium px-2.5 py-0.5 rounded-md"
                       >
                         {tech}
                       </span>

@@ -96,81 +96,47 @@ export const initialProjects: Project[] = [
 export const initialTeam: TeamMember[] = [
   {
     id: 'team-1',
-    name: 'Tanvir Hossain',
-    role: 'Founder & Chief Technology Officer',
+    name: 'Al Mumeetu Saikat',
+    role: 'Full-Stack Developer',
     branch: 'Joypurhat, Bangladesh',
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
-    bio: 'Visionary full-stack architect with 11+ years guiding engineering teams across Bangladesh and Europe. Specialist in distributed Node.js backends, high-concurrency database design, and enterprise MERN applications.',
-    skills: ['Full-Stack MERN', 'System Architecture', 'Node.js & Express', 'MongoDB / SQL', 'Cloud Infrastructure'],
-    email: 'tanvir@webdevsoftware.com',
-    phone: '+880 1700-928374',
+    image: '/images/team/Full-Stack.png',
+    bio: 'Senior Full-Stack Architect specialized in modern Next.js ecosystem, cloud-native microservices, TypeScript, and high-concurrency systems.',
+    skills: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'AWS', 'Docker', 'Next.js'],
+    email: 'info@webdevsoftwaresolutions.com',
+    phone: '+880 1712-009617',
     linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    experienceYears: 11,
+    github: 'https://github.com/almumeetusaikat',
+    experienceYears: 8,
     highlightedProjects: ['FinTech Cloud Banking Portal', 'Dhaka-Joypurhat Logistics SaaS']
   },
   {
     id: 'team-2',
-    name: 'Lukas Schneider',
-    role: 'Managing Partner - European Operations',
-    branch: 'Leverkusen, Germany',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
-    bio: 'German tech strategist and client partner based in Leverkusen (NRW). Bridges European enterprises with our high-calibre offshore development center, ensuring German DIN/GDPR quality standards and precision engineering.',
-    skills: ['Enterprise Client Delivery', 'DevOps & Security', 'GDPR Compliance', 'Cloud Strategy', 'Product Management'],
-    email: 'lukas.schneider@webdevsoftware.com',
-    phone: '+49 214 839201',
+    name: 'Md Moyen Uddin',
+    role: 'CEO & Founder',
+    branch: 'Joypurhat, Bangladesh',
+    image: '/images/team/CEO.png',
+    bio: 'Visionary technology executive steering strategic growth, client digital transformation partnerships, and enterprise product innovation.',
+    skills: ['Leadership', 'Strategy', 'Business Development', 'Technology', 'Team Management', 'Vision'],
+    email: 'info@webdevsoftwaresolutions.com',
+    phone: '+880 1712-009617',
     linkedin: 'https://linkedin.com',
-    experienceYears: 13,
+    experienceYears: 12,
     highlightedProjects: ['Nordic Clean Living Headless Shopify', 'Automated Linux Bare-Metal Server Mesh']
   },
   {
     id: 'team-3',
-    name: 'Sarah Rahman',
-    role: 'Lead Full-Stack & MERN Engineer',
+    name: 'Al Muheetu Shihab',
+    role: 'Mobile Developer',
     branch: 'Joypurhat, Bangladesh',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80',
-    bio: 'Passionate JavaScript & TypeScript specialist with deep expertise in React 19, state management, RESTful microservices, and reactive real-time applications using WebSockets.',
-    skills: ['React 19', 'Next.js', 'Node.js', 'Redux / Zustand', 'Tailwind CSS', 'REST & GraphQL'],
-    email: 'sarah.r@webdevsoftware.com',
+    image: '/images/team/android-developer.png',
+    bio: 'Cross-platform mobile engineer crafting smooth 60fps native experiences, enterprise mobile security, and offline-first reactive architectures.',
+    skills: ['React Native', 'Flutter', 'iOS', 'Android', 'Firebase', 'UI/UX'],
+    email: 'info@webdevsoftwaresolutions.com',
+    phone: '+880 1712-009617',
     github: 'https://github.com',
-    experienceYears: 7,
-    highlightedProjects: ['Dhaka-Joypurhat Logistics SaaS', 'AgriTech Cold Storage IoT Monitor']
-  },
-  {
-    id: 'team-4',
-    name: 'Markus Weber',
-    role: 'Principal Cloud & Linux Server Architect',
-    branch: 'Leverkusen, Germany',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80',
-    bio: 'Server infrastructure guru focusing on hardened Linux setups, Nginx clustering, CI/CD automation, Dockerization, and 24/7 high availability server maintenance.',
-    skills: ['Linux Kernel Tuning', 'Nginx & Apache', 'Kubernetes & Docker', 'CI/CD Pipelines', 'DDoS Protection'],
-    email: 'm.weber@webdevsoftware.com',
-    experienceYears: 10,
-    highlightedProjects: ['Automated Linux Bare-Metal Server Mesh', 'FinTech Cloud Banking Portal']
-  },
-  {
-    id: 'team-5',
-    name: 'Alina Kabir',
-    role: 'Lead E-Commerce & CMS Specialist',
-    branch: 'Joypurhat, Bangladesh',
-    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=80',
-    bio: 'Certified Shopify Plus and WooCommerce developer. Has delivered over 65 custom storefronts with custom liquid extensions, headless cart workflows, and payment integrations.',
-    skills: ['Shopify Plus / Liquid', 'WooCommerce', 'WordPress Core', 'PHP / MySQL', 'Payment Gateways'],
-    email: 'alina.k@webdevsoftware.com',
+    linkedin: 'https://linkedin.com',
     experienceYears: 6,
-    highlightedProjects: ['Nordic Clean Living Headless Shopify', 'Global High-Traffic WooCommerce Cluster']
-  },
-  {
-    id: 'team-6',
-    name: 'Dennis Boyette',
-    role: 'Head of UI/UX & Creative Engineering',
-    branch: 'Leverkusen, Germany',
-    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80',
-    bio: 'Award-winning product designer crafting frictionless, modern digital interfaces for European and global enterprise products. Expert in design systems and micro-interactions.',
-    skills: ['Figma Design Systems', 'Design-to-Code', 'Motion / Micro-interactions', 'Accessibility (WCAG)', 'User Research'],
-    email: 'dennis.b@webdevsoftware.com',
-    experienceYears: 8,
-    highlightedProjects: ['FinTech Cloud Banking Portal', 'Nordic Clean Living Headless Shopify']
+    highlightedProjects: ['Dhaka-Joypurhat Logistics SaaS', 'AgriTech Cold Storage IoT Monitor']
   }
 ];
 
@@ -353,32 +319,22 @@ export const initialTestimonials = [
 ];
 
 export const clientLogos = [
-  { name: 'Frank G. Fabell', symbol: 'F' },
-  { name: 'Remote Studio', symbol: 'RS' },
-  { name: 'Success Glassware', symbol: 'SG' },
-  { name: 'Build YourHome', symbol: 'BYH' },
-  { name: 'Youths Dream', symbol: 'YD' },
-  { name: 'EuroTech Labs', symbol: 'ETL' }
+  { name: 'Agneya Singh', symbol: 'AS', image: '/images/brands/agneyasingh.png' },
+  { name: 'All Strings Nylon', symbol: 'ASN', image: '/images/brands/allstringsnylon.png' },
+  { name: 'Gilmore Electric', symbol: 'GE', image: '/images/brands/gilmoreelectric.png' },
+  { name: 'Marfione Guitar', symbol: 'MG', image: '/images/brands/marfione-guitar.webp' },
+  { name: 'Start Campus', symbol: 'SC', image: '/images/brands/start-campus.png' },
 ];
 
 export const companyOffices = [
   {
     title: 'Bangladesh Headquarters',
     city: 'Joypurhat, Bangladesh',
-    address: 'Main Commercial Avenue, Joypurhat Sadar, Rajshahi Division, Bangladesh',
-    phone: '+880 1700-928374',
-    email: 'dhaka.office@webdevsoftware.com',
-    hours: 'Sun - Thu: 9:00 AM - 7:00 PM (BST)',
+    address: 'Housing Estate, Word No: 07, Joypurhat-5900, Joypurhat, Bangladesh',
+    phone: '+880 1712-009617',
+    email: 'info@webdevsoftwaresolutions.com',
+    hours: 'Mon - Sat: 9:00 AM - 8:00 PM (BST)',
     isHQ: true
-  },
-  {
-    title: 'European Operations Branch',
-    city: 'Leverkusen, Germany',
-    address: 'Heinrich-von-Stephan-Straße / Willy-Brandt-Ring, 51373 Leverkusen, NRW, Germany',
-    phone: '+49 214 839201',
-    email: 'germany.branch@webdevsoftware.com',
-    hours: 'Mon - Fri: 8:30 AM - 6:00 PM (CET)',
-    isHQ: false
   }
 ];
 

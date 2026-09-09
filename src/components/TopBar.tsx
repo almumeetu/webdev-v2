@@ -1,5 +1,6 @@
 import React from 'react';
-import { Mail, Clock, MapPin, Globe, Facebook, Twitter, Instagram, Linkedin, Phone } from 'lucide-react';
+import { Mail, Clock, MapPin, Globe, Phone } from 'lucide-react';
+import { GithubIcon, LinkedinIcon, TwitterIcon } from './SocialIcons';
 
 interface TopBarProps {
   onContactClick?: () => void;
@@ -18,24 +19,24 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
             <span className="text-[11px] sm:text-xs">
               <span className="font-semibold text-white">Joypurhat, BD</span>
               <span className="text-slate-500 mx-1.5">•</span>
-              <span className="font-semibold text-white">Leverkusen, DE</span>
+              <span className="font-semibold text-white">Housing Estate, W-07</span>
             </span>
           </div>
 
           {/* Business Hours (hidden on very small screens) */}
           <div className="hidden lg:flex items-center gap-2">
             <Clock className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-            <span>Mon - Fri: 8:00 - 18:00 (BST & CET)</span>
+            <span>Mon - Sat: 9:00 - 20:00 (BST)</span>
           </div>
 
           {/* Email (hidden on mobile, visible from md up) */}
           <div className="hidden md:flex items-center gap-2">
             <Mail className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
             <a 
-              href="mailto:contact@webdevsoftware.com" 
+              href="mailto:info@webdevsoftwaresolutions.com" 
               className="hover:text-indigo-300 transition-colors"
             >
-              contact@webdevsoftware.com
+              info@webdevsoftwaresolutions.com
             </a>
           </div>
         </div>
@@ -53,35 +54,35 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
 
           {/* Direct call link on mobile/tablet */}
           <a
-            href="tel:+8801700928374"
+            href="tel:+8801712009617"
             className="flex items-center gap-1.5 text-indigo-400 hover:text-indigo-300 font-mono font-medium text-[11px] sm:text-xs"
             title="Direct Phone Line"
           >
             <Phone className="w-3 h-3 text-indigo-400" />
-            <span className="hidden xs:inline sm:hidden">+880 1700-928374</span>
+            <span>+880 1712-009617</span>
           </a>
 
-          {/* Socials (hidden on small mobile to keep topbar uncluttered) */}
+          {/* Socials */}
           <div className="hidden sm:flex items-center space-x-3 text-slate-400 border-l border-slate-800/80 pl-3">
             <a 
-              href="https://facebook.com" 
+              href="https://github.com/almumeetusaikat" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="hover:text-indigo-400 transition-colors p-1" 
-              title="Facebook"
-              aria-label="Facebook"
+              title="GitHub"
+              aria-label="GitHub"
             >
-              <Facebook className="w-3.5 h-3.5" />
+              <GithubIcon className="w-3.5 h-3.5" />
             </a>
             <a 
-              href="https://x.com" 
+              href="https://twitter.com" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="hover:text-indigo-400 transition-colors p-1" 
               title="Twitter / X"
               aria-label="Twitter / X"
             >
-              <Twitter className="w-3.5 h-3.5" />
+              <TwitterIcon className="w-3.5 h-3.5" />
             </a>
             <a 
               href="https://linkedin.com" 
@@ -91,7 +92,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
               title="LinkedIn"
               aria-label="LinkedIn"
             >
-              <Linkedin className="w-3.5 h-3.5" />
+              <LinkedinIcon className="w-3.5 h-3.5" />
             </a>
           </div>
         </div>
