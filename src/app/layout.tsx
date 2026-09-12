@@ -24,9 +24,12 @@ export const metadata: Metadata = {
     "Shopify WooCommerce",
   ],
   icons: {
-    icon: "/images/logo/webdev-logo.png",
-    shortcut: "/images/logo/webdev-logo.png",
-    apple: "/images/logo/webdev-logo.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "256x256" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
   },
   authors: [{ name: "Al Mumeetu Saikat" }],
 };
@@ -39,8 +42,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/images/logo/webdev-logo.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/images/logo/webdev-logo.png" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/icon.png" type="image/png" sizes="256x256" />
+        <link rel="apple-touch-icon" href="/apple-icon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link

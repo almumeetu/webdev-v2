@@ -92,15 +92,18 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
   useGsapContext(pageRef, () => {
     if (!pageRef.current) return;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     gsap.fromTo(
       '.contact-anim-item',
-      { opacity: 0, y: 18 },
+      { opacity: 0, y: isMobile ? 10 : 18 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.55,
-        stagger: 0.07,
-        ease: 'power2.out'
+        duration: isMobile ? 0.35 : 0.55,
+        stagger: isMobile ? 0.03 : 0.07,
+        ease: isMobile ? 'power1.out' : 'power2.out',
+        clearProps: 'transform,opacity'
       }
     );
   });

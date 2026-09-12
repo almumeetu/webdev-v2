@@ -26,26 +26,29 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
   useGsapContext(sectionRef, () => {
     if (!sectionRef.current) return;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     // Header animation
     gsap.fromTo(
       '.services-header-anim',
-      { opacity: 0, y: 25 },
+      { opacity: 0, y: isMobile ? 12 : 25 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.7,
-        stagger: 0.1,
-        ease: 'power2.out',
+        duration: isMobile ? 0.35 : 0.65,
+        stagger: isMobile ? 0.04 : 0.1,
+        ease: isMobile ? 'power1.out' : 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 85%',
+          start: isMobile ? 'top 92%' : 'top 85%',
           once: true
-        }
+        },
+        clearProps: 'transform,opacity'
       }
     );
 
     // Stagger cards
-    animateStagger('.service-card-item', sectionRef.current, 0.12, 40);
+    animateStagger('.service-card-item', sectionRef.current, 0.1, 28);
   });
 
   const getIcon = (iconName: string) => {
@@ -87,7 +90,7 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
             <div
               key={service.id}
               onClick={() => onSelectService(service.id)}
-              className="service-card-item group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer flex flex-col border border-slate-200/90 hover:border-indigo-400"
+              className="service-card-item group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-1.5 cursor-pointer flex flex-col border border-slate-200/90 hover:border-indigo-400"
             >
               {/* Card visual banner with photo & subtle gradient overlay */}
               <div className="relative h-48 sm:h-56 overflow-hidden bg-slate-100">

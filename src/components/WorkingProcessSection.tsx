@@ -9,26 +9,29 @@ export const WorkingProcessSection: React.FC = () => {
   useGsapContext(sectionRef, () => {
     if (!sectionRef.current) return;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     // Header animation
     gsap.fromTo(
       '.process-header-anim',
-      { opacity: 0, y: 25 },
+      { opacity: 0, y: isMobile ? 12 : 25 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.7,
-        stagger: 0.1,
-        ease: 'power2.out',
+        duration: isMobile ? 0.35 : 0.65,
+        stagger: isMobile ? 0.04 : 0.1,
+        ease: isMobile ? 'power1.out' : 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 85%',
+          start: isMobile ? 'top 92%' : 'top 85%',
           once: true
-        }
+        },
+        clearProps: 'transform,opacity'
       }
     );
 
     // Stagger steps
-    animateStagger('.process-step-item', sectionRef.current, 0.18, 40);
+    animateStagger('.process-step-item', sectionRef.current, 0.1, 28);
   });
 
   const steps = [
@@ -87,7 +90,7 @@ export const WorkingProcessSection: React.FC = () => {
             return (
               <div
                 key={step.num}
-                className="process-step-item bg-slate-900/90 rounded-3xl p-6 sm:p-8 border border-slate-800 hover:border-indigo-500/60 shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 transform hover:-translate-y-2 flex flex-col justify-between group"
+                className="process-step-item bg-slate-900/90 rounded-3xl p-6 sm:p-8 border border-slate-800 hover:border-indigo-500/60 shadow-xl hover:shadow-indigo-500/10 transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-1.5 flex flex-col justify-between group"
               >
                 <div>
                   {/* Top Step badge & Icon */}

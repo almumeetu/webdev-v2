@@ -10,20 +10,23 @@ export const ClientLogosSection: React.FC = () => {
   useGsapContext(sectionRef, () => {
     if (!sectionRef.current) return;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     gsap.fromTo(
       '.logo-strip-item',
-      { opacity: 0, y: 15 },
+      { opacity: 0, y: isMobile ? 8 : 15 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.6,
-        stagger: 0.08,
-        ease: 'power2.out',
+        duration: isMobile ? 0.35 : 0.6,
+        stagger: isMobile ? 0.03 : 0.08,
+        ease: isMobile ? 'power1.out' : 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 90%',
+          start: isMobile ? 'top 95%' : 'top 90%',
           once: true
-        }
+        },
+        clearProps: 'transform,opacity'
       }
     );
   });

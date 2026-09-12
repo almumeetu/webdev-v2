@@ -21,26 +21,29 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
   useGsapContext(sectionRef, () => {
     if (!sectionRef.current) return;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     // Header animation
     gsap.fromTo(
       '.team-header-anim',
-      { opacity: 0, y: 25 },
+      { opacity: 0, y: isMobile ? 12 : 25 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.7,
-        stagger: 0.1,
-        ease: 'power2.out',
+        duration: isMobile ? 0.35 : 0.65,
+        stagger: isMobile ? 0.04 : 0.1,
+        ease: isMobile ? 'power1.out' : 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 85%',
+          start: isMobile ? 'top 92%' : 'top 85%',
           once: true
-        }
+        },
+        clearProps: 'transform,opacity'
       }
     );
 
     // Stagger cards
-    animateStagger('.team-card-item', sectionRef.current, 0.15, 35);
+    animateStagger('.team-card-item', sectionRef.current, 0.1, 28);
   });
 
   return (
@@ -73,7 +76,7 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
           {teamMembers.slice(0, 3).map((member) => (
             <div
               key={member.id}
-              className="team-card-item group bg-white rounded-3xl border border-slate-200/90 hover:border-indigo-400/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_40px_-10px_rgba(79,70,229,0.12)] transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col overflow-hidden"
+              className="team-card-item group bg-white rounded-3xl border border-slate-200/90 hover:border-indigo-400/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_40px_-10px_rgba(79,70,229,0.12)] transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-1.5 flex flex-col overflow-hidden"
             >
               {/* Executive Portrait Frame */}
               <div className="relative h-72 sm:h-80 w-full overflow-hidden bg-gradient-to-b from-slate-100 via-slate-100 to-indigo-50/50">

@@ -76,7 +76,7 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
               <div
                 key={item.id}
                 onClick={() => onSelectFeature && onSelectFeature(item.id)}
-                className="feature-card-item bg-white hover:bg-slate-50/80 border border-slate-200/90 hover:border-indigo-400 rounded-2xl p-5 sm:p-6 transition-all duration-300 transform hover:-translate-y-1.5 cursor-pointer flex flex-col justify-between group shadow-xs hover:shadow-xl"
+                className="feature-card-item bg-white hover:bg-slate-50/80 border border-slate-200/90 hover:border-indigo-400 rounded-2xl p-5 sm:p-6 transition-[background-color,border-color,box-shadow,transform] duration-200 hover:-translate-y-1 cursor-pointer flex flex-col justify-between group shadow-xs hover:shadow-xl"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">

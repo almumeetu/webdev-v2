@@ -9,38 +9,43 @@ export const TechnologyIndexSection: React.FC = () => {
   useGsapContext(sectionRef, () => {
     if (!sectionRef.current) return;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     // Fade and slide left image
     gsap.fromTo(
       '.tech-index-image',
-      { opacity: 0, x: -30 },
+      { opacity: 0, x: isMobile ? 0 : -30, y: isMobile ? 12 : 0 },
       {
         opacity: 1,
         x: 0,
-        duration: 0.8,
-        ease: 'power3.out',
+        y: 0,
+        duration: isMobile ? 0.35 : 0.65,
+        ease: isMobile ? 'power1.out' : 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 80%',
+          start: isMobile ? 'top 92%' : 'top 80%',
           once: true
-        }
+        },
+        clearProps: 'transform,opacity'
       }
     );
 
     // Stagger right content
     gsap.fromTo(
       '.tech-index-text',
-      { opacity: 0, y: 25 },
+      { opacity: 0, y: isMobile ? 12 : 25 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.7,
-        stagger: 0.1,
-        ease: 'power2.out',
+        duration: isMobile ? 0.35 : 0.65,
+        stagger: isMobile ? 0.04 : 0.1,
+        ease: isMobile ? 'power1.out' : 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 80%',
+          start: isMobile ? 'top 92%' : 'top 80%',
           once: true
-        }
+        },
+        clearProps: 'transform,opacity'
       }
     );
 
@@ -58,11 +63,11 @@ export const TechnologyIndexSection: React.FC = () => {
         { width: '0%' },
         {
           width: targetWidth,
-          duration: 1.4,
+          duration: isMobile ? 0.8 : 1.4,
           ease: 'power2.out',
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 75%',
+            start: isMobile ? 'top 90%' : 'top 75%',
             once: true
           }
         }

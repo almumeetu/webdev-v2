@@ -24,15 +24,18 @@ export const AuthPage: React.FC<AuthPageProps> = ({
   useGsapContext(pageRef, () => {
     if (!pageRef.current) return;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     gsap.fromTo(
       '.auth-fade-item',
-      { opacity: 0, y: 20 },
+      { opacity: 0, y: isMobile ? 10 : 20 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.6,
-        stagger: 0.08,
-        ease: 'power2.out'
+        duration: isMobile ? 0.35 : 0.6,
+        stagger: isMobile ? 0.04 : 0.08,
+        ease: isMobile ? 'power1.out' : 'power2.out',
+        clearProps: 'transform,opacity'
       }
     );
   });

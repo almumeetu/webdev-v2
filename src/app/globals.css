@@ -49,16 +49,22 @@
   animation: heroFadeInUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+@media (max-width: 768px) {
+  .animate-hero-fade-in {
+    animation: heroFadeInUp 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+}
+
 .animate-float-slow {
   animation: floatSlow 4s ease-in-out infinite;
 }
 
 @keyframes marquee {
   0% {
-    transform: translateX(0%);
+    transform: translate3d(0%, 0, 0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
@@ -67,6 +73,9 @@
   width: max-content;
   animation: marquee 85s linear infinite;
   will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .animate-marquee:hover {

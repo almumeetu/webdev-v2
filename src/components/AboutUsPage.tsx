@@ -32,15 +32,18 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
   useGsapContext(containerRef, () => {
     if (!containerRef.current) return;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     gsap.fromTo(
       '.about-anim-fade',
-      { opacity: 0, y: 25 },
+      { opacity: 0, y: isMobile ? 12 : 25 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.7,
-        stagger: 0.12,
-        ease: 'power2.out'
+        duration: isMobile ? 0.35 : 0.65,
+        stagger: isMobile ? 0.04 : 0.1,
+        ease: isMobile ? 'power1.out' : 'power2.out',
+        clearProps: 'transform,opacity'
       }
     );
   });

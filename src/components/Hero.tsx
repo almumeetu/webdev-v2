@@ -171,7 +171,7 @@ export const Hero: React.FC<HeroProps> = ({
             <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-transparent to-transparent"></div>
 
             {/* Slide-specific ambient color glow */}
-            <div className={`absolute -top-24 left-1/4 w-96 h-96 ${s.glow} rounded-full blur-[140px]`}></div>
+            <div className={`absolute -top-24 left-1/4 w-72 sm:w-96 h-72 sm:h-96 ${s.glow} rounded-full blur-3xl md:blur-[140px]`}></div>
           </div>
         ))}
       </div>

@@ -140,7 +140,7 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
               <div
                 key={`${project.id}-${idx}`}
                 onClick={() => onSelectProject(project)}
-                className="w-[280px] xs:w-[310px] sm:w-[340px] shrink-0 bg-white rounded-2xl overflow-hidden border border-slate-200/90 hover:border-indigo-400 shadow-xs hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 cursor-pointer flex flex-col justify-between group"
+                className="w-[280px] xs:w-[310px] sm:w-[340px] shrink-0 bg-white rounded-2xl overflow-hidden border border-slate-200/90 hover:border-indigo-400 shadow-xs hover:shadow-xl transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-1.5 cursor-pointer flex flex-col justify-between group"
               >
                 {/* Card Image Banner */}
                 <div className="relative h-48 sm:h-52 overflow-hidden bg-slate-100">
@@ -155,14 +155,14 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
                   <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10 gap-2">
                     <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-xs flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
                       project.status === 'completed'
-                        ? 'bg-emerald-600/90 backdrop-blur-md text-white'
-                        : 'bg-amber-600/90 backdrop-blur-md text-white'
+                        ? 'bg-emerald-600 sm:bg-emerald-600/90 sm:backdrop-blur-md text-white'
+                        : 'bg-amber-600 sm:bg-amber-600/90 sm:backdrop-blur-md text-white'
                     }`}>
                       <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shrink-0" />
                       <span className="whitespace-nowrap">{project.status === 'completed' ? 'Delivered' : 'In Sprint'}</span>
                     </span>
 
-                    <span className="text-xs bg-slate-950/80 backdrop-blur-md text-white px-2.5 py-1 rounded-full border border-white/20 shadow-xs flex items-center gap-1.5 font-medium shrink-0 whitespace-nowrap">
+                    <span className="text-xs bg-slate-900 sm:bg-slate-950/80 sm:backdrop-blur-md text-white px-2.5 py-1 rounded-full border border-white/20 shadow-xs flex items-center gap-1.5 font-medium shrink-0 whitespace-nowrap">
                       <span className="shrink-0">{getCountryFlag(project.clientCountry)}</span>
                       <span className="text-[10px] font-semibold whitespace-nowrap">{project.clientCountry}</span>
                     </span>
@@ -170,7 +170,7 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
 
                   {/* Performance Metric Strip (Bottom of Image) */}
                   {project.metrics && (
-                    <div className="absolute bottom-2.5 left-3 right-3 bg-slate-950/85 backdrop-blur-md text-white text-[10px] px-2.5 py-1.5 rounded-lg flex items-center gap-1.5 z-10 border border-white/10 shadow-sm">
+                    <div className="absolute bottom-2.5 left-3 right-3 bg-slate-900 sm:bg-slate-950/85 sm:backdrop-blur-md text-white text-[10px] px-2.5 py-1.5 rounded-lg flex items-center gap-1.5 z-10 border border-white/10 shadow-sm">
                       <TrendingUp className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
                       <span className="truncate font-medium text-slate-200">{project.metrics}</span>
                     </div>

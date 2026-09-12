@@ -13,39 +13,43 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
   useGsapContext(sectionRef, () => {
     if (!sectionRef.current) return;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     // Stagger in content on scroll
     gsap.fromTo(
       '.who-content-item',
-      { opacity: 0, y: 30 },
+      { opacity: 0, y: isMobile ? 12 : 30 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.7,
-        stagger: 0.12,
-        ease: 'power2.out',
+        duration: isMobile ? 0.35 : 0.65,
+        stagger: isMobile ? 0.04 : 0.1,
+        ease: isMobile ? 'power1.out' : 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 80%',
+          start: isMobile ? 'top 92%' : 'top 80%',
           once: true
-        }
+        },
+        clearProps: 'transform,opacity'
       }
     );
 
     // Fade and scale image collage
     gsap.fromTo(
       '.who-image-collage',
-      { opacity: 0, scale: 0.94, y: 40 },
+      { opacity: 0, scale: isMobile ? 1 : 0.96, y: isMobile ? 14 : 35 },
       {
         opacity: 1,
         scale: 1,
         y: 0,
-        duration: 0.9,
-        ease: 'power3.out',
+        duration: isMobile ? 0.38 : 0.75,
+        ease: isMobile ? 'power1.out' : 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 78%',
+          start: isMobile ? 'top 90%' : 'top 78%',
           once: true
-        }
+        },
+        clearProps: 'transform,opacity'
       }
     );
 

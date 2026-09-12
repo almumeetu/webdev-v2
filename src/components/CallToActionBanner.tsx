@@ -13,20 +13,23 @@ export const CallToActionBanner: React.FC<CallToActionBannerProps> = ({ onContac
   useGsapContext(bannerRef, () => {
     if (!bannerRef.current) return;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     gsap.fromTo(
       '.cta-banner-item',
-      { opacity: 0, y: 25 },
+      { opacity: 0, y: isMobile ? 12 : 25 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.7,
-        stagger: 0.12,
-        ease: 'power2.out',
+        duration: isMobile ? 0.35 : 0.65,
+        stagger: isMobile ? 0.04 : 0.1,
+        ease: isMobile ? 'power1.out' : 'power2.out',
         scrollTrigger: {
           trigger: bannerRef.current,
-          start: 'top 85%',
+          start: isMobile ? 'top 92%' : 'top 85%',
           once: true
-        }
+        },
+        clearProps: 'transform,opacity'
       }
     );
   });
@@ -38,7 +41,7 @@ export const CallToActionBanner: React.FC<CallToActionBannerProps> = ({ onContac
           
           {/* Subtle background circuit & light glow */}
           <div className="absolute inset-0 bg-tech-circuit opacity-25 pointer-events-none"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 sm:w-96 h-72 sm:h-96 bg-indigo-600/20 rounded-full blur-3xl md:blur-[120px] pointer-events-none"></div>
 
           <div className="cta-banner-item inline-flex items-center gap-2 text-indigo-300 text-xs font-mono font-bold tracking-[0.2em] uppercase">
             <Sparkles className="w-3.5 h-3.5 text-indigo-400" />

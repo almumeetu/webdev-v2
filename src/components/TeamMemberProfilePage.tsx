@@ -44,18 +44,21 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
   useGsapContext(pageRef, () => {
     if (!pageRef.current) return;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     gsap.fromTo(
-      '.profile-anim-item',
-      { opacity: 0, y: 25 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        stagger: 0.08,
-        ease: 'power2.out'
-      }
-    );
-  });
+       '.profile-anim-item',
+       { opacity: 0, y: isMobile ? 12 : 25 },
+       {
+         opacity: 1,
+         y: 0,
+         duration: isMobile ? 0.35 : 0.6,
+         stagger: isMobile ? 0.04 : 0.08,
+         ease: isMobile ? 'power1.out' : 'power2.out',
+         clearProps: 'transform,opacity'
+       }
+     );
+   });
 
   if (!member) {
     return (

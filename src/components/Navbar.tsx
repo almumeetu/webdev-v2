@@ -75,12 +75,12 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             id="brand-logo-btn"
             onClick={() => handleNavClick('home')}
-            className="flex items-center text-left group focus:outline-none shrink-0 cursor-pointer py-1"
+            className="flex items-center text-left group focus:outline-none shrink-0 cursor-pointer py-0.5"
           >
             <img 
               src="/images/logo/webdev-logo.png" 
               alt="WebDev Software Solutions" 
-              className="h-10 xs:h-12 sm:h-14 lg:h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-105 drop-shadow-xs"
+              className="h-12 xs:h-14 sm:h-15 lg:h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-105 drop-shadow-xs"
             />
           </button>
 

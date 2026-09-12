@@ -38,61 +38,75 @@ export function useGsapContext(
 }
 
 /**
- * Reveal an element with slide-up and fade-in when entering the viewport
+ * Reveal an element with slide-up and fade-in when entering the viewport.
+ * Automatically adapts durations and offsets for mobile to prevent lag and overlapping.
  */
 export function animateReveal(
   target: string | HTMLElement | Element | null,
   triggerEl?: HTMLElement | null,
   delay: number = 0,
-  yOffset: number = 30
+  yOffset: number = 24
 ) {
   if (!target) return;
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const effectiveOffset = isMobile ? Math.min(yOffset, 12) : yOffset;
+  const effectiveDuration = isMobile ? 0.38 : 0.65;
+  const effectiveTrigger = triggerEl ? {
+    trigger: triggerEl,
+    start: isMobile ? 'top 92%' : 'top 88%',
+    once: true
+  } : undefined;
+
   gsap.fromTo(
     target,
-    { opacity: 0, y: yOffset },
+    { opacity: 0, y: effectiveOffset },
     {
       opacity: 1,
       y: 0,
-      duration: 0.8,
+      duration: effectiveDuration,
       delay,
-      ease: 'power3.out',
-      scrollTrigger: triggerEl ? {
-        trigger: triggerEl,
-        start: 'top 88%',
-        once: true
-      } : undefined
+      ease: isMobile ? 'power1.out' : 'power2.out',
+      scrollTrigger: effectiveTrigger,
+      clearProps: 'transform,opacity'
     }
   );
 }
 
 /**
- * Stagger an array of child elements when entering the viewport
+ * Stagger an array of child elements when entering the viewport.
+ * Uses snappy timings and low y-offset on mobile to prevent sluggish lag and overlapping.
  */
 export function animateStagger(
   targets: string | HTMLElement[] | NodeListOf<Element>,
   triggerEl: HTMLElement | null,
-  stagger: number = 0.12,
-  yOffset: number = 40
+  stagger: number = 0.1,
+  yOffset: number = 30
 ) {
   if (!triggerEl) return;
   if (typeof targets === 'string') {
     const found = triggerEl.querySelectorAll(targets);
     if (found.length === 0) return;
   }
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const effectiveOffset = isMobile ? Math.min(yOffset, 12) : yOffset;
+  const effectiveDuration = isMobile ? 0.36 : 0.6;
+  const effectiveStagger = isMobile ? Math.min(stagger, 0.04) : stagger;
+
   gsap.fromTo(
     targets,
-    { opacity: 0, y: yOffset },
+    { opacity: 0, y: effectiveOffset },
     {
       opacity: 1,
       y: 0,
-      duration: 0.7,
-      stagger,
-      ease: 'power2.out',
+      duration: effectiveDuration,
+      stagger: effectiveStagger,
+      ease: isMobile ? 'power1.out' : 'power2.out',
       scrollTrigger: {
         trigger: triggerEl,
-        start: 'top 85%',
+        start: isMobile ? 'top 92%' : 'top 85%',
         once: true
-      }
+      },
+      clearProps: 'transform,opacity'
     }
   );
 }
