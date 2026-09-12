@@ -56,14 +56,18 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
 
   return (
     <div ref={pageRef} className="min-h-screen bg-white text-slate-900">
-      {/* Top Standard Breadcrumb */}
+      {/* Top Standard Breadcrumb & Hero Banner */}
       <Breadcrumb
+        badge="CLIENT PORTAL & SECURITY"
+        title="Client Profile & Organization Portal"
+        subtitle="Manage your enterprise account credentials, security preferences, and active software engagement dossiers."
         items={[
           { label: 'Home', onClick: onBack },
           { label: 'Client Profile & Portal', active: true }
         ]}
         backAction={onBack}
         backLabel="Back to Home"
+        align="center"
       />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-12 sm:py-16">

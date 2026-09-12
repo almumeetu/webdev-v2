@@ -101,14 +101,18 @@ export const AuthPage: React.FC<AuthPageProps> = ({
 
   return (
     <div ref={pageRef} className="min-h-screen bg-white text-slate-900">
-      {/* Top Standard Breadcrumb */}
+      {/* Top Standard Breadcrumb & Hero Banner */}
       <Breadcrumb
+        badge="ENTERPRISE AUTHENTICATION"
+        title="Client & Partner Secure Portal"
+        subtitle="Access your project milestones, architecture blueprints, sprint updates, and technical telemetry."
         items={[
           { label: 'Home', onClick: onBack },
           { label: 'Client Portal & Authentication', active: true }
         ]}
         backAction={onBack}
         backLabel="Back to Home"
+        align="center"
       />
 
       <div className="max-w-xl mx-auto px-4 space-y-8 py-12 sm:py-16">

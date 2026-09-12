@@ -331,12 +331,16 @@ export function MainApp() {
         {currentView === 'services' && (
           <div>
             <Breadcrumb
+              badge="ENTERPRISE CAPABILITIES"
+              title="All IT & Cloud Services"
+              subtitle="Full-stack web engineering, cloud infrastructure, AI integrations & bespoke enterprise software development."
               items={[
                 { label: 'Home', onClick: () => handleNavigate('home') },
                 { label: 'All IT & Cloud Services', active: true }
               ]}
               backAction={() => handleNavigate('home')}
               backLabel="Back to Home"
+              align="center"
             />
             <div className="py-8">
               <OurServicesSection
@@ -364,12 +368,16 @@ export function MainApp() {
         {currentView === 'portfolio' && (
           <div>
             <Breadcrumb
+              badge="PROVEN DELIVERIES"
+              title="Enterprise Projects & Case Studies"
+              subtitle="Explore production-grade platforms, e-commerce architectures, and SaaS applications deployed across USA & Europe."
               items={[
                 { label: 'Home', onClick: () => handleNavigate('home') },
                 { label: 'Projects & Case Studies', active: true }
               ]}
               backAction={() => handleNavigate('home')}
               backLabel="Back to Home"
+              align="center"
             />
             <div className="py-8">
               <RecentProjectsSection
@@ -397,12 +405,16 @@ export function MainApp() {
         {currentView === 'team' && (
           <div>
             <Breadcrumb
+              badge="CROSS-BORDER TALENT"
+              title="Engineering Team & Leadership"
+              subtitle="Elite software architects, MERN engineers, and technical leadership across Joypurhat, Bangladesh & Leverkusen, Germany."
               items={[
                 { label: 'Home', onClick: () => handleNavigate('home') },
                 { label: 'Engineering Team & Leadership', active: true }
               ]}
               backAction={() => handleNavigate('home')}
               backLabel="Back to Home"
+              align="center"
             />
             <div className="py-8">
               <MeetOurTeamSection
@@ -465,12 +477,16 @@ export function MainApp() {
         {currentView === 'blog' && (
           <div>
             <Breadcrumb
+              badge="ENGINEERING BLOG"
+              title="Technical Insights & News"
+              subtitle="Deep dives on distributed systems, modern web architecture, cloud deployment, and engineering best practices."
               items={[
                 { label: 'Home', onClick: () => handleNavigate('home') },
                 { label: 'Technical Insights & News', active: true }
               ]}
               backAction={() => handleNavigate('home')}
               backLabel="Back to Home"
+              align="center"
             />
             <div className="py-8">
               <LatestNewsSection

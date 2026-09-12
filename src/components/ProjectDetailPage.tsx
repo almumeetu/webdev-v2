@@ -66,8 +66,11 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
 
   return (
     <div ref={pageRef} className="min-h-screen bg-white text-slate-900">
-      {/* Top Standard Breadcrumb */}
+      {/* Top Standard Breadcrumb & Hero Banner */}
       <Breadcrumb
+        badge={`${project.category.toUpperCase()} • ${project.clientCountry.toUpperCase()}`}
+        title={project.title}
+        subtitle={project.description}
         items={[
           { label: 'Home', onClick: onBackToHome || onBack },
           { label: 'Portfolio', onClick: onBack },
@@ -75,6 +78,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
         ]}
         backAction={onBack}
         backLabel="Back to Portfolio"
+        align="center"
       />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-10">

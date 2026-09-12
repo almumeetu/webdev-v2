@@ -77,8 +77,11 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
 
   return (
     <div ref={pageRef} className="min-h-screen bg-white text-slate-900">
-      {/* Top Standard Breadcrumb */}
+      {/* Top Standard Breadcrumb & Hero Banner */}
       <Breadcrumb
+        badge={`${member.branch.toUpperCase()} • ${member.role.toUpperCase()}`}
+        title={member.name}
+        subtitle={`${member.role} — Expert engineering and architectural leadership across Bangladesh and Germany.`}
         items={[
           { label: 'Home', onClick: onBackToHome || onBack },
           { label: 'Engineering Team', onClick: onBack },
@@ -86,6 +89,7 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
         ]}
         backAction={onBack}
         backLabel="Back to Team"
+        align="center"
       />
 
       {/* Subtle ambient light gradient */}

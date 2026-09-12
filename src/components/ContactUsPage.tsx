@@ -126,33 +126,20 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
 
   return (
     <div ref={pageRef} className="min-h-screen bg-white text-slate-900">
-      {/* 1. Standard Breadcrumb */}
+      {/* 1. Standard Breadcrumb & Hero Banner */}
       <Breadcrumb
+        badge="GET IN TOUCH • JOYPURHAT HQ & LEVERKUSEN BRANCH"
+        title="Connect With Our Engineering Leads"
+        subtitle="Whether you are planning a new full-stack MERN application, require high-performance Linux cloud infrastructure, or need an enterprise e-commerce platform, our international team is ready to assist."
         items={[
           { label: 'Home', onClick: onBackToHome },
           { label: 'Contact Us', active: true }
         ]}
         backAction={onBackToHome}
         backLabel="Back to Home"
+        align="center"
+        className="contact-anim-item"
       />
-
-      {/* 2. Hero Header Banner */}
-      <div className="bg-gradient-to-b from-slate-50 via-slate-50/70 to-white py-12 sm:py-16 border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-          <div className="contact-anim-item inline-flex items-center gap-2 text-indigo-600 text-xs font-bold font-mono tracking-[0.2em] uppercase">
-            <span className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></span>
-            <span>GET IN TOUCH • JOYPURHAT HQ & LEVERKUSEN BRANCH</span>
-          </div>
-
-          <h1 className="contact-anim-item text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-950 font-['Outfit'] tracking-tight">
-            Connect With Our Engineering Leads
-          </h1>
-
-          <p className="contact-anim-item text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Whether you are planning a new full-stack MERN application, require high-performance Linux cloud infrastructure, or need an enterprise e-commerce platform, our international team is ready to assist.
-          </p>
-        </div>
-      </div>
 
       {/* 3. Main Content Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">

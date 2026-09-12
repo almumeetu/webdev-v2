@@ -47,32 +47,20 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
 
   return (
     <div ref={containerRef} className="bg-white text-slate-900 min-h-screen">
-      {/* Top Standard Breadcrumb */}
+      {/* Top Standard Breadcrumb & Hero Banner */}
       <Breadcrumb
+        badge="ABOUT WEBDEV SOFTWARE SOLUTIONS"
+        title="Bridging Bangladesh Engineering & German Precision"
+        subtitle="A premier cross-border software consultancy and full-stack development powerhouse headquartered in Joypurhat, Bangladesh with a strategic branch in Leverkusen, Germany."
         items={[
           { label: 'Home', onClick: onBackToHome },
           { label: 'About Us', active: true }
         ]}
         backAction={onBackToHome}
         backLabel="Back to Home"
+        align="center"
+        className="about-anim-fade"
       />
-
-      {/* Hero Header */}
-      <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white py-16 sm:py-24 relative overflow-hidden border-b border-slate-800">
-        <div className="absolute inset-0 bg-tech-circuit opacity-25"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4">
-          <div className="about-anim-fade inline-flex items-center gap-2 text-indigo-300 text-xs font-mono font-bold tracking-[0.2em] uppercase">
-            <span className="w-2 h-2 rounded-full bg-indigo-400"></span>
-            <span>ABOUT WEBDEV SOFTWARE SOLUTIONS</span>
-          </div>
-          <h1 className="about-anim-fade text-3xl sm:text-4xl lg:text-5xl font-extrabold font-['Outfit'] tracking-tight">
-            Bridging Bangladesh Engineering & German Precision
-          </h1>
-          <p className="about-anim-fade text-slate-300 text-xs sm:text-base max-w-2xl mx-auto leading-relaxed">
-            A premier cross-border software consultancy and full-stack development powerhouse headquartered in Joypurhat, Bangladesh with a strategic branch in Leverkusen, Germany.
-          </p>
-        </div>
-      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-16 sm:space-y-20">
         

@@ -150,33 +150,22 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
 
   return (
     <div ref={pageRef} className="min-h-screen bg-white text-slate-900">
-      {/* Top Standard Breadcrumb */}
+      {/* Top Standard Breadcrumb & Hero Banner */}
       <Breadcrumb
+        badge="ARCHITECTURE CONSULTATION & ESTIMATION"
+        title="Initiate Your Enterprise Engineering Engagement"
+        subtitle="Direct collaboration with senior architects based in Joypurhat, Bangladesh and Leverkusen, Germany. Receive a comprehensive architectural scoping proposal within 24 hours."
         items={[
           { label: 'Home', onClick: onBack },
           { label: 'Architecture Scoper & Quote', active: true }
         ]}
         backAction={onBack}
         backLabel="Back to Overview"
+        align="center"
+        className="quote-fade-item"
       />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-10">
-
-        {/* Header Title */}
-        <div className="quote-fade-item text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 text-indigo-600 text-xs font-bold font-mono tracking-[0.2em] uppercase">
-            <span className="w-2 h-2 rounded-full bg-indigo-600"></span>
-            <span>ARCHITECTURE CONSULTATION & ESTIMATION</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-950 font-['Outfit']">
-            Initiate Your Enterprise Engineering Engagement
-          </h1>
-
-          <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
-            Direct collaboration with senior architects based in Joypurhat, Bangladesh and Leverkusen, Germany. Receive a comprehensive architectural scoping proposal within 24 hours.
-          </p>
-        </div>
 
         {/* Content Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">

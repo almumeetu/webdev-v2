@@ -90,8 +90,11 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
 
   return (
     <div ref={pageRef} className="min-h-screen bg-white text-slate-900">
-      {/* Top Standard Breadcrumb */}
+      {/* Top Standard Breadcrumb & Hero Banner */}
       <Breadcrumb
+        badge={`${blog.category.toUpperCase()} • ${blog.readTime.toUpperCase()} READ`}
+        title={blog.title}
+        subtitle={`Published by ${blog.author} on ${blog.date}`}
         items={[
           { label: 'Home', onClick: onBackToHome || onBack },
           { label: 'Blog', onClick: onBack },
@@ -99,6 +102,7 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
         ]}
         backAction={onBack}
         backLabel="Back to Blog"
+        align="center"
       />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-10">
