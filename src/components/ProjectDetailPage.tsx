@@ -15,7 +15,7 @@ import {
 import { Project } from '../types';
 import { useGsapContext } from '../utils/gsapHelper';
 import gsap from 'gsap';
-import { Breadcrumb } from './Breadcrumb';
+
 
 interface ProjectDetailPageProps {
   project: Project | null;
@@ -66,22 +66,26 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
 
   return (
     <div ref={pageRef} className="min-h-screen bg-white text-slate-900">
-      {/* Top Standard Breadcrumb & Hero Banner */}
-      <Breadcrumb
-        badge={`${project.category.toUpperCase()} • ${project.clientCountry.toUpperCase()}`}
-        title={project.title}
-        subtitle={project.description}
-        items={[
-          { label: 'Home', onClick: onBackToHome || onBack },
-          { label: 'Portfolio', onClick: onBack },
-          { label: project.title, active: true }
-        ]}
-        backAction={onBack}
-        backLabel="Back to Portfolio"
-        align="center"
-      />
+      {/* Top Back Action & Minimal Navigation */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-3 flex items-center justify-between">
+        <button
+          onClick={onBack}
+          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-indigo-600 transition-colors cursor-pointer group py-1.5 px-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200"
+        >
+          <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+          <span>Back to Portfolio</span>
+        </button>
+        {onBackToHome && (
+          <button
+            onClick={onBackToHome}
+            className="text-xs font-medium text-slate-400 hover:text-indigo-600 transition-colors cursor-pointer"
+          >
+            Home
+          </button>
+        )}
+      </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-10">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-6 sm:py-8">
 
         {/* Project Hero Banner */}
         <div className="proj-anim-fade relative h-72 sm:h-96 rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
@@ -98,12 +102,12 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
                 {project.category}
               </span>
               {project.status === 'completed' ? (
-                <span className="text-xs font-bold uppercase tracking-wider bg-emerald-500 text-white px-3.5 py-1.5 rounded-full flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Completed & Deployed
+                <span className="text-xs font-bold uppercase tracking-wider bg-emerald-500 text-white px-3.5 py-1.5 rounded-full flex items-center gap-1.5 shrink-0 whitespace-nowrap">
+                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0" /> <span className="whitespace-nowrap">Completed & Deployed</span>
                 </span>
               ) : (
-                <span className="text-xs font-bold uppercase tracking-wider bg-amber-500 text-slate-950 px-3.5 py-1.5 rounded-full flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5" /> Ongoing Live Project
+                <span className="text-xs font-bold uppercase tracking-wider bg-amber-500 text-slate-950 px-3.5 py-1.5 rounded-full flex items-center gap-1.5 shrink-0 whitespace-nowrap">
+                  <Clock className="w-3.5 h-3.5 shrink-0" /> <span className="whitespace-nowrap">Ongoing Live Project</span>
                 </span>
               )}
             </div>
@@ -188,9 +192,9 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
           {/* Performance Metrics */}
           {project.metrics && (
             <div className="p-6 rounded-2xl bg-emerald-50/60 border border-emerald-200/70 space-y-2">
-              <div className="text-xs font-mono uppercase tracking-wider text-emerald-800 font-bold flex items-center gap-1.5">
-                <TrendingUp className="w-4 h-4 text-emerald-600" />
-                <span>Verified Impact & Performance</span>
+              <div className="text-xs font-mono uppercase tracking-wider text-emerald-800 font-bold flex items-center gap-1.5 shrink-0 whitespace-nowrap">
+                <TrendingUp className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span className="whitespace-nowrap">Verified Impact & Performance</span>
               </div>
               <p className="text-sm font-semibold text-emerald-950">
                 {project.metrics}

@@ -30,14 +30,6 @@ interface ContactUsPageProps {
   initialProjectTitle?: string;
 }
 
-const BUDGET_OPTIONS = [
-  '< $3,000',
-  '$3,000 - $6,000',
-  '$6,000 - $12,000',
-  '$12,000+',
-  'Flexible / Not Sure'
-];
-
 export const ContactUsPage: React.FC<ContactUsPageProps> = ({
   onBackToHome,
   onSubmitSuccess,
@@ -53,7 +45,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
   const [phoneNumber, setPhoneNumber] = useState('');
   const [company, setCompany] = useState('');
   const [serviceOfInterest, setServiceOfInterest] = useState('Full Stack & MERN');
-  const [selectedBudget, setSelectedBudget] = useState('$3,000 - $6,000');
+  const [selectedBudget] = useState('Custom / Discussion');
   const [message, setMessage] = useState(
     initialProjectTitle ? `Inquiring about ${initialProjectTitle} project specifications...` : ''
   );
@@ -426,32 +418,6 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                     </div>
                   </div>
 
-                  {/* Budget Selector Pills (Direct & Personal) */}
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                        Anticipated Project Budget
-                      </label>
-                      <span className="text-[11px] text-slate-500 font-mono">USD ($)</span>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {BUDGET_OPTIONS.map((opt) => (
-                        <button
-                          key={opt}
-                          type="button"
-                          onClick={() => setSelectedBudget(opt)}
-                          className={`text-xs font-semibold px-3.5 py-2 rounded-xl border transition-all cursor-pointer ${
-                            selectedBudget === opt
-                              ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
-                              : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-100'
-                          }`}
-                        >
-                          {opt}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
                   {/* Message */}
                   <div className="space-y-1.5">
                     <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
@@ -495,7 +461,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
           </div>
 
           {/* Right Column: Two Hub Cards & Guarantees (5 cols) */}
-          <div className="contact-anim-item lg:col-span-5 space-y-6">
+          <div className="contact-anim-item lg:col-span-5 space-y-6 lg:sticky lg:top-24 self-start">
             
             {/* Bangladesh Headquarters Card */}
             <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-sm space-y-4">

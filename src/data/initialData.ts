@@ -110,48 +110,176 @@ export const initialProjects: Project[] = [
 
 export const initialTeam: TeamMember[] = [
   {
-    id: 'team-2',
-    name: 'Md Moyen Uddin',
-    role: 'CEO & Founder',
-    branch: 'Joypurhat, Bangladesh',
-    image: '/images/team/ceo-executive.jpg',
-    bio: 'Visionary technology executive with over 12 years of leadership steering digital transformation, cross-border European delivery, enterprise client partnerships, and strategic product innovation.',
-    skills: ['Executive Leadership', 'Strategic Advisory', 'Enterprise Governance', 'Cloud Strategy', 'Client Relations', 'Agile Operations'],
-    email: 'info@webdevsoftwaresolutions.com',
-    phone: '+880 1712-009617',
-    linkedin: 'https://linkedin.com',
-    experienceYears: 12,
-    highlightedProjects: ['Nordic Clean Living Headless Shopify', 'Automated Linux Bare-Metal Server Mesh', 'DACH Enterprise E-Commerce']
-  },
-  {
     id: 'team-1',
-    name: 'Al Mumeetu Saikat',
-    role: 'Principal Architect & Full-Stack Lead',
+    name: 'Al-Mumeetu Saikat',
+    role: 'Founder & Principal Full-Stack Lead',
+    headline: 'Senior Software Engineer | MERN & Next.js Specialist | Cloud & DevOps Enthusiast | Founder & Lead Developer at WebDev Software Solutions',
     branch: 'Joypurhat, Bangladesh',
+    location: 'Joypurhat, Rajshahi, Bangladesh',
     image: '/images/team/Full-Stack.png',
-    bio: 'Senior systems architect with 8+ years specializing in modern Next.js/React ecosystems, high-concurrency Node.js microservices, TypeScript distributed architectures, and hardened cloud systems.',
-    skills: ['Next.js 15', 'React 19', 'TypeScript', 'Node.js', 'PostgreSQL', 'AWS & Docker', 'System Architecture'],
+    bio: 'Energetic Senior Software Engineer & Team Lead with 4+ years of expertise in architecting scalable web applications, cloud solutions, and full-stack enterprise systems. Specialized in Next.js, React, Node.js, Express, TypeScript, MongoDB, and secure cloud server infrastructure. Passionate about engineering high-converting web solutions for global clients across USA, Germany, UK, and South Asia.',
+    skills: ['Next.js 15', 'React 19', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'Cloud DevOps', 'Nginx & Linux', 'PostgreSQL', 'System Architecture', 'REST & GraphQL APIs', 'Docker'],
     email: 'info@webdevsoftwaresolutions.com',
     phone: '+880 1712-009617',
     linkedin: 'https://linkedin.com',
     github: 'https://github.com/almumeetusaikat',
-    experienceYears: 8,
-    highlightedProjects: ['FinTech Cloud Banking Portal', 'Dhaka-Joypurhat Logistics SaaS', 'Enterprise Headless Commerce']
+    experienceYears: 4,
+    education: [
+      'First Capital University of Bangladesh — Bachelor of Science in Computer Science and Engineering (CSE)',
+      'Bagjana High School — Secondary School Certificate (SSC, Science)'
+    ],
+    certifications: [
+      'Enterprise Full-Stack Architecture & Microservices',
+      'Advanced Linux Bare-Metal Server & Cloud Security Administration'
+    ],
+    experienceHistory: [
+      {
+        role: 'Software Engineer',
+        company: 'Softzino Technologies',
+        period: '2023 - Present',
+        type: 'Full-time',
+        location: 'Dhaka, Bangladesh',
+        description: 'Engineering scalable enterprise web applications, high-performance RESTful APIs, and full-stack microservices using Next.js, React, TypeScript, Node.js, and modern cloud deployment pipelines.'
+      },
+      {
+        role: 'Founder & Lead Developer',
+        company: 'WebDev Software Solutions',
+        period: 'Nov 2021 - Present · 3+ yrs',
+        type: 'Full-time',
+        location: 'Joypurhat, Rajshahi, Bangladesh',
+        description: 'Directing architectural strategy, client software engineering, high-converting eCommerce builds, and bare-metal server infrastructure for global clients across USA, Germany, and worldwide.'
+      }
+    ],
+    languages: ['Bengali (Native)', 'English (Professional Working)'],
+    highlightedProjects: ['All Strings Nylon High-End E-Commerce & Audio Engine', 'Gilmore Electric Industrial SaaS Platform', 'Start Campus Sines Mega Data Center Telemetry']
+  },
+  {
+    id: 'team-2',
+    name: 'Md Moyen Uddin, PMP®',
+    role: 'Senior Software Engineer & Scrum Master | European Delivery Lead',
+    headline: 'Senior Software Engineer and Scrum Master at Brain Station 23 | PMP® Certified Project Manager',
+    branch: 'Leverkusen, Germany',
+    location: 'Leverkusen, North Rhine-Westphalia, Germany',
+    image: '/images/team/CEO.png',
+    bio: 'PMP® certified Project Manager and Senior Software Engineer with 10+ years of diverse industry experience in enterprise software development and project management across Germany and Europe. Skilled in Python/Django, AWS, and Agile/Scrum delivery. Proven track record in improving efficiency, managing cross-functional teams, and driving client success in high-impact projects.',
+    skills: ['PMP® Project Management', 'Agile & Scrum Master', 'Python & Django', 'AWS Cloud Infrastructure', 'RESTful APIs', 'Software Architecture', 'Cross-Border European Delivery', 'Jira & Enterprise Agile'],
+    email: 'info@webdevsoftwaresolutions.com',
+    phone: '+880 1712-009617',
+    linkedin: 'https://linkedin.com',
+    experienceYears: 10,
+    education: [
+      'Ruhr-Universität Bochum, Germany — Master of Science (M.Sc.) in Computational Engineering (2010 - 2013)',
+      'Rajshahi University of Engineering & Technology (RUET) — Bachelor of Science in Engineering (B.Sc. Engg.), Computer Science & Engineering (2001 - 2005)'
+    ],
+    certifications: [
+      'PMP® - Project Management Professional (Project Management Institute, 2022)',
+      'Agile with Jira: Project Management for Technical Managers (PMI)',
+      'Practical Application of Gen AI for Project Managers (PMI)'
+    ],
+    experienceHistory: [
+      {
+        role: 'Senior Software Engineer / Scrum Master',
+        company: 'Brain Station 23',
+        period: 'Aug 2023 - Present',
+        type: 'Full-time / Hybrid',
+        location: 'Leverkusen, North Rhine-Westphalia, Germany',
+        description: 'Venture in healthcare sector eCommerce and consultation, delivering quick medicine dispatch, telemedicine workflows, and agile sprint leadership.'
+      },
+      {
+        role: 'Senior Software Engineer',
+        company: 'WebDev Software Solutions',
+        period: 'Jun 2023 - Jul 2023',
+        type: 'Hybrid',
+        location: 'Leverkusen, North Rhine-Westphalia, Germany',
+        description: 'Developed eCommerce for electronic parts for clients based in Germany and Austria utilizing Python, Django, and high-performance RESTful APIs.'
+      },
+      {
+        role: 'IT Project Manager (German Markets)',
+        company: 'WebDev Software Solutions',
+        period: 'Jun 2022 - May 2023',
+        type: 'Hybrid',
+        location: 'Leverkusen, North Rhine-Westphalia, Germany',
+        description: 'Initiated and managed eCommerce software initiatives in Germany & Switzerland with clients from Austria and Switzerland using Agile/Scrum methodologies.'
+      },
+      {
+        role: 'Software Architect / Lead Full Stack / Scrum Master',
+        company: 'DiGence GmbH',
+        period: 'Aug 2018 - May 2022',
+        type: 'Hybrid',
+        location: 'Leverkusen, Germany',
+        description: 'Led full-stack architecture, Python services, and cross-functional agile development squads.'
+      },
+      {
+        role: 'Technical Lead and Project Manager',
+        company: 'German Software Development Ltd',
+        period: 'May 2016 - Jul 2018',
+        type: 'Full-time',
+        location: 'Germany',
+        description: 'Oversaw enterprise technical governance, client deliverables, and agile software delivery.'
+      }
+    ],
+    languages: ['Bengali (Native)', 'English (Full Professional)', 'German (Professional Working)'],
+    highlightedProjects: ['DACH Enterprise E-Commerce & Logistics Portal', 'Bavaria FinTech Cloud Banking Microservices', 'European Telemedicine & Health SaaS']
   },
   {
     id: 'team-3',
-    name: 'Al Muheetu Shihab',
-    role: 'Lead Mobile Application Architect',
+    name: 'MD. AL-MUHEETU',
+    role: 'Mobile & Web Application Engineer',
+    headline: 'Mobile & Web Developer | Kotlin | React Native | Next.js | TypeScript | Android',
     branch: 'Joypurhat, Bangladesh',
-    image: '/images/team/mobile-executive.jpg',
-    bio: 'Senior mobile engineer with 6+ years delivering high-performance cross-platform iOS and Android applications with React Native, Flutter, offline-first SQLite sync engines, and hardware device integrations.',
-    skills: ['React Native', 'Flutter & Dart', 'iOS / Swift', 'Android / Kotlin', 'SQLite Sync', 'Mobile App Security', 'REST & GraphQL'],
+    location: 'Joypurhat, Rajshahi, Bangladesh',
+    image: '/images/team/android-developer.png',
+    bio: 'Energetic Software Engineer with over 3 years of hands-on experience in the Tech industry. Specialised in Mobile application and Front-End/Web development, building high-performance scalable apps using Kotlin, TypeScript, React Native & Next.js. Proven expertise in transforming complex ideas into user-friendly cross-platform applications with MVVM architecture.',
+    skills: ['Kotlin', 'React Native', 'Jetpack Compose', 'Next.js', 'TypeScript', 'Android SDK', 'MVVM Architecture', 'Retrofit & Coroutines', 'REST APIs', 'XML Layouts', 'Git'],
     email: 'info@webdevsoftwaresolutions.com',
     phone: '+880 1712-009617',
     github: 'https://github.com',
     linkedin: 'https://linkedin.com',
-    experienceYears: 6,
-    highlightedProjects: ['AgriTech Cold Storage IoT Monitor', 'Dhaka-Joypurhat Logistics Mobile Suite', 'Cross-Border Courier App']
+    experienceYears: 3,
+    education: [
+      'First Capital University of Bangladesh — Bachelor of Computer Science & Engineering (2020 - 2024)',
+      'Bagjana High School — Secondary School Certificate (SSC, Science - 2017 - 2019)'
+    ],
+    certifications: [
+      'Modern Android Application Architecture with Jetpack Compose & Kotlin',
+      'High-Performance Mobile Cross-Platform Engineering with React Native'
+    ],
+    experienceHistory: [
+      {
+        role: 'Associate Software Engineer',
+        company: 'Gsitron Technologies',
+        period: 'Nov 2024 - Present',
+        type: 'Full-time',
+        location: 'Dhaka, Bangladesh',
+        description: 'Developed mobile applications using Kotlin, Jetpack Compose, XML, Coroutines, REST APIs, Networking Retrofit, and MVVM Architecture.'
+      },
+      {
+        role: 'Web Designer',
+        company: 'WebDev Software Solutions',
+        period: 'Nov 2023 - Nov 2024',
+        type: 'Part-time',
+        location: 'Joypurhat, Rajshahi, Bangladesh',
+        description: 'Crafted modern, scalable, client-tailored web interfaces and digital solutions for enterprise and global clients.'
+      },
+      {
+        role: 'Web Developer Intern',
+        company: 'WebDev Software Solutions',
+        period: 'Aug 2023 - Oct 2023',
+        type: 'Internship',
+        location: 'Joypurhat, Rajshahi, Bangladesh',
+        description: 'Built modern web applications and learned industry-standard development workflows and modern frameworks.'
+      },
+      {
+        role: 'Technical Specialist',
+        company: 'WebDev Software Solutions',
+        period: 'Jan 2022 - Jul 2022',
+        type: 'Part-time',
+        location: 'Joypurhat, Bangladesh',
+        description: 'Supported client software deployment and technical problem resolution.'
+      }
+    ],
+    languages: ['Bengali (Native)', 'English (Professional Working)'],
+    highlightedProjects: ['Cross-Platform Enterprise Android Suite', 'AgriTech IoT Cold Storage Mobile Telemetry', 'Real-Time Mobile Logistics Application']
   }
 ];
 

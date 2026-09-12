@@ -152,19 +152,19 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
 
                   {/* Top Status & Country Badges */}
-                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
-                    <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-xs flex items-center gap-1.5 ${
+                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10 gap-2">
+                    <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-xs flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
                       project.status === 'completed'
                         ? 'bg-emerald-600/90 backdrop-blur-md text-white'
                         : 'bg-amber-600/90 backdrop-blur-md text-white'
                     }`}>
-                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                      <span>{project.status === 'completed' ? 'Delivered' : 'In Sprint'}</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shrink-0" />
+                      <span className="whitespace-nowrap">{project.status === 'completed' ? 'Delivered' : 'In Sprint'}</span>
                     </span>
 
-                    <span className="text-xs bg-slate-950/80 backdrop-blur-md text-white px-2.5 py-1 rounded-full border border-white/20 shadow-xs flex items-center gap-1.5 font-medium">
-                      <span>{getCountryFlag(project.clientCountry)}</span>
-                      <span className="text-[10px] font-semibold">{project.clientCountry}</span>
+                    <span className="text-xs bg-slate-950/80 backdrop-blur-md text-white px-2.5 py-1 rounded-full border border-white/20 shadow-xs flex items-center gap-1.5 font-medium shrink-0 whitespace-nowrap">
+                      <span className="shrink-0">{getCountryFlag(project.clientCountry)}</span>
+                      <span className="text-[10px] font-semibold whitespace-nowrap">{project.clientCountry}</span>
                     </span>
                   </div>
 
@@ -198,23 +198,23 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
                   </div>
 
                   {/* Tech pills & View button */}
-                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                    <div className="flex items-center gap-1.5 flex-wrap">
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5 flex-wrap min-w-0">
                       {project.techStack.slice(0, 2).map((t, i) => (
-                        <span key={i} className="text-[10px] bg-slate-100 text-slate-700 font-medium px-2 py-0.5 rounded-md border border-slate-200/60">
+                        <span key={i} className="text-[10px] bg-slate-100 text-slate-700 font-medium px-2 py-0.5 rounded-md border border-slate-200/60 whitespace-nowrap">
                           {t}
                         </span>
                       ))}
                       {project.techStack.length > 2 && (
-                        <span className="text-[10px] text-slate-500 font-mono font-semibold">
+                        <span className="text-[10px] text-slate-500 font-mono font-semibold whitespace-nowrap">
                           +{project.techStack.length - 2}
                         </span>
                       )}
                     </div>
 
-                    <div className="inline-flex items-center gap-1 text-xs font-bold text-indigo-600 group-hover:text-indigo-700">
-                      <span>View Project</span>
-                      <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <div className="inline-flex items-center gap-1 text-xs font-bold text-indigo-600 group-hover:text-indigo-700 shrink-0 whitespace-nowrap">
+                      <span className="whitespace-nowrap">View Project</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
                     </div>
                   </div>
                 </div>

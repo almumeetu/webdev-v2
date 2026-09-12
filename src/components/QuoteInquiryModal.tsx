@@ -228,29 +228,6 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
               </div>
             </div>
 
-            {/* Budget & Timeline selector */}
-            <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Estimated Project Budget
-              </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {['$1,500 - $3,000', '$3,000 - $6,000', '$6,000 - $15,000', '$15,000+'].map((tier) => (
-                  <button
-                    key={tier}
-                    type="button"
-                    onClick={() => setBudget(tier)}
-                    className={`py-2 px-3 text-xs font-bold rounded-xl border transition-all text-center ${
-                      budget === tier
-                        ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
-                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-indigo-300'
-                    }`}
-                  >
-                    {tier}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             {/* Message / Specifications */}
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">

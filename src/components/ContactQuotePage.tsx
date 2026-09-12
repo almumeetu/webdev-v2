@@ -168,7 +168,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-10">
 
         {/* Content Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           
           {/* Left Form Column */}
           <div className="quote-fade-item lg:col-span-8">
@@ -292,47 +292,6 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                     </div>
                   </div>
 
-                  {/* Budget & Currency Selector */}
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <label className="text-xs font-bold text-slate-900 font-['Outfit'] uppercase tracking-wider">
-                        Anticipated Project Budget Range
-                      </label>
-                      {/* Currency picker */}
-                      <div className="inline-flex items-center p-0.5 rounded-lg bg-slate-100 border border-slate-200 text-xs">
-                        {['USD ($)', 'EUR (€)', 'GBP (£)', 'BDT (৳)'].map((c) => (
-                          <button
-                            key={c}
-                            type="button"
-                            onClick={() => setCurrency(c)}
-                            className={`px-2 py-0.5 rounded-md font-mono text-[11px] font-bold transition-all cursor-pointer ${
-                              currency === c ? 'bg-indigo-600 text-white shadow-2xs' : 'text-slate-600 hover:text-slate-900'
-                            }`}
-                          >
-                            {c.split(' ')[0]}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                      {['$1,500 - $3,000', '$3,000 - $6,000', '$6,000 - $12,000', '$12,000+'].map((b) => (
-                        <button
-                          key={b}
-                          type="button"
-                          onClick={() => setBudget(b)}
-                          className={`py-2 px-3 text-xs font-bold rounded-xl border transition-all cursor-pointer ${
-                            budget === b
-                              ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
-                              : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
-                          }`}
-                        >
-                          {b}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
                   {/* Target Market */}
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-900 font-['Outfit'] uppercase tracking-wider">
@@ -436,7 +395,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
           </div>
 
           {/* Right Sidebar: Hubs & Verification */}
-          <div className="quote-fade-item lg:col-span-4 space-y-6">
+          <div className="quote-fade-item lg:col-span-4 space-y-6 lg:sticky lg:top-24 self-start">
             
             {/* Enterprise Client Guarantees */}
             <div className="p-6 rounded-3xl bg-slate-950 text-white border border-slate-800 space-y-3.5 shadow-xl">

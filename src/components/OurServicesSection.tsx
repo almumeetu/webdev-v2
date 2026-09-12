@@ -132,9 +132,9 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
                     ))}
                   </div>
 
-                  <span className="text-xs font-bold text-indigo-600 group-hover:text-indigo-700 flex items-center gap-1">
-                    <span>Details</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  <span className="text-xs font-bold text-indigo-600 group-hover:text-indigo-700 flex items-center gap-1 shrink-0 whitespace-nowrap">
+                    <span className="whitespace-nowrap">Details</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform shrink-0" />
                   </span>
                 </div>
               </div>

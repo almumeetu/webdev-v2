@@ -104,10 +104,10 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
         </div>
 
         {/* Update Profile Form & Inquiries Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Edit form */}
-          <div className="profile-fade-item lg:col-span-5 bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-7 shadow-xs space-y-4">
+          <div className="profile-fade-item lg:col-span-5 bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-7 shadow-xs space-y-4 lg:sticky lg:top-24 self-start">
             <h2 className="text-base font-bold text-slate-900 font-['Outfit']">
               Account Information
             </h2>

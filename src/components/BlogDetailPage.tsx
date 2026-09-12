@@ -3,7 +3,7 @@ import { Calendar, User, Heart, Share2, MessageSquare, ArrowLeft, Tag, Bookmark 
 import { BlogPost } from '../types';
 import { useGsapContext } from '../utils/gsapHelper';
 import gsap from 'gsap';
-import { Breadcrumb } from './Breadcrumb';
+
 
 interface BlogDetailPageProps {
   blog: BlogPost | null;
@@ -90,22 +90,26 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
 
   return (
     <div ref={pageRef} className="min-h-screen bg-white text-slate-900">
-      {/* Top Standard Breadcrumb & Hero Banner */}
-      <Breadcrumb
-        badge={`${blog.category.toUpperCase()} • ${blog.readTime.toUpperCase()} READ`}
-        title={blog.title}
-        subtitle={`Published by ${blog.author} on ${blog.date}`}
-        items={[
-          { label: 'Home', onClick: onBackToHome || onBack },
-          { label: 'Blog', onClick: onBack },
-          { label: blog.title, active: true }
-        ]}
-        backAction={onBack}
-        backLabel="Back to Blog"
-        align="center"
-      />
+      {/* Top Back Action & Minimal Navigation */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 flex items-center justify-between">
+        <button
+          onClick={onBack}
+          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-indigo-600 transition-colors cursor-pointer group py-1.5 px-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200"
+        >
+          <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+          <span>Back to Blog</span>
+        </button>
+        {onBackToHome && (
+          <button
+            onClick={onBackToHome}
+            className="text-xs font-medium text-slate-400 hover:text-indigo-600 transition-colors cursor-pointer"
+          >
+            Home
+          </button>
+        )}
+      </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-6 sm:py-8">
 
         {/* Article Header */}
         <div className="blog-fade-item space-y-4">

@@ -76,7 +76,7 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
               className="team-card-item group bg-white rounded-3xl border border-slate-200/90 hover:border-indigo-400/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_40px_-10px_rgba(79,70,229,0.12)] transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col overflow-hidden"
             >
               {/* Executive Portrait Frame */}
-              <div className="relative h-72 sm:h-80 w-full overflow-hidden bg-slate-100">
+              <div className="relative h-72 sm:h-80 w-full overflow-hidden bg-gradient-to-b from-slate-100 via-slate-100 to-indigo-50/50">
                 <img
                   src={member.image}
                   alt={member.name}
@@ -84,15 +84,15 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
                 />
 
                 {/* Overlaid Badges */}
-                <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between pointer-events-none">
-                  <div className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-semibold text-slate-800 shadow-sm border border-slate-200/60">
+                <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between pointer-events-none gap-2">
+                  <div className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-semibold text-slate-800 shadow-sm border border-slate-200/60 shrink-0 whitespace-nowrap">
                     <MapPin className="w-3 h-3 text-indigo-600 shrink-0" />
-                    <span>{member.branch.includes('Germany') ? 'Leverkusen (DE)' : 'Joypurhat (BD) HQ'}</span>
+                    <span className="whitespace-nowrap">{member.branch.includes('Germany') ? 'Leverkusen (DE)' : 'Joypurhat (BD) HQ'}</span>
                   </div>
                   
-                  <div className="inline-flex items-center gap-1.5 bg-slate-900/90 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-medium text-white shadow-sm border border-slate-700/60">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>Active Lead</span>
+                  <div className="inline-flex items-center gap-1.5 bg-slate-900/90 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-medium text-white shadow-sm border border-slate-700/60 shrink-0 whitespace-nowrap">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+                    <span className="whitespace-nowrap">Active Lead</span>
                   </div>
                 </div>
 
@@ -112,6 +112,12 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
                   <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950 group-hover:text-indigo-600 transition-colors font-['Outfit']">
                     {member.name}
                   </h3>
+
+                  {member.headline && (
+                    <div className="text-[11px] text-slate-500 font-medium line-clamp-1 mt-0.5">
+                      {member.headline}
+                    </div>
+                  )}
 
                   {/* Experience Badge */}
                   <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium mt-1 mb-3">
@@ -190,10 +196,10 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
                   {/* View Profile Button */}
                   <button
                     onClick={() => onSelectMember(member)}
-                    className="w-full py-2.5 px-4 rounded-xl bg-slate-50 group-hover:bg-indigo-600 text-slate-800 group-hover:text-white border border-slate-200 group-hover:border-indigo-600 text-xs font-bold uppercase tracking-wider transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                    className="w-full py-2.5 px-4 rounded-xl bg-slate-50 group-hover:bg-indigo-600 text-slate-800 group-hover:text-white border border-slate-200 group-hover:border-indigo-600 text-xs font-bold uppercase tracking-wider transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-xs shrink-0 whitespace-nowrap"
                   >
-                    <span>View Specialist Profile</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <span className="whitespace-nowrap">View Specialist Profile</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
                   </button>
                 </div>
               </div>

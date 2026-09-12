@@ -24,11 +24,22 @@ export interface Project {
   metrics?: string;
 }
 
+export interface ExperienceItem {
+  role: string;
+  company: string;
+  period: string;
+  type?: string;
+  location?: string;
+  description?: string;
+}
+
 export interface TeamMember {
   id: string;
   name: string;
   role: string;
+  headline?: string;
   branch: 'Joypurhat, Bangladesh' | 'Leverkusen, Germany';
+  location?: string;
   image: string;
   bio: string;
   skills: string[];
@@ -38,6 +49,10 @@ export interface TeamMember {
   github?: string;
   experienceYears: number;
   highlightedProjects?: string[];
+  education?: string[];
+  certifications?: string[];
+  experienceHistory?: ExperienceItem[];
+  languages?: string[];
 }
 
 export interface BlogPost {

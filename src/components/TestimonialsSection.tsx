@@ -105,15 +105,15 @@ export const TestimonialsSection: React.FC = () => {
               </div>
 
               {/* Author Info */}
-              <div className="mt-6 pt-5 border-t border-slate-200/70 flex items-center justify-between">
-                <div className="flex items-center gap-3">
+              <div className="mt-6 pt-5 border-t border-slate-200/70 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0 flex-1">
                   <img
                     src={item.avatar}
                     alt={item.name}
                     className="w-11 h-11 rounded-full object-cover border-2 border-indigo-600 shrink-0 shadow-xs"
                   />
-                  <div>
-                    <h4 className="text-xs sm:text-sm font-bold text-slate-900 font-['Outfit']">
+                  <div className="min-w-0 flex-1">
+                    <h4 className="text-xs sm:text-sm font-bold text-slate-900 font-['Outfit'] truncate">
                       {item.name}
                     </h4>
                     <p className="text-[11px] text-slate-500 truncate max-w-[170px]" title={`${item.role}, ${item.company}`}>
@@ -122,9 +122,9 @@ export const TestimonialsSection: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Verified Client</span>
+                <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 shrink-0 whitespace-nowrap">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span className="whitespace-nowrap">Verified Client</span>
                 </div>
               </div>
             </div>

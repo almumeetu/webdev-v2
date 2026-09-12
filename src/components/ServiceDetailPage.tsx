@@ -24,7 +24,7 @@ import { ServiceDetail, Project } from '../types';
 import { initialServices, initialProjects } from '../data/initialData';
 import { useGsapContext } from '../utils/gsapHelper';
 import gsap from 'gsap';
-import { Breadcrumb } from './Breadcrumb';
+
 
 interface ServiceDetailPageProps {
   service: ServiceDetail | null;
@@ -141,22 +141,26 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   return (
     <div ref={pageRef} className="min-h-screen bg-white text-slate-900 pb-20">
       
-      {/* 1. Standard Top Breadcrumb with glowing dark gradient */}
-      <Breadcrumb
-        badge="ENTERPRISE IT PRACTICE AREA"
-        title={service.title}
-        subtitle={service.shortDesc}
-        items={[
-          { label: 'Home', onClick: onBackToHome || onBack },
-          { label: 'All Services', onClick: onBack },
-          { label: service.title, active: true }
-        ]}
-        backAction={onBack}
-        backLabel="Back to All Services"
-        align="center"
-      />
+      {/* Top Back Action & Minimal Navigation */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-3 flex items-center justify-between">
+        <button
+          onClick={onBack}
+          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-indigo-600 transition-colors cursor-pointer group py-1.5 px-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200"
+        >
+          <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+          <span>Back to All Services</span>
+        </button>
+        {onBackToHome && (
+          <button
+            onClick={onBackToHome}
+            className="text-xs font-medium text-slate-400 hover:text-indigo-600 transition-colors cursor-pointer"
+          >
+            Home
+          </button>
+        )}
+      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 space-y-12 sm:space-y-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
 
         {/* 2. Hero Visual Card with Gradient Overlay & Status Bar */}
         <div className="serv-anim-fade relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/90 bg-slate-950">
@@ -248,7 +252,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
         </div>
 
         {/* 3. Main 2-Column Section: Detailed Overview & Sidebar Action */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           
           {/* Left Column (8 cols): In-depth Architectural Breakdown */}
           <div className="lg:col-span-8 space-y-10">
@@ -451,10 +455,10 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
           </div>
 
           {/* Right Column (4 cols): Sticky Quick Action & Consultation Box */}
-          <div className="lg:col-span-4 space-y-6">
+          <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24 self-start">
             
             {/* Consultation & Quote Card */}
-            <div className="serv-anim-fade sticky top-24 bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-xl space-y-6">
+            <div className="serv-anim-fade bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-xl space-y-6">
               
               <div className="space-y-2">
                 <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full">
