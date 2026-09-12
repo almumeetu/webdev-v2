@@ -43,7 +43,7 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
   });
 
   return (
-    <section ref={sectionRef} className="py-16 sm:py-20 lg:py-28 bg-[#f8fafc] text-slate-900 relative">
+    <section ref={sectionRef} className="py-16 sm:py-20 lg:py-24 bg-white text-slate-900 relative border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header matching Frame 00:11 */}
@@ -55,11 +55,11 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
             </span>
           </div>
 
-          <h2 className="news-header-anim text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-['Outfit']">
+          <h2 className="news-header-anim text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-['Outfit']">
             Latest News and Insights
           </h2>
 
-          <p className="news-header-anim text-slate-600 text-sm sm:text-base">
+          <p className="news-header-anim text-slate-600 text-xs sm:text-base">
             Expert engineering articles on MERN architecture, high-availability Linux servers, and international e-commerce.
           </p>
         </div>

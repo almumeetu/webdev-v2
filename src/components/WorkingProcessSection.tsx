@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Search, Code2, Headphones, ArrowRight } from 'lucide-react';
+import { Search, Code2, Headphones, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useGsapContext, animateStagger } from '../utils/gsapHelper';
 import gsap from 'gsap';
 
@@ -34,39 +34,38 @@ export const WorkingProcessSection: React.FC = () => {
   const steps = [
     {
       num: '01',
-      title: 'Understanding Your Story',
-      desc: 'We listen to the story and objectives of your brand, and conduct deep technical analysis to plan for successful partnering across Germany, Bangladesh & beyond.',
+      title: 'Architectural Discovery',
+      desc: 'We conduct deep technical discovery, analyzing your system requirements, database topologies, and business objectives across Germany, Bangladesh & worldwide.',
       icon: Search,
-      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=400&q=80'
+      badge: 'Discovery & Plan',
+      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=500&q=80'
     },
     {
       num: '02',
-      title: 'Tailoring Software Solutions',
-      desc: 'We identify your software needs and quickly engineer full-stack MERN apps, high-throughput servers, and optimized e-commerce storefronts.',
+      title: 'Agile Engineering Sprints',
+      desc: 'Our senior engineers develop full-stack MERN web platforms, high-throughput cloud servers, and custom e-commerce stores with continuous weekly staging demos.',
       icon: Code2,
-      image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=400&q=80'
+      badge: 'Rapid Build',
+      image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=500&q=80'
     },
     {
       num: '03',
-      title: 'Provide Ongoing Support',
-      desc: 'Our team of experts provides ongoing technical monitoring, Linux server patching, and DevOps support to guarantee 99.99% system availability.',
+      title: '24/7 SLA & DevOps Support',
+      desc: 'Our dedicated DevOps specialists handle continuous Linux server patching, container orchestration, and guaranteed 99.99% system availability.',
       icon: Headphones,
-      image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=400&q=80'
+      badge: 'Live SLA',
+      image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=500&q=80'
     }
   ];
 
   return (
-    <section ref={sectionRef} className="py-16 sm:py-20 lg:py-28 bg-[#090d18] text-white relative overflow-hidden border-t border-b border-slate-800">
-      {/* Background glow & circuit pattern */}
-      <div className="absolute inset-0 bg-tech-circuit opacity-30 pointer-events-none"></div>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none"></div>
-
+    <section ref={sectionRef} className="py-16 sm:py-20 lg:py-28 bg-slate-950 text-white relative overflow-hidden border-t border-b border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header matching Frame 00:07 */}
+        {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-16 space-y-3">
           <div className="process-header-anim inline-flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
+            <span className="w-2 h-2 rounded-full bg-indigo-400"></span>
             <span className="text-xs font-bold tracking-[0.2em] text-indigo-400 uppercase font-mono">
               WORKING PROCESS
             </span>
@@ -76,54 +75,58 @@ export const WorkingProcessSection: React.FC = () => {
             Get your IT solutions in 3 easy steps
           </h2>
 
-          <p className="process-header-anim text-slate-400 text-sm sm:text-base">
+          <p className="process-header-anim text-slate-400 text-sm sm:text-base leading-relaxed">
             Transparent milestones, rapid sprints, and zero communication friction between client hubs and engineering teams.
           </p>
         </div>
 
-        {/* 3 Step Cards with curved connecting arrows matching reference video */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 relative">
+        {/* 3 Step Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-8 relative">
           {steps.map((step, idx) => {
             const Icon = step.icon;
             return (
               <div
                 key={step.num}
-                className="process-step-item relative flex flex-col items-center text-center group"
+                className="process-step-item bg-slate-900/90 rounded-3xl p-6 sm:p-8 border border-slate-800 hover:border-indigo-500/60 shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 transform hover:-translate-y-2 flex flex-col justify-between group"
               >
-                {/* Circular image badge with glowing border & step number pill */}
-                <div className="relative mb-5 sm:mb-6">
-                  <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full overflow-hidden border-4 border-indigo-600/50 group-hover:border-indigo-500 transition-colors shadow-2xl p-1 bg-slate-900">
+                <div>
+                  {/* Top Step badge & Icon */}
+                  <div className="flex items-center justify-between mb-6">
+                    <span className="text-3xl sm:text-4xl font-extrabold font-['Outfit'] text-indigo-500/40 group-hover:text-indigo-400 transition-colors">
+                      {step.num}
+                    </span>
+                    <span className="text-[11px] font-mono font-bold text-indigo-300 bg-indigo-950/80 border border-indigo-500/40 px-2.5 py-1 rounded-full">
+                      {step.badge}
+                    </span>
+                  </div>
+
+                  {/* Image banner */}
+                  <div className="w-full h-40 rounded-2xl overflow-hidden mb-6 relative bg-slate-950">
                     <img
                       src={step.image}
                       alt={step.title}
-                      className="w-full h-full rounded-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+                    <div className="absolute bottom-3 left-3 w-10 h-10 rounded-xl bg-slate-900/90 border border-slate-700/80 text-indigo-400 flex items-center justify-center shadow-md">
+                      <Icon className="w-5 h-5" />
+                    </div>
                   </div>
-                  
-                  {/* Step Number Tag */}
-                  <div className="absolute -bottom-2 -right-1 w-9 h-9 rounded-full bg-indigo-600 text-white font-black text-xs flex items-center justify-center shadow-lg border-2 border-[#090d18] font-mono">
-                    {step.num}
-                  </div>
+
+                  {/* Title & Description */}
+                  <h3 className="text-xl font-bold text-white group-hover:text-indigo-400 transition-colors font-['Outfit']">
+                    {step.title}
+                  </h3>
+
+                  <p className="mt-3 text-xs sm:text-sm text-slate-400 leading-relaxed font-normal">
+                    {step.desc}
+                  </p>
                 </div>
 
-                {/* Step Content */}
-                <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-indigo-400 transition-colors font-['Outfit']">
-                  {step.title}
-                </h3>
-
-                <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm text-slate-400 leading-relaxed max-w-xs">
-                  {step.desc}
-                </p>
-
-                {/* Connecting arrow for steps 1 and 2 (desktop) */}
-                {idx < 2 && (
-                  <div className="hidden md:block absolute top-16 -right-6 w-12 text-indigo-500/40 transform translate-x-1/2 pointer-events-none">
-                    <svg className="w-12 h-6" viewBox="0 0 48 24" fill="none" stroke="currentColor">
-                      <path d="M4 12 C 16 4, 32 20, 44 12" strokeWidth="2" strokeDasharray="3 3" />
-                      <polyline points="38 7 44 12 38 17" strokeWidth="2" fill="none" />
-                    </svg>
-                  </div>
-                )}
+                <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center gap-2 text-xs font-semibold text-emerald-400">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <span>Verified Engineering Delivery</span>
+                </div>
               </div>
             );
           })}

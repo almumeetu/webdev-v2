@@ -5,7 +5,10 @@ import {
   MapPin, 
   ArrowUpRight,
   Shield,
-  Globe
+  Globe,
+  Clock,
+  CheckCircle2,
+  LayoutDashboard
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon, TwitterIcon } from './SocialIcons';
 
@@ -16,41 +19,35 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenQuote }) => {
   return (
-    <footer className="bg-[#070b14] text-slate-300 border-t border-slate-800/80 pt-14 sm:pt-16 pb-10 sm:pb-12">
+    <footer className="bg-slate-950 text-slate-400 border-t border-slate-800/90 pt-16 sm:pt-20 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Responsive Grid matching reference video Frame 00:12 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 pb-12 sm:pb-14 border-b border-slate-800/80">
+        {/* Main Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 pb-14 border-b border-slate-800/80">
           
-          {/* Column 1: Brand & Bio (4 cols on lg, 2 on sm, 1 on mobile) */}
-          <div className="sm:col-span-2 lg:col-span-4 space-y-4">
+          {/* Column 1: Brand & Overview (4 cols) */}
+          <div className="lg:col-span-4 space-y-5">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-700 flex items-center justify-center shadow-lg shadow-indigo-600/30 shrink-0">
-                <div className="w-5 h-5 border-2 border-white rounded-sm transform rotate-45 flex items-center justify-center">
-                  <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
-                </div>
-              </div>
-              <div>
-                <div className="text-xl font-extrabold text-white font-['Outfit']">
-                  WebDev
-                </div>
-                <div className="text-[11px] text-slate-400 font-medium tracking-wide uppercase">
-                  Software Solutions
-                </div>
+              <div className="bg-white px-3.5 py-2 rounded-2xl shadow-md border border-slate-200/20 inline-flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                <img 
+                  src="/images/logo/webdev-logo.png" 
+                  alt="WebDev Software Solutions Logo" 
+                  className="h-10 sm:h-11 w-auto object-contain"
+                />
               </div>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed pr-2 sm:pr-4">
-              We are a premier cross-border software engineering & cloud infrastructure firm. Providing enterprise web applications, MERN engineering, Linux server management, and e-commerce platforms to clients across Bangladesh, Germany, and globally.
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+              Premier international software engineering & cloud infrastructure firm. Providing scalable full-stack MERN platforms, enterprise Linux server engineering, and headless commerce solutions to clients across North America, Europe, Bangladesh, and worldwide.
             </p>
 
             {/* Social icons */}
-            <div className="flex items-center space-x-3 pt-2">
+            <div className="flex items-center space-x-2.5 pt-1">
               <a 
                 href="https://github.com/almumeetusaikat" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="w-9 h-9 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors"
+                className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 hover:border-indigo-500 hover:text-white flex items-center justify-center transition-colors"
                 aria-label="GitHub"
               >
                 <GithubIcon className="w-4 h-4" />
@@ -59,7 +56,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenQuote }) => {
                 href="https://x.com" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="w-9 h-9 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors"
+                className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 hover:border-indigo-500 hover:text-white flex items-center justify-center transition-colors"
                 aria-label="Twitter"
               >
                 <TwitterIcon className="w-4 h-4" />
@@ -68,7 +65,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenQuote }) => {
                 href="https://linkedin.com" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="w-9 h-9 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors"
+                className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 hover:border-indigo-500 hover:text-white flex items-center justify-center transition-colors"
                 aria-label="LinkedIn"
               >
                 <LinkedinIcon className="w-4 h-4" />
@@ -76,122 +73,146 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenQuote }) => {
             </div>
           </div>
 
-          {/* Column 2: Company Links */}
-          <div className="lg:col-span-2 space-y-3 sm:space-y-4">
-            <h4 className="text-sm font-bold text-white uppercase tracking-wider font-['Outfit']">
-              Company
-            </h4>
-            <ul className="space-y-2 text-xs sm:text-sm">
-              <li>
-                <button onClick={() => onNavigate('about')} className="hover:text-indigo-400 transition-colors text-left py-1 block">
-                  About Company
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('team')} className="hover:text-indigo-400 transition-colors text-left py-1 block">
-                  Our Engineering Team
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('blog')} className="hover:text-indigo-400 transition-colors text-left py-1 block">
-                  Blog & News
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('portfolio')} className="hover:text-indigo-400 transition-colors text-left py-1 block">
-                  Recent & Ongoing Works
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('about')} className="hover:text-indigo-400 transition-colors text-left py-1 block">
-                  Joypurhat BD Office
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('about')} className="hover:text-indigo-400 transition-colors text-left py-1 block">
-                  Leverkusen Germany Office
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 3: Quick Services Links */}
-          <div className="lg:col-span-3 space-y-3 sm:space-y-4">
-            <h4 className="text-sm font-bold text-white uppercase tracking-wider font-['Outfit']">
-              Quick Links
-            </h4>
-            <ul className="space-y-2 text-xs sm:text-sm">
-              <li>
-                <button onClick={() => onNavigate('services', 'serv-1')} className="hover:text-indigo-400 transition-colors text-left py-1 block">
-                  Full-Stack MERN Development
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('services', 'serv-2')} className="hover:text-indigo-400 transition-colors text-left py-1 block">
-                  Cloud & Linux Server Architecture
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('services', 'serv-3')} className="hover:text-indigo-400 transition-colors text-left py-1 block">
-                  E-Commerce (Shopify & Woo)
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('services', 'serv-4')} className="hover:text-indigo-400 transition-colors text-left py-1 block">
-                  WordPress & Enterprise CMS
-                </button>
-              </li>
-              <li>
-                <button onClick={onOpenQuote} className="hover:text-indigo-400 transition-colors text-left py-1 block font-semibold text-indigo-400">
-                  Instant Project Cost Estimator
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('admin')} className="hover:text-indigo-400 transition-colors text-left py-1 block text-slate-400">
-                  Admin Dashboard Portal
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 4: Contact & Locations */}
-          <div className="lg:col-span-3 space-y-3 sm:space-y-4">
-            <h4 className="text-sm font-bold text-white uppercase tracking-wider font-['Outfit']">
-              Contact & Hubs
+          {/* Column 2: Dual Office Locations (3 cols) */}
+          <div className="lg:col-span-3 space-y-4">
+            <h4 className="text-xs font-bold text-white uppercase tracking-wider font-mono">
+              Global Operating Hubs
             </h4>
             
-            <div className="space-y-2.5 text-xs">
-              <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-                <div className="font-bold text-white flex items-center gap-1.5 mb-1">
-                  <MapPin className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-                  <span>Headquarters</span>
+            <div className="space-y-4 text-xs">
+              {/* Bangladesh HQ */}
+              <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1.5">
+                <div className="flex items-center justify-between text-white font-bold">
+                  <span>Joypurhat, Bangladesh</span>
+                  <span className="text-[10px] bg-indigo-500/20 text-indigo-400 px-2 py-0.2 rounded font-mono font-bold">HQ</span>
                 </div>
-                <p className="text-slate-400">Housing Estate, Word No: 07, Joypurhat-5900, Bangladesh</p>
-                <a href="tel:+8801712009617" className="mt-1 inline-block font-mono text-indigo-400 hover:text-indigo-300 font-semibold">
-                  +880 1712-009617
-                </a>
+                <p className="text-slate-400">Housing Estate, Ward 07, Joypurhat Sadar, Rajshahi Division</p>
+                <div className="pt-1 text-slate-300 font-mono">
+                  <a href="tel:+8801712009617" className="hover:text-indigo-400 transition-colors">
+                    +880 1712-009617
+                  </a>
+                </div>
               </div>
 
-              <div className="pt-1">
-                <div className="text-slate-400 text-[11px]">General Enquiries:</div>
-                <a href="mailto:info@webdevsoftwaresolutions.com" className="text-white hover:text-indigo-400 font-medium break-all">
-                  info@webdevsoftwaresolutions.com
-                </a>
+              {/* Germany Branch */}
+              <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1.5">
+                <div className="flex items-center justify-between text-white font-bold">
+                  <span>Leverkusen, Germany</span>
+                  <span className="text-[10px] bg-indigo-500/20 text-indigo-400 px-2 py-0.2 rounded font-mono font-bold">Branch</span>
+                </div>
+                <p className="text-slate-400">Friedrich-Ebert-Platz 3, 51373 Leverkusen, NRW, Germany</p>
+                <div className="pt-1 text-slate-300 font-mono">
+                  <a href="tel:+49214839201" className="hover:text-indigo-400 transition-colors">
+                    +49 214 839201
+                  </a>
+                </div>
               </div>
             </div>
           </div>
 
+          {/* Column 3: Engineering Services (2 cols) */}
+          <div className="lg:col-span-2 space-y-3">
+            <h4 className="text-xs font-bold text-white uppercase tracking-wider font-mono">
+              Core Capabilities
+            </h4>
+            <ul className="space-y-2.5 text-xs">
+              <li>
+                <button onClick={() => onNavigate('services', 'serv-1')} className="hover:text-white transition-colors text-left cursor-pointer">
+                  Full-Stack MERN
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('services', 'serv-2')} className="hover:text-white transition-colors text-left cursor-pointer">
+                  Cloud & Linux Servers
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('services', 'serv-3')} className="hover:text-white transition-colors text-left cursor-pointer">
+                  Shopify & E-Commerce
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('services', 'serv-4')} className="hover:text-white transition-colors text-left cursor-pointer">
+                  Enterprise CMS
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('services', 'serv-5')} className="hover:text-white transition-colors text-left cursor-pointer">
+                  API Integrations
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('services', 'serv-6')} className="hover:text-white transition-colors text-left cursor-pointer">
+                  Database Optimization
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 4: Quick Navigation & Admin (3 cols) */}
+          <div className="lg:col-span-3 space-y-3">
+            <h4 className="text-xs font-bold text-white uppercase tracking-wider font-mono">
+              Direct Access
+            </h4>
+            <ul className="space-y-2.5 text-xs">
+              <li>
+                <button onClick={() => onNavigate('about')} className="hover:text-white transition-colors text-left cursor-pointer">
+                  About WebDev Software Solutions
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('team')} className="hover:text-white transition-colors text-left cursor-pointer">
+                  Meet The Minds & Leadership
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('portfolio')} className="hover:text-white transition-colors text-left cursor-pointer">
+                  Recent Completed & Ongoing Work
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('blog')} className="hover:text-white transition-colors text-left cursor-pointer">
+                  Technical Insights & Blog
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('contact')} className="hover:text-white transition-colors text-left cursor-pointer">
+                  Contact Us & Operating Hubs
+                </button>
+              </li>
+              <li>
+                <button onClick={onOpenQuote} className="text-indigo-400 font-bold hover:text-indigo-300 transition-colors text-left cursor-pointer flex items-center gap-1">
+                  <span>Instant Project Cost Scoper</span>
+                  <ArrowUpRight className="w-3 h-3" />
+                </button>
+              </li>
+              <li className="pt-2">
+                <button 
+                  onClick={() => onNavigate('admin')} 
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 hover:bg-slate-800/80 transition-all text-xs font-semibold cursor-pointer group"
+                >
+                  <LayoutDashboard className="w-3.5 h-3.5 text-indigo-400 group-hover:text-indigo-300 transition-colors" />
+                  <span>Admin Management Console</span>
+                </button>
+              </li>
+            </ul>
+          </div>
+
         </div>
 
-        {/* Bottom bar with copyright */}
+        {/* Bottom Bar: Copyright & Compliance */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 text-center sm:text-left">
-          <div>
-            © Copyright 2026 <span className="text-slate-300 font-semibold">WebDev Software Solutions</span>. All rights reserved.
+          <div className="flex items-center gap-2">
+            <span>© {new Date().getFullYear()} WebDev Software Solutions. All Rights Reserved.</span>
           </div>
-          <div className="flex items-center space-x-6">
-            <span className="text-slate-400 hover:text-slate-300 cursor-pointer">Privacy Policy (GDPR)</span>
-            <span className="text-slate-400 hover:text-slate-300 cursor-pointer">Terms of Service</span>
-            <span className="text-slate-400 hover:text-slate-300 cursor-pointer">Security SLA</span>
+
+          <div className="flex flex-wrap items-center justify-center sm:justify-end gap-3 sm:gap-5 text-[11px]">
+            <span className="flex items-center gap-1.5 text-slate-400">
+              <Shield className="w-3.5 h-3.5 text-indigo-400" />
+              <span>German GDPR & ISO 27001 Standard Protocol</span>
+            </span>
+            <span className="hidden xs:inline">•</span>
+            <span className="text-slate-400">Joypurhat (BD) HQ & Leverkusen (DE) Branch</span>
           </div>
         </div>
 

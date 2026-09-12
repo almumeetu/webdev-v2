@@ -56,7 +56,7 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
   return (
     <section 
       ref={sectionRef} 
-      className="py-16 sm:py-20 lg:py-28 bg-white text-slate-900 overflow-hidden relative"
+      className="py-16 sm:py-20 lg:py-24 bg-slate-100/90 border-b border-slate-300/80 text-slate-900 overflow-hidden relative"
     >
       {/* Background subtle watermark & tech circuit */}
       <div className="absolute inset-0 bg-tech-circuit-light opacity-40 pointer-events-none"></div>
@@ -76,13 +76,13 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
             </div>
 
             {/* Bold Headline */}
-            <h2 className="who-content-item text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-[1.18] font-['Outfit']">
-              Exclusive Technology to Provide IT Solutions & Services
+            <h2 className="who-content-item text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-[1.18] font-['Outfit']">
+              World-Class Engineering for High-Growth Global Businesses
             </h2>
 
             {/* Subtext */}
-            <p className="who-content-item text-sm sm:text-base text-slate-600 leading-relaxed">
-              We have over 10+ years of collective experience in all stages of modern software architecture, cloud server engineering, high-load e-commerce, and enterprise systems, serving clients across North America, Europe, and worldwide.
+            <p className="who-content-item text-xs sm:text-base text-slate-600 leading-relaxed">
+              With over 10+ years of collective experience delivering software for enterprise clients in the USA, Germany, United Kingdom, and across Europe, we build mission-critical digital systems engineered to perform under heavy production loads.
             </p>
 
             {/* 4 Feature Checklist */}
@@ -91,28 +91,28 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
                 <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0">
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
                 </div>
-                <span>IT Professional services</span>
+                <span>Strict Bilateral NDA & 100% IP Transfer</span>
               </div>
 
               <div className="flex items-center gap-2.5 text-slate-800 font-medium text-xs sm:text-sm">
                 <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0">
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
                 </div>
-                <span>Managed IT & Server services</span>
+                <span>Hardened Cloud & Server DevOps (99.99% SLA)</span>
               </div>
 
               <div className="flex items-center gap-2.5 text-slate-800 font-medium text-xs sm:text-sm">
                 <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0">
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
                 </div>
-                <span>Application Development services</span>
+                <span>Full-Stack MERN & Next.js Core Engineering</span>
               </div>
 
               <div className="flex items-center gap-2.5 text-slate-800 font-medium text-xs sm:text-sm">
                 <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0">
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
                 </div>
-                <span>Maintenance And 24/7 Support</span>
+                <span>US, UK & German Overlapping Timezone Sync</span>
               </div>
             </div>
 
@@ -122,11 +122,11 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
             </p>
 
             {/* Action button & Founder Signature */}
-            <div className="who-content-item pt-3 flex flex-wrap items-center gap-6 sm:gap-8">
+            <div className="who-content-item pt-3 flex flex-wrap items-center gap-5 sm:gap-8">
               <button
                 id="more-about-us-btn"
                 onClick={onAboutClick}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 transition-all flex items-center gap-2 group cursor-pointer min-h-[44px]"
+                className="w-full sm:w-auto justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 transition-all flex items-center gap-2 group cursor-pointer min-h-[44px]"
               >
                 <span>MORE ABOUT US</span>
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />

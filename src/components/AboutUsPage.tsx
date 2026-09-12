@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useGsapContext } from '../utils/gsapHelper';
 import gsap from 'gsap';
+import { Breadcrumb } from './Breadcrumb';
 
 interface AboutUsPageProps {
   onBackToHome: () => void;
@@ -46,18 +47,29 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
 
   return (
     <div ref={containerRef} className="bg-white text-slate-900 min-h-screen">
+      {/* Top Standard Breadcrumb */}
+      <Breadcrumb
+        items={[
+          { label: 'Home', onClick: onBackToHome },
+          { label: 'About Us', active: true }
+        ]}
+        backAction={onBackToHome}
+        backLabel="Back to Home"
+      />
+
       {/* Hero Header */}
-      <div className="bg-[#090d18] text-white py-16 sm:py-20 relative overflow-hidden border-b border-slate-800">
-        <div className="absolute inset-0 bg-tech-circuit opacity-30"></div>
+      <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white py-16 sm:py-24 relative overflow-hidden border-b border-slate-800">
+        <div className="absolute inset-0 bg-tech-circuit opacity-25"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4">
-          <div className="about-anim-fade inline-flex items-center gap-2 bg-indigo-500/20 text-indigo-400 px-3 py-1 rounded-full text-xs font-mono font-medium">
+          <div className="about-anim-fade inline-flex items-center gap-2 text-indigo-300 text-xs font-mono font-bold tracking-[0.2em] uppercase">
+            <span className="w-2 h-2 rounded-full bg-indigo-400"></span>
             <span>ABOUT WEBDEV SOFTWARE SOLUTIONS</span>
           </div>
-          <h1 className="about-anim-fade text-3xl sm:text-4xl lg:text-5xl font-extrabold font-['Outfit']">
+          <h1 className="about-anim-fade text-3xl sm:text-4xl lg:text-5xl font-extrabold font-['Outfit'] tracking-tight">
             Bridging Bangladesh Engineering & German Precision
           </h1>
-          <p className="about-anim-fade text-slate-400 text-xs sm:text-base max-w-2xl mx-auto leading-relaxed">
-            A cross-border software consultancy and full-stack development powerhouse headquartered in Joypurhat, Bangladesh with a strategic branch in Leverkusen, Germany.
+          <p className="about-anim-fade text-slate-300 text-xs sm:text-base max-w-2xl mx-auto leading-relaxed">
+            A premier cross-border software consultancy and full-stack development powerhouse headquartered in Joypurhat, Bangladesh with a strategic branch in Leverkusen, Germany.
           </p>
         </div>
       </div>
@@ -68,23 +80,31 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
           <div className="space-y-5 sm:space-y-6">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-['Outfit']">
-              Engineered to Deliver Without Geographical Boundaries
+              Engineered for Global Enterprises Across USA, Germany & Europe
             </h2>
             <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-              Founded with the belief that world-class software development should combine exceptional computational engineering talent with meticulous European architectural standards, <strong>WebDev Software Solutions</strong> operates seamlessly across two continents.
+              Founded with the vision to deliver world-class digital software that combines exceptional computational engineering talent with meticulous European and American architectural standards, <strong>WebDev Software Solutions</strong> serves international clients with complete trust and legal transparency.
             </p>
             <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-              Our <strong>Joypurhat, Bangladesh</strong> headquarters houses our core MERN full-stack development squads, backend architects, and Shopify specialists. Our <strong>Leverkusen, Germany</strong> branch handles enterprise client onboarding, German GDPR compliance, BaFin security audits, and European DevOps infrastructure.
+              Our <strong>Joypurhat, Bangladesh</strong> headquarters houses our core MERN full-stack development squads, distributed backend architects, and Shopify specialists. Our <strong>Leverkusen, Germany</strong> operational presence guarantees German GDPR compliance, BaFin security standards, and seamless cross-border coordination.
             </p>
 
-            <div className="grid grid-cols-2 gap-4 pt-2">
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                <div className="text-2xl sm:text-3xl font-extrabold text-indigo-600 font-['Outfit']">99.98%</div>
-                <div className="text-xs text-slate-600 mt-1 font-semibold">Production SLA Uptime</div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                <div className="text-xl sm:text-2xl font-extrabold text-indigo-600 font-['Outfit']">500+</div>
+                <div className="text-[11px] text-slate-600 mt-0.5 font-semibold">Global Projects</div>
               </div>
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                <div className="text-2xl sm:text-3xl font-extrabold text-indigo-600 font-['Outfit']">14 Hours</div>
-                <div className="text-xs text-slate-600 mt-1 font-semibold">Overlapping Timezone Support</div>
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                <div className="text-xl sm:text-2xl font-extrabold text-indigo-600 font-['Outfit']">100%</div>
+                <div className="text-[11px] text-slate-600 mt-0.5 font-semibold">IP Ownership</div>
+              </div>
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                <div className="text-xl sm:text-2xl font-extrabold text-indigo-600 font-['Outfit']">99.98%</div>
+                <div className="text-[11px] text-slate-600 mt-0.5 font-semibold">Production SLA</div>
+              </div>
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                <div className="text-xl sm:text-2xl font-extrabold text-indigo-600 font-['Outfit']">14+ Hrs</div>
+                <div className="text-[11px] text-slate-600 mt-0.5 font-semibold">Timezone Sync</div>
               </div>
             </div>
           </div>
@@ -172,23 +192,31 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
         </div>
 
         {/* CTA Bottom Banner */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-[#090d18] text-white text-center space-y-5">
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold font-['Outfit']">
+        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white text-center space-y-6 shadow-2xl border border-slate-800 relative overflow-hidden">
+          <div className="absolute inset-0 bg-tech-circuit opacity-20 pointer-events-none"></div>
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold font-['Outfit'] relative z-10">
             Collaborate With Our Engineering Leads
           </h3>
-          <p className="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
+          <p className="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed relative z-10 font-normal">
             Ready to initiate an enterprise MERN web app, Shopify store, or server infrastructure overhaul?
           </p>
-          <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap pt-2">
+          <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap pt-2 relative z-10">
             <button
               onClick={onOpenQuote}
-              className="bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-bold px-6 py-3.5 rounded-xl shadow-lg transition-all min-h-[44px] cursor-pointer"
+              className="bg-white hover:bg-slate-100 text-slate-950 text-xs sm:text-sm font-bold px-6 py-3.5 rounded-xl shadow-lg transition-all min-h-[44px] cursor-pointer"
             >
               Request Architecture Consultation
             </button>
             <button
+              onClick={onExploreTeam}
+              className="bg-slate-800/90 hover:bg-slate-800 text-indigo-300 border border-slate-700/80 hover:border-indigo-400 text-xs sm:text-sm font-bold px-6 py-3.5 rounded-xl transition-all min-h-[44px] cursor-pointer flex items-center gap-1.5"
+            >
+              <span>Meet The Minds Behind WebDev</span>
+              <ArrowRight className="w-4 h-4 text-indigo-400" />
+            </button>
+            <button
               onClick={onBackToHome}
-              className="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs sm:text-sm font-bold px-6 py-3.5 rounded-xl transition-all min-h-[44px] cursor-pointer"
+              className="bg-slate-800/80 hover:bg-slate-800 text-slate-300 text-xs sm:text-sm font-bold px-6 py-3.5 rounded-xl transition-all min-h-[44px] cursor-pointer"
             >
               Back to Home
             </button>

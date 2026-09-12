@@ -19,18 +19,21 @@ import { FaqAndExperienceSection } from './FaqAndExperienceSection';
 import { RecentProjectsSection } from './RecentProjectsSection';
 import { TestimonialsSection } from './TestimonialsSection';
 import { ClientLogosSection } from './ClientLogosSection';
+import { GlobalTrustSection } from './GlobalTrustSection';
 import { LatestNewsSection } from './LatestNewsSection';
 import { CallToActionBanner } from './CallToActionBanner';
 import { Footer } from './Footer';
 
-import { QuoteInquiryModal } from './QuoteInquiryModal';
-import { GoogleAuthModal } from './GoogleAuthModal';
-import { UserProfileModal } from './UserProfileModal';
-import { ProjectDetailModal } from './ProjectDetailModal';
-import { TeamDetailModal } from './TeamDetailModal';
-import { BlogDetailModal } from './BlogDetailModal';
+import { TeamMemberProfilePage } from './TeamMemberProfilePage';
+import { ProjectDetailPage } from './ProjectDetailPage';
+import { BlogDetailPage } from './BlogDetailPage';
+import { ContactQuotePage } from './ContactQuotePage';
+import { AuthPage } from './AuthPage';
+import { UserProfilePage } from './UserProfilePage';
 import { AdminDashboard } from './AdminDashboard';
 import { AboutUsPage } from './AboutUsPage';
+import { ContactUsPage } from './ContactUsPage';
+import { Breadcrumb } from './Breadcrumb';
 
 import { 
   initialProjects, 
@@ -48,7 +51,7 @@ import {
 } from '../types';
 
 export function MainApp() {
-  // Navigation View State ('home' | 'about' | 'services' | 'portfolio' | 'team' | 'blog' | 'admin')
+  // Navigation View State ('home' | 'about' | 'services' | 'portfolio' | 'team' | 'team-member' | 'project-detail' | 'blog' | 'blog-detail' | 'quote' | 'auth' | 'profile' | 'admin')
   const [currentView, setCurrentView] = useState<string>('home');
   const [activeServiceId, setActiveServiceId] = useState<string | undefined>(undefined);
 
@@ -61,13 +64,12 @@ export function MainApp() {
   // Current Logged-in User (Google Auth)
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
 
-  // Modals State
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [selectedTeamMember, setSelectedTeamMember] = useState<TeamMember | null>(null);
-  const [selectedBlog, setSelectedBlog] = useState<BlogPost | null>(null);
+  // Dedicated Page Selection States (NO MODALS)
+  const [selectedProject, setSelectedProject] = useState<Project | null>(initialProjects[0]);
+  const [selectedTeamMember, setSelectedTeamMember] = useState<TeamMember | null>(initialTeamMembers[0]);
+  const [selectedBlog, setSelectedBlog] = useState<BlogPost | null>(initialBlogPosts[0]);
+  const [leadName, setLeadName] = useState<string | undefined>(undefined);
+  const [leadProject, setLeadProject] = useState<string | undefined>(undefined);
 
   // Navigation Handler
   const handleNavigate = (view: string, subParam?: string) => {
@@ -96,8 +98,7 @@ export function MainApp() {
 
   const handleLogout = () => {
     setCurrentUser(null);
-    setIsProfileModalOpen(false);
-    if (currentView === 'admin') {
+    if (currentView === 'admin' || currentView === 'profile') {
       setCurrentView('home');
     }
   };
@@ -220,9 +221,13 @@ export function MainApp() {
       <Navbar
         currentView={currentView}
         onNavigate={handleNavigate}
-        onOpenQuote={() => setIsQuoteModalOpen(true)}
-        onOpenAuth={() => setIsAuthModalOpen(true)}
-        onOpenProfile={() => setIsProfileModalOpen(true)}
+        onOpenQuote={() => {
+          setLeadName(undefined);
+          setLeadProject(undefined);
+          handleNavigate('quote');
+        }}
+        onOpenAuth={() => handleNavigate('auth')}
+        onOpenProfile={() => handleNavigate('profile')}
         currentUser={currentUser}
       />
 
@@ -230,71 +235,81 @@ export function MainApp() {
       <main className="flex-1">
         {currentView === 'home' && (
           <>
-            {/* Hero Slider matching original v2 */}
+            {/* Hero Slider matching original v2 with official banner backgrounds */}
             <Hero
-              onOpenQuote={() => setIsQuoteModalOpen(true)}
+              onOpenQuote={() => {
+                setLeadName(undefined);
+                setLeadProject(undefined);
+                handleNavigate('quote');
+              }}
               onExploreServices={() => handleNavigate('services')}
             />
 
-            {/* Service Feature Cards matching original v2 */}
+            {/* Client Logos Banner with REAL WebDev Brands */}
+            <ClientLogosSection />
+
+            {/* Service Feature Cards */}
             <ServiceFeatureCards
               onSelectFeature={() => {
                 handleNavigate('portfolio');
               }}
             />
 
-            {/* Who We Bring With You matching original v2 */}
+            {/* Who We Bring With You (About Overview) */}
             <WhoWeBring
               onAboutClick={() => handleNavigate('about')}
             />
 
-            {/* Our Services Section matching original v2 */}
+            {/* Our Services Section */}
             <OurServicesSection
               onSelectService={() => {
-                setIsQuoteModalOpen(true);
+                setLeadName(undefined);
+                setLeadProject(undefined);
+                handleNavigate('quote');
               }}
               onViewAllServices={() => handleNavigate('services')}
             />
 
-            {/* Technology Index & Experience Progress matching original v2 */}
-            <TechnologyIndexSection />
-
-            {/* Meet Our Team Section matching original v2 with REAL WebDev Team */}
-            <MeetOurTeamSection
-              teamMembers={teamMembers}
-              onSelectMember={(member) => setSelectedTeamMember(member)}
-              onViewAllTeam={() => handleNavigate('team')}
+            {/* Compact Global Client Trust & Compliance */}
+            <GlobalTrustSection
+              onOpenQuote={() => {
+                setLeadName(undefined);
+                setLeadProject(undefined);
+                handleNavigate('quote');
+              }}
+              onExplorePortfolio={() => handleNavigate('portfolio')}
             />
 
-            {/* Working Process matching original v2 */}
-            <WorkingProcessSection />
-
-            {/* FAQs & 10+ Years Experience matching original v2 */}
-            <FaqAndExperienceSection />
-
-            {/* Recent & Ongoing Launched Projects matching original v2 */}
+            {/* Recent & Ongoing Projects with Smooth Running Marquee Slider */}
             <RecentProjectsSection
               projects={projects}
-              onSelectProject={(project) => setSelectedProject(project)}
+              onSelectProject={(project) => {
+                setSelectedProject(project);
+                handleNavigate('project-detail');
+              }}
               onViewAllProjects={() => handleNavigate('portfolio')}
             />
 
-            {/* Testimonials matching original v2 */}
+            {/* Verified International Testimonials */}
             <TestimonialsSection />
 
-            {/* Client Logos Banner with REAL WebDev Brands */}
-            <ClientLogosSection />
-
-            {/* Latest News and Insights matching original v2 */}
+            {/* Latest News and Insights */}
             <LatestNewsSection
               blogs={blogs}
-              onSelectBlog={(blog) => setSelectedBlog(blog)}
+              onSelectBlog={(blog) => {
+                setSelectedBlog(blog);
+                handleNavigate('blog-detail');
+              }}
               onViewAllBlogs={() => handleNavigate('blog')}
             />
 
-            {/* Call to Action Banner matching original v2 */}
+            {/* Call to Action Banner */}
             <CallToActionBanner
-              onContactClick={() => setIsQuoteModalOpen(true)}
+              onContactClick={() => {
+                setLeadName(undefined);
+                setLeadProject(undefined);
+                handleNavigate('quote');
+              }}
             />
           </>
         )}
@@ -303,149 +318,254 @@ export function MainApp() {
         {currentView === 'about' && (
           <AboutUsPage
             onBackToHome={() => handleNavigate('home')}
-            onOpenQuote={() => setIsQuoteModalOpen(true)}
+            onOpenQuote={() => {
+              setLeadName(undefined);
+              setLeadProject(undefined);
+              handleNavigate('quote');
+            }}
             onExploreTeam={() => handleNavigate('team')}
           />
         )}
 
         {/* Dedicated Services Page */}
         {currentView === 'services' && (
-          <div className="py-12">
-            <div className="max-w-7xl mx-auto px-4 mb-6 text-center">
-              <button
-                onClick={() => handleNavigate('home')}
-                className="text-xs font-bold text-indigo-600 hover:text-indigo-700 uppercase tracking-wider mb-2 inline-block cursor-pointer"
-              >
-                ← Back to Home Overview
-              </button>
-            </div>
-            <OurServicesSection
-              onSelectService={() => setIsQuoteModalOpen(true)}
-              onViewAllServices={() => setIsQuoteModalOpen(true)}
+          <div>
+            <Breadcrumb
+              items={[
+                { label: 'Home', onClick: () => handleNavigate('home') },
+                { label: 'All IT & Cloud Services', active: true }
+              ]}
+              backAction={() => handleNavigate('home')}
+              backLabel="Back to Home"
             />
-            <CallToActionBanner onContactClick={() => setIsQuoteModalOpen(true)} />
+            <div className="py-8">
+              <OurServicesSection
+                onSelectService={() => {
+                  setLeadName(undefined);
+                  setLeadProject(undefined);
+                  handleNavigate('quote');
+                }}
+                onViewAllServices={() => {
+                  setLeadName(undefined);
+                  setLeadProject(undefined);
+                  handleNavigate('quote');
+                }}
+              />
+              <CallToActionBanner onContactClick={() => {
+                setLeadName(undefined);
+                setLeadProject(undefined);
+                handleNavigate('quote');
+              }} />
+            </div>
           </div>
         )}
 
         {/* Dedicated Portfolio Page (Recent & Ongoing Works) */}
         {currentView === 'portfolio' && (
-          <div className="py-12">
-            <div className="max-w-7xl mx-auto px-4 mb-6 text-center">
-              <button
-                onClick={() => handleNavigate('home')}
-                className="text-xs font-bold text-indigo-600 hover:text-indigo-700 uppercase tracking-wider mb-2 inline-block cursor-pointer"
-              >
-                ← Back to Home Overview
-              </button>
-            </div>
-            <RecentProjectsSection
-              projects={projects}
-              onSelectProject={(project) => setSelectedProject(project)}
-              onViewAllProjects={() => setIsQuoteModalOpen(true)}
+          <div>
+            <Breadcrumb
+              items={[
+                { label: 'Home', onClick: () => handleNavigate('home') },
+                { label: 'Projects & Case Studies', active: true }
+              ]}
+              backAction={() => handleNavigate('home')}
+              backLabel="Back to Home"
             />
-            <CallToActionBanner onContactClick={() => setIsQuoteModalOpen(true)} />
+            <div className="py-8">
+              <RecentProjectsSection
+                projects={projects}
+                onSelectProject={(project) => {
+                  setSelectedProject(project);
+                  handleNavigate('project-detail');
+                }}
+                onViewAllProjects={() => {
+                  setLeadName(undefined);
+                  setLeadProject(undefined);
+                  handleNavigate('quote');
+                }}
+              />
+              <CallToActionBanner onContactClick={() => {
+                setLeadName(undefined);
+                setLeadProject(undefined);
+                handleNavigate('quote');
+              }} />
+            </div>
           </div>
         )}
 
         {/* Dedicated Team Page */}
         {currentView === 'team' && (
-          <div className="py-12">
-            <div className="max-w-7xl mx-auto px-4 mb-6 text-center">
-              <button
-                onClick={() => handleNavigate('home')}
-                className="text-xs font-bold text-indigo-600 hover:text-indigo-700 uppercase tracking-wider mb-2 inline-block cursor-pointer"
-              >
-                ← Back to Home Overview
-              </button>
-            </div>
-            <MeetOurTeamSection
-              teamMembers={teamMembers}
-              onSelectMember={(member) => setSelectedTeamMember(member)}
-              onViewAllTeam={() => {}}
+          <div>
+            <Breadcrumb
+              items={[
+                { label: 'Home', onClick: () => handleNavigate('home') },
+                { label: 'Engineering Team & Leadership', active: true }
+              ]}
+              backAction={() => handleNavigate('home')}
+              backLabel="Back to Home"
             />
-            <CallToActionBanner onContactClick={() => setIsQuoteModalOpen(true)} />
+            <div className="py-8">
+              <MeetOurTeamSection
+                teamMembers={teamMembers}
+                onSelectMember={(member) => {
+                  setSelectedTeamMember(member);
+                  handleNavigate('team-member');
+                }}
+                onViewAllTeam={() => {}}
+              />
+              <CallToActionBanner onContactClick={() => {
+                setLeadName(undefined);
+                setLeadProject(undefined);
+                handleNavigate('quote');
+              }} />
+            </div>
           </div>
+        )}
+
+        {/* Dedicated Team Member Specialist Profile Page (NO MODALS) */}
+        {currentView === 'team-member' && (
+          <TeamMemberProfilePage
+            member={selectedTeamMember}
+            onBack={() => handleNavigate('team')}
+            onBackToHome={() => handleNavigate('home')}
+            onContactLead={(memberName) => {
+              setLeadName(memberName);
+              setLeadProject(undefined);
+              handleNavigate('quote');
+            }}
+            onSelectProject={(projectTitle) => {
+              const matchedProj = projects.find((p) =>
+                p.title.toLowerCase().includes(projectTitle.toLowerCase())
+              );
+              if (matchedProj) {
+                setSelectedProject(matchedProj);
+                handleNavigate('project-detail');
+              } else {
+                handleNavigate('portfolio');
+              }
+            }}
+          />
+        )}
+
+        {/* Dedicated Project Case Study Detail Page (NO MODALS) */}
+        {currentView === 'project-detail' && (
+          <ProjectDetailPage
+            project={selectedProject}
+            onBack={() => handleNavigate('portfolio')}
+            onBackToHome={() => handleNavigate('home')}
+            onGetQuoteForSimilar={(projectTitle) => {
+              setLeadName(undefined);
+              setLeadProject(projectTitle);
+              handleNavigate('quote');
+            }}
+          />
         )}
 
         {/* Dedicated Blog Page */}
         {currentView === 'blog' && (
-          <div className="py-12">
-            <div className="max-w-7xl mx-auto px-4 mb-6 text-center">
-              <button
-                onClick={() => handleNavigate('home')}
-                className="text-xs font-bold text-indigo-600 hover:text-indigo-700 uppercase tracking-wider mb-2 inline-block cursor-pointer"
-              >
-                ← Back to Home Overview
-              </button>
-            </div>
-            <LatestNewsSection
-              blogs={blogs}
-              onSelectBlog={(blog) => setSelectedBlog(blog)}
-              onViewAllBlogs={() => {}}
+          <div>
+            <Breadcrumb
+              items={[
+                { label: 'Home', onClick: () => handleNavigate('home') },
+                { label: 'Technical Insights & News', active: true }
+              ]}
+              backAction={() => handleNavigate('home')}
+              backLabel="Back to Home"
             />
-            <CallToActionBanner onContactClick={() => setIsQuoteModalOpen(true)} />
+            <div className="py-8">
+              <LatestNewsSection
+                blogs={blogs}
+                onSelectBlog={(blog) => {
+                  setSelectedBlog(blog);
+                  handleNavigate('blog-detail');
+                }}
+                onViewAllBlogs={() => {}}
+              />
+              <CallToActionBanner onContactClick={() => {
+                setLeadName(undefined);
+                setLeadProject(undefined);
+                handleNavigate('quote');
+              }} />
+            </div>
           </div>
+        )}
+
+        {/* Dedicated Blog Article Detail Page (NO MODALS) */}
+        {currentView === 'blog-detail' && (
+          <BlogDetailPage
+            blog={selectedBlog}
+            onBack={() => handleNavigate('blog')}
+            onBackToHome={() => handleNavigate('home')}
+            onLike={handleLikeBlog}
+          />
+        )}
+
+        {/* Dedicated Contact Us Page */}
+        {currentView === 'contact' && (
+          <ContactUsPage
+            onBackToHome={() => handleNavigate('home')}
+            onSubmitSuccess={handleInquirySuccess}
+            onOpenQuote={() => {
+              setLeadName(undefined);
+              setLeadProject(undefined);
+              handleNavigate('quote');
+            }}
+          />
+        )}
+
+        {/* Dedicated Architecture Quote Consultation Page */}
+        {currentView === 'quote' && (
+          <ContactQuotePage
+            onBack={() => handleNavigate('home')}
+            onSubmitSuccess={handleInquirySuccess}
+            initialLeadName={leadName}
+            initialProjectTitle={leadProject}
+          />
+        )}
+
+        {/* Dedicated Authentication Page (NO MODALS) */}
+        {currentView === 'auth' && (
+          <AuthPage
+            onBack={() => handleNavigate('home')}
+            onLoginSuccess={(user) => {
+              handleLoginSuccess(user);
+              handleNavigate('profile');
+            }}
+          />
+        )}
+
+        {/* Dedicated User Profile Page (NO MODALS) */}
+        {currentView === 'profile' && (
+          currentUser ? (
+            <UserProfilePage
+              currentUser={currentUser}
+              onBack={() => handleNavigate('home')}
+              onUpdateProfile={(updated) => setCurrentUser(updated)}
+              onLogout={handleLogout}
+              userInquiries={inquiries.filter(
+                (inq) => inq.email.toLowerCase() === currentUser.email.toLowerCase()
+              )}
+            />
+          ) : (
+            <AuthPage
+              onBack={() => handleNavigate('home')}
+              onLoginSuccess={(user) => {
+                handleLoginSuccess(user);
+                handleNavigate('profile');
+              }}
+            />
+          )
         )}
       </main>
 
       {/* 3. Global Footer matching original v2 */}
       <Footer
         onNavigate={handleNavigate}
-        onOpenQuote={() => setIsQuoteModalOpen(true)}
-      />
-
-      {/* MODALS */}
-      {/* Quote / Cost Estimator Modal matching original v2 */}
-      <QuoteInquiryModal
-        isOpen={isQuoteModalOpen}
-        onClose={() => setIsQuoteModalOpen(false)}
-        onSubmitSuccess={handleInquirySuccess}
-      />
-
-      {/* Google Auth Modal */}
-      <GoogleAuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        onLoginSuccess={handleLoginSuccess}
-      />
-
-      {/* User Profile Modal */}
-      {currentUser && (
-        <UserProfileModal
-          isOpen={isProfileModalOpen}
-          onClose={() => setIsProfileModalOpen(false)}
-          currentUser={currentUser}
-          onUpdateProfile={(updated) => setCurrentUser(updated)}
-          onLogout={handleLogout}
-          userInquiries={inquiries.filter((inq) => inq.email.toLowerCase() === currentUser.email.toLowerCase())}
-        />
-      )}
-
-      {/* Project Case Study Details Modal */}
-      <ProjectDetailModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-        onGetQuoteForSimilar={() => {
-          setSelectedProject(null);
-          setIsQuoteModalOpen(true);
+        onOpenQuote={() => {
+          setLeadName(undefined);
+          setLeadProject(undefined);
+          handleNavigate('quote');
         }}
-      />
-
-      {/* Team Specialist Details Modal */}
-      <TeamDetailModal
-        member={selectedTeamMember}
-        onClose={() => setSelectedTeamMember(null)}
-        onContactLead={() => {
-          setSelectedTeamMember(null);
-          setIsQuoteModalOpen(true);
-        }}
-      />
-
-      {/* Blog Article Reader Modal */}
-      <BlogDetailModal
-        blog={selectedBlog}
-        onClose={() => setSelectedBlog(null)}
-        onLike={handleLikeBlog}
       />
 
     </div>

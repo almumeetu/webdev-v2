@@ -18,6 +18,66 @@ export const initialProjects: Project[] = [
   },
   {
     id: 'proj-2',
+    title: 'High-End Classical Guitar Commerce',
+    category: 'E-Commerce',
+    status: 'completed',
+    description: 'Custom high-converting eCommerce experience and specialized concert luthier instrument inventory portal for premier classical guitars in North Carolina, USA.',
+    clientName: 'All Strings Nylon',
+    clientCountry: 'USA',
+    image: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=1000&q=80',
+    completionDate: 'January 2026',
+    techStack: ['Next.js 15', 'Shopify Plus API', 'Tailwind CSS', 'Stripe US', 'Algolia Search'],
+    liveUrl: 'https://allstringsnylon.com',
+    features: ['Acoustic sound sample waveform player', 'High-res 360 zoom gallery', 'Instant US domestic & international checkout', 'Real-time multi-warehouse inventory'],
+    metrics: '+38% increase in average US order value (AOV)'
+  },
+  {
+    id: 'proj-3',
+    title: 'Commercial Contracting & Grid SaaS',
+    category: 'Web Application',
+    status: 'completed',
+    description: 'Enterprise operations, dispatching, and field engineering portal engineered for a major commercial & industrial electrical engineering contractor in Florida, USA.',
+    clientName: 'Gilmore Electric Co.',
+    clientCountry: 'USA',
+    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=80',
+    completionDate: 'December 2025',
+    techStack: ['React 19', 'TypeScript', 'Node.js', 'PostgreSQL', 'AWS Lambda', 'Tailwind CSS'],
+    liveUrl: 'https://gilmore-demo.webdevsoftware.com',
+    features: ['Real-time electrical crew dispatching', 'Automated OSHA safety compliance logs', 'Blueprint PDF viewer & annotation tool', 'Multi-tenant client billing engine'],
+    metrics: 'Managed 350+ commercial engineering contracts'
+  },
+  {
+    id: 'proj-4',
+    title: 'Sustainable Mega Data Center Cloud',
+    category: 'Backend & Cloud',
+    status: 'completed',
+    description: 'Telemetric IoT energy monitoring and multi-gigawatt cooling grid software developed for Europe\'s largest 100% green data center campus in Sines, Portugal.',
+    clientName: 'Start Campus',
+    clientCountry: 'Europe',
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1000&q=80',
+    completionDate: 'November 2025',
+    techStack: ['Node.js', 'TimescaleDB', 'Docker / K8s', 'Nginx', 'Prometheus', 'Grafana'],
+    liveUrl: 'https://startcampus-demo.webdevsoftware.com',
+    features: ['Live PUE (Power Usage Effectiveness) analytics', 'Automated anomaly detection alerts', 'European EU ETS carbon emission tracker', 'Strict TLS 1.3 encrypted telemetry'],
+    metrics: 'Real-time telemetry across 495MW campus capacity'
+  },
+  {
+    id: 'proj-5',
+    title: 'Nordic Clean Living Headless Shopify',
+    category: 'E-Commerce',
+    status: 'completed',
+    description: 'High-converting headless Shopify storefront for a premier sustainable home goods brand shipping across Germany, Austria, and Switzerland (DACH region). Built for blazing 98+ PageSpeed scores.',
+    clientName: 'ÖkoWohnen GmbH',
+    clientCountry: 'Germany',
+    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1000&q=80',
+    completionDate: 'October 2025',
+    techStack: ['Shopify Storefront API', 'Next.js / React', 'Tailwind CSS', 'Klarna / SEPA', 'Klaviyo'],
+    liveUrl: 'https://oekowohnen-demo.webdevsoftware.com',
+    features: ['Instant headless checkout with Klarna & SEPA', 'German GDPR / Cookie consent engine', 'Bespoke 3D product visualizer', 'Automated DHL Express label printing'],
+    metrics: '+43% mobile conversion rate boost'
+  },
+  {
+    id: 'proj-6',
     title: 'Dhaka-Joypurhat Logistics SaaS',
     category: 'Web Application',
     status: 'completed',
@@ -32,111 +92,66 @@ export const initialProjects: Project[] = [
     metrics: 'Over 4,500 daily active shipments managed'
   },
   {
-    id: 'proj-3',
-    title: 'Nordic Clean Living Headless Shopify',
-    category: 'E-Commerce',
-    status: 'completed',
-    description: 'High-converting headless Shopify storefront for a premier sustainable home goods brand shipping across Germany, Austria, and Switzerland (DACH region). Built for blazing 98+ PageSpeed scores.',
-    clientName: 'ÖkoWohnen GmbH (Cologne / Leverkusen)',
-    clientCountry: 'Germany',
-    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1000&q=80',
-    completionDate: 'December 2025',
-    techStack: ['Shopify Storefront API', 'Next.js / React', 'Tailwind CSS', 'Stripe EU', 'Klaviyo'],
-    liveUrl: 'https://oekowohnen-demo.webdevsoftware.com',
-    features: ['Instant headless checkout with Klarna & SEPA', 'German GDPR / Cookie consent engine', 'Bespoke 3D product visualizer', 'Automated DHL Express label printing'],
-    metrics: '+43% mobile conversion rate boost'
-  },
-  {
-    id: 'proj-4',
-    title: 'Global High-Traffic WooCommerce Cluster',
+    id: 'proj-7',
+    title: 'Global Multi-Vendor Retail Engine',
     category: 'WordPress & Shopify',
-    status: 'completed',
-    description: 'Custom WooCommerce enterprise infrastructure designed for a high-volume apparel dropshipper handling 20,000+ orders per week. Rebuilt with custom PHP caching, Redis Object Cache, and Elasticsearch.',
-    clientName: 'VelvetStyle Apparel',
-    clientCountry: 'International',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80',
-    completionDate: 'November 2025',
-    techStack: ['WordPress Enterprise', 'WooCommerce', 'Elasticsearch', 'Redis', 'Varnish', 'Cloudflare Enterprise'],
-    liveUrl: 'https://velvetstyle.webdevsoftware.com',
-    features: ['Instant faceted filtering on 80k SKUs', 'Custom multi-warehouse stock sync', 'Automated order dispatch API', '0.4s average server response time'],
-    metrics: 'Scaled effortlessly during Black Friday peak'
-  },
-  {
-    id: 'proj-5',
-    title: 'Automated Linux Bare-Metal Server Mesh',
-    category: 'Backend & Cloud',
     status: 'ongoing',
-    description: 'High-availability Kubernetes & Nginx reverse-proxy deployment across German Hetzner data centers and Singapore edge nodes for global enterprise clients needing ultra-low latency and sovereign data privacy.',
-    clientName: 'EuroCloud Solutions',
-    clientCountry: 'Germany',
-    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1000&q=80',
+    description: 'Custom enterprise multi-vendor digital commerce architecture with real-time multi-currency conversion (USD, GBP, EUR) for a premier UK high-growth retail brand.',
+    clientName: 'Apex Retail Solutions Ltd',
+    clientCountry: 'UK',
+    image: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1000&q=80',
     completionDate: 'Estimated April 2026',
-    techStack: ['Linux Ubuntu/Debian', 'Docker', 'Kubernetes', 'Nginx', 'Prometheus', 'Grafana', 'WireGuard'],
-    liveUrl: 'https://mesh-status.webdevsoftware.com',
-    features: ['Zero-downtime rolling deployments', 'Automated SSL/TLS rotation with Let\'s Encrypt', 'DDoS mitigation layer', 'Multi-region failover replication'],
-    metrics: 'Phase 2 in progress: 99.999% SLA benchmark'
-  },
-  {
-    id: 'proj-6',
-    title: 'AgriTech Cold Storage IoT Monitor',
-    category: 'Full Stack & MERN',
-    status: 'ongoing',
-    description: 'Real-time temperature and humidity tracking system for cold storage potato warehouses in Joypurhat & northern agricultural districts of Bangladesh. Features automated alert triggers and predictive spoilage AI.',
-    clientName: 'North Bengal Agro Consortium',
-    clientCountry: 'Bangladesh',
-    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1000&q=80',
-    completionDate: 'Estimated May 2026',
-    techStack: ['MERN Stack', 'Node.js MQTT', 'TimescaleDB', 'Tailwind CSS', 'Recharts', 'ESP32 IoT'],
-    liveUrl: 'https://agri-iot.webdevsoftware.com',
-    features: ['Live telemetry gauges', 'Automated WhatsApp & SMS emergency alarm', 'Historical harvest preservation charts', 'Dual language UI: Bengali & English'],
-    metrics: 'Active field deployment across 12 cold stores'
+    techStack: ['WooCommerce Enterprise', 'Redis Cache', 'Stripe UK', 'Elasticsearch', 'Cloudflare Enterprise'],
+    liveUrl: 'https://apex-demo.webdevsoftware.com',
+    features: ['Sub-second faceted product search', 'Automated UK VAT calculation', 'Warehouse sync across London & Manchester', 'Mobile PWA shopping experience'],
+    metrics: 'Sprint 3 in progress • 0.38s average server response'
   }
 ];
 
 export const initialTeam: TeamMember[] = [
   {
+    id: 'team-2',
+    name: 'Md Moyen Uddin',
+    role: 'CEO & Founder',
+    branch: 'Joypurhat, Bangladesh',
+    image: '/images/team/ceo-executive.jpg',
+    bio: 'Visionary technology executive with over 12 years of leadership steering digital transformation, cross-border European delivery, enterprise client partnerships, and strategic product innovation.',
+    skills: ['Executive Leadership', 'Strategic Advisory', 'Enterprise Governance', 'Cloud Strategy', 'Client Relations', 'Agile Operations'],
+    email: 'info@webdevsoftwaresolutions.com',
+    phone: '+880 1712-009617',
+    linkedin: 'https://linkedin.com',
+    experienceYears: 12,
+    highlightedProjects: ['Nordic Clean Living Headless Shopify', 'Automated Linux Bare-Metal Server Mesh', 'DACH Enterprise E-Commerce']
+  },
+  {
     id: 'team-1',
     name: 'Al Mumeetu Saikat',
-    role: 'Full-Stack Developer',
+    role: 'Principal Architect & Full-Stack Lead',
     branch: 'Joypurhat, Bangladesh',
     image: '/images/team/Full-Stack.png',
-    bio: 'Senior Full-Stack Architect specialized in modern Next.js ecosystem, cloud-native microservices, TypeScript, and high-concurrency systems.',
-    skills: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'AWS', 'Docker', 'Next.js'],
+    bio: 'Senior systems architect with 8+ years specializing in modern Next.js/React ecosystems, high-concurrency Node.js microservices, TypeScript distributed architectures, and hardened cloud systems.',
+    skills: ['Next.js 15', 'React 19', 'TypeScript', 'Node.js', 'PostgreSQL', 'AWS & Docker', 'System Architecture'],
     email: 'info@webdevsoftwaresolutions.com',
     phone: '+880 1712-009617',
     linkedin: 'https://linkedin.com',
     github: 'https://github.com/almumeetusaikat',
     experienceYears: 8,
-    highlightedProjects: ['FinTech Cloud Banking Portal', 'Dhaka-Joypurhat Logistics SaaS']
-  },
-  {
-    id: 'team-2',
-    name: 'Md Moyen Uddin',
-    role: 'CEO & Founder',
-    branch: 'Joypurhat, Bangladesh',
-    image: '/images/team/CEO.png',
-    bio: 'Visionary technology executive steering strategic growth, client digital transformation partnerships, and enterprise product innovation.',
-    skills: ['Leadership', 'Strategy', 'Business Development', 'Technology', 'Team Management', 'Vision'],
-    email: 'info@webdevsoftwaresolutions.com',
-    phone: '+880 1712-009617',
-    linkedin: 'https://linkedin.com',
-    experienceYears: 12,
-    highlightedProjects: ['Nordic Clean Living Headless Shopify', 'Automated Linux Bare-Metal Server Mesh']
+    highlightedProjects: ['FinTech Cloud Banking Portal', 'Dhaka-Joypurhat Logistics SaaS', 'Enterprise Headless Commerce']
   },
   {
     id: 'team-3',
     name: 'Al Muheetu Shihab',
-    role: 'Mobile Developer',
+    role: 'Lead Mobile Application Architect',
     branch: 'Joypurhat, Bangladesh',
-    image: '/images/team/android-developer.png',
-    bio: 'Cross-platform mobile engineer crafting smooth 60fps native experiences, enterprise mobile security, and offline-first reactive architectures.',
-    skills: ['React Native', 'Flutter', 'iOS', 'Android', 'Firebase', 'UI/UX'],
+    image: '/images/team/mobile-executive.jpg',
+    bio: 'Senior mobile engineer with 6+ years delivering high-performance cross-platform iOS and Android applications with React Native, Flutter, offline-first SQLite sync engines, and hardware device integrations.',
+    skills: ['React Native', 'Flutter & Dart', 'iOS / Swift', 'Android / Kotlin', 'SQLite Sync', 'Mobile App Security', 'REST & GraphQL'],
     email: 'info@webdevsoftwaresolutions.com',
     phone: '+880 1712-009617',
     github: 'https://github.com',
     linkedin: 'https://linkedin.com',
     experienceYears: 6,
-    highlightedProjects: ['Dhaka-Joypurhat Logistics SaaS', 'AgriTech Cold Storage IoT Monitor']
+    highlightedProjects: ['AgriTech Cold Storage IoT Monitor', 'Dhaka-Joypurhat Logistics Mobile Suite', 'Cross-Border Courier App']
   }
 ];
 
@@ -288,42 +303,159 @@ The combination of React 19 server actions, unified hydration, and TypeScript co
 export const initialTestimonials = [
   {
     id: 'test-1',
-    name: 'Henrik Von Klaus',
-    role: 'Managing Director',
-    company: 'Rheinland Tech Logistik GmbH, Leverkusen, Germany',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
-    country: 'Germany',
-    quote: '"Very well thought out and articulate communication. Clear milestones, deadliness and fast work. Patience, infinite patience. No shortcuts. Even if the client is being careless. The best part... always solving problems with great original ideas! WebDev Software Solutions delivers true German-grade engineering with incredible cost-efficiency."',
-    rating: 5
+    name: 'David H. Miller',
+    role: 'Chief Operating Officer',
+    company: 'All Strings Nylon, Apex, North Carolina',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+    country: 'USA',
+    flag: '🇺🇸',
+    quote: '"WebDev Software Solutions overhauled our entire eCommerce infrastructure. Communicating with Saikat and the team during our US Eastern business hours was seamless. Their attention to detail, sub-second search speeds, and custom audio player helped increase our US conversion rate by 38%. We trust them completely with our core digital assets."',
+    rating: 5,
+    verified: true
   },
   {
     id: 'test-2',
+    name: 'Henrik Von Klaus',
+    role: 'Managing Director',
+    company: 'Rheinland Tech Logistik GmbH, Leverkusen / Frankfurt',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+    country: 'Germany',
+    flag: '🇩🇪',
+    quote: '"Very well thought out and articulate communication. Clear sprint milestones, zero shortcuts, and uncompromising precision. Even when requirements shifted, they responded with ingenious architectural solutions. WebDev delivers authentic German-grade engineering with incredible cost-efficiency. A premier software partner."',
+    rating: 5,
+    verified: true
+  },
+  {
+    id: 'test-3',
+    name: 'Oliver Kensington',
+    role: 'Head of Engineering',
+    company: 'Apex Retail Solutions Ltd, London',
+    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&q=80',
+    country: 'UK',
+    flag: '🇬🇧',
+    quote: '"Working with WebDev felt like having an elite senior engineering squad right inside our London office. Their clean TypeScript code, Dockerized microservices, and adherence to strict bilateral NDAs gave our board total peace of mind. Delivered our platform two weeks ahead of schedule."',
+    rating: 5,
+    verified: true
+  },
+  {
+    id: 'test-4',
+    name: 'Elena Rostova',
+    role: 'Head of Product',
+    company: 'Nordic Commerce Group, Munich & Berlin',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+    country: 'Germany',
+    flag: '🇩🇪',
+    quote: '"The headless Shopify build they produced for our brand surpassed every performance target. Our mobile conversion rate jumped by 43% in the first month alone. The collaboration between their German branch and Bangladeshi engineering core is world-class."',
+    rating: 5,
+    verified: true
+  },
+  {
+    id: 'test-5',
     name: 'Kawsar Mahmud',
     role: 'Chief Operating Officer',
     company: 'Prime Agro Industries Ltd, Bangladesh',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80',
     country: 'Bangladesh',
+    flag: '🇧🇩',
     quote: '"Working with WebDev Software Solutions transformed our supply chain logistics across Joypurhat, Rajshahi, and Dhaka. Their MERN stack system handles our tracking effortlessly and their 24/7 server support gives us complete peace of mind. Highly recommended for any serious business."',
-    rating: 5
-  },
-  {
-    id: 'test-3',
-    name: 'Elena Rostova',
-    role: 'Head of Product',
-    company: 'Nordic Commerce Group, Munich & Berlin',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-    country: 'Germany / International',
-    quote: '"The headless Shopify build they produced for our brand surpassed every performance target. Our mobile conversion rate jumped by 43% in the first month alone. The collaboration between their German partner and Bangladeshi engineering core is flawless."',
-    rating: 5
+    rating: 5,
+    verified: true
   }
 ];
 
 export const clientLogos = [
-  { name: 'Agneya Singh', symbol: 'AS', image: '/images/brands/agneyasingh.png' },
-  { name: 'All Strings Nylon', symbol: 'ASN', image: '/images/brands/allstringsnylon.png' },
-  { name: 'Gilmore Electric', symbol: 'GE', image: '/images/brands/gilmoreelectric.png' },
-  { name: 'Marfione Guitar', symbol: 'MG', image: '/images/brands/marfione-guitar.webp' },
-  { name: 'Start Campus', symbol: 'SC', image: '/images/brands/start-campus.png' },
+  { 
+    name: 'All Strings Nylon', 
+    symbol: 'ASN', 
+    image: '/images/brands/allstringsnylon.png',
+    country: 'USA',
+    location: 'North Carolina, United States',
+    category: 'High-End Concert Classical Guitars',
+    badge: '🇺🇸 USA Client'
+  },
+  { 
+    name: 'Gilmore Electric', 
+    symbol: 'GE', 
+    image: '/images/brands/gilmoreelectric.png',
+    country: 'USA',
+    location: 'Florida, United States',
+    category: 'Commercial Electrical & Industrial SaaS',
+    badge: '🇺🇸 USA Client'
+  },
+  { 
+    name: 'Start Campus', 
+    symbol: 'SC', 
+    image: '/images/brands/start-campus.png',
+    country: 'Europe',
+    location: 'Sines, Portugal (EU)',
+    category: 'Sustainable Mega Data Center Telemetry',
+    badge: '🇪🇺 EU Enterprise'
+  },
+  { 
+    name: 'Bavaria FinTech AG', 
+    symbol: 'BF', 
+    image: '',
+    country: 'Germany',
+    location: 'Frankfurt, Germany',
+    category: 'Cloud Banking & Microservices Platform',
+    badge: '🇩🇪 German FinTech'
+  },
+  { 
+    name: 'Marfione Guitar', 
+    symbol: 'MG', 
+    image: '/images/brands/marfione-guitar.webp',
+    country: 'USA',
+    location: 'United States',
+    category: 'Boutique Custom Master Builder',
+    badge: '🇺🇸 USA Client'
+  },
+  { 
+    name: 'Agneya Singh', 
+    symbol: 'AS', 
+    image: '/images/brands/agneyasingh.png',
+    country: 'International',
+    location: 'United States & Global',
+    category: 'Award-Winning Filmmaker & Studio Portfolio',
+    badge: '🌐 Global Client'
+  }
+];
+
+export const globalTrustPillars = [
+  {
+    id: 'pillar-1',
+    title: 'Strict Bilateral NDA & 100% IP Transfer',
+    description: 'Complete intellectual property rights, source code, and design assets are legally transferred to you. Every engagement begins with mutual non-disclosure agreements.',
+    badge: 'Legal & IP Assurance',
+    iconName: 'ShieldCheck'
+  },
+  {
+    id: 'pillar-2',
+    title: 'Real-Time Timezone Synchronization',
+    description: 'Overlapping working hours with US Eastern & Pacific (EST/PST), UK GMT/BST, and Central Europe (CET). Dedicated Slack/Teams channels with daily async updates.',
+    badge: 'Global Collaboration',
+    iconName: 'Clock'
+  },
+  {
+    id: 'pillar-3',
+    title: 'GDPR & Bank-Grade Security Standards',
+    description: 'European GDPR compliance, BaFin security audit standards, OWASP top 10 adherence, end-to-end TLS encryption, and secure Hetzner/AWS server hardening.',
+    badge: 'Security & Compliance',
+    iconName: 'Lock'
+  },
+  {
+    id: 'pillar-4',
+    title: 'Milestone Escrow & Predictable Sprints',
+    description: 'Transparent 2-week agile sprints with staged milestone payments. Pay upon verified review and delivery with zero surprise costs or vendor lock-in.',
+    badge: 'Financial Peace of Mind',
+    iconName: 'Zap'
+  }
+];
+
+export const internationalStats = [
+  { value: '500+', label: 'Projects Successfully Delivered', sublabel: 'Across 15+ countries' },
+  { value: '98%', label: 'International Client Retention', sublabel: 'Repeat long-term partners' },
+  { value: '14+ Hrs', label: 'Overlapping Daily Support', sublabel: 'US, UK & Europe timezones' },
+  { value: '100%', label: 'Intellectual Property Ownership', sublabel: 'Transferred on delivery' }
 ];
 
 export const companyOffices = [

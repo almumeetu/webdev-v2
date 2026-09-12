@@ -15,7 +15,7 @@ export interface Project {
   status: ProjectStatus;
   description: string;
   clientName: string;
-  clientCountry: 'Germany' | 'Bangladesh' | 'USA' | 'Europe' | 'International';
+  clientCountry: 'Germany' | 'Bangladesh' | 'USA' | 'UK' | 'Europe' | 'International';
   image: string;
   completionDate: string;
   techStack: string[];
@@ -66,6 +66,9 @@ export interface Inquiry {
   company?: string;
   projectType: string;
   budget: string;
+  currency?: string;
+  timezone?: string;
+  ndaRequested?: boolean;
   targetMarket: 'Bangladesh' | 'Germany' | 'International' | 'Both';
   message: string;
   createdAt: string;

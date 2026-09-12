@@ -87,8 +87,12 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
             <X className="w-4 h-4" />
           </button>
 
-          <div className="w-12 h-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center mx-auto mb-3 text-indigo-400">
-            <Lock className="w-6 h-6" />
+          <div className="bg-white px-3 py-1.5 rounded-xl shadow-sm inline-flex items-center justify-center mx-auto mb-3">
+            <img 
+              src="/images/logo/webdev-logo.png" 
+              alt="WebDev Software Solutions" 
+              className="h-8 w-auto object-contain"
+            />
           </div>
 
           <h3 className="text-xl font-bold font-['Outfit']">

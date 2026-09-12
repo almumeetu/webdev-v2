@@ -134,21 +134,27 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         
         {/* Top Control Bar */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-slate-800">
-          <div>
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center text-white">
-                <LayoutDashboard className="w-4 h-4" />
-              </div>
-              <h1 className="text-2xl font-bold font-['Outfit'] text-white">
-                WebDev Software Solutions Admin
-              </h1>
-              <span className="bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[11px] px-2.5 py-0.5 rounded-full font-mono">
-                Full-Stack Live
-              </span>
+          <div className="flex items-center gap-3">
+            <div className="bg-white px-2.5 py-1.5 rounded-xl shadow-sm inline-flex items-center justify-center shrink-0">
+              <img 
+                src="/images/logo/webdev-logo.png" 
+                alt="WebDev Software Solutions" 
+                className="h-8 w-auto object-contain"
+              />
             </div>
-            <p className="text-xs text-slate-400 mt-1">
-              Joypurhat, Bangladesh & Leverkusen, Germany Operations Dashboard
-            </p>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className="text-xl sm:text-2xl font-bold font-['Outfit'] text-white">
+                  Admin Control Center
+                </h1>
+                <span className="bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[11px] px-2.5 py-0.5 rounded-full font-mono">
+                  Full-Stack Live
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Joypurhat, Bangladesh & Leverkusen, Germany Operations Dashboard
+              </p>
+            </div>
           </div>
 
           <div className="flex items-center gap-3">
@@ -162,7 +168,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-800">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-800 touch-pan-x scroll-smooth no-scrollbar">
           <button
             onClick={() => setActiveTab('overview')}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
