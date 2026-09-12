@@ -181,9 +181,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenQuote }) => {
                 </button>
               </li>
               <li>
-                <button onClick={onOpenQuote} className="text-indigo-400 font-bold hover:text-indigo-300 transition-colors text-left cursor-pointer flex items-center gap-1">
-                  <span>Instant Project Cost Scoper</span>
-                  <ArrowUpRight className="w-3 h-3" />
+                <button onClick={() => onNavigate('contact')} className="text-indigo-400 font-bold hover:text-indigo-300 transition-colors text-left cursor-pointer flex items-center gap-1">
+                  <span>Direct Architecture Consultation</span>
+                  <span className="text-[10px]">↗</span>
                 </button>
               </li>
               <li className="pt-2">

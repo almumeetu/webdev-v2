@@ -27,19 +27,21 @@ import { Footer } from './Footer';
 import { TeamMemberProfilePage } from './TeamMemberProfilePage';
 import { ProjectDetailPage } from './ProjectDetailPage';
 import { BlogDetailPage } from './BlogDetailPage';
-import { ContactQuotePage } from './ContactQuotePage';
 import { AuthPage } from './AuthPage';
+import { ParallaxShowcaseSection } from './ParallaxShowcaseSection';
 import { UserProfilePage } from './UserProfilePage';
 import { AdminDashboard } from './AdminDashboard';
 import { AboutUsPage } from './AboutUsPage';
 import { ContactUsPage } from './ContactUsPage';
+import { ServiceDetailPage } from './ServiceDetailPage';
 import { Breadcrumb } from './Breadcrumb';
 
 import { 
   initialProjects, 
   initialTeamMembers, 
   initialBlogPosts, 
-  initialInquiries 
+  initialInquiries,
+  initialServices
 } from '../data/initialData';
 
 import { 
@@ -47,7 +49,8 @@ import {
   TeamMember, 
   BlogPost, 
   Inquiry, 
-  UserProfile 
+  UserProfile,
+  ServiceDetail
 } from '../types';
 
 export function MainApp() {
@@ -68,12 +71,34 @@ export function MainApp() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(initialProjects[0]);
   const [selectedTeamMember, setSelectedTeamMember] = useState<TeamMember | null>(initialTeamMembers[0]);
   const [selectedBlog, setSelectedBlog] = useState<BlogPost | null>(initialBlogPosts[0]);
+  const [selectedService, setSelectedService] = useState<ServiceDetail | null>(initialServices[0]);
   const [leadName, setLeadName] = useState<string | undefined>(undefined);
   const [leadProject, setLeadProject] = useState<string | undefined>(undefined);
 
   // Navigation Handler
   const handleNavigate = (view: string, subParam?: string) => {
-    setCurrentView(view);
+    const targetView = view === 'quote' ? 'contact' : view;
+
+    // If navigating to services with a specific service ID (e.g. from dropdown or footer)
+    if (targetView === 'services' && subParam && subParam.startsWith('serv-')) {
+      const found = initialServices.find((s) => s.id === subParam);
+      if (found) {
+        setSelectedService(found);
+        setCurrentView('service-detail');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+    }
+
+    // If navigating to service-detail with a specific service ID
+    if (targetView === 'service-detail' && subParam) {
+      const found = initialServices.find((s) => s.id === subParam);
+      if (found) {
+        setSelectedService(found);
+      }
+    }
+
+    setCurrentView(targetView);
     if (subParam) {
       setActiveServiceId(subParam);
     }
@@ -224,7 +249,7 @@ export function MainApp() {
         onOpenQuote={() => {
           setLeadName(undefined);
           setLeadProject(undefined);
-          handleNavigate('quote');
+          handleNavigate('contact');
         }}
         onOpenAuth={() => handleNavigate('auth')}
         onOpenProfile={() => handleNavigate('profile')}
@@ -240,7 +265,7 @@ export function MainApp() {
               onOpenQuote={() => {
                 setLeadName(undefined);
                 setLeadProject(undefined);
-                handleNavigate('quote');
+                handleNavigate('contact');
               }}
               onExploreServices={() => handleNavigate('services')}
             />
@@ -250,8 +275,18 @@ export function MainApp() {
 
             {/* Service Feature Cards */}
             <ServiceFeatureCards
-              onSelectFeature={() => {
-                handleNavigate('portfolio');
+              onSelectFeature={(featureId) => {
+                const map: Record<string, string> = {
+                  'feat-mern': 'serv-1',
+                  'feat-server': 'serv-2',
+                  'feat-ecommerce': 'serv-3',
+                  'feat-cms': 'serv-4',
+                  'feat-global': 'serv-1'
+                };
+                const targetId = map[featureId] || 'serv-1';
+                const found = initialServices.find((s) => s.id === targetId) || initialServices[0];
+                setSelectedService(found);
+                handleNavigate('service-detail');
               }}
             />
 
@@ -262,10 +297,10 @@ export function MainApp() {
 
             {/* Our Services Section */}
             <OurServicesSection
-              onSelectService={() => {
-                setLeadName(undefined);
-                setLeadProject(undefined);
-                handleNavigate('quote');
+              onSelectService={(serviceId) => {
+                const found = initialServices.find((s) => s.id === serviceId) || initialServices[0];
+                setSelectedService(found);
+                handleNavigate('service-detail');
               }}
               onViewAllServices={() => handleNavigate('services')}
             />
@@ -275,9 +310,18 @@ export function MainApp() {
               onOpenQuote={() => {
                 setLeadName(undefined);
                 setLeadProject(undefined);
-                handleNavigate('quote');
+                handleNavigate('contact');
               }}
               onExplorePortfolio={() => handleNavigate('portfolio')}
+            />
+
+            {/* High-Performance 60fps Parallax Engineering Showcase */}
+            <ParallaxShowcaseSection
+              onContactClick={() => {
+                setLeadName(undefined);
+                setLeadProject(undefined);
+                handleNavigate('contact');
+              }}
             />
 
             {/* Recent & Ongoing Projects with Smooth Running Marquee Slider */}
@@ -308,7 +352,7 @@ export function MainApp() {
               onContactClick={() => {
                 setLeadName(undefined);
                 setLeadProject(undefined);
-                handleNavigate('quote');
+                handleNavigate('contact');
               }}
             />
           </>
@@ -321,7 +365,7 @@ export function MainApp() {
             onOpenQuote={() => {
               setLeadName(undefined);
               setLeadProject(undefined);
-              handleNavigate('quote');
+              handleNavigate('contact');
             }}
             onExploreTeam={() => handleNavigate('team')}
           />
@@ -344,24 +388,49 @@ export function MainApp() {
             />
             <div className="py-8">
               <OurServicesSection
-                onSelectService={() => {
-                  setLeadName(undefined);
-                  setLeadProject(undefined);
-                  handleNavigate('quote');
+                onSelectService={(serviceId) => {
+                  const found = initialServices.find((s) => s.id === serviceId) || initialServices[0];
+                  setSelectedService(found);
+                  handleNavigate('service-detail');
                 }}
                 onViewAllServices={() => {
                   setLeadName(undefined);
                   setLeadProject(undefined);
-                  handleNavigate('quote');
+                  handleNavigate('contact');
                 }}
               />
               <CallToActionBanner onContactClick={() => {
                 setLeadName(undefined);
                 setLeadProject(undefined);
-                handleNavigate('quote');
+                handleNavigate('contact');
               }} />
             </div>
           </div>
+        )}
+
+        {/* Dedicated Service Specification Detail Page (NO MODALS) */}
+        {currentView === 'service-detail' && (
+          <ServiceDetailPage
+            service={selectedService}
+            onBack={() => handleNavigate('services')}
+            onBackToHome={() => handleNavigate('home')}
+            onRequestQuote={(serviceTitle) => {
+              setLeadName(undefined);
+              setLeadProject(serviceTitle);
+              handleNavigate('contact');
+            }}
+            onSelectService={(serviceId) => {
+              const found = initialServices.find((s) => s.id === serviceId);
+              if (found) {
+                setSelectedService(found);
+                handleNavigate('service-detail');
+              }
+            }}
+            onSelectProject={(project) => {
+              setSelectedProject(project);
+              handleNavigate('project-detail');
+            }}
+          />
         )}
 
         {/* Dedicated Portfolio Page (Recent & Ongoing Works) */}
@@ -389,13 +458,13 @@ export function MainApp() {
                 onViewAllProjects={() => {
                   setLeadName(undefined);
                   setLeadProject(undefined);
-                  handleNavigate('quote');
+                  handleNavigate('contact');
                 }}
               />
               <CallToActionBanner onContactClick={() => {
                 setLeadName(undefined);
                 setLeadProject(undefined);
-                handleNavigate('quote');
+                handleNavigate('contact');
               }} />
             </div>
           </div>
@@ -428,7 +497,7 @@ export function MainApp() {
               <CallToActionBanner onContactClick={() => {
                 setLeadName(undefined);
                 setLeadProject(undefined);
-                handleNavigate('quote');
+                handleNavigate('contact');
               }} />
             </div>
           </div>
@@ -443,7 +512,7 @@ export function MainApp() {
             onContactLead={(memberName) => {
               setLeadName(memberName);
               setLeadProject(undefined);
-              handleNavigate('quote');
+              handleNavigate('contact');
             }}
             onSelectProject={(projectTitle) => {
               const matchedProj = projects.find((p) =>
@@ -468,7 +537,7 @@ export function MainApp() {
             onGetQuoteForSimilar={(projectTitle) => {
               setLeadName(undefined);
               setLeadProject(projectTitle);
-              handleNavigate('quote');
+              handleNavigate('contact');
             }}
           />
         )}
@@ -500,7 +569,7 @@ export function MainApp() {
               <CallToActionBanner onContactClick={() => {
                 setLeadName(undefined);
                 setLeadProject(undefined);
-                handleNavigate('quote');
+                handleNavigate('contact');
               }} />
             </div>
           </div>
@@ -516,23 +585,10 @@ export function MainApp() {
           />
         )}
 
-        {/* Dedicated Contact Us Page */}
-        {currentView === 'contact' && (
+        {/* Dedicated Contact Us Page (handles all contact, budget inquiries, and direct consultations) */}
+        {(currentView === 'contact' || currentView === 'quote') && (
           <ContactUsPage
             onBackToHome={() => handleNavigate('home')}
-            onSubmitSuccess={handleInquirySuccess}
-            onOpenQuote={() => {
-              setLeadName(undefined);
-              setLeadProject(undefined);
-              handleNavigate('quote');
-            }}
-          />
-        )}
-
-        {/* Dedicated Architecture Quote Consultation Page */}
-        {currentView === 'quote' && (
-          <ContactQuotePage
-            onBack={() => handleNavigate('home')}
             onSubmitSuccess={handleInquirySuccess}
             initialLeadName={leadName}
             initialProjectTitle={leadProject}
@@ -580,7 +636,7 @@ export function MainApp() {
         onOpenQuote={() => {
           setLeadName(undefined);
           setLeadProject(undefined);
-          handleNavigate('quote');
+          handleNavigate('contact');
         }}
       />
 
