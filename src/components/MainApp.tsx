@@ -485,9 +485,9 @@ function MainAppContent() {
         {currentView === 'team' && (
           <div>
             <Breadcrumb
-              badge="CROSS-BORDER TALENT"
+              badge="EUROPEAN & GLOBAL TALENT"
               title="Engineering Team & Leadership"
-              subtitle="Elite software architects, MERN engineers, and technical leadership across Joypurhat, Bangladesh & Leverkusen, Germany."
+              subtitle="Senior software architects, MERN engineers, and technical leadership based in Leverkusen, Germany & global R&D development squads."
               items={[
                 { label: 'Home', onClick: () => handleNavigate('home') },
                 { label: 'Engineering Team & Leadership', active: true }

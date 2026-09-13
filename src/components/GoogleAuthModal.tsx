@@ -189,7 +189,7 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
 
           <div className="text-[11px] text-slate-400 text-center flex items-center justify-center gap-1.5">
             <Shield className="w-3.5 h-3.5 text-emerald-500" />
-            <span>Encrypted OAuth2 session • Joypurhat & Leverkusen</span>
+            <span>Encrypted OAuth2 session • Leverkusen (DE) & Global Hubs</span>
           </div>
 
         </div>

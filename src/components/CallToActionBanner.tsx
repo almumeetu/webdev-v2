@@ -53,7 +53,7 @@ export const CallToActionBanner: React.FC<CallToActionBannerProps> = ({ onContac
           </h2>
 
           <p className="cta-banner-item text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
-            Whether in Joypurhat, Leverkusen, North America, or anywhere across the globe, our architects and senior full-stack engineers are ready to scope, build, and deploy your next system.
+            From Germany and the DACH region to North America and across the globe, our architects and senior full-stack engineers are ready to scope, build, and deploy your next system.
           </p>
 
           {/* Quick trust metrics */}

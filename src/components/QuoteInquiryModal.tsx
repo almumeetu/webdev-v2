@@ -100,16 +100,16 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
             <X className="w-5 h-5" />
           </button>
 
-          <div className="inline-flex items-center gap-2 bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full text-xs font-mono font-medium mb-3">
+          <div className="inline-flex items-center gap-2 bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-xs font-mono font-medium mb-3">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>LET'S CONNECT • JOYPURHAT & LEVERKUSEN</span>
+            <span>LET'S CONNECT • LEVERKUSEN (DE) & GLOBAL R&D</span>
           </div>
 
           <h3 className="text-2xl sm:text-3xl font-extrabold font-['Outfit']">
             Got an App or Server in Mind?
           </h3>
           <p className="text-slate-400 text-xs sm:text-sm mt-1">
-            Send us your requirements, and our engineering leads in Bangladesh and Germany will prepare a complimentary architecture review & estimate within 24 hours.
+            Send us your requirements, and our engineering leads in Leverkusen, Germany and global R&D squads will prepare a complimentary architecture review & estimate within 24 hours.
           </p>
         </div>
 

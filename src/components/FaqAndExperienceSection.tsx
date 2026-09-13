@@ -69,7 +69,7 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
     },
     {
       q: '3. How do international clients communicate across timezones?',
-      a: 'Headquartered in Joypurhat, Bangladesh (BST, UTC+6) with our Leverkusen, Germany presence, our teams provide seamless real-time communication and overlapping hours for North American, European, and Asian business hours. We collaborate via Slack, Microsoft Teams, Zoom, Jira, and GitHub with dedicated project managers fluent in English.'
+      a: 'Operating from our European hub in Leverkusen, Germany (CET) backed by our dedicated offshore development center, our teams provide seamless real-time communication during European, UK, and North American business hours. We collaborate via Slack, Microsoft Teams, Zoom, Jira, and GitHub with dedicated engineering leads and direct communication.'
     },
     {
       q: '4. Do you provide ongoing server maintenance and SLA uptime guarantees?',

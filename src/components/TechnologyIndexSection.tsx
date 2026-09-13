@@ -96,8 +96,8 @@ export const TechnologyIndexSection: React.FC = () => {
               {/* Floating tech badge */}
               <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 bg-slate-900/90 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-slate-700/80 text-white flex items-center justify-between shadow-2xl">
                 <div>
-                  <div className="text-xs sm:text-sm text-indigo-400 font-mono font-bold tracking-wider">GLOBAL ENGINEERING DELIVERY</div>
-                  <div className="text-sm sm:text-base font-bold text-slate-100">Joypurhat, Bangladesh • Worldwide Clients</div>
+                  <div className="text-xs sm:text-sm text-emerald-400 font-mono font-bold tracking-wider">EUROPEAN ENGINEERING DELIVERY</div>
+                  <div className="text-sm sm:text-base font-bold text-slate-100">Leverkusen, Germany • European & Global Clients</div>
                 </div>
                 <div 
                   ref={badgeNumRef} 

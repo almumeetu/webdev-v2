@@ -463,26 +463,26 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
 
               <div className="space-y-3 text-xs text-slate-600">
                 <div className="flex items-start gap-2.5">
+                  <Globe className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-slate-900 block">European Operations Hub:</strong>
+                    <span>Küppersteg, 51373 Leverkusen, Germany (+49 172 9766016)</span>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2.5 pt-2 border-t border-slate-200">
                   <MapPin className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-slate-900 block">Joypurhat Headquarters:</strong>
+                    <strong className="text-slate-900 block">Dedicated Global R&D Lab:</strong>
                     <span>Housing Estate, Ward No: 07, Joypurhat-5900, Bangladesh</span>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-2.5 pt-2 border-t border-slate-200">
-                  <Globe className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+                  <Clock className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-slate-900 block">European Operations:</strong>
-                    <span>Heinrich-von-Stephan-Str., 51373 Leverkusen, Germany</span>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-2.5 pt-2 border-t border-slate-200">
-                  <Clock className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-slate-900 block">Active Timezone Coverage:</strong>
-                    <span>14-Hour Working Overlap (GMT+6 / CET)</span>
+                    <strong className="text-slate-900 block">Direct Collaboration Timezone:</strong>
+                    <span>Central European Time (CET) & 24/7 Agile Delivery</span>
                   </div>
                 </div>
               </div>

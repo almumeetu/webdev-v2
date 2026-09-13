@@ -191,7 +191,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
 
                 <div className="inline-flex items-center gap-2 bg-slate-900/80 backdrop-blur-md text-emerald-400 text-xs font-mono font-semibold px-3 py-1 rounded-full border border-emerald-500/30">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                  <span>Dual-Hub Delivery Active</span>
+                  <span>German & EU Delivery Active</span>
                 </div>
               </div>
 
@@ -239,8 +239,8 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             <div className="p-3 text-center sm:text-left">
               <div className="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">Delivery Hubs</div>
               <div className="text-base sm:text-lg font-bold text-white mt-1 flex items-center justify-center sm:justify-start gap-1.5">
-                <Globe className="w-4 h-4 text-sky-400" />
-                <span>Joypurhat & Leverkusen</span>
+                <Globe className="w-4 h-4 text-emerald-400" />
+                <span>Leverkusen (DE) & Global R&D</span>
               </div>
             </div>
 
@@ -513,9 +513,9 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                   Direct Engineering Desk
                 </div>
                 <div className="text-xs sm:text-sm text-slate-700 space-y-1">
-                  <div>Joypurhat HQ: <a href="tel:+8801722301927" className="font-bold text-indigo-600 hover:underline">+880 1722-301927</a></div>
-                  <div>Germany Office: <a href="tel:+491729766016" className="font-bold text-indigo-600 hover:underline">+49 172 9766016</a></div>
-                  <div>Email: <a href="mailto:info@webdevsoftwaresolutions.com" className="font-bold text-indigo-600 hover:underline">info@webdevsoftwaresolutions.com</a></div>
+                  <div>Germany Hub: <a href="tel:+491729766016" className="font-bold text-emerald-600 hover:underline">+49 172 9766016</a></div>
+                  <div>Global R&D Lab: <a href="tel:+8801722301927" className="font-bold text-indigo-600 hover:underline">+880 1722-301927</a></div>
+                  <div>Direct Email: <a href="mailto:info@webdevsoftwaresolutions.com" className="font-bold text-indigo-600 hover:underline">info@webdevsoftwaresolutions.com</a></div>
                 </div>
               </div>
 
