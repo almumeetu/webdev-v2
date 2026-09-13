@@ -52,8 +52,9 @@ import {
   UserProfile,
   ServiceDetail
 } from '../types';
+import { LanguageProvider } from '../context/LanguageContext';
 
-export function MainApp() {
+function MainAppContent() {
   // Navigation View State ('home' | 'about' | 'services' | 'portfolio' | 'team' | 'team-member' | 'project-detail' | 'blog' | 'blog-detail' | 'quote' | 'auth' | 'profile' | 'admin')
   const [currentView, setCurrentView] = useState<string>('home');
   const [activeServiceId, setActiveServiceId] = useState<string | undefined>(undefined);
@@ -305,6 +306,16 @@ export function MainApp() {
               onViewAllServices={() => handleNavigate('services')}
             />
 
+            {/* Meet Our Executive Team & Leadership */}
+            <MeetOurTeamSection
+              teamMembers={teamMembers}
+              onSelectMember={(member) => {
+                setSelectedTeamMember(member);
+                handleNavigate('team-member');
+              }}
+              onViewAllTeam={() => handleNavigate('team')}
+            />
+
             {/* Compact Global Client Trust & Compliance */}
             <GlobalTrustSection
               onOpenQuote={() => {
@@ -384,7 +395,7 @@ export function MainApp() {
               ]}
               backAction={() => handleNavigate('home')}
               backLabel="Back to Home"
-              align="center"
+              align="left"
             />
             <div className="py-8">
               <OurServicesSection
@@ -446,7 +457,7 @@ export function MainApp() {
               ]}
               backAction={() => handleNavigate('home')}
               backLabel="Back to Home"
-              align="center"
+              align="left"
             />
             <div className="py-8">
               <RecentProjectsSection
@@ -483,7 +494,7 @@ export function MainApp() {
               ]}
               backAction={() => handleNavigate('home')}
               backLabel="Back to Home"
-              align="center"
+              align="left"
             />
             <div className="py-8">
               <MeetOurTeamSection
@@ -555,7 +566,7 @@ export function MainApp() {
               ]}
               backAction={() => handleNavigate('home')}
               backLabel="Back to Home"
-              align="center"
+              align="left"
             />
             <div className="py-8">
               <LatestNewsSection
@@ -641,5 +652,13 @@ export function MainApp() {
       />
 
     </div>
+  );
+}
+
+export function MainApp() {
+  return (
+    <LanguageProvider>
+      <MainAppContent />
+    </LanguageProvider>
   );
 }

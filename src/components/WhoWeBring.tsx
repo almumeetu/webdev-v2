@@ -65,7 +65,7 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
       {/* Background subtle watermark & tech circuit */}
       <div className="absolute inset-0 bg-tech-circuit-light opacity-40 pointer-events-none"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           
           {/* Left Column: Content */}
@@ -85,34 +85,34 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
             </h2>
 
             {/* Subtext */}
-            <p className="who-content-item text-xs sm:text-base text-slate-600 leading-relaxed">
+            <p className="who-content-item text-sm sm:text-base text-slate-600 leading-relaxed">
               With over 10+ years of collective experience delivering software for enterprise clients in the USA, Germany, United Kingdom, and across Europe, we build mission-critical digital systems engineered to perform under heavy production loads.
             </p>
 
             {/* 4 Feature Checklist */}
             <div className="who-content-item grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-              <div className="flex items-center gap-2.5 text-slate-800 font-medium text-xs sm:text-sm">
+              <div className="flex items-center gap-2.5 text-slate-800 font-medium text-sm">
                 <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0">
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
                 </div>
                 <span>Strict Bilateral NDA & 100% IP Transfer</span>
               </div>
 
-              <div className="flex items-center gap-2.5 text-slate-800 font-medium text-xs sm:text-sm">
+              <div className="flex items-center gap-2.5 text-slate-800 font-medium text-sm">
                 <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0">
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
                 </div>
                 <span>Hardened Cloud & Server DevOps (99.99% SLA)</span>
               </div>
 
-              <div className="flex items-center gap-2.5 text-slate-800 font-medium text-xs sm:text-sm">
+              <div className="flex items-center gap-2.5 text-slate-800 font-medium text-sm">
                 <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0">
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
                 </div>
                 <span>Full-Stack MERN & Next.js Core Engineering</span>
               </div>
 
-              <div className="flex items-center gap-2.5 text-slate-800 font-medium text-xs sm:text-sm">
+              <div className="flex items-center gap-2.5 text-slate-800 font-medium text-sm">
                 <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0">
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
                 </div>
@@ -121,7 +121,7 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
             </div>
 
             {/* Secondary Paragraph */}
-            <p className="who-content-item text-xs sm:text-sm text-slate-500 italic leading-relaxed pt-1">
+            <p className="who-content-item text-sm text-slate-500 italic leading-relaxed pt-1">
               "Our engineering teams harness the power of scalable cloud servers, full-stack MERN architecture, and modern headless frameworks to optimize operations and drive sustainable revenue for global enterprises."
             </p>
 
@@ -130,7 +130,7 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
               <button
                 id="more-about-us-btn"
                 onClick={onAboutClick}
-                className="w-full sm:w-auto justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 transition-all flex items-center gap-2 group cursor-pointer min-h-[44px]"
+                className="w-full sm:w-auto justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-6 py-3.5 rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 transition-all flex items-center gap-2 group cursor-pointer min-h-[44px]"
               >
                 <span>MORE ABOUT US</span>
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -142,8 +142,8 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
                   Md Moyen Uddin
                 </div>
                 <div className="text-left border-l border-slate-300 pl-3">
-                  <div className="text-xs font-bold text-slate-800">CEO & Founder</div>
-                  <div className="text-[11px] text-slate-500">WEBDEV Software Solutions</div>
+                  <div className="text-sm font-bold text-slate-800">CEO & Founder</div>
+                  <div className="text-xs text-slate-500">WEBDEV Software Solutions</div>
                 </div>
               </div>
             </div>
@@ -171,16 +171,16 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
                   alt="Software engineers collaborating"
                   className="w-full h-24 sm:h-36 object-cover"
                 />
-                <div className="p-2 sm:p-3 bg-white">
-                  <div className="text-[11px] sm:text-xs font-bold text-slate-900">Joypurhat, Bangladesh</div>
-                  <div className="text-[10px] sm:text-[11px] text-indigo-600 font-medium">Global Delivery Hub</div>
+                <div className="p-2.5 sm:p-3 bg-white">
+                  <div className="text-xs sm:text-sm font-bold text-slate-900">Leverkusen, Germany</div>
+                  <div className="text-xs text-indigo-600 font-medium">European Engineering Hub</div>
                 </div>
               </div>
 
               {/* Floating experience badge - safe relative positioning */}
               <div className="absolute -top-3 right-2 sm:-top-4 sm:-right-4 bg-indigo-600 text-white p-3 sm:p-4 rounded-2xl shadow-xl flex items-center gap-2.5 sm:gap-3">
                 <div ref={counterRef} className="text-xl sm:text-3xl font-black font-['Outfit']">10+</div>
-                <div className="text-[10px] sm:text-[11px] font-medium leading-tight">
+                <div className="text-xs font-medium leading-tight">
                   Years of<br />Excellence
                 </div>
               </div>

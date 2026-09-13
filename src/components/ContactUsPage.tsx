@@ -53,7 +53,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Active Map Tab ('joypurhat' | 'leverkusen' | 'both')
-  const [activeMapTab, setActiveMapTab] = useState<'joypurhat' | 'leverkusen'>('joypurhat');
+  const [activeMapTab, setActiveMapTab] = useState<'leverkusen' | 'joypurhat'>('leverkusen');
 
   // Live clocks for both hubs
   const [bdTime, setBdTime] = useState('');
@@ -188,17 +188,17 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
         ]}
         backAction={onBackToHome}
         backLabel="Back to Home"
-        align="center"
+        align="left"
         className="contact-anim-item"
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12 sm:space-y-16">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12 sm:space-y-16">
 
         {/* 2. Direct Instant Contact Strip */}
         <div className="contact-anim-item grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* WhatsApp Direct */}
           <a
-            href="https://wa.me/8801712009617?text=Hello%20WebDev%20Software%20Solutions,%20I%20would%20like%20to%20discuss%20a%20project"
+            href="https://wa.me/8801722301927?text=Hello%20WebDev%20Software%20Solutions,%20I%20would%20like%20to%20discuss%20a%20project"
             target="_blank"
             rel="noopener noreferrer"
             className="group p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-emerald-500/70 hover:shadow-md transition-all flex items-center gap-4 cursor-pointer"
@@ -207,52 +207,52 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
               <MessageSquare className="w-6 h-6" />
             </div>
             <div>
-              <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-600 flex items-center gap-1.5">
+              <div className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-600 flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 <span>Instant WhatsApp</span>
               </div>
-              <div className="text-sm font-bold text-slate-900 mt-0.5 group-hover:text-emerald-700 transition-colors">
-                +880 1712-009617
+              <div className="text-sm sm:text-base font-bold text-slate-900 mt-0.5 group-hover:text-emerald-700 transition-colors">
+                +880 1722-301927
               </div>
-              <div className="text-[11px] text-slate-500 mt-0.5">Chat Directly with Founder</div>
+              <div className="text-xs text-slate-500 mt-0.5">Chat Directly with Founder & Lead</div>
             </div>
           </a>
 
           {/* Joypurhat HQ Phone */}
           <a
-            href="tel:+8801712009617"
+            href="tel:+8801722301927"
             className="group p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-indigo-500/70 hover:shadow-md transition-all flex items-center gap-4 cursor-pointer"
           >
             <div className="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold shrink-0 group-hover:scale-105 transition-transform">
               <Phone className="w-6 h-6" />
             </div>
             <div>
-              <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-indigo-600">
+              <div className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-600">
                 Joypurhat HQ (BD)
               </div>
-              <div className="text-sm font-bold text-slate-900 mt-0.5 group-hover:text-indigo-700 transition-colors">
-                +880 1712-009617
+              <div className="text-sm sm:text-base font-bold text-slate-900 mt-0.5 group-hover:text-indigo-700 transition-colors">
+                +880 1722-301927
               </div>
-              <div className="text-[11px] text-slate-500 mt-0.5">Direct Engineering Line</div>
+              <div className="text-xs text-slate-500 mt-0.5">Direct Engineering Line</div>
             </div>
           </a>
 
           {/* Leverkusen Germany Phone */}
           <a
-            href="tel:+49214839201"
+            href="tel:+491729766016"
             className="group p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-purple-500/70 hover:shadow-md transition-all flex items-center gap-4 cursor-pointer"
           >
             <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold shrink-0 group-hover:scale-105 transition-transform">
               <Globe className="w-6 h-6" />
             </div>
             <div>
-              <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-purple-600">
-                Leverkusen (DE)
+              <div className="text-xs font-mono font-bold uppercase tracking-wider text-purple-600">
+                Küppersteg, Leverkusen (DE)
               </div>
-              <div className="text-sm font-bold text-slate-900 mt-0.5 group-hover:text-purple-700 transition-colors">
-                +49 214 839201
+              <div className="text-sm sm:text-base font-bold text-slate-900 mt-0.5 group-hover:text-purple-700 transition-colors">
+                +49 172 9766016
               </div>
-              <div className="text-[11px] text-slate-500 mt-0.5">European Cloud Desk</div>
+              <div className="text-xs text-slate-500 mt-0.5">European Delivery Desk</div>
             </div>
           </a>
 
@@ -466,7 +466,65 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
           {/* Right Column: Two Hub Cards & Guarantees (5 cols) */}
           <div className="contact-anim-item lg:col-span-5 space-y-6 lg:sticky lg:top-24 self-start">
             
-            {/* Bangladesh Headquarters Card */}
+            {/* Leverkusen Germany European Hub Card - FIRST */}
+            <div className="bg-white rounded-3xl p-6 sm:p-7 border border-emerald-500/30 shadow-md space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold">
+                    <Globe className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-slate-900 text-base font-['Outfit']">Küppersteg, Leverkusen (DE)</h3>
+                    <div className="flex items-center gap-1.5 text-xs font-mono text-emerald-600 font-bold">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      <span>European Engineering Hub</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Live Clock */}
+                <div className="text-right">
+                  <div className="text-[10px] uppercase font-mono text-slate-400 font-bold">CET (UTC+1)</div>
+                  <div className="text-xs font-mono font-extrabold text-slate-900">{deTime || 'Active'}</div>
+                </div>
+              </div>
+
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                Küppersteg, 51373 Leverkusen, North Rhine-Westphalia, Germany
+              </p>
+
+              <div className="space-y-2 pt-2 border-t border-slate-100 text-xs sm:text-sm text-slate-700">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500">Compliance & Security:</span>
+                  <span className="font-semibold text-slate-900">German GDPR (DSGVO) & ISO 27001</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500">Working Hours:</span>
+                  <span className="font-semibold text-slate-900">Mon - Fri: 9:00 AM - 6:00 PM CET</span>
+                </div>
+              </div>
+
+              <div className="pt-2 flex gap-2">
+                <a
+                  href="tel:+491729766016"
+                  className="flex-1 text-center py-2 px-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-xs sm:text-sm transition-colors"
+                >
+                  Call German Office
+                </a>
+                <button
+                  onClick={() => {
+                    setActiveMapTab('leverkusen');
+                    document.getElementById('interactive-map-section')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors flex items-center gap-1 cursor-pointer"
+                >
+                  <MapPin className="w-3.5 h-3.5" />
+                  <span>View Map</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Joypurhat Bangladesh Dedicated R&D Card */}
             <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-sm space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
@@ -475,9 +533,9 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 text-base font-['Outfit']">Joypurhat, Bangladesh</h3>
-                    <div className="flex items-center gap-1.5 text-[11px] font-mono text-emerald-600 font-bold">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                      <span>Global Engineering HQ</span>
+                    <div className="flex items-center gap-1.5 text-[11px] font-mono text-indigo-600 font-bold">
+                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
+                      <span>Dedicated Offshore R&D Center</span>
                     </div>
                   </div>
                 </div>
@@ -500,81 +558,23 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-slate-500">Working Hours:</span>
-                  <span className="font-semibold text-slate-900">Mon - Sat: 9:00 AM - 8:00 PM</span>
+                  <span className="font-semibold text-slate-900">Mon - Sat: 9:00 AM - 8:00 PM BST</span>
                 </div>
               </div>
 
               <div className="pt-2 flex gap-2">
                 <a
-                  href="tel:+8801712009617"
-                  className="flex-1 text-center py-2 px-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs transition-colors"
+                  href="tel:+8801722301927"
+                  className="flex-1 text-center py-2 px-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs sm:text-sm transition-colors"
                 >
-                  Call HQ
+                  Call R&D Lab
                 </a>
                 <button
                   onClick={() => {
                     setActiveMapTab('joypurhat');
                     document.getElementById('interactive-map-section')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors flex items-center gap-1 cursor-pointer"
-                >
-                  <MapPin className="w-3.5 h-3.5" />
-                  <span>View Map</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Leverkusen Germany Branch Card */}
-            <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-sm space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold">
-                    <Globe className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 text-base font-['Outfit']">Leverkusen, Germany</h3>
-                    <div className="flex items-center gap-1.5 text-[11px] font-mono text-purple-600 font-bold">
-                      <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse"></span>
-                      <span>European Operational Branch</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Live Clock */}
-                <div className="text-right">
-                  <div className="text-[10px] uppercase font-mono text-slate-400 font-bold">CET (UTC+1)</div>
-                  <div className="text-xs font-mono font-extrabold text-slate-900">{deTime || 'Active'}</div>
-                </div>
-              </div>
-
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Friedrich-Ebert-Platz 3, 51373 Leverkusen, North Rhine-Westphalia, Germany
-              </p>
-
-              <div className="space-y-2 pt-2 border-t border-slate-100 text-xs text-slate-700">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-500">Compliance & Cloud:</span>
-                  <span className="font-semibold text-slate-900">GDPR & BaFin Standards</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-500">Working Hours:</span>
-                  <span className="font-semibold text-slate-900">Mon - Fri: 9:00 AM - 6:00 PM</span>
-                </div>
-              </div>
-
-              <div className="pt-2 flex gap-2">
-                <a
-                  href="tel:+49214839201"
-                  className="flex-1 text-center py-2 px-3 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold text-xs transition-colors"
-                >
-                  Call Branch
-                </a>
-                <button
-                  onClick={() => {
-                    setActiveMapTab('leverkusen');
-                    document.getElementById('interactive-map-section')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors flex items-center gap-1 cursor-pointer"
+                  className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-colors flex items-center gap-1 cursor-pointer"
                 >
                   <MapPin className="w-3.5 h-3.5" />
                   <span>View Map</span>
@@ -583,17 +583,27 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
             </div>
 
             {/* Direct Technical Access Card */}
-            <div className="p-6 rounded-3xl bg-gradient-to-br from-slate-900 to-indigo-950 text-white space-y-3 shadow-md border border-slate-800">
-              <div className="text-xs font-mono text-indigo-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
-                <Cpu className="w-3.5 h-3.5" />
-                <span>Zero Middle-Management</span>
+            <div className="bg-gradient-to-br from-slate-900 to-indigo-950 rounded-3xl p-6 sm:p-7 text-white space-y-3.5 shadow-xl border border-slate-800">
+              <div className="flex items-center gap-2 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider">
+                <ShieldCheck className="w-4 h-4" />
+                <span>German & EU SLA Guarantee</span>
               </div>
-              <h4 className="text-base font-bold font-['Outfit']">
-                Direct Engineering Accountability
+              <h4 className="font-extrabold text-lg sm:text-xl text-white font-['Outfit']">
+                Direct Engineering Collaboration
               </h4>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Your communication is reviewed directly by our Principal Architect and Founder. We provide actionable architectural advice, technology stack comparisons, and sprint estimations before any commercial contract.
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Connect directly with lead architects. We offer strict bilateral NDAs, local European contracts, and sub-12h scoping turnarounds.
               </p>
+              <div className="pt-1 flex items-center gap-4 text-xs font-mono text-slate-400">
+                <span className="flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>100% IP Transfer</span>
+                </span>
+                <span className="flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>GDPR Compliant</span>
+                </span>
+              </div>
             </div>
 
           </div>
@@ -607,18 +617,31 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
             <div>
               <div className="inline-flex items-center gap-2 text-indigo-600 text-xs font-mono font-bold tracking-wider uppercase">
                 <Navigation className="w-3.5 h-3.5" />
-                <span>GLOBAL PHYSICAL PRESENCE</span>
+                <span>PHYSICAL PRESENCE & ENGINEERING HUBS</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-['Outfit'] mt-1">
-                Interactive Dual-Hub Location Radar
+                European Operations & Global Engineering Map
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 mt-1">
-                Explore our engineering headquarters in Joypurhat, Bangladesh and our strategic European presence in Leverkusen, Germany.
+                Direct client consulting in Leverkusen, Germany backed by dedicated agile engineering capacity in Joypurhat, Bangladesh.
               </p>
             </div>
 
             {/* Map Switcher Tabs */}
             <div className="inline-flex p-1.5 rounded-2xl bg-white border border-slate-200 shadow-xs self-start md:self-auto">
+              <button
+                type="button"
+                onClick={() => setActiveMapTab('leverkusen')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  activeMapTab === 'leverkusen'
+                    ? 'bg-emerald-600 text-white shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                }`}
+              >
+                <Globe className="w-3.5 h-3.5" />
+                <span>Leverkusen Hub (Germany)</span>
+              </button>
+
               <button
                 type="button"
                 onClick={() => setActiveMapTab('joypurhat')}
@@ -629,20 +652,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                 }`}
               >
                 <Building2 className="w-3.5 h-3.5" />
-                <span>Joypurhat HQ (Bangladesh)</span>
-              </button>
-              
-              <button
-                type="button"
-                onClick={() => setActiveMapTab('leverkusen')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                  activeMapTab === 'leverkusen'
-                    ? 'bg-purple-600 text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                }`}
-              >
-                <Globe className="w-3.5 h-3.5" />
-                <span>Leverkusen (Germany)</span>
+                <span>Joypurhat Center (Bangladesh)</span>
               </button>
             </div>
           </div>
@@ -661,7 +671,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
             ) : (
               <iframe
                 title="WebDev Software Solutions Leverkusen Branch Map"
-                src="https://maps.google.com/maps?q=Friedrich-Ebert-Platz%203%2C%2051373%20Leverkusen%2C%20Germany&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                src="https://maps.google.com/maps?q=K%C3%BCppersteg%2C%2051373%20Leverkusen%2C%20Germany&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 className="w-full h-[420px] sm:h-[500px] border-0 filter grayscale-[20%] contrast-[110%]"
                 loading="lazy"
                 allowFullScreen
@@ -671,13 +681,13 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
             {/* Floating Info Overlay Card on Map */}
             <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10 max-w-xs sm:max-w-sm bg-slate-950/90 backdrop-blur-md text-white p-5 rounded-2xl border border-slate-800 shadow-2xl space-y-3">
               <div className="flex items-center justify-between">
-                <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
+                <span className={`text-xs font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
                   activeMapTab === 'joypurhat' ? 'bg-indigo-600 text-white' : 'bg-purple-600 text-white'
                 }`}>
                   {activeMapTab === 'joypurhat' ? 'Global Engineering Lab' : 'European Cloud Branch'}
                 </span>
-                <span className="text-[10px] font-mono text-slate-400">
-                  {activeMapTab === 'joypurhat' ? '25.1011° N, 89.0270° E' : '51.0303° N, 6.9843° E'}
+                <span className="text-xs font-mono text-slate-400">
+                  {activeMapTab === 'joypurhat' ? '25.1011° N, 89.0270° E' : '51.0435° N, 6.9961° E'}
                 </span>
               </div>
 
@@ -685,12 +695,12 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                 <h4 className="font-bold text-sm sm:text-base font-['Outfit'] text-white">
                   {activeMapTab === 'joypurhat' 
                     ? 'Joypurhat Headquarters' 
-                    : 'Leverkusen Operations Center'}
+                    : 'Küppersteg, Leverkusen Operations'}
                 </h4>
-                <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed">
                   {activeMapTab === 'joypurhat'
                     ? 'Housing Estate, Ward No. 07, Joypurhat Sadar, Rajshahi Division, Bangladesh'
-                    : 'Friedrich-Ebert-Platz 3, 51373 Leverkusen, North Rhine-Westphalia, Germany'}
+                    : 'Küppersteg, 51373 Leverkusen, North Rhine-Westphalia, Germany'}
                 </p>
               </div>
 
@@ -699,7 +709,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   href={
                     activeMapTab === 'joypurhat'
                       ? 'https://maps.google.com/?q=Joypurhat+Sadar,+Joypurhat,+Bangladesh'
-                      : 'https://maps.google.com/?q=Friedrich-Ebert-Platz+3,+51373+Leverkusen,+Germany'
+                      : 'https://maps.google.com/?q=K%C3%BCppersteg,+51373+Leverkusen,+Germany'
                   }
                   target="_blank"
                   rel="noopener noreferrer"

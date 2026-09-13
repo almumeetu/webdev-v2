@@ -61,11 +61,11 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
         ]}
         backAction={onBackToHome}
         backLabel="Back to Home"
-        align="center"
+        align="left"
         className="about-anim-fade"
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-16 sm:space-y-20">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-16 sm:space-y-20">
         
         {/* Core Narrative */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
@@ -73,29 +73,29 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-['Outfit']">
               Engineered for Global Enterprises Across USA, Germany & Europe
             </h2>
-            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
               Founded with the vision to deliver world-class digital software that combines exceptional computational engineering talent with meticulous European and American architectural standards, <strong>WebDev Software Solutions</strong> serves international clients with complete trust and legal transparency.
             </p>
-            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-              Our <strong>Joypurhat, Bangladesh</strong> headquarters houses our core MERN full-stack development squads, distributed backend architects, and Shopify specialists. Our <strong>Leverkusen, Germany</strong> operational presence guarantees German GDPR compliance, BaFin security standards, and seamless cross-border coordination.
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+              Our <strong>Joypurhat, Bangladesh</strong> headquarters houses our core MERN full-stack development squads, distributed backend architects, and Shopify specialists. Our <strong>Küppersteg, Leverkusen, Germany</strong> operational presence guarantees German GDPR compliance, BaFin security standards, and seamless cross-border coordination.
             </p>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
               <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
                 <div className="text-xl sm:text-2xl font-extrabold text-indigo-600 font-['Outfit']">500+</div>
-                <div className="text-[11px] text-slate-600 mt-0.5 font-semibold">Global Projects</div>
+                <div className="text-xs text-slate-600 mt-0.5 font-semibold">Global Projects</div>
               </div>
               <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
                 <div className="text-xl sm:text-2xl font-extrabold text-indigo-600 font-['Outfit']">100%</div>
-                <div className="text-[11px] text-slate-600 mt-0.5 font-semibold">IP Ownership</div>
+                <div className="text-xs text-slate-600 mt-0.5 font-semibold">IP Ownership</div>
               </div>
               <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
                 <div className="text-xl sm:text-2xl font-extrabold text-indigo-600 font-['Outfit']">99.98%</div>
-                <div className="text-[11px] text-slate-600 mt-0.5 font-semibold">Production SLA</div>
+                <div className="text-xs text-slate-600 mt-0.5 font-semibold">Production SLA</div>
               </div>
               <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
                 <div className="text-xl sm:text-2xl font-extrabold text-indigo-600 font-['Outfit']">14+ Hrs</div>
-                <div className="text-[11px] text-slate-600 mt-0.5 font-semibold">Timezone Sync</div>
+                <div className="text-xs text-slate-600 mt-0.5 font-semibold">Timezone Sync</div>
               </div>
             </div>
           </div>
@@ -107,75 +107,75 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
               className="rounded-3xl shadow-2xl w-full object-cover h-[340px] sm:h-[440px]"
             />
             <div className="absolute bottom-2 left-2 sm:-bottom-6 sm:-left-6 bg-slate-900 text-white p-4 sm:p-5 rounded-2xl shadow-xl max-w-xs border border-slate-800">
-              <div className="text-[10px] sm:text-xs font-mono text-indigo-400 uppercase font-bold">Two Strategic Hubs</div>
-              <div className="text-xs sm:text-sm font-bold mt-1">Joypurhat (BD) + Leverkusen (DE)</div>
-              <div className="text-[10px] sm:text-[11px] text-slate-400 mt-1">Single cohesive engineering culture</div>
+              <div className="text-xs font-mono text-emerald-400 uppercase font-bold">European & Global Reach</div>
+              <div className="text-xs sm:text-sm font-bold mt-1">Leverkusen (DE) + Global R&D</div>
+              <div className="text-xs text-slate-400 mt-1">German standards & high-velocity delivery</div>
             </div>
           </div>
         </div>
 
-        {/* The Two Branches Detailed */}
+        {/* Operating Hubs Detailed */}
         <div className="space-y-8">
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-['Outfit']">
-              Our Dual-Hub Infrastructure
+              European Leadership & Global Engineering Infrastructure
             </h3>
-            <p className="text-slate-600 text-xs sm:text-sm">
-              How our Bangladesh and Germany offices collaborate seamlessly for international clients.
+            <p className="text-slate-600 text-sm sm:text-base">
+              Direct German enterprise collaboration backed by dedicated high-velocity offshore engineering squads.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {/* Joypurhat Bangladesh Office */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-slate-50 border border-slate-200 space-y-4">
-              <div className="w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold">
-                <Building2 className="w-6 h-6" />
-              </div>
-              <h4 className="text-lg sm:text-xl font-bold text-slate-900 font-['Outfit']">
-                Joypurhat, Bangladesh (Global Headquarters)
-              </h4>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Our main engineering lab. Houses over 30 full-stack engineers, MERN architects, WordPress core contributors, and QA automation specialists. Providing agile sprint execution and continuous deployment for clients globally.
-              </p>
-              <ul className="text-xs text-slate-700 space-y-2 pt-2">
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Full-Stack MERN & Next.js Core Labs</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Shopify & WooCommerce Custom Theme Dev</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Housing Estate, Word No: 07, Joypurhat-5900, Bangladesh</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Leverkusen Germany Office */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-slate-50 border border-slate-200 space-y-4">
+            {/* Leverkusen Germany Office - FIRST */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-slate-50 border border-slate-200 space-y-4 shadow-xs">
               <div className="w-12 h-12 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold">
                 <Globe className="w-6 h-6" />
               </div>
               <h4 className="text-lg sm:text-xl font-bold text-slate-900 font-['Outfit']">
-                Leverkusen, Germany (European Branch)
+                Küppersteg, Leverkusen, Germany (European Hub)
               </h4>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Our European operational gateway located in North Rhine-Westphalia. Guarantees German GDPR compliance, BaFin-grade security standards, Hetzner Frankfurt data center management, and direct on-site consulting for DACH clients.
               </p>
-              <ul className="text-xs text-slate-700 space-y-2 pt-2">
+              <ul className="text-xs sm:text-sm text-slate-700 space-y-2 pt-2">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-indigo-600 shrink-0" />
-                  <span>GDPR & ISO-27001 Data Privacy Frameworks</span>
+                  <span>German GDPR (DSGVO) & ISO-27001 Security Frameworks</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-indigo-600 shrink-0" />
-                  <span>European Cloud & Bare-Metal Server Auditing</span>
+                  <span>European Cloud & Hetzner Frankfurt Server Architecture</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-indigo-600 shrink-0" />
-                  <span>Heinrich-von-Stephan-Str., 51373 Leverkusen, Germany</span>
+                  <span>Küppersteg, 51373 Leverkusen, NRW, Germany (+49 172 9766016)</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Joypurhat Bangladesh Office - R&D */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-slate-50 border border-slate-200 space-y-4 shadow-xs">
+              <div className="w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold">
+                <Building2 className="w-6 h-6" />
+              </div>
+              <h4 className="text-lg sm:text-xl font-bold text-slate-900 font-['Outfit']">
+                Joypurhat, Bangladesh (Global R&D Center)
+              </h4>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Our dedicated offshore engineering lab. Houses over 30 full-stack engineers, MERN architects, WordPress core contributors, and QA automation specialists. Providing agile sprint execution and continuous deployment for international clients.
+              </p>
+              <ul className="text-xs sm:text-sm text-slate-700 space-y-2 pt-2">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Full-Stack MERN & Next.js Core Engineering Squads</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Shopify & WooCommerce Custom Theme & App Dev</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Housing Estate, Ward No: 07, Joypurhat-5900, Bangladesh</span>
                 </li>
               </ul>
             </div>

@@ -13,9 +13,9 @@ export const GlobalTrustSection: React.FC<GlobalTrustSectionProps> = ({
   const trustPillars = [
     {
       icon: Globe,
-      title: 'Dual-Hub Global Reach',
-      desc: 'Joypurhat Bangladesh HQ paired with Leverkusen Germany branch for global contracts.',
-      tag: '🇺🇸 🇩🇪 🇬🇧 🇧🇩 Global Hubs',
+      title: 'German & European Presence',
+      desc: 'Strategic client & engineering hub in Leverkusen (NRW), Germany with CET timezone alignment.',
+      tag: '🇩🇪 Leverkusen Hub • Europe',
       color: 'text-indigo-600 bg-indigo-50 border-indigo-200'
     },
     {
@@ -43,7 +43,7 @@ export const GlobalTrustSection: React.FC<GlobalTrustSectionProps> = ({
 
   return (
     <section className="py-14 sm:py-18 bg-slate-100/90 border-b border-slate-300/80 text-slate-900 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Compact Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 space-y-2.5">
@@ -60,7 +60,7 @@ export const GlobalTrustSection: React.FC<GlobalTrustSectionProps> = ({
             Trust Us
           </h2>
 
-          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto">
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
             We bridge premier computational engineering talent with uncompromising European and American delivery standards. Every engagement is protected by strict NDAs, full IP ownership transfer, and real-time timezone collaboration.
           </p>
         </div>
@@ -79,16 +79,16 @@ export const GlobalTrustSection: React.FC<GlobalTrustSectionProps> = ({
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center border ${pillar.color}`}>
                       <Icon className="w-5 h-5" />
                     </div>
-                    <span className="text-[10px] font-mono font-bold text-slate-500 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-full shadow-2xs">
+                    <span className="text-xs font-mono font-bold text-slate-600 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-full shadow-2xs">
                       {pillar.tag}
                     </span>
                   </div>
 
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900 font-['Outfit'] group-hover:text-indigo-600 transition-colors">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 font-['Outfit'] group-hover:text-indigo-600 transition-colors">
                     {pillar.title}
                   </h3>
 
-                  <p className="mt-1.5 text-xs text-slate-600 leading-relaxed font-normal">
+                  <p className="mt-2 text-sm text-slate-600 leading-relaxed font-normal">
                     {pillar.desc}
                   </p>
                 </div>

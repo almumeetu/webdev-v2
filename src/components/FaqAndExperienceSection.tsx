@@ -83,7 +83,7 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
 
   return (
     <section ref={sectionRef} className="py-16 sm:py-20 lg:py-28 bg-white text-slate-900 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           
           {/* Left Column: Visual with Experience Badge */}
@@ -110,7 +110,7 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
                 >
                   10+
                 </div>
-                <div className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider leading-snug text-slate-300">
+                <div className="text-xs sm:text-sm font-semibold uppercase tracking-wider leading-snug text-slate-300">
                   Years of<br />Engineering<br />Experience
                 </div>
               </div>
@@ -165,7 +165,7 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
                     </button>
 
                     {isOpen && (
-                      <div className="px-4 sm:px-5 pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-indigo-100 pt-3 font-normal">
+                      <div className="px-4 sm:px-5 pb-5 text-sm sm:text-base text-slate-600 leading-relaxed border-t border-indigo-100 pt-3 font-normal">
                         {faq.a}
                       </div>
                     )}

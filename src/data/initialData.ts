@@ -112,15 +112,15 @@ export const initialTeam: TeamMember[] = [
   {
     id: 'team-1',
     name: 'Al-Mumeetu Saikat',
-    role: 'Founder & Principal Full-Stack Lead',
-    headline: 'Senior Software Engineer | MERN & Next.js Specialist | Cloud & DevOps Enthusiast | Founder & Lead Developer at WebDev Software Solutions',
+    role: 'Full Stack Software Engineer | Business Development & E-Commerce Specialist',
+    headline: 'Full Stack Software Engineer | Business Development & E-Commerce Specialist | React, Next.js, Node.js & Cloud Solutions',
     branch: 'Joypurhat, Bangladesh',
-    location: 'Joypurhat, Rajshahi, Bangladesh',
+    location: 'Joypurhat (BD) HQ',
     image: '/images/team/Full-Stack.png',
-    bio: 'Energetic Senior Software Engineer & Team Lead with 4+ years of expertise in architecting scalable web applications, cloud solutions, and full-stack enterprise systems. Specialized in Next.js, React, Node.js, Express, TypeScript, MongoDB, and secure cloud server infrastructure. Passionate about engineering high-converting web solutions for global clients across USA, Germany, UK, and South Asia.',
+    bio: 'Energetic Full Stack Software Engineer & Business Development Specialist with 4+ years of expertise in architecting scalable web applications, e-commerce platforms, and full-stack enterprise systems. Specialized in Next.js, React, Node.js, Express, TypeScript, MongoDB, and secure cloud server infrastructure. Passionate about engineering high-converting web solutions for global clients across USA, Germany, UK, and South Asia.',
     skills: ['Next.js 15', 'React 19', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'Cloud DevOps', 'Nginx & Linux', 'PostgreSQL', 'System Architecture', 'REST & GraphQL APIs', 'Docker'],
     email: 'info@webdevsoftwaresolutions.com',
-    phone: '+880 1712-009617',
+    phone: '+880 1722-301927',
     linkedin: 'https://linkedin.com',
     github: 'https://github.com/almumeetusaikat',
     experienceYears: 4,
@@ -134,7 +134,7 @@ export const initialTeam: TeamMember[] = [
     ],
     experienceHistory: [
       {
-        role: 'Software Engineer',
+        role: 'Full Stack Software Engineer & Business Development Lead',
         company: 'Softzino Technologies',
         period: '2023 - Present',
         type: 'Full-time',
@@ -142,9 +142,9 @@ export const initialTeam: TeamMember[] = [
         description: 'Engineering scalable enterprise web applications, high-performance RESTful APIs, and full-stack microservices using Next.js, React, TypeScript, Node.js, and modern cloud deployment pipelines.'
       },
       {
-        role: 'Founder & Lead Developer',
+        role: 'Full Stack Lead & E-Commerce Specialist',
         company: 'WebDev Software Solutions',
-        period: 'Nov 2021 - Present · 3+ yrs',
+        period: 'Nov 2021 - Present · 4+ yrs',
         type: 'Full-time',
         location: 'Joypurhat, Rajshahi, Bangladesh',
         description: 'Directing architectural strategy, client software engineering, high-converting eCommerce builds, and bare-metal server infrastructure for global clients across USA, Germany, and worldwide.'
@@ -156,15 +156,15 @@ export const initialTeam: TeamMember[] = [
   {
     id: 'team-2',
     name: 'Md Moyen Uddin, PMP®',
-    role: 'Senior Software Engineer & Scrum Master | European Delivery Lead',
-    headline: 'Senior Software Engineer and Scrum Master at Brain Station 23 | PMP® Certified Project Manager',
-    branch: 'Leverkusen, Germany',
-    location: 'Leverkusen, North Rhine-Westphalia, Germany',
+    role: 'Founder & CEO | Senior Software Engineer & Scrum Master | European Delivery Lead',
+    headline: 'Founder & CEO | Senior Software Engineer and Scrum Master | PMP® Certified Project Manager | European Delivery Lead',
+    branch: 'Küppersteg, Leverkusen, Germany',
+    location: 'Küppersteg, Leverkusen (DE)',
     image: '/images/team/CEO.png',
-    bio: 'PMP® certified Project Manager and Senior Software Engineer with 10+ years of diverse industry experience in enterprise software development and project management across Germany and Europe. Skilled in Python/Django, AWS, and Agile/Scrum delivery. Proven track record in improving efficiency, managing cross-functional teams, and driving client success in high-impact projects.',
-    skills: ['PMP® Project Management', 'Agile & Scrum Master', 'Python & Django', 'AWS Cloud Infrastructure', 'RESTful APIs', 'Software Architecture', 'Cross-Border European Delivery', 'Jira & Enterprise Agile'],
+    bio: 'Founder & CEO, PMP® certified Project Manager and Senior Software Engineer with 10+ years of diverse industry experience in enterprise software development and project management across Germany and Europe. Skilled in Python/Django, AWS, and Agile/Scrum delivery. Proven track record in improving efficiency, managing cross-functional teams, and driving client success in high-impact European projects.',
+    skills: ['Founder & CEO', 'PMP® Project Management', 'Agile & Scrum Master', 'European Delivery Lead', 'Python & Django', 'AWS Cloud Infrastructure', 'RESTful APIs', 'Software Architecture', 'Jira & Enterprise Agile'],
     email: 'info@webdevsoftwaresolutions.com',
-    phone: '+880 1712-009617',
+    phone: '+49 172 9766016',
     linkedin: 'https://linkedin.com',
     experienceYears: 10,
     education: [
@@ -177,6 +177,14 @@ export const initialTeam: TeamMember[] = [
       'Practical Application of Gen AI for Project Managers (PMI)'
     ],
     experienceHistory: [
+      {
+        role: 'Founder & CEO / European Delivery Lead',
+        company: 'WebDev Software Solutions',
+        period: '2021 - Present',
+        type: 'Full-time / Leadership',
+        location: 'Küppersteg, Leverkusen, Germany',
+        description: 'Directing European client engagements, technical project governance, German GDPR compliance, and agile software delivery.'
+      },
       {
         role: 'Senior Software Engineer / Scrum Master',
         company: 'Brain Station 23',
@@ -224,18 +232,18 @@ export const initialTeam: TeamMember[] = [
   {
     id: 'team-3',
     name: 'MD. AL-MUHEETU',
-    role: 'Mobile & Web Application Engineer',
-    headline: 'Mobile & Web Developer | Kotlin | React Native | Next.js | TypeScript | Android',
+    role: 'Mobile Application Engineer',
+    headline: 'Mobile Application Engineer | Android (Kotlin) | iOS (Swift) | Flutter | Cross-Platform Architecture',
     branch: 'Joypurhat, Bangladesh',
-    location: 'Joypurhat, Rajshahi, Bangladesh',
+    location: 'Joypurhat (BD) HQ',
     image: '/images/team/android-developer.png',
-    bio: 'Energetic Software Engineer with over 3 years of hands-on experience in the Tech industry. Specialised in Mobile application and Front-End/Web development, building high-performance scalable apps using Kotlin, TypeScript, React Native & Next.js. Proven expertise in transforming complex ideas into user-friendly cross-platform applications with MVVM architecture.',
-    skills: ['Kotlin', 'React Native', 'Jetpack Compose', 'Next.js', 'TypeScript', 'Android SDK', 'MVVM Architecture', 'Retrofit & Coroutines', 'REST APIs', 'XML Layouts', 'Git'],
+    bio: 'Dedicated Mobile Application Engineer with 4+ years of comprehensive software development experience, including 2.5 years dedicated to native and cross-platform mobile engineering across Android and iOS, plus 1.5 years of web development. High proficiency in Kotlin, Swift, Flutter, and React Native with clean MVVM architecture, Jetpack Compose, asynchronous coroutines, and robust RESTful API integration.',
+    skills: ['Android (Kotlin)', 'iOS (Swift)', 'Flutter', 'React Native', 'Jetpack Compose', 'MVVM Architecture', 'REST APIs', 'Coroutines', 'Next.js', 'TypeScript', 'Git'],
     email: 'info@webdevsoftwaresolutions.com',
-    phone: '+880 1712-009617',
+    phone: '+880 1722-301927',
     github: 'https://github.com',
     linkedin: 'https://linkedin.com',
-    experienceYears: 3,
+    experienceYears: 4,
     education: [
       'First Capital University of Bangladesh — Bachelor of Computer Science & Engineering (2020 - 2024)',
       'Bagjana High School — Secondary School Certificate (SSC, Science - 2017 - 2019)'
@@ -246,31 +254,31 @@ export const initialTeam: TeamMember[] = [
     ],
     experienceHistory: [
       {
-        role: 'Associate Software Engineer',
+        role: 'Mobile Application Engineer (Android & iOS)',
         company: 'Gsitron Technologies',
         period: 'Nov 2024 - Present',
         type: 'Full-time',
         location: 'Dhaka, Bangladesh',
-        description: 'Developed mobile applications using Kotlin, Jetpack Compose, XML, Coroutines, REST APIs, Networking Retrofit, and MVVM Architecture.'
+        description: 'Developed mobile applications using Kotlin, Swift, Flutter, Jetpack Compose, Coroutines, REST APIs, Networking Retrofit, and MVVM Architecture.'
       },
       {
-        role: 'Web Designer',
+        role: 'Mobile & Web Application Engineer',
         company: 'WebDev Software Solutions',
         period: 'Nov 2023 - Nov 2024',
-        type: 'Part-time',
+        type: 'Full-time',
         location: 'Joypurhat, Rajshahi, Bangladesh',
-        description: 'Crafted modern, scalable, client-tailored web interfaces and digital solutions for enterprise and global clients.'
+        description: 'Engineered native Android components, cross-platform Flutter modules, and interactive responsive web applications for enterprise clients.'
       },
       {
-        role: 'Web Developer Intern',
+        role: 'Web Developer & Mobile Specialist',
         company: 'WebDev Software Solutions',
         period: 'Aug 2023 - Oct 2023',
         type: 'Internship',
         location: 'Joypurhat, Rajshahi, Bangladesh',
-        description: 'Built modern web applications and learned industry-standard development workflows and modern frameworks.'
+        description: 'Built modern web applications and mobile prototypes with industry-standard development workflows.'
       },
       {
-        role: 'Technical Specialist',
+        role: 'Software Development Specialist',
         company: 'WebDev Software Solutions',
         period: 'Jan 2022 - Jul 2022',
         type: 'Part-time',
@@ -319,14 +327,14 @@ export const initialServices: ServiceDetail[] = [
   },
   {
     id: 'serv-4',
-    title: 'WordPress & Custom CMS Solutions',
-    shortDesc: 'Fast, secure, custom-coded WordPress themes and plugins built without bloated page builders for peak speed and security.',
-    fullDesc: 'Say goodbye to slow, bloated templates. We build bespoke, lightweight WordPress systems engineered around custom post types, Gutenberg blocks, and strict PHP standards that score 95+ on Google PageSpeed Insights.',
-    iconName: 'Globe',
-    image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80',
-    techs: ['WordPress Core', 'PHP 8.3', 'Custom Gutenberg Blocks', 'Advanced Custom Fields Pro', 'MySQL', 'Redis Cache'],
-    features: ['No heavy bloated plugins', 'Enterprise level security hardening', 'Full SEO metadata structure', 'Easy non-technical client editing'],
-    deliverables: ['Custom lightweight theme', 'Clean backend editing experience', 'Full speed optimization (95+ score)', 'Security certificate & firewall']
+    title: 'Mobile App Engineering (Android, iOS & Flutter)',
+    shortDesc: 'Native & cross-platform high-performance mobile applications with clean MVVM architecture, offline sync, and delightful UX.',
+    fullDesc: 'We build enterprise-ready native Android (Kotlin) and iOS (Swift) apps alongside cross-platform Flutter and React Native experiences. From asynchronous coroutines and Jetpack Compose to hardware sensors and real-time WebSockets, our mobile apps deliver 60fps fluidity.',
+    iconName: 'Smartphone',
+    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80',
+    techs: ['Kotlin', 'Swift', 'Flutter', 'React Native', 'Jetpack Compose', 'MVVM Clean Architecture', 'REST APIs', 'Room / CoreData'],
+    features: ['Native Android & iOS performance', 'Cross-platform Flutter code sharing', 'Offline-first database syncing', 'Push notifications & biometric security'],
+    deliverables: ['Production App Store & Google Play binaries', 'Complete source code with modular architecture', 'API integration & Swagger contracts', 'Continuous delivery CI/CD pipelines']
   },
   {
     id: 'serv-5',
@@ -588,10 +596,19 @@ export const internationalStats = [
 
 export const companyOffices = [
   {
+    title: 'Germany Operating Branch',
+    city: 'Küppersteg, Leverkusen, Germany',
+    address: 'Küppersteg, 51373 Leverkusen, NRW, Germany',
+    phone: '+49 172 9766016',
+    email: 'info@webdevsoftwaresolutions.com',
+    hours: 'Mon - Sat: 9:00 AM - 8:00 PM (CET)',
+    isHQ: false
+  },
+  {
     title: 'Bangladesh Headquarters',
     city: 'Joypurhat, Bangladesh',
     address: 'Housing Estate, Word No: 07, Joypurhat-5900, Joypurhat, Bangladesh',
-    phone: '+880 1712-009617',
+    phone: '+880 1722-301927',
     email: 'info@webdevsoftwaresolutions.com',
     hours: 'Mon - Sat: 9:00 AM - 8:00 PM (BST)',
     isHQ: true

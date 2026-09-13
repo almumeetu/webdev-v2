@@ -94,7 +94,7 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
         <div className="absolute inset-0 bg-tech-circuit opacity-30" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           

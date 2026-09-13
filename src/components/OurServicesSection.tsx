@@ -64,7 +64,7 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
 
   return (
     <section ref={sectionRef} className="py-16 sm:py-20 lg:py-24 bg-white text-slate-900 relative border-b border-slate-200/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-14 space-y-3">
@@ -79,7 +79,7 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
             We Offer a Wide Variety of IT Services
           </h2>
 
-          <p className="services-header-anim text-slate-600 text-xs sm:text-base leading-relaxed">
+          <p className="services-header-anim text-slate-600 text-sm sm:text-base leading-relaxed">
             From modern web application development and cloud server setup to high-converting international e-commerce platforms, we engineer results.
           </p>
         </div>
@@ -102,7 +102,7 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
 
                 {/* Top right category tag */}
-                <div className="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-md text-[11px] font-mono font-semibold text-indigo-300 px-3 py-1 rounded-full border border-slate-700/80 shadow-sm">
+                <div className="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-md text-xs font-mono font-semibold text-indigo-300 px-3 py-1 rounded-full border border-slate-700/80 shadow-sm">
                   Engineering
                 </div>
               </div>
@@ -117,7 +117,7 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
                   <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors font-['Outfit']">
                     {service.title}
                   </h3>
-                  <p className="mt-2 text-xs sm:text-sm text-slate-600 line-clamp-3 leading-relaxed">
+                  <p className="mt-2.5 text-sm text-slate-600 line-clamp-3 leading-relaxed">
                     {service.shortDesc}
                   </p>
                 </div>
@@ -128,16 +128,16 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
                     {service.techs.slice(0, 3).map((tech, i) => (
                       <span
                         key={i}
-                        className="text-[10px] bg-slate-100 text-slate-700 font-medium px-2.5 py-0.5 rounded-md border border-slate-200/60"
+                        className="text-xs bg-slate-100 text-slate-700 font-medium px-2.5 py-1 rounded-md border border-slate-200/60"
                       >
                         {tech}
                       </span>
                     ))}
                   </div>
 
-                  <span className="text-xs font-bold text-indigo-600 group-hover:text-indigo-700 flex items-center gap-1 shrink-0 whitespace-nowrap">
+                  <span className="text-sm font-bold text-indigo-600 group-hover:text-indigo-700 flex items-center gap-1 shrink-0 whitespace-nowrap">
                     <span className="whitespace-nowrap">Details</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform shrink-0" />
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform shrink-0" />
                   </span>
                 </div>
               </div>
@@ -149,7 +149,7 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
         <div className="mt-12 text-center">
           <button
             onClick={onViewAllServices}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm border border-slate-200 shadow-xs hover:shadow transition-all cursor-pointer min-h-[44px]"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm sm:text-base border border-slate-200 shadow-xs hover:shadow transition-all cursor-pointer min-h-[44px]"
           >
             <span>Explore All 6 Enterprise Practice Areas</span>
             <ArrowRight className="w-4 h-4 text-indigo-600" />

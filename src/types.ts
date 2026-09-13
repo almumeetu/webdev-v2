@@ -38,7 +38,7 @@ export interface TeamMember {
   name: string;
   role: string;
   headline?: string;
-  branch: 'Joypurhat, Bangladesh' | 'Leverkusen, Germany';
+  branch: 'Joypurhat, Bangladesh' | 'Leverkusen, Germany' | 'Küppersteg, Leverkusen, Germany';
   location?: string;
   image: string;
   bio: string;

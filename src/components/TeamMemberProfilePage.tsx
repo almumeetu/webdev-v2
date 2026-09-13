@@ -84,7 +84,7 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
   return (
     <div ref={pageRef} className="min-h-screen bg-slate-50/50 text-slate-900 relative">
       {/* Top Back Action & Minimal Navigation */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-3 flex items-center justify-between">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-3 flex items-center justify-between">
         <button
           onClick={onBack}
           className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-indigo-600 transition-colors cursor-pointer group py-1.5 px-3 rounded-lg hover:bg-slate-100/80 border border-transparent hover:border-slate-200 shrink-0 whitespace-nowrap"
@@ -102,7 +102,7 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
         )}
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10 sm:space-y-12 pb-16">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10 sm:space-y-12 pb-16">
 
         {/* Hero Section: Executive Portrait & Core Identification */}
         <div className="profile-anim-item bg-white rounded-3xl border border-slate-200/90 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.06)] p-6 sm:p-10 relative overflow-hidden">

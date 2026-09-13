@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, ChevronLeft, ChevronRight, Sparkles, CheckCircle2, Shield, Zap, Globe, Cpu, Server, Lock } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HeroProps {
   onExploreClick?: () => void;
@@ -16,17 +17,18 @@ export const Hero: React.FC<HeroProps> = ({
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   const handleExplore = onExploreClick || onExploreServices || (() => {});
   const handleContact = onContactClick || onOpenQuote || (() => {});
 
   const slides = [
     {
-      badge: 'GLOBAL ENTERPRISE ARCHITECTURE',
+      badge: t.heroBadge1,
       badgeColor: 'bg-indigo-950/85 border-indigo-500/50 text-indigo-300',
       beaconColor: 'bg-indigo-400',
-      title: 'Empowering High-Growth Enterprises Across USA, UK & Europe',
-      subtitle: 'Delivering mission-critical full-stack MERN web platforms, ultra-scalable SaaS systems, and hardened cloud engineering for industry leaders and ambitious digital brands worldwide.',
+      title: t.heroTitle1,
+      subtitle: t.heroSubtitle1,
       image: '/images/banner/webdev-banner.webp',
       glow: 'bg-indigo-600/25',
       accentColor: 'text-indigo-400',
@@ -59,11 +61,11 @@ export const Hero: React.FC<HeroProps> = ({
       }
     },
     {
-      badge: 'HIGH AVAILABILITY CLOUD INFRASTRUCTURE',
+      badge: t.heroBadge2,
       badgeColor: 'bg-cyan-950/85 border-cyan-500/50 text-cyan-300',
       beaconColor: 'bg-cyan-400',
-      title: 'Enterprise Server Mesh & Zero-Downtime DevOps',
-      subtitle: 'Hardened Linux bare-metal clusters, Nginx reverse proxies, Docker/Kubernetes orchestration, and 24/7 proactive monitoring built to German BaFin & GDPR security benchmarks.',
+      title: t.heroTitle2,
+      subtitle: t.heroSubtitle2,
       image: '/images/banner/webdev-2.webp',
       glow: 'bg-cyan-500/25',
       accentColor: 'text-cyan-400',
@@ -96,11 +98,11 @@ export const Hero: React.FC<HeroProps> = ({
       }
     },
     {
-      badge: 'HIGH-CONVERTING DIGITAL COMMERCE',
+      badge: t.heroBadge3,
       badgeColor: 'bg-purple-950/85 border-purple-500/50 text-purple-300',
       beaconColor: 'bg-purple-400',
-      title: 'Headless E-Commerce & Next-Gen Web Applications',
-      subtitle: 'Architecting custom headless Shopify Plus storefronts, high-throughput WooCommerce clusters, and React 19 web applications for top retailers across North America and Western Europe.',
+      title: t.heroTitle3,
+      subtitle: t.heroSubtitle3,
       image: '/images/banner/web-3.webp',
       glow: 'bg-purple-600/25',
       accentColor: 'text-purple-400',
@@ -176,7 +178,7 @@ export const Hero: React.FC<HeroProps> = ({
         ))}
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 w-full">
+      <div className="relative z-10 max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           
           {/* Main Hero Content (Left 8 cols) - Smoothly keyed to currentSlide */}
@@ -194,7 +196,7 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
 
             {/* Display Headline with international standard typography */}
-            <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.14] font-['Outfit'] drop-shadow-md">
+            <h1 className="text-xl xs:text-2xl sm:text-3xl md:text-[34px] lg:text-[40px] xl:text-[44px] font-extrabold tracking-tight text-white leading-[1.22] font-['Outfit'] drop-shadow-md max-w-3xl">
               {slide.title}
             </h1>
 
@@ -208,35 +210,49 @@ export const Hero: React.FC<HeroProps> = ({
               <button
                 id="hero-read-more-btn"
                 onClick={handleExplore}
-                className="bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-bold text-xs xs:text-sm sm:text-base px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl shadow-lg shadow-indigo-600/40 hover:shadow-indigo-600/60 transition-all flex items-center justify-center gap-2.5 group cursor-pointer min-h-[44px]"
+                className="bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 active:from-indigo-700 active:to-indigo-600 text-white font-semibold text-sm sm:text-base px-6 sm:px-7 py-3.5 rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-500/50 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2.5 group cursor-pointer min-h-[44px]"
               >
-                <span>EXPLORE SERVICES</span>
+                <span>{t.heroExploreBtn}</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
 
               <button
                 id="hero-start-project-btn"
                 onClick={handleContact}
-                className="bg-white/10 hover:bg-white/20 active:bg-white/15 text-white font-semibold text-xs xs:text-sm sm:text-base px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl border border-white/25 shadow-md backdrop-blur-md transition-all flex items-center justify-center gap-2 min-h-[44px] cursor-pointer"
+                className="bg-slate-900/60 hover:bg-slate-800/80 active:bg-slate-800 text-slate-200 hover:text-white font-semibold text-sm sm:text-base px-5 sm:px-6 py-3.5 rounded-xl border border-slate-700/70 hover:border-slate-600 shadow-sm backdrop-blur-md hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 min-h-[44px] cursor-pointer"
               >
                 <Sparkles className="w-4 h-4 text-indigo-400" />
-                <span>START A PROJECT / ESTIMATE</span>
+                <span>{t.heroConsultBtn}</span>
               </button>
             </div>
 
-            {/* Company Headquarters & International Reach highlights badge */}
-            <div className="pt-3 flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] sm:text-xs text-slate-300">
-              <div className="flex items-center gap-1.5 bg-slate-950/85 backdrop-blur-md border border-slate-700/80 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl shadow-md">
-                <Globe className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-                <span className="text-slate-100 font-semibold">Headquarters: Joypurhat, Bangladesh</span>
+            {/* Global Presence & Trust Verification strip - Sleek, distinct from buttons */}
+            <div className="pt-4 sm:pt-5 border-t border-slate-800/70 flex flex-wrap items-center gap-x-4 sm:gap-x-5 gap-y-2 text-xs sm:text-[13px]">
+              <div className="flex items-center gap-2 text-slate-300">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] shrink-0"></span>
+                <span className="text-slate-400 font-medium">EU Hub:</span>
+                <span className="font-semibold text-slate-100 flex items-center gap-1.5">
+                  <span>🇩🇪</span>
+                  <span>Leverkusen (NRW), Germany</span>
+                </span>
               </div>
-              <div className="flex items-center gap-1.5 bg-slate-950/85 backdrop-blur-md border border-slate-700/80 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl shadow-md">
-                <Shield className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-                <span className="text-slate-100 font-semibold">Leverkusen, Germany Branch • Global Reach</span>
+
+              <span className="hidden sm:inline text-slate-700 select-none">•</span>
+
+              <div className="flex items-center gap-2 text-slate-300">
+                <span className="w-2 h-2 rounded-full bg-indigo-400 shadow-[0_0_8px_rgba(129,140,248,0.8)] shrink-0"></span>
+                <span className="text-slate-400 font-medium">R&D Center:</span>
+                <span className="font-medium text-slate-300 flex items-center gap-1.5">
+                  <span>🇧🇩</span>
+                  <span>Joypurhat, Bangladesh</span>
+                </span>
               </div>
-              <div className="flex items-center gap-1.5 bg-slate-950/85 backdrop-blur-md border border-emerald-500/40 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl shadow-md text-emerald-300">
+
+              <span className="hidden sm:inline text-slate-700 select-none">•</span>
+
+              <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span className="font-semibold">USA, UK & DACH Client Experience</span>
+                <span>German GDPR (DSGVO) & CET Real-Time Delivery</span>
               </div>
             </div>
 

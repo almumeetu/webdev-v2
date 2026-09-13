@@ -164,11 +164,11 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
         ]}
         backAction={onBack}
         backLabel="Back to Overview"
-        align="center"
+        align="left"
         className="quote-fade-item"
       />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-10">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-10">
 
         {/* Content Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
@@ -429,52 +429,60 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
               </ul>
             </div>
 
-            {/* Joypurhat Bangladesh Office */}
-            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200/90 space-y-3">
+            {/* Leverkusen Germany Office - FIRST */}
+            <div className="p-6 rounded-3xl bg-slate-50 border border-emerald-500/30 space-y-3 shadow-xs">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
                 <h3 className="text-sm font-bold text-slate-900 font-['Outfit']">
-                  Global Engineering HQ (Bangladesh)
+                  European Engineering Hub (Germany)
                 </h3>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Houses over 30 full-stack MERN engineers, DevOps architects, and QA squads providing agile sprint execution.
+                European client consulting, German GDPR compliance oversight, and Hetzner Frankfurt cloud infrastructure.
               </p>
-              <div className="pt-2 text-xs space-y-1 text-slate-600">
+              <div className="pt-2 text-xs space-y-1.5 text-slate-600">
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
-                  <span>Housing Estate, Word No: 07, Joypurhat-5900</span>
+                  <MapPin className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span>Küppersteg, 51373 Leverkusen, Germany</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Phone className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
-                  <span>+880 1700-928374 / +880 1712-009617</span>
+                  <Phone className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <a href="tel:+491729766016" className="font-mono font-bold text-slate-900 hover:text-emerald-600">
+                    +49 172 9766016
+                  </a>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Mail className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
-                  <span>info@webdevsoftwaresolutions.com</span>
+                  <Clock className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span>Mon - Fri: 9:00 - 18:00 CET</span>
                 </div>
               </div>
             </div>
 
-            {/* Leverkusen Germany Office */}
-            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200/90 space-y-3">
+            {/* Joypurhat Bangladesh Office - Dedicated R&D */}
+            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200/90 space-y-3 shadow-xs">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
                 <h3 className="text-sm font-bold text-slate-900 font-['Outfit']">
-                  European Operational Branch (Germany)
+                  Dedicated Offshore R&D Center (Bangladesh)
                 </h3>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                European client management, German GDPR compliance oversight, and Frankfurt data center infrastructure.
+                Houses over 30 full-stack MERN engineers, DevOps architects, and QA squads providing continuous agile execution.
               </p>
-              <div className="pt-2 text-xs space-y-1 text-slate-600">
+              <div className="pt-2 text-xs space-y-1.5 text-slate-600">
                 <div className="flex items-center gap-2">
                   <MapPin className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
-                  <span>Heinrich-von-Stephan-Str., 51373 Leverkusen</span>
+                  <span>Housing Estate, Ward No: 07, Joypurhat-5900</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Clock className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
-                  <span>14-Hour Overlapping Support</span>
+                  <Phone className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                  <a href="tel:+8801722301927" className="font-mono font-bold text-slate-900 hover:text-indigo-600">
+                    +880 1722-301927
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Mail className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                  <span>info@webdevsoftwaresolutions.com</span>
                 </div>
               </div>
             </div>

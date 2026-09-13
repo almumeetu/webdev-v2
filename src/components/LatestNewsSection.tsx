@@ -47,7 +47,7 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
 
   return (
     <section ref={sectionRef} className="py-16 sm:py-20 lg:py-24 bg-white text-slate-900 relative border-b border-slate-200/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header matching Frame 00:11 */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-14 space-y-3">
@@ -62,7 +62,7 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
             Latest News and Insights
           </h2>
 
-          <p className="news-header-anim text-slate-600 text-xs sm:text-base">
+          <p className="news-header-anim text-slate-600 text-sm sm:text-base">
             Expert engineering articles on MERN architecture, high-availability Linux servers, and international e-commerce.
           </p>
         </div>
@@ -82,7 +82,7 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
                   alt={blog.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute top-4 left-4 bg-indigo-600 text-white text-[10px] sm:text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                <div className="absolute top-4 left-4 bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
                   {blog.category}
                 </div>
               </div>
@@ -91,34 +91,34 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
               <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
                 <div>
                   {/* Date & Author matching reference video */}
-                  <div className="flex items-center gap-3 sm:gap-4 text-xs text-slate-400 mb-2.5 sm:mb-3 font-medium">
+                  <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-slate-500 mb-2.5 sm:mb-3 font-medium">
                     <span className="flex items-center gap-1">
                       <Calendar className="w-3.5 h-3.5 text-indigo-500" />
                       {blog.date}
                     </span>
                     <span>•</span>
-                    <span className="flex items-center gap-1 text-slate-600">
+                    <span className="flex items-center gap-1 text-slate-700">
                       <User className="w-3.5 h-3.5 text-indigo-500" />
                       {blog.author}
                     </span>
                   </div>
 
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-2 leading-snug font-['Outfit']">
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-2 leading-snug font-['Outfit']">
                     {blog.title}
                   </h3>
 
-                  <p className="mt-2 text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                  <p className="mt-2 text-sm text-slate-600 line-clamp-2 leading-relaxed">
                     {blog.excerpt}
                   </p>
                 </div>
 
                 {/* Read more link matching reference video */}
                 <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-xs font-bold text-indigo-600 group-hover:text-indigo-700 inline-flex items-center gap-1 uppercase tracking-wider">
-                    READ MORE <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  <span className="text-sm font-bold text-indigo-600 group-hover:text-indigo-700 inline-flex items-center gap-1 uppercase tracking-wider">
+                    READ MORE <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
 
-                  <span className="text-xs text-slate-400 flex items-center gap-1">
+                  <span className="text-xs sm:text-sm text-slate-500 flex items-center gap-1">
                     <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
                     {blog.likes}
                   </span>
@@ -132,7 +132,7 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
         <div className="mt-12 text-center">
           <button
             onClick={onViewAllBlogs}
-            className="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-semibold text-sm px-6 py-3.5 rounded-xl border border-slate-200 shadow-sm hover:shadow transition-all min-h-[44px] cursor-pointer"
+            className="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-semibold text-sm sm:text-base px-6 py-3.5 rounded-xl border border-slate-200 shadow-sm hover:shadow transition-all min-h-[44px] cursor-pointer"
           >
             <span>Read All News & Engineering Articles</span>
             <ArrowRight className="w-4 h-4 text-indigo-600" />

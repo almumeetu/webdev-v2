@@ -145,7 +145,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
     <div ref={pageRef} className="min-h-screen bg-white text-slate-900 pb-20">
       
       {/* Top Back Action & Minimal Navigation */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-3 flex items-center justify-between">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-3 flex items-center justify-between">
         <button
           onClick={onBack}
           className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-indigo-600 transition-colors cursor-pointer group py-1.5 px-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200"
@@ -163,7 +163,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
         )}
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
 
         {/* 2. Hero Visual Card with Gradient Overlay & Status Bar */}
         <div className="serv-anim-fade relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/90 bg-slate-950">
@@ -509,13 +509,13 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
 
               {/* Direct Support Contacts */}
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
-                <div className="text-[11px] font-mono text-slate-500 uppercase tracking-wider font-semibold">
+                <div className="text-xs font-mono text-slate-500 uppercase tracking-wider font-semibold">
                   Direct Engineering Desk
                 </div>
-                <div className="text-xs text-slate-700 space-y-1">
-                  <div>Joypurhat HQ: <a href="tel:+8801712009617" className="font-bold text-indigo-600 hover:underline">+880 1712-009617</a></div>
-                  <div>Germany Office: <a href="tel:+49214839201" className="font-bold text-indigo-600 hover:underline">+49 214 839201</a></div>
-                  <div>Email: <a href="mailto:support@webdevsoftware.com" className="font-bold text-indigo-600 hover:underline">support@webdevsoftware.com</a></div>
+                <div className="text-xs sm:text-sm text-slate-700 space-y-1">
+                  <div>Joypurhat HQ: <a href="tel:+8801722301927" className="font-bold text-indigo-600 hover:underline">+880 1722-301927</a></div>
+                  <div>Germany Office: <a href="tel:+491729766016" className="font-bold text-indigo-600 hover:underline">+49 172 9766016</a></div>
+                  <div>Email: <a href="mailto:info@webdevsoftwaresolutions.com" className="font-bold text-indigo-600 hover:underline">info@webdevsoftwaresolutions.com</a></div>
                 </div>
               </div>
 

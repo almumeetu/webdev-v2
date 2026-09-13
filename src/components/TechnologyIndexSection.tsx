@@ -80,7 +80,7 @@ export const TechnologyIndexSection: React.FC = () => {
 
   return (
     <section ref={sectionRef} className="py-16 sm:py-20 lg:py-28 bg-white text-slate-900 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           
           {/* Left Column: Team at work image */}
@@ -96,8 +96,8 @@ export const TechnologyIndexSection: React.FC = () => {
               {/* Floating tech badge */}
               <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 bg-slate-900/90 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-slate-700/80 text-white flex items-center justify-between shadow-2xl">
                 <div>
-                  <div className="text-[10px] sm:text-xs text-indigo-400 font-mono font-bold tracking-wider">GLOBAL ENGINEERING DELIVERY</div>
-                  <div className="text-xs sm:text-sm font-bold text-slate-100">Joypurhat, Bangladesh • Worldwide Clients</div>
+                  <div className="text-xs sm:text-sm text-indigo-400 font-mono font-bold tracking-wider">GLOBAL ENGINEERING DELIVERY</div>
+                  <div className="text-sm sm:text-base font-bold text-slate-100">Joypurhat, Bangladesh • Worldwide Clients</div>
                 </div>
                 <div 
                   ref={badgeNumRef} 
@@ -132,8 +132,8 @@ export const TechnologyIndexSection: React.FC = () => {
                   <Award className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900 font-['Outfit']">Experience</h4>
-                  <p className="text-xs text-slate-500 mt-1">
+                  <h4 className="text-base font-bold text-slate-900 font-['Outfit']">Experience</h4>
+                  <p className="text-sm text-slate-600 mt-1">
                     We deliver premier engineering excellence and modern architecture for your software.
                   </p>
                 </div>
@@ -144,8 +144,8 @@ export const TechnologyIndexSection: React.FC = () => {
                   <Headphones className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900 font-['Outfit']">Quick Support</h4>
-                  <p className="text-xs text-slate-500 mt-1">
+                  <h4 className="text-base font-bold text-slate-900 font-['Outfit']">Quick Support</h4>
+                  <p className="text-sm text-slate-600 mt-1">
                     Dedicated 24/7 technical monitoring and rapid support across global timezones.
                   </p>
                 </div>
@@ -155,7 +155,7 @@ export const TechnologyIndexSection: React.FC = () => {
             {/* GSAP Animated Progress Bars matching Frame 00:05 */}
             <div className="tech-index-text space-y-4 pt-2">
               <div>
-                <div className="flex justify-between text-xs font-bold text-slate-800 mb-1.5 font-['Outfit']">
+                <div className="flex justify-between text-sm font-bold text-slate-800 mb-1.5 font-['Outfit']">
                   <span>IT Management & System Architecture</span>
                   <span className="text-indigo-600 font-mono">95%</span>
                 </div>
@@ -165,7 +165,7 @@ export const TechnologyIndexSection: React.FC = () => {
               </div>
 
               <div>
-                <div className="flex justify-between text-xs font-bold text-slate-800 mb-1.5 font-['Outfit']">
+                <div className="flex justify-between text-sm font-bold text-slate-800 mb-1.5 font-['Outfit']">
                   <span>Data Security & Cloud DevOps</span>
                   <span className="text-purple-600 font-mono">80%</span>
                 </div>
@@ -175,7 +175,7 @@ export const TechnologyIndexSection: React.FC = () => {
               </div>
 
               <div>
-                <div className="flex justify-between text-xs font-bold text-slate-800 mb-1.5 font-['Outfit']">
+                <div className="flex justify-between text-sm font-bold text-slate-800 mb-1.5 font-['Outfit']">
                   <span>Technology Solution & Full-Stack MERN</span>
                   <span className="text-blue-600 font-mono">90%</span>
                 </div>
@@ -185,7 +185,7 @@ export const TechnologyIndexSection: React.FC = () => {
               </div>
 
               <div>
-                <div className="flex justify-between text-xs font-bold text-slate-800 mb-1.5 font-['Outfit']">
+                <div className="flex justify-between text-sm font-bold text-slate-800 mb-1.5 font-['Outfit']">
                   <span>High-Availability Server SLA & Uptime</span>
                   <span className="text-emerald-600 font-mono">99.9%</span>
                 </div>
@@ -196,7 +196,7 @@ export const TechnologyIndexSection: React.FC = () => {
             </div>
 
             {/* Bottom summary text matching reference video */}
-            <p className="tech-index-text text-xs sm:text-sm text-slate-600 leading-relaxed pt-1">
+            <p className="tech-index-text text-sm sm:text-base text-slate-600 leading-relaxed pt-1">
               We help businesses achieve strategic technology transformation, minimising the totality of their end-to-end business risk and maximising the business value of their IT infrastructure.
             </p>
 

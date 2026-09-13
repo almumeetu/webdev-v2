@@ -70,7 +70,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
         ]}
         backAction={onBack}
         backLabel="Back to Home"
-        align="center"
+        align="left"
       />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-12 sm:py-16">

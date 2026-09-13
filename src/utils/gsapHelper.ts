@@ -138,3 +138,25 @@ export function animateCounter(
     }
   });
 }
+
+/**
+ * Attach gentle GSAP micro-interaction hover on card elements
+ */
+export function attachCardHoverBatch(
+  container: HTMLElement | null,
+  selector: string
+) {
+  if (!container || typeof window === 'undefined') return;
+  const isMobile = window.innerWidth < 768;
+  if (isMobile) return;
+
+  const cards = container.querySelectorAll<HTMLElement>(selector);
+  cards.forEach((card) => {
+    card.addEventListener('mouseenter', () => {
+      gsap.to(card, { y: -4, duration: 0.25, ease: 'power2.out', overwrite: 'auto' });
+    });
+    card.addEventListener('mouseleave', () => {
+      gsap.to(card, { y: 0, duration: 0.25, ease: 'power2.out', overwrite: 'auto' });
+    });
+  });
+}

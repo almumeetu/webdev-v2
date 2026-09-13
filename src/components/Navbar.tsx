@@ -68,7 +68,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           : 'bg-white/90 backdrop-blur-md border-b border-slate-200/70 py-3.5 sm:py-4'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-3 sm:gap-4">
           
           {/* Brand Logo - Official WebDev Software Solutions Logo */}
@@ -437,21 +437,21 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Direct Calling & Action Buttons */}
             <div className="pt-3 border-t border-slate-200 grid grid-cols-2 gap-2">
               <a
-                href="tel:+8801712009617"
+                href="tel:+8801722301927"
                 className="flex flex-col items-center justify-center p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-center hover:border-indigo-500 transition-colors"
               >
                 <Phone className="w-4 h-4 text-indigo-600 mb-1" />
-                <span className="text-[10px] text-slate-500">Bangladesh HQ</span>
-                <span className="text-xs font-bold text-slate-900 font-mono">+880 1712</span>
+                <span className="text-xs text-slate-500">Bangladesh HQ</span>
+                <span className="text-xs font-bold text-slate-900 font-mono">+880 1722</span>
               </a>
 
               <a
-                href="tel:+49214839201"
+                href="tel:+491729766016"
                 className="flex flex-col items-center justify-center p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-center hover:border-indigo-500 transition-colors"
               >
                 <Phone className="w-4 h-4 text-indigo-600 mb-1" />
-                <span className="text-[10px] text-slate-500">Germany Branch</span>
-                <span className="text-xs font-bold text-slate-900 font-mono">+49 214</span>
+                <span className="text-xs text-slate-500">Germany Branch</span>
+                <span className="text-xs font-bold text-slate-900 font-mono">+49 172</span>
               </a>
             </div>
 

@@ -36,7 +36,7 @@ export const CallToActionBanner: React.FC<CallToActionBannerProps> = ({ onContac
 
   return (
     <section ref={bannerRef} className="py-14 sm:py-18 bg-slate-100/90 border-t border-b border-slate-300/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white rounded-3xl p-6 xs:p-8 sm:p-14 lg:p-16 shadow-2xl relative overflow-hidden border border-slate-800/90 text-center space-y-5 sm:space-y-6">
           
           {/* Subtle background circuit & light glow */}
@@ -52,12 +52,12 @@ export const CallToActionBanner: React.FC<CallToActionBannerProps> = ({ onContac
             Ready to gain competitive advantage by modernising your software architecture?
           </h2>
 
-          <p className="cta-banner-item text-slate-300 text-xs sm:text-sm md:text-base max-w-2xl mx-auto leading-relaxed font-normal">
+          <p className="cta-banner-item text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
             Whether in Joypurhat, Leverkusen, North America, or anywhere across the globe, our architects and senior full-stack engineers are ready to scope, build, and deploy your next system.
           </p>
 
           {/* Quick trust metrics */}
-          <div className="cta-banner-item pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-8 text-xs text-slate-300">
+          <div className="cta-banner-item pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-8 text-xs sm:text-sm text-slate-300">
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
               <span>Free Technical Consultation</span>
@@ -76,7 +76,7 @@ export const CallToActionBanner: React.FC<CallToActionBannerProps> = ({ onContac
             <button
               id="cta-get-in-touch-btn"
               onClick={onContactClick}
-              className="w-full sm:w-auto justify-center bg-white hover:bg-slate-100 text-slate-950 font-bold text-xs xs:text-sm sm:text-base px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl shadow-xl transition-all transform hover:scale-105 inline-flex items-center gap-2.5 cursor-pointer min-h-[44px]"
+              className="w-full sm:w-auto justify-center bg-white hover:bg-slate-100 text-slate-950 font-bold text-sm sm:text-base px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl shadow-xl transition-all transform hover:scale-105 inline-flex items-center gap-2.5 cursor-pointer min-h-[44px]"
             >
               <span>SCHEDULE AN ARCHITECTURE CALL</span>
               <ArrowRight className="w-4 h-4 text-indigo-600" />

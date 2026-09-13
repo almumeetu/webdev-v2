@@ -115,7 +115,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         ]}
         backAction={onBack}
         backLabel="Back to Home"
-        align="center"
+        align="left"
       />
 
       <div className="max-w-xl mx-auto px-4 space-y-8 py-12 sm:py-16">

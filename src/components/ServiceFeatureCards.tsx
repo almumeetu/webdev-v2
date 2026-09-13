@@ -57,16 +57,16 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
     {
       id: 'feat-global',
       icon: Globe2,
-      title: 'Dual-Hub Delivery',
-      desc: 'Joypurhat Bangladesh HQ & Leverkusen Germany branch delivering solutions globally.',
+      title: 'German Quality & Delivery',
+      desc: 'Leverkusen (NRW), Germany client hub backed by dedicated high-velocity agile squads.',
       iconBg: 'bg-purple-50 text-purple-600 group-hover:bg-purple-600 group-hover:text-white',
-      badge: 'Worldwide'
+      badge: 'Leverkusen, DE'
     }
   ];
 
   return (
     <section ref={containerRef} className="bg-white py-12 sm:py-16 border-b border-slate-200/80 text-slate-900 relative z-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Responsive Grid: 1 col on mobile, 2 col on sm, 3 col on md, 5 col on lg */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
@@ -83,23 +83,23 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
                     <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 shadow-xs ${item.iconBg}`}>
                       <Icon className="w-5 h-5" />
                     </div>
-                    <span className="text-[10px] font-mono font-bold text-slate-500 bg-slate-100 border border-slate-200/80 px-2 py-0.5 rounded-full">
+                    <span className="text-xs font-mono font-semibold text-slate-600 bg-slate-100 border border-slate-200/80 px-2.5 py-1 rounded-full">
                       {item.badge}
                     </span>
                   </div>
                   
-                  <h3 className="text-base font-bold text-slate-900 font-['Outfit'] group-hover:text-indigo-600 transition-colors">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 font-['Outfit'] group-hover:text-indigo-600 transition-colors">
                     {item.title}
                   </h3>
                   
-                  <p className="mt-2 text-xs text-slate-600 leading-relaxed font-normal">
+                  <p className="mt-2.5 text-sm text-slate-600 leading-relaxed font-normal">
                     {item.desc}
                   </p>
                 </div>
 
-                <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 group-hover:text-indigo-600 font-bold transition-colors">
-                  <span>Explore detail</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm text-slate-600 group-hover:text-indigo-600 font-bold transition-colors">
+                  <span>Explore Standard</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
             );
