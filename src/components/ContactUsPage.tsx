@@ -1,13 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
-  Mail, 
-  Phone, 
   MapPin, 
   Clock, 
   Send, 
   CheckCircle2, 
   Globe, 
-  MessageSquare, 
   ShieldCheck, 
   ArrowRight,
   ExternalLink,
@@ -179,7 +176,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
     <div ref={pageRef} className="min-h-screen bg-slate-50/50 text-slate-900">
       {/* 1. Standard Center-Aligned Dark Breadcrumb & Hero Banner */}
       <Breadcrumb
-        badge="DIRECT ACCESS • JOYPURHAT HQ & LEVERKUSEN BRANCH"
+        badge="DIRECT CLIENT ENGAGEMENT & ARCHITECTURE ADVISORY"
         title="Connect With Our Engineering Leadership"
         subtitle="Zero middle-management. Discuss your custom application, server architecture, or project budget directly with our principal architects."
         items={[
@@ -194,87 +191,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
 
       <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12 sm:space-y-16">
 
-        {/* 2. Direct Instant Contact Strip */}
-        <div className="contact-anim-item grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* WhatsApp Direct */}
-          <a
-            href="https://wa.me/8801722301927?text=Hello%20WebDev%20Software%20Solutions,%20I%20would%20like%20to%20discuss%20a%20project"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-emerald-500/70 hover:shadow-md transition-all flex items-center gap-4 cursor-pointer"
-          >
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold shrink-0 group-hover:scale-105 transition-transform">
-              <MessageSquare className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-600 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>Instant WhatsApp</span>
-              </div>
-              <div className="text-sm sm:text-base font-bold text-slate-900 mt-0.5 group-hover:text-emerald-700 transition-colors">
-                +880 1722-301927
-              </div>
-              <div className="text-xs text-slate-500 mt-0.5">Chat Directly with Founder & Lead</div>
-            </div>
-          </a>
 
-          {/* Joypurhat HQ Phone */}
-          <a
-            href="tel:+8801722301927"
-            className="group p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-indigo-500/70 hover:shadow-md transition-all flex items-center gap-4 cursor-pointer"
-          >
-            <div className="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold shrink-0 group-hover:scale-105 transition-transform">
-              <Phone className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-600">
-                Joypurhat HQ (BD)
-              </div>
-              <div className="text-sm sm:text-base font-bold text-slate-900 mt-0.5 group-hover:text-indigo-700 transition-colors">
-                +880 1722-301927
-              </div>
-              <div className="text-xs text-slate-500 mt-0.5">Direct Engineering Line</div>
-            </div>
-          </a>
-
-          {/* Leverkusen Germany Phone */}
-          <a
-            href="tel:+491729766016"
-            className="group p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-purple-500/70 hover:shadow-md transition-all flex items-center gap-4 cursor-pointer"
-          >
-            <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold shrink-0 group-hover:scale-105 transition-transform">
-              <Globe className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="text-xs font-mono font-bold uppercase tracking-wider text-purple-600">
-                Küppersteg, Leverkusen (DE)
-              </div>
-              <div className="text-sm sm:text-base font-bold text-slate-900 mt-0.5 group-hover:text-purple-700 transition-colors">
-                +49 172 9766016
-              </div>
-              <div className="text-xs text-slate-500 mt-0.5">European Delivery Desk</div>
-            </div>
-          </a>
-
-          {/* General Email */}
-          <a
-            href="mailto:info@webdevsoftwaresolutions.com"
-            className="group p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-sky-500/70 hover:shadow-md transition-all flex items-center gap-4 cursor-pointer"
-          >
-            <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold shrink-0 group-hover:scale-105 transition-transform">
-              <Mail className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-sky-600">
-                Inquiry Dispatch
-              </div>
-              <div className="text-xs font-bold text-slate-900 mt-0.5 group-hover:text-sky-700 transition-colors truncate max-w-[150px]">
-                info@webdevsoftware...
-              </div>
-              <div className="text-[11px] text-slate-500 mt-0.5">&lt; 12 Hr SLA Response</div>
-            </div>
-          </a>
-        </div>
 
         {/* 3. Main Form & Hub Overview Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
@@ -288,7 +205,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   <div className="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto border border-emerald-200">
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-['Outfit']">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-['Archivo']">
                     Thank You! Inquiry Received
                   </h3>
                   <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
@@ -303,7 +220,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                     </button>
                     <button
                       onClick={onBackToHome}
-                      className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold px-6 py-3 rounded-xl shadow-sm transition-colors cursor-pointer"
+                      className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 border border-[#9cd5e2] text-xs sm:text-sm font-bold px-6 py-3 rounded-xl transition-colors cursor-pointer"
                     >
                       Return to Home
                     </button>
@@ -314,11 +231,11 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   
                   {/* Form Header */}
                   <div className="border-b border-slate-100 pb-4">
-                    <div className="inline-flex items-center gap-2 text-indigo-600 text-xs font-mono font-bold tracking-wider uppercase mb-1">
-                      <Sparkles className="w-3.5 h-3.5" />
-                      <span>START A CONVERSATION</span>
+                    <div className="inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg font-semibold tracking-wide mb-1">
+                      <Sparkles className="w-4 h-4 text-cyan-700" />
+                      <span>Start a Conversation with Us</span>
                     </div>
-                    <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 font-['Outfit']">
+                    <h2 className="text-lg sm:text-xl font-bold text-slate-900 font-['Archivo']">
                       Discuss Your Project & Architecture
                     </h2>
                     <p className="text-xs sm:text-sm text-slate-500 mt-1">
@@ -338,7 +255,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         placeholder="e.g. Al Mumeetu"
-                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-indigo-600 outline-none transition-all"
+                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                       />
                     </div>
 
@@ -352,7 +269,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         placeholder="e.g. Saikat"
-                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-indigo-600 outline-none transition-all"
+                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -369,7 +286,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="name@company.com"
-                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-indigo-600 outline-none transition-all"
+                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                       />
                     </div>
 
@@ -382,7 +299,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         placeholder="+880 17... / +49 1..."
-                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-indigo-600 outline-none transition-all"
+                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -398,7 +315,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                         value={company}
                         onChange={(e) => setCompany(e.target.value)}
                         placeholder="e.g. Enterprise Corp / Startup"
-                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-indigo-600 outline-none transition-all"
+                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                       />
                     </div>
 
@@ -409,7 +326,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                       <select
                         value={serviceOfInterest}
                         onChange={(e) => setServiceOfInterest(e.target.value)}
-                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-indigo-600 outline-none transition-all"
+                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                       >
                         <option value="Full Stack & MERN">Full-Stack MERN Development</option>
                         <option value="Cloud & Linux Servers">Cloud & Linux Server Infrastructure</option>
@@ -432,7 +349,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder="Tell us about your project vision, target timeline, technical requirements, or questions..."
-                      className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-indigo-600 outline-none transition-all"
+                      className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                     ></textarea>
                   </div>
 
@@ -440,13 +357,13 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 disabled:bg-indigo-400 text-white font-bold text-xs sm:text-sm py-4 rounded-xl shadow-md shadow-indigo-600/20 hover:shadow-indigo-600/35 transition-all flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider"
+                    className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] disabled:opacity-60 text-slate-950 font-bold text-xs sm:text-sm py-4 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider"
                   >
                     {isSubmitting ? (
                       <span>Transmitting Inquiry...</span>
                     ) : (
                       <>
-                        <Send className="w-4 h-4" />
+                        <Send className="w-4 h-4 text-slate-950" />
                         <span>SUBMIT INQUIRY FOR PERSONAL REVIEW</span>
                       </>
                     )}
@@ -464,17 +381,17 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
           </div>
 
           {/* Right Column: Two Hub Cards & Guarantees (5 cols) */}
-          <div className="contact-anim-item lg:col-span-5 space-y-6 lg:sticky lg:top-24 self-start">
+          <aside className="lg:col-span-5 space-y-6 lg:sticky lg:top-24 self-start lg:max-h-[calc(100vh-6.5rem)] lg:overflow-y-auto no-scrollbar z-20">
             
             {/* Leverkusen Germany European Hub Card - FIRST */}
-            <div className="bg-white rounded-3xl p-6 sm:p-7 border border-emerald-500/30 shadow-md space-y-4">
+            <div className="contact-anim-item bg-white rounded-3xl p-6 sm:p-7 border border-emerald-500/30 shadow-md space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
                   <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold">
                     <Globe className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 text-base font-['Outfit']">Küppersteg, Leverkusen (DE)</h3>
+                    <h3 className="font-bold text-slate-900 text-base font-['Archivo']">Küppersteg, Leverkusen (DE)</h3>
                     <div className="flex items-center gap-1.5 text-xs font-mono text-emerald-600 font-bold">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                       <span>European Engineering Hub</span>
@@ -525,16 +442,16 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
             </div>
 
             {/* Joypurhat Bangladesh Dedicated R&D Card */}
-            <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-sm space-y-4">
+            <div className="contact-anim-item bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-sm space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold">
+                  <div className="w-10 h-10 rounded-xl bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] flex items-center justify-center font-bold">
                     <Building2 className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 text-base font-['Outfit']">Joypurhat, Bangladesh</h3>
-                    <div className="flex items-center gap-1.5 text-[11px] font-mono text-indigo-600 font-bold">
-                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
+                    <h3 className="font-bold text-slate-900 text-base font-['Archivo']">Joypurhat, Bangladesh</h3>
+                    <div className="flex items-center gap-1.5 text-[11px] font-mono text-cyan-800 font-bold">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-600 animate-pulse"></span>
                       <span>Dedicated Offshore R&D Center</span>
                     </div>
                   </div>
@@ -565,7 +482,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
               <div className="pt-2 flex gap-2">
                 <a
                   href="tel:+8801722301927"
-                  className="flex-1 text-center py-2 px-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs sm:text-sm transition-colors"
+                  className="flex-1 text-center py-2 px-3 rounded-xl bg-[#BBE7F1]/40 hover:bg-[#BBE7F1]/70 text-slate-950 border border-[#9cd5e2]/60 font-bold text-xs sm:text-sm transition-colors"
                 >
                   Call R&D Lab
                 </a>
@@ -583,12 +500,12 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
             </div>
 
             {/* Direct Technical Access Card */}
-            <div className="bg-gradient-to-br from-slate-900 to-indigo-950 rounded-3xl p-6 sm:p-7 text-white space-y-3.5 shadow-xl border border-slate-800">
+            <div className="contact-anim-item bg-gradient-to-br from-slate-900 to-slate-950 rounded-3xl p-6 sm:p-7 text-white space-y-3.5 shadow-xl border border-slate-800">
               <div className="flex items-center gap-2 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider">
                 <ShieldCheck className="w-4 h-4" />
                 <span>German & EU SLA Guarantee</span>
               </div>
-              <h4 className="font-extrabold text-lg sm:text-xl text-white font-['Outfit']">
+              <h4 className="font-extrabold text-lg sm:text-xl text-white font-['Archivo']">
                 Direct Engineering Collaboration
               </h4>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
@@ -606,7 +523,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
               </div>
             </div>
 
-          </div>
+          </aside>
 
         </div>
 
@@ -615,15 +532,15 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
           
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-2 text-indigo-600 text-xs font-mono font-bold tracking-wider uppercase">
-                <Navigation className="w-3.5 h-3.5" />
-                <span>PHYSICAL PRESENCE & ENGINEERING HUBS</span>
+              <div className="inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg font-semibold tracking-wide">
+                <Navigation className="w-4 h-4 text-cyan-700" />
+                <span>Physical Presence & Engineering Hubs</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-['Outfit'] mt-1">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 font-['Archivo'] mt-1">
                 European Operations & Global Engineering Map
               </h2>
-              <p className="text-xs sm:text-sm text-slate-600 mt-1">
-                Direct client consulting in Leverkusen, Germany backed by dedicated agile engineering capacity in Joypurhat, Bangladesh.
+              <p className="text-xs sm:text-sm text-slate-600 mt-1 font-['Instrument_Sans']">
+                Global client consulting and development facilities with direct communication and rapid sprint execution.
               </p>
             </div>
 
@@ -647,7 +564,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                 onClick={() => setActiveMapTab('joypurhat')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   activeMapTab === 'joypurhat'
-                    ? 'bg-indigo-600 text-white shadow-xs'
+                    ? 'bg-[#BBE7F1] text-slate-950 font-bold border border-[#9cd5e2] shadow-xs'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`}
               >
@@ -682,7 +599,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
             <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10 max-w-xs sm:max-w-sm bg-slate-950/90 backdrop-blur-md text-white p-5 rounded-2xl border border-slate-800 shadow-2xl space-y-3">
               <div className="flex items-center justify-between">
                 <span className={`text-xs font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
-                  activeMapTab === 'joypurhat' ? 'bg-indigo-600 text-white' : 'bg-purple-600 text-white'
+                  activeMapTab === 'joypurhat' ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2]' : 'bg-emerald-600 text-white'
                 }`}>
                   {activeMapTab === 'joypurhat' ? 'Global Engineering Lab' : 'European Cloud Branch'}
                 </span>
@@ -692,7 +609,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
               </div>
 
               <div>
-                <h4 className="font-bold text-sm sm:text-base font-['Outfit'] text-white">
+                <h4 className="font-bold text-sm sm:text-base font-['Archivo'] text-white">
                   {activeMapTab === 'joypurhat' 
                     ? 'Joypurhat Headquarters' 
                     : 'Küppersteg, Leverkusen Operations'}
@@ -713,7 +630,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   }
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-400 hover:text-indigo-300 transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#BBE7F1] hover:text-[#a7dfed] transition-colors"
                 >
                   <span>Open in Google Maps</span>
                   <ExternalLink className="w-3.5 h-3.5" />

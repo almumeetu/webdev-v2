@@ -13,10 +13,10 @@ export const GlobalTrustSection: React.FC<GlobalTrustSectionProps> = ({
   const trustPillars = [
     {
       icon: Globe,
-      title: 'German & European Presence',
-      desc: 'Strategic client & engineering hub in Leverkusen (NRW), Germany with CET timezone alignment.',
-      tag: '🇩🇪 Leverkusen Hub • Europe',
-      color: 'text-indigo-600 bg-indigo-50 border-indigo-200'
+      title: 'Enterprise Architecture & Delivery',
+      desc: 'Modern cloud-native engineering squads with high velocity and full timezone alignment.',
+      tag: 'Global Delivery Standards',
+      color: 'text-slate-950 bg-[#BBE7F1]/60 border-[#9cd5e2]'
     },
     {
       icon: Lock,
@@ -47,20 +47,20 @@ export const GlobalTrustSection: React.FC<GlobalTrustSectionProps> = ({
         
         {/* Compact Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 space-y-2.5">
-          <div className="inline-flex items-center gap-2 text-indigo-600 text-xs font-bold font-mono tracking-[0.2em] uppercase">
-            <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" />
-            <span>GLOBAL CLIENT TRUST & COMPLIANCE</span>
+          <div className="inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+            <ShieldCheck className="w-4 h-4 text-cyan-700" />
+            <span>Global Client Trust & Compliance</span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight font-['Outfit']">
+          <h2 className="text-xl sm:text-2xl lg:text-[30px] font-bold text-slate-900 tracking-tight font-['Archivo']">
             Why International Clients in the{' '}
-            <span className="bg-gradient-to-r from-indigo-600 to-sky-600 bg-clip-text text-transparent">
+            <span className="text-slate-950 underline decoration-[#9cd5e2] decoration-2 underline-offset-4">
               USA, Germany & UK
             </span>{' '}
             Trust Us
           </h2>
 
-          <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto font-['Instrument_Sans']">
             We bridge premier computational engineering talent with uncompromising European and American delivery standards. Every engagement is protected by strict NDAs, full IP ownership transfer, and real-time timezone collaboration.
           </p>
         </div>
@@ -72,7 +72,7 @@ export const GlobalTrustSection: React.FC<GlobalTrustSectionProps> = ({
             return (
               <div 
                 key={idx}
-                className="bg-white hover:bg-white border border-slate-200/90 hover:border-indigo-400 rounded-2xl p-5 sm:p-6 transition-all duration-300 transform hover:-translate-y-1 shadow-xs hover:shadow-lg flex flex-col justify-between group"
+                className="bg-white hover:bg-white border border-slate-200/90 hover:border-[#9cd5e2] rounded-2xl p-5 sm:p-6 transition-all duration-300 transform hover:-translate-y-1 shadow-xs hover:shadow-lg flex flex-col justify-between group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3.5">
@@ -84,7 +84,7 @@ export const GlobalTrustSection: React.FC<GlobalTrustSectionProps> = ({
                     </span>
                   </div>
 
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 font-['Outfit'] group-hover:text-indigo-600 transition-colors">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 font-['Instrument_Sans'] group-hover:text-cyan-800 transition-colors">
                     {pillar.title}
                   </h3>
 

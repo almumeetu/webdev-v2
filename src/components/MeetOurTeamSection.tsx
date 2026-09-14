@@ -1,9 +1,8 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { ArrowUpRight, Award, ShieldCheck, Globe, Users, MessageSquare, Phone, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useRef } from 'react';
 import { TeamMember } from '../types';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
-import { useLanguage } from '../context/LanguageContext';
-import { gsap, useGsapContext, animateStagger } from '../utils/gsapHelper';
+import { ArrowUpRight, Phone, Mail, Sparkles, ShieldCheck, Crown, User } from 'lucide-react';
+import { gsap, useGsapContext } from '../utils/gsapHelper';
 
 interface MeetOurTeamSectionProps {
   teamMembers: TeamMember[];
@@ -17,442 +16,355 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
   onViewAllTeam
 }) => {
   const sectionRef = useRef<HTMLElement>(null);
-  const sliderContainerRef = useRef<HTMLDivElement>(null);
-  const { t } = useLanguage();
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [itemsPerView, setItemsPerView] = useState(3);
-  const [isHovered, setIsHovered] = useState(false);
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
-
-  // Responsive items per view calculation
-  useEffect(() => {
-    const handleResize = () => {
-      if (typeof window === 'undefined') return;
-      if (window.innerWidth < 640) {
-        setItemsPerView(1);
-      } else if (window.innerWidth < 1024) {
-        setItemsPerView(2);
-      } else {
-        setItemsPerView(3);
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const maxIndex = Math.max(0, teamMembers.length - itemsPerView);
-
-  // Ensure currentIndex stays within bounds when itemsPerView changes
-  useEffect(() => {
-    if (currentIndex > maxIndex) {
-      setCurrentIndex(maxIndex);
-    }
-  }, [maxIndex, currentIndex]);
-
-  // Autoplay functionality
-  const nextSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  }, [maxIndex]);
-
-  const prevSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
-  }, [maxIndex]);
-
-  useEffect(() => {
-    if (isHovered || teamMembers.length <= itemsPerView) return;
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 4500);
-    return () => clearInterval(interval);
-  }, [isHovered, nextSlide, teamMembers.length, itemsPerView]);
-
-  // Touch Swipe Handlers
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-    if (isLeftSwipe) {
-      nextSlide();
-    } else if (isRightSwipe) {
-      prevSlide();
-    }
-  };
 
   useGsapContext(sectionRef, () => {
     if (!sectionRef.current) return;
 
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-
-    // Header animation
     gsap.fromTo(
-      '.team-header-anim',
-      { opacity: 0, y: isMobile ? 12 : 25 },
+      '.team-ref-header',
+      { opacity: 0, y: 20 },
       {
         opacity: 1,
         y: 0,
-        duration: isMobile ? 0.35 : 0.65,
-        stagger: isMobile ? 0.04 : 0.1,
-        ease: isMobile ? 'power1.out' : 'power2.out',
+        duration: 0.6,
+        stagger: 0.1,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: isMobile ? 'top 92%' : 'top 85%',
+          start: 'top 85%',
           once: true
-        },
-        clearProps: 'transform,opacity'
+        }
       }
     );
 
-    // Stagger cards
-    animateStagger('.team-card-item', sectionRef.current, 0.08, 20);
+    gsap.fromTo(
+      '.team-ref-card',
+      { opacity: 0, y: 25 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        stagger: 0.08,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          once: true
+        }
+      }
+    );
   });
 
-  const getExperienceBadge = (member: TeamMember) => {
-    if (member.id === 'team-3') {
-      return '4+ Yrs Exp • Mobile & Web';
-    }
-    if (member.id === 'team-2') {
-      return '10+ Yrs Exp • EU Delivery Lead';
-    }
-    return '4+ Yrs Exp • Full Stack & E-Com';
+  const moyenUddin = teamMembers.find(m => m.id === 'team-2' || m.name.toLowerCase().includes('moyen')) || teamMembers[0];
+  const saikat = teamMembers.find(m => m.id === 'team-1' || m.name.toLowerCase().includes('saikat')) || teamMembers[1] || teamMembers[0];
+  const muheetu = teamMembers.find(m => m.id === 'team-3' || m.name.toLowerCase().includes('muheetu')) || teamMembers[2] || teamMembers[0];
+
+  const getCleanRole = (member: TeamMember) => {
+    if (member.id === 'team-2' || member.name.toLowerCase().includes('moyen')) return 'Founder & CEO | European Delivery Lead';
+    if (member.id === 'team-1' || member.name.toLowerCase().includes('saikat')) return 'Full Stack Software Engineer & E-Commerce Lead';
+    if (member.id === 'team-3' || member.name.toLowerCase().includes('muheetu')) return 'Mobile Application Engineer (Android & iOS)';
+    return member.role.split('|')[0].trim();
   };
 
-  const getRoleShortBadge = (member: TeamMember) => {
-    if (member.id === 'team-2') {
-      return 'Founder & CEO | European Delivery Lead';
+  const getCleanBio = (member: TeamMember) => {
+    if (member.id === 'team-2' || member.name.toLowerCase().includes('moyen')) {
+      return 'PMP® certified leader & Senior Software Engineer with 10+ years driving European agile software delivery, AWS cloud, and German GDPR compliance.';
     }
-    if (member.id === 'team-1') {
-      return 'Full Stack Software Engineer';
+    if (member.id === 'team-1' || member.name.toLowerCase().includes('saikat')) {
+      return 'Specialized in Next.js, React, Node.js, Express, and cloud server infrastructure for scalable enterprise web platforms.';
     }
-    return 'Mobile Application Engineer';
-  };
-
-  const getCardAccentGradient = (member: TeamMember) => {
-    if (member.id === 'team-2') {
-      return 'from-emerald-500 via-teal-500 to-indigo-600';
+    if (member.id === 'team-3' || member.name.toLowerCase().includes('muheetu')) {
+      return 'Dedicated mobile specialist with 4+ years building high-performance native Android (Kotlin), iOS (Swift), and Flutter apps.';
     }
-    if (member.id === 'team-1') {
-      return 'from-indigo-600 via-purple-600 to-pink-500';
-    }
-    return 'from-cyan-500 via-sky-500 to-blue-600';
-  };
-
-  const getWhatsAppLink = (member: TeamMember) => {
-    if (member.id === 'team-2') {
-      return 'https://wa.me/491729766016?text=Hello%20Md%20Moyen%20Uddin,%20I%20would%20like%20to%20consult%20regarding%20a%20project';
-    }
-    return 'https://wa.me/8801722301927?text=Hello%20WebDev%20Software%20Solutions,%20I%20would%20like%20to%20consult%20regarding%20a%20project';
+    return member.headline || member.bio.slice(0, 150) + '...';
   };
 
   const getImagePosition = (member: TeamMember) => {
-    if (member.id === 'team-2' || member.image.includes('CEO')) {
-      return 'object-[36%_50%]';
-    }
-    if (member.id === 'team-3' || member.image.includes('android-developer')) {
-      return 'object-[center_46%]';
-    }
-    return 'object-[center_25%]';
+    if (member.id === 'team-2' || member.image.includes('CEO') || member.name.toLowerCase().includes('moyen')) return 'object-[36%_20%]';
+    if (member.id === 'team-3' || member.image.includes('android-developer') || member.name.toLowerCase().includes('muheetu')) return 'object-[center_35%]';
+    return 'object-[center_15%]';
   };
 
-  return (
-    <section ref={sectionRef} className="py-16 sm:py-20 lg:py-24 bg-slate-50/60 text-slate-900 relative border-t border-slate-200/80 overflow-hidden">
-      {/* Subtle clean agency ambient background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(99,102,241,0.06),rgba(255,255,255,0))] pointer-events-none"></div>
+  const getWhatsAppLink = (member: TeamMember) => {
+    if (member.id === 'team-2' || member.name.toLowerCase().includes('moyen')) return 'https://wa.me/491729766016';
+    return 'https://wa.me/8801722301927';
+  };
 
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Section Header with Slider Navigation Controls */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12">
-          <div className="max-w-3xl space-y-2.5">
-            <div className="team-header-anim inline-flex items-center gap-2 mb-1">
-              <span className="w-2.5 h-2.5 rounded-full bg-indigo-600 animate-pulse"></span>
-              <span className="text-xs sm:text-sm font-bold tracking-[0.2em] text-indigo-600 uppercase font-mono">
-                {t.teamKicker || 'EXECUTIVE LEADERSHIP & CORE ENGINEERS'}
-              </span>
-            </div>
-
-            <h2 className="team-header-anim text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight font-['Outfit']">
-              {t.teamHeading || 'Meet Our Senior Engineering Leadership'}
-            </h2>
-
-            <p className="team-header-anim text-slate-600 text-xs sm:text-sm lg:text-base leading-relaxed">
-              {t.teamSubheading || 'High-caliber software engineers and European project leadership delivering enterprise-grade platforms.'}
-            </p>
+  const renderContentCard = (member: TeamMember, isFeatured: boolean = false) => (
+    <div className={`p-5 sm:p-6 lg:p-7 flex flex-col items-center justify-between text-center h-[340px] sm:h-[380px] lg:h-[420px] w-full transition-all ${
+      isFeatured 
+        ? 'bg-gradient-to-b from-amber-50/50 via-white to-white border-t-4 border-t-amber-500 shadow-inner' 
+        : 'bg-white'
+    }`}>
+      {/* Top: Location, Experience & Name */}
+      <div className="space-y-1.5 w-full">
+        {isFeatured ? (
+          <div className="flex items-center justify-center gap-1.5 flex-wrap">
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-500/15 via-amber-600/15 to-[#BBE7F1]/40 border border-amber-500/40 text-amber-900 text-[10px] font-extrabold font-mono uppercase tracking-wider shadow-2xs">
+              <Sparkles className="w-3 h-3 text-amber-600" />
+              <span>Executive Leadership</span>
+            </span>
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-500 font-mono">
+              Principal Solutions Architect • <span className="text-emerald-600 font-semibold">{member.experienceYears || 10}+ Yrs Exp</span>
+            </span>
           </div>
-
-          {/* Slider Controls (Prev / Next & Slide Counter) */}
-          <div className="flex items-center gap-3 shrink-0 self-start md:self-end">
-            <div className="hidden sm:flex items-center text-xs font-mono font-bold text-slate-500 bg-white border border-slate-200 px-3 py-1.5 rounded-xl shadow-2xs">
-              <span className="text-indigo-600">{currentIndex + 1}</span>
-              <span className="mx-1">/</span>
-              <span>{Math.max(1, teamMembers.length - itemsPerView + 1)}</span>
-            </div>
-
-            <button
-              onClick={prevSlide}
-              aria-label="Previous Team Slide"
-              className="w-10 h-10 rounded-xl bg-white hover:bg-indigo-50 active:bg-indigo-100 text-slate-700 hover:text-indigo-600 border border-slate-200 hover:border-indigo-300 flex items-center justify-center transition-all shadow-xs hover:shadow-md cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-
-            <button
-              onClick={nextSlide}
-              aria-label="Next Team Slide"
-              className="w-10 h-10 rounded-xl bg-white hover:bg-indigo-50 active:bg-indigo-100 text-slate-700 hover:text-indigo-600 border border-slate-200 hover:border-indigo-300 flex items-center justify-center transition-all shadow-xs hover:shadow-md cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Carousel Slider Wrapper */}
-        <div
-          ref={sliderContainerRef}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          className="relative overflow-hidden py-2"
-        >
-          {/* Animated Slider Track */}
-          <div
-            className="flex transition-transform duration-500 ease-out"
-            style={{
-              transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)`
-            }}
-          >
-            {teamMembers.map((member) => (
-              <div
-                key={member.id}
-                className="px-2.5 sm:px-3.5 shrink-0"
-                style={{ width: `${100 / itemsPerView}%` }}
-              >
-                {/* Compact Professional Team Card */}
-                <div className="team-card-item group bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 hover:border-indigo-400/90 shadow-[0_4px_20px_rgb(0,0,0,0.04)] hover:shadow-[0_16px_36px_-8px_rgba(79,70,229,0.18)] transition-all duration-300 hover:-translate-y-1.5 flex flex-col h-full overflow-hidden relative">
-                  
-                  {/* Top Accent Gradient Line */}
-                  <div className={`h-1 w-full bg-gradient-to-r ${getCardAccentGradient(member)}`}></div>
-
-                  {/* Properly Proportioned Portrait Frame */}
-                  <div className="relative h-64 sm:h-72 lg:h-80 w-full overflow-hidden bg-gradient-to-b from-slate-100 via-slate-100 to-indigo-50/40">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className={`w-full h-full object-cover ${getImagePosition(member)} group-hover:scale-105 transition-transform duration-500 ease-out`}
-                    />
-
-                    {/* Overlaid Badges: Country Flag & Active Indicator */}
-                    <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none gap-2">
-                      <div className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-bold text-slate-800 shadow-2xs border border-slate-200/80 shrink-0 whitespace-nowrap">
-                        <span>{member.branch.includes('Germany') ? '🇩🇪' : '🇧🇩'}</span>
-                        <span className="whitespace-nowrap">{member.branch.includes('Germany') ? 'Leverkusen (DE)' : 'Joypurhat (BD)'}</span>
-                      </div>
-                      
-                      <div className="inline-flex items-center gap-1.5 bg-slate-950/85 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-bold text-white shadow-2xs border border-slate-700/60 shrink-0 whitespace-nowrap">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping shrink-0"></span>
-                        <span className="whitespace-nowrap">{t.teamActiveLead || 'Active Lead'}</span>
-                      </div>
-                    </div>
-
-                    {/* Floating Experience Tag over bottom edge */}
-                    <div className="absolute inset-x-2.5 bottom-2.5 z-10 pointer-events-none">
-                      <div className="bg-white/95 backdrop-blur-md rounded-xl px-3 py-1.5 border border-slate-200/90 shadow-xs flex items-center gap-2 text-[11px] sm:text-xs font-bold text-slate-900 truncate">
-                        <Award className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
-                        <span className="truncate">{getExperienceBadge(member)}</span>
-                      </div>
-                    </div>
-
-                    <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/30 to-transparent pointer-events-none"></div>
-                  </div>
-
-                  {/* Card Content Body */}
-                  <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
-                    <div className="space-y-2">
-                      {/* Compact Role Tag */}
-                      <div className="inline-block text-[11px] font-bold font-mono px-2.5 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-200/80 truncate max-w-full">
-                        {getRoleShortBadge(member)}
-                      </div>
-
-                      {/* Name */}
-                      <h3 className="text-lg sm:text-xl font-bold text-slate-950 group-hover:text-indigo-600 transition-colors font-['Outfit'] tracking-tight truncate">
-                        {member.name}
-                      </h3>
-
-                      {/* Headline / Brief snippet */}
-                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-2">
-                        {member.headline || member.bio}
-                      </p>
-                    </div>
-
-                    {/* Compact Core Skills Tags */}
-                    <div>
-                      <div className="flex flex-wrap gap-1.5">
-                        {member.skills.slice(0, 3).map((skill, idx) => (
-                          <span
-                            key={idx}
-                            className="text-[11px] font-semibold bg-slate-100/90 text-slate-700 px-2 py-0.5 rounded-md border border-slate-200/80 group-hover:border-indigo-200 transition-colors truncate max-w-[130px]"
-                          >
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Action Row */}
-                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
-                      {/* Quick Contact Icons */}
-                      <div className="flex items-center gap-1.5">
-                        {member.github && (
-                          <a
-                            href={member.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-900 text-slate-600 hover:text-white flex items-center justify-center transition-colors cursor-pointer shadow-2xs"
-                            title={`${member.name} GitHub`}
-                            aria-label="GitHub Profile"
-                          >
-                            <GithubIcon className="w-3.5 h-3.5" />
-                          </a>
-                        )}
-                        {member.linkedin && (
-                          <a
-                            href={member.linkedin}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-indigo-600 text-slate-600 hover:text-white flex items-center justify-center transition-colors cursor-pointer shadow-2xs"
-                            title={`${member.name} LinkedIn`}
-                            aria-label="LinkedIn Profile"
-                          >
-                            <LinkedinIcon className="w-3.5 h-3.5" />
-                          </a>
-                        )}
-                        {member.phone && (
-                          <a
-                            href={getWhatsAppLink(member)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-8 h-8 rounded-lg bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white flex items-center justify-center transition-colors cursor-pointer shadow-2xs"
-                            title={`WhatsApp consultation with ${member.name}`}
-                            aria-label="WhatsApp Contact"
-                          >
-                            <MessageSquare className="w-3.5 h-3.5" />
-                          </a>
-                        )}
-                        {member.phone && (
-                          <a
-                            href={`tel:${member.phone}`}
-                            className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-indigo-600 text-slate-600 hover:text-white flex items-center justify-center transition-colors cursor-pointer shadow-2xs"
-                            title={`Call ${member.name}`}
-                            aria-label="Call directly"
-                          >
-                            <Phone className="w-3.5 h-3.5" />
-                          </a>
-                        )}
-                      </div>
-
-                      {/* View Profile Button */}
-                      <button
-                        onClick={() => onSelectMember(member)}
-                        className="py-2 px-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white text-xs font-bold transition-all duration-200 flex items-center gap-1.5 cursor-pointer shadow-xs hover:shadow-md shrink-0 whitespace-nowrap"
-                      >
-                        <span>{t.teamViewProfile || 'Profile'}</span>
-                        <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
-                      </button>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Pagination Dots */}
-        {teamMembers.length > itemsPerView && (
-          <div className="flex items-center justify-center gap-2 mt-6">
-            {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setCurrentIndex(idx)}
-                aria-label={`Go to team slide ${idx + 1}`}
-                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                  currentIndex === idx
-                    ? 'w-7 bg-indigo-600'
-                    : 'w-2 bg-slate-300 hover:bg-slate-400'
-                }`}
-              />
-            ))}
+        ) : (
+          <div className="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold text-slate-500 font-mono uppercase tracking-wider">
+            <span>{member.role.split('|')[0].trim()}</span>
+            <span>•</span>
+            <span className="text-emerald-600 font-semibold">{member.experienceYears || 4}+ Yrs Exp</span>
           </div>
         )}
 
-        {/* Agency Credential Trust Bar */}
-        <div className="mt-12 sm:mt-14 pt-8 border-t border-slate-200/80">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 text-left">
-            <div className="flex items-start gap-3.5 p-5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs">
-              <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200/70 text-indigo-600 flex items-center justify-center shrink-0">
-                <Globe className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="text-sm sm:text-base font-bold text-slate-900 font-['Outfit']">German & European Hub</h4>
-                <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
-                  Real-time CET timezone collaboration from our Leverkusen (DE) office with full-throttle agile delivery.
-                </p>
-              </div>
-            </div>
+        <div className="flex items-center justify-center gap-1.5 pt-0.5">
+          {isFeatured && <Crown className="w-4 h-4 text-amber-500 shrink-0" />}
+          <h3
+            onClick={() => onSelectMember(member)}
+            className={`font-extrabold tracking-tight font-['Archivo'] hover:text-cyan-800 transition-colors cursor-pointer ${
+              isFeatured 
+                ? 'text-lg sm:text-xl lg:text-2xl text-slate-950 font-black' 
+                : 'text-base sm:text-lg lg:text-xl text-slate-950'
+            }`}
+          >
+            {member.name}
+          </h3>
+          {isFeatured && (
+            <span className="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[9px] font-mono font-bold border border-emerald-300">
+              PMP®
+            </span>
+          )}
+        </div>
 
-            <div className="flex items-start gap-3.5 p-5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/70 text-emerald-600 flex items-center justify-center shrink-0">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="text-sm sm:text-base font-bold text-slate-900 font-['Outfit']">European Compliance</h4>
-                <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
-                  German GDPR privacy frameworks, BaFin security audits, and ISO code governance across all client repositories.
-                </p>
-              </div>
-            </div>
+        <p className={`text-xs sm:text-[13px] font-bold tracking-tight ${
+          isFeatured ? 'text-amber-700 font-extrabold' : 'text-cyan-800'
+        }`}>
+          {getCleanRole(member)}
+        </p>
+      </div>
 
-            <div className="flex items-start gap-3.5 p-5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs">
-              <div className="w-10 h-10 rounded-xl bg-purple-50 border border-purple-200/70 text-purple-600 flex items-center justify-center shrink-0">
-                <Users className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="text-sm sm:text-base font-bold text-slate-900 font-['Outfit']">Direct Architect Access</h4>
-                <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
-                  Zero junior layering. Enterprise clients collaborate directly with principal architects and technical leads.
-                </p>
-              </div>
-            </div>
+      {/* Middle: Short Bio */}
+      <p className="text-slate-600 italic text-xs leading-relaxed my-2 max-w-[280px] line-clamp-3">
+        "{getCleanBio(member)}"
+      </p>
+
+      {/* Core Skills Badges */}
+      <div className="flex flex-wrap items-center justify-center gap-1.5 max-w-[300px]">
+        {member.skills?.slice(0, 4).map((skill, idx) => {
+          const isHighlightSkill = isFeatured && idx < 2;
+          return (
+            <span
+              key={idx}
+              className={`text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-md border ${
+                isHighlightSkill
+                  ? 'bg-amber-100/90 text-amber-900 border-amber-300 font-bold'
+                  : 'bg-slate-100/90 text-slate-700 border-slate-200/80'
+              }`}
+            >
+              {skill}
+            </span>
+          );
+        })}
+      </div>
+
+      {/* Bottom: Social Contact & Profile Action */}
+      <div className="pt-3 border-t border-slate-100 w-full flex items-center justify-between px-1">
+        <div className="flex items-center gap-2 text-slate-400">
+          {member.github && (
+            <a
+              href={member.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-900 text-slate-600 hover:text-white flex items-center justify-center transition-all shadow-2xs"
+              title="GitHub Profile"
+              aria-label="GitHub"
+            >
+              <GithubIcon className="w-3.5 h-3.5" />
+            </a>
+          )}
+          {member.linkedin && (
+            <a
+              href={member.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-sky-600 text-slate-600 hover:text-white flex items-center justify-center transition-all shadow-2xs"
+              title="LinkedIn Profile"
+              aria-label="LinkedIn"
+            >
+              <LinkedinIcon className="w-3.5 h-3.5" />
+            </a>
+          )}
+          {member.phone && (
+            <a
+              href={getWhatsAppLink(member)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-7 h-7 rounded-lg bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white flex items-center justify-center transition-all shadow-2xs"
+              title="Direct WhatsApp"
+              aria-label="WhatsApp"
+            >
+              <Phone className="w-3.5 h-3.5" />
+            </a>
+          )}
+          {member.email && (
+            <a
+              href={`mailto:${member.email}`}
+              className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-[#BBE7F1] text-slate-600 hover:text-slate-950 flex items-center justify-center transition-all shadow-2xs"
+              title="Direct Email"
+              aria-label="Email"
+            >
+              <Mail className="w-3.5 h-3.5" />
+            </a>
+          )}
+        </div>
+
+        <button
+          onClick={() => onSelectMember(member)}
+          className={`inline-flex items-center gap-1 text-[11px] font-bold cursor-pointer uppercase tracking-wider px-2.5 py-1 rounded-md border transition-all ${
+            isFeatured
+              ? 'bg-amber-500 hover:bg-amber-600 text-white border-amber-600'
+              : 'bg-slate-50 hover:bg-[#BBE7F1]/50 text-slate-800 hover:text-slate-950 border-slate-200 hover:border-[#9cd5e2]'
+          }`}
+        >
+          <span>{isFeatured ? 'Executive Profile' : 'Profile'}</span>
+          <ArrowUpRight className="w-3 h-3" />
+        </button>
+      </div>
+    </div>
+  );
+
+  const renderImageCard = (member: TeamMember, isFeatured: boolean = false) => (
+    <div
+      onClick={() => onSelectMember(member)}
+      className="relative w-full h-[340px] sm:h-[380px] lg:h-[420px] bg-slate-200 overflow-hidden group cursor-pointer"
+    >
+      {member.image && member.image.trim() !== '' ? (
+        <img
+          src={member.image}
+          alt={member.name}
+          className={`w-full h-full object-cover ${getImagePosition(member)} group-hover:scale-105 transition-transform duration-500 ease-out`}
+        />
+      ) : (
+        <div className="w-full h-full flex items-center justify-center bg-slate-800 text-slate-400">
+          <User className="w-16 h-16 opacity-30" />
+        </div>
+      )}
+
+      {/* Top badges for Featured / Founder */}
+      {isFeatured && (
+        <>
+          <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-amber-500 via-amber-600 to-cyan-700 text-white text-[10px] font-extrabold uppercase tracking-wider shadow-lg shadow-amber-500/25 border border-amber-300/40">
+            <Sparkles className="w-3.5 h-3.5 text-amber-200" />
+            <span>Founder & CEO</span>
+          </div>
+
+          <div className="absolute top-3 right-3 z-10 flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-950/80 backdrop-blur-md border border-emerald-500/40 text-emerald-400 text-[10px] font-mono font-bold shadow-md">
+            <ShieldCheck className="w-3 h-3" />
+            <span>PMP® Certified</span>
+          </div>
+        </>
+      )}
+
+      {/* Floating Name Badge over Photo */}
+      <div className={`absolute bottom-3 left-3 right-3 backdrop-blur-md px-3.5 py-2 rounded-xl text-white shadow-xl flex items-center justify-between transition-all ${
+        isFeatured 
+          ? 'bg-slate-950/90 border border-amber-500/40' 
+          : 'bg-slate-900/80 border border-white/20'
+      }`}>
+        <div>
+          <div className="text-xs font-bold font-['Archivo'] flex items-center gap-1.5">
+            {isFeatured && <Crown className="w-3.5 h-3.5 text-amber-400 shrink-0" />}
+            <span>{member.name}</span>
+          </div>
+          <div className="text-[10px] text-slate-300 font-mono mt-0.5">
+            {isFeatured ? 'Founder & Solutions Director' : member.role.split('|')[0].trim()}
+          </div>
+        </div>
+        {isFeatured && (
+          <div className="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[10px] font-mono font-bold shrink-0">
+            10+ Yrs Exp
+          </div>
+        )}
+      </div>
+
+      <div className={`absolute inset-0 transition-colors duration-300 pointer-events-none ${
+        isFeatured 
+          ? 'group-hover:bg-amber-500/10' 
+          : 'group-hover:bg-[#BBE7F1]/20'
+      }`} />
+    </div>
+  );
+
+  if (!moyenUddin || !saikat || !muheetu) return null;
+
+  return (
+    <section
+      ref={sectionRef}
+      className="py-20 sm:py-28 bg-slate-100 text-slate-900 relative overflow-hidden"
+    >
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* Section Header */}
+        <div className="team-ref-header text-center mb-12 sm:mb-16 space-y-3">
+          <div className="inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+            <Sparkles className="w-4 h-4 text-amber-500" />
+            <span>Executive Leadership & Engineering</span>
+          </div>
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-950 tracking-tight font-['Archivo']">
+            Meet Our Leadership & Team
+          </h2>
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto font-['Instrument_Sans'] italic">
+            Guided by PMP® certified technical leadership and senior solutions architects, delivering enterprise-grade digital products and high-performance cloud platforms worldwide.
+          </p>
+        </div>
+
+        {/* 3×2 Seamless Checkerboard Mosaic - Matching standard width */}
+        <div className="team-ref-card w-full shadow-2xl overflow-hidden bg-white border border-slate-200/80 rounded-2xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0">
+
+            {/* Row 1 Col 1 (Desktop) / Order 1 (Mobile) — Image: Moyen Uddin (Founder & CEO) */}
+            <div className="order-1 md:order-1 lg:order-1 lg:border-r border-slate-200/80">{renderImageCard(moyenUddin, true)}</div>
+
+            {/* Row 1 Col 2 (Desktop) / Order 2 (Mobile) — Content: Moyen Uddin (Founder & CEO) */}
+            <div className="order-2 md:order-2 lg:order-2 border-t md:border-t-0 lg:border-r border-slate-200/80">{renderContentCard(moyenUddin, true)}</div>
+
+            {/* Row 1 Col 3 (Desktop) / Order 5 (Mobile) — Image: Saikat (Al-Mumeetu) */}
+            <div className="order-5 md:order-5 lg:order-3 border-t md:border-t lg:border-t-0 border-slate-200/80">{renderImageCard(saikat, false)}</div>
+
+            {/* Row 2 Col 1 (Desktop) / Order 3 (Mobile) — Content: Al-Muheetu (Details first in 2nd row 1st column) */}
+            <div className="order-3 md:order-3 lg:order-4 border-t lg:border-r border-slate-200/80">{renderContentCard(muheetu, false)}</div>
+
+            {/* Row 2 Col 2 (Desktop) / Order 4 (Mobile) — Image: Al-Muheetu (Image then shown in 2nd row 2nd column) */}
+            <div className="order-4 md:order-4 lg:order-5 border-t lg:border-r border-slate-200/80">{renderImageCard(muheetu, false)}</div>
+
+            {/* Row 2 Col 3 (Desktop) / Order 6 (Mobile) — Content: Saikat (Directly at the bottom of Saikat's image) */}
+            <div className="order-6 md:order-6 lg:order-6 border-t border-slate-200/80">{renderContentCard(saikat, false)}</div>
+
           </div>
         </div>
 
-        {/* Section Bottom Action */}
-        <div className="mt-10 text-center">
-          <button
-            onClick={onViewAllTeam}
-            className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm px-7 py-3.5 rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer min-h-[44px]"
-          >
-            <span>Explore All Team Credentials & Case Studies</span>
-            <ArrowUpRight className="w-4 h-4" />
-          </button>
+        {/* Bottom attribution */}
+        <div className="text-center mt-12 sm:mt-16 space-y-4">
+          <p className="text-base sm:text-lg font-['Playfair_Display'] italic font-medium text-slate-500">
+            Leadership & Engineering ·{' '}
+            <span className="text-slate-900 font-bold underline decoration-[#9cd5e2] underline-offset-4">WebDev Software Solutions</span>
+          </p>
+
+          {onViewAllTeam && (
+            <div className="pt-2">
+              <button
+                onClick={onViewAllTeam}
+                className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-slate-950 transition-colors cursor-pointer py-1.5 border-b border-slate-400/50 hover:border-[#9cd5e2]"
+              >
+                <span>Explore Full Engineering Team Profiles & Case Studies</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
         </div>
 
       </div>
     </section>
   );
 };
+
+export default MeetOurTeamSection;

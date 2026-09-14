@@ -88,9 +88,9 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
         className="absolute inset-0 pointer-events-none transform-gpu will-change-transform"
         style={{ transform: bgShift ? `translate3d(0, ${bgShift}px, 0)` : undefined }}
       >
-        <div className="hidden md:block absolute top-1/4 left-1/5 w-[500px] h-[500px] bg-indigo-600/15 rounded-full blur-[140px]" />
+        <div className="hidden md:block absolute top-1/4 left-1/5 w-[500px] h-[500px] bg-[#BBE7F1]/10 rounded-full blur-[140px]" />
         <div className="hidden md:block absolute bottom-1/4 right-1/5 w-[450px] h-[450px] bg-sky-500/15 rounded-full blur-[130px]" />
-        <div className="md:hidden absolute top-1/3 left-1/2 -translate-x-1/2 w-64 h-64 bg-indigo-600/10 rounded-full blur-3xl" />
+        <div className="md:hidden absolute top-1/3 left-1/2 -translate-x-1/2 w-64 h-64 bg-[#BBE7F1]/10 rounded-full blur-3xl" />
         <div className="absolute inset-0 bg-tech-circuit opacity-30" />
       </div>
 
@@ -101,14 +101,14 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
           {/* Left Column: Mission, Vision & Engineering Value (7 cols) */}
           <div className="lg:col-span-7 space-y-6 sm:space-y-8">
             
-            <div className="inline-flex items-center gap-2 text-indigo-400 text-xs font-mono font-bold tracking-[0.2em] uppercase px-3.5 py-1.5 rounded-xl bg-indigo-950/70 border border-indigo-800/80 shadow-inner">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-              <span>THE WEBDEV CROSS-BORDER ADVANTAGE</span>
+            <div className="inline-flex items-center gap-2 text-cyan-300 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+              <Sparkles className="w-4 h-4 text-cyan-400" />
+              <span>The WebDev Cross-Border Advantage</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white font-['Outfit'] tracking-tight leading-[1.15]">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-white font-['Archivo'] tracking-tight leading-[1.2]">
               Industrial Rigor Meets <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-300 to-indigo-200">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-[#BBE7F1] to-sky-200">
                 Computational Agility
               </span>
             </h2>
@@ -120,22 +120,22 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
             {/* Metric Highlights Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 pt-2">
               <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md shadow-inner">
-                <div className="text-2xl sm:text-3xl font-extrabold text-indigo-400 font-['Outfit']">500+</div>
+                <div className="text-2xl sm:text-3xl font-extrabold text-[#BBE7F1] font-['Archivo']">500+</div>
                 <div className="text-[11px] text-slate-400 mt-1 font-medium">Deployments</div>
               </div>
 
               <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md shadow-inner">
-                <div className="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-['Outfit']">99.98%</div>
+                <div className="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-['Archivo']">99.98%</div>
                 <div className="text-[11px] text-slate-400 mt-1 font-medium">Uptime SLA</div>
               </div>
 
               <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md shadow-inner">
-                <div className="text-2xl sm:text-3xl font-extrabold text-sky-400 font-['Outfit']">14+ Hrs</div>
+                <div className="text-2xl sm:text-3xl font-extrabold text-sky-400 font-['Archivo']">14+ Hrs</div>
                 <div className="text-[11px] text-slate-400 mt-1 font-medium">Daily Overlap</div>
               </div>
 
               <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md shadow-inner">
-                <div className="text-2xl sm:text-3xl font-extrabold text-purple-400 font-['Outfit']">100%</div>
+                <div className="text-2xl sm:text-3xl font-extrabold text-purple-400 font-['Archivo']">100%</div>
                 <div className="text-[11px] text-slate-400 mt-1 font-medium">IP Ownership</div>
               </div>
             </div>
@@ -144,10 +144,10 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
             <div className="pt-2 flex flex-wrap items-center gap-4">
               <button
                 onClick={onContactClick}
-                className="bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-bold text-xs sm:text-sm px-7 py-4 rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50 transition-all flex items-center gap-2 cursor-pointer uppercase tracking-wider"
+                className="bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-bold text-xs sm:text-sm px-7 py-4 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center gap-2 cursor-pointer uppercase tracking-wider"
               >
                 <span>Consult With Lead Architect Directly</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 text-slate-950" />
               </button>
 
               <span className="text-xs text-slate-400 font-mono flex items-center gap-1.5">
@@ -182,11 +182,11 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
               {/* Code / Telemetry Log */}
               <div className="space-y-2 text-xs font-mono text-slate-300">
                 <div className="flex items-center justify-between text-slate-400">
-                  <span>[HQ_JOYPURHAT] MERN FullStack Engine:</span>
-                  <span className="text-indigo-400 font-bold">ONLINE (32 Squads)</span>
+                  <span>[CONTAINER_ENGINE] Microservices Mesh:</span>
+                  <span className="text-cyan-300 font-bold">ONLINE (High-Throughput)</span>
                 </div>
                 <div className="flex items-center justify-between text-slate-400">
-                  <span>[BRANCH_LEVERKUSEN] BaFin/GDPR Shield:</span>
+                  <span>[SECURITY_SHIELD] Zero-Trust / GDPR Compliance:</span>
                   <span className="text-purple-400 font-bold">VERIFIED 100%</span>
                 </div>
                 <div className="flex items-center justify-between text-slate-400">
@@ -211,14 +211,14 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
 
             {/* Parallax Floating Badge 2: Floating High-Availability Pill */}
             <div 
-              className="hidden sm:flex absolute -bottom-8 -left-8 bg-gradient-to-r from-indigo-900/95 to-slate-900/95 border border-indigo-700/60 p-4 rounded-2xl shadow-xl backdrop-blur-md items-center gap-3 transform-gpu will-change-transform z-20"
+              className="hidden sm:flex absolute -bottom-8 -left-8 bg-gradient-to-r from-slate-900/95 to-slate-950/95 border border-[#9cd5e2]/40 p-4 rounded-2xl shadow-xl backdrop-blur-md items-center gap-3 transform-gpu will-change-transform z-20"
               style={{ transform: `translate3d(0, ${cardFloat2}px, 0)` }}
             >
-              <div className="w-10 h-10 rounded-xl bg-indigo-600/30 text-indigo-300 flex items-center justify-center font-bold">
-                <Zap className="w-5 h-5 text-indigo-400" />
+              <div className="w-10 h-10 rounded-xl bg-[#BBE7F1]/20 text-cyan-300 flex items-center justify-center font-bold">
+                <Zap className="w-5 h-5 text-cyan-300" />
               </div>
               <div>
-                <div className="text-xs font-bold text-white font-['Outfit']">Sub-25ms Distributed Edge</div>
+                <div className="text-xs font-bold text-white font-['Archivo']">Sub-25ms Distributed Edge</div>
                 <div className="text-[11px] text-slate-300">USA & Europe Content Delivery</div>
               </div>
             </div>

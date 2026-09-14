@@ -114,3 +114,54 @@ export interface ServiceDetail {
   features: string[];
   deliverables: string[];
 }
+
+export interface Testimonial {
+  id: string;
+  name: string;
+  role: string;
+  company: string;
+  avatar: string;
+  country: string;
+  flag: string;
+  quote: string;
+  rating: number;
+  verified: boolean;
+}
+
+export interface HeroSlide {
+  id: string;
+  badge: string;
+  title: string;
+  highlightText?: string;
+  subtitle: string;
+  primaryBtnText: string;
+  primaryBtnAction?: 'quote' | 'services' | 'contact' | 'projects';
+  secondaryBtnText?: string;
+  secondaryBtnAction?: 'services' | 'projects' | 'contact' | 'quote';
+  backgroundImage: string;
+  tag?: string;
+}
+
+export interface SiteSettings {
+  companyName: string;
+  tagline: string;
+  logoUrl: string;
+  email: string;
+  phone_bd: string;
+  phone_de: string;
+  address_bd: string;
+  address_de: string;
+  socialLinks: {
+    github: string;
+    twitter: string;
+    linkedin: string;
+    whatsapp_bd: string;
+    whatsapp_de: string;
+  };
+  privacyPolicy: string;
+  termsOfService: string;
+  footerAboutText: string;
+  gdprBadgeText: string;
+  heroSlides?: HeroSlide[];
+}
+

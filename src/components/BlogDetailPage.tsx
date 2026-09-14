@@ -23,13 +23,13 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
   const [comments, setComments] = useState<Array<{ id: string; author: string; text: string; date: string }>>([
     {
       id: 'c1',
-      author: 'Lars Becker (Leverkusen)',
+      author: 'Lars Becker, Cloud Architect',
       text: 'Extremely insightful breakdown regarding server failover clusters. We saw similar reliability improvements deploying bare-metal nodes in Frankfurt.',
       date: 'Feb 19, 2026'
     },
     {
       id: 'c2',
-      author: 'Mahin Chowdhury (Dhaka)',
+      author: 'Mahin Chowdhury, Senior Full-Stack Engineer',
       text: 'Great point about React 19 server actions and modular monoliths. Excellent engineering standard from WebDev Software Solutions.',
       date: 'Feb 20, 2026'
     }
@@ -58,12 +58,12 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
   if (!blog) {
     return (
       <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center">
-        <h2 className="text-2xl font-bold text-slate-900 mb-3 font-['Outfit']">
+        <h2 className="text-2xl font-bold text-slate-900 mb-3 font-['Archivo']">
           Article Not Found
         </h2>
         <button
           onClick={onBack}
-          className="bg-indigo-600 text-white text-xs font-bold px-6 py-3 rounded-xl shadow-md cursor-pointer"
+          className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 border border-[#9cd5e2] text-xs font-bold px-6 py-3 rounded-xl transition-colors cursor-pointer"
         >
           ← Return to Blog
         </button>
@@ -94,10 +94,10 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
   return (
     <div ref={pageRef} className="min-h-screen bg-white text-slate-900">
       {/* Top Back Action & Minimal Navigation */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 flex items-center justify-between">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 flex items-center justify-between">
         <button
           onClick={onBack}
-          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-indigo-600 transition-colors cursor-pointer group py-1.5 px-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-cyan-800 transition-colors cursor-pointer group py-1.5 px-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200"
         >
           <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
           <span>Back to Blog</span>
@@ -105,37 +105,44 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
         {onBackToHome && (
           <button
             onClick={onBackToHome}
-            className="text-xs font-medium text-slate-400 hover:text-indigo-600 transition-colors cursor-pointer"
+            className="text-xs font-medium text-slate-400 hover:text-cyan-800 transition-colors cursor-pointer"
           >
             Home
           </button>
         )}
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-6 sm:py-8">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="max-w-4xl mx-auto space-y-10">
 
         {/* Article Header */}
         <div className="blog-fade-item space-y-4">
           <div className="flex items-center gap-2.5">
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200">
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-950 bg-[#BBE7F1]/80 px-3 py-1 rounded-full border border-[#9cd5e2]">
               {blog.category}
             </span>
             <span className="text-xs text-slate-500">•</span>
             <span className="text-xs text-slate-500 font-medium">{blog.readTime} read</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-950 font-['Outfit'] leading-tight">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-950 font-['Archivo'] leading-snug">
             {blog.title}
           </h1>
 
           {/* Author Card */}
           <div className="flex items-center justify-between pt-2 border-t border-slate-100">
             <div className="flex items-center gap-3">
-              <img
-                src={blog.authorImage}
-                alt={blog.author}
-                className="w-11 h-11 rounded-full object-cover border-2 border-slate-200"
-              />
+              {blog.authorImage && blog.authorImage.trim() !== '' ? (
+                <img
+                  src={blog.authorImage}
+                  alt={blog.author}
+                  className="w-11 h-11 rounded-full object-cover border-2 border-slate-200"
+                />
+              ) : (
+                <div className="w-11 h-11 rounded-full bg-[#BBE7F1]/40 border-2 border-[#9cd5e2] flex items-center justify-center text-slate-950 font-bold">
+                  {blog.author?.charAt(0) || 'A'}
+                </div>
+              )}
               <div>
                 <div className="text-sm font-bold text-slate-900">{blog.author}</div>
                 <div className="text-xs text-slate-500">{blog.authorRole}</div>
@@ -151,21 +158,23 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
 
         {/* Main Banner Image */}
         <div className="blog-fade-item relative h-72 sm:h-96 rounded-3xl overflow-hidden shadow-xl border border-slate-200">
-          <img
-            src={blog.image}
-            alt={blog.title}
-            className="w-full h-full object-cover"
-          />
+          {blog.image && blog.image.trim() !== '' ? (
+            <img
+              src={blog.image}
+              alt={blog.title}
+              className="w-full h-full object-cover"
+            />
+          ) : null}
         </div>
 
         {/* Article Body Content */}
         <div className="blog-fade-item prose prose-slate max-w-none space-y-5 text-slate-700 text-sm sm:text-base leading-relaxed">
-          <p className="text-base sm:text-lg font-medium text-slate-800 leading-relaxed italic border-l-4 border-indigo-600 pl-4 bg-slate-50 py-3 rounded-r-xl">
+          <p className="text-base sm:text-lg font-medium text-slate-800 leading-relaxed italic border-l-4 border-[#9cd5e2] pl-4 bg-slate-50 py-3 rounded-r-xl">
             {blog.excerpt}
           </p>
 
           <div className="space-y-4 pt-2">
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-950 font-['Outfit']">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-950 font-['Archivo']">
               Architectural Breakdown & Real-World Observations
             </h2>
             <p>
@@ -205,7 +214,7 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
 
             <button
               onClick={onBack}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-6 py-2.5 rounded-xl shadow-md transition-all cursor-pointer"
+              className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-xs px-6 py-2.5 rounded-xl border border-[#9cd5e2] shadow-sm transition-all cursor-pointer"
             >
               ← Back to Technical Blog
             </button>
@@ -214,8 +223,8 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
 
         {/* Peer Discussions & Technical Commentary */}
         <div className="blog-fade-item pt-8 border-t border-slate-200 space-y-6">
-          <div className="flex items-center gap-2 text-lg font-bold text-slate-900 font-['Outfit']">
-            <MessageSquare className="w-5 h-5 text-indigo-600" />
+          <div className="flex items-center gap-2 text-lg font-bold text-slate-900 font-['Archivo']">
+            <MessageSquare className="w-5 h-5 text-cyan-700" />
             <span>Peer Discussions ({comments.length})</span>
           </div>
 
@@ -226,12 +235,12 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
               placeholder="Contribute technical insights or ask a question regarding this architecture..."
-              className="w-full text-xs sm:text-sm p-4 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-indigo-600 outline-none resize-none"
+              className="w-full text-xs sm:text-sm p-4 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none resize-none"
             />
             <div className="flex justify-end">
               <button
                 type="submit"
-                className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow-md transition-all cursor-pointer"
+                className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition-all cursor-pointer"
               >
                 Post Technical Feedback
               </button>
@@ -254,6 +263,7 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
           </div>
         </div>
 
+        </div>
       </div>
     </div>
   );

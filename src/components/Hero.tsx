@@ -1,349 +1,279 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { ArrowRight, ChevronLeft, ChevronRight, Sparkles, CheckCircle2, Shield, Zap, Globe, Cpu, Server, Lock } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
+'use client';
+
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { ArrowRight, ChevronLeft, ChevronRight, Sparkles, Shield, Clock, Globe } from 'lucide-react';
+import { HeroSlide } from '../types';
+import { initialHeroSlides } from '../data/initialData';
 
 interface HeroProps {
+  slides?: HeroSlide[];
   onExploreClick?: () => void;
   onExploreServices?: () => void;
   onContactClick?: () => void;
   onOpenQuote?: () => void;
+  onNavigateProjects?: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ 
-  onExploreClick, 
-  onExploreServices, 
-  onContactClick, 
-  onOpenQuote 
+export const Hero: React.FC<HeroProps> = ({
+  slides: customSlides,
+  onExploreClick,
+  onExploreServices,
+  onContactClick,
+  onOpenQuote,
+  onNavigateProjects,
 }) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { t } = useLanguage();
+  const slides = (customSlides && customSlides.length > 0) ? customSlides : initialHeroSlides;
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleExplore = onExploreClick || onExploreServices || (() => {});
-  const handleContact = onContactClick || onOpenQuote || (() => {});
+  // Auto-slide duration in milliseconds
+  const AUTO_PLAY_INTERVAL = 6000;
 
-  const slides = [
-    {
-      badge: t.heroBadge1,
-      badgeColor: 'bg-indigo-950/85 border-indigo-500/50 text-indigo-300',
-      beaconColor: 'bg-indigo-400',
-      title: t.heroTitle1,
-      subtitle: t.heroSubtitle1,
-      image: '/images/banner/webdev-banner.webp',
-      glow: 'bg-indigo-600/25',
-      accentColor: 'text-indigo-400',
-      telemetry: {
-        headerBadge: 'FULL-STACK MERN HUB',
-        status: 'Active Deployment',
-        statusColor: 'text-emerald-400 bg-emerald-950/70 border-emerald-500/40',
-        items: [
-          {
-            title: 'Modern React 19 & Next.js',
-            sub: 'SSR, Edge Rendering, TailwindCSS & TypeScript',
-            icon: Cpu,
-            iconClass: 'bg-indigo-950/80 border-indigo-500/30 text-indigo-400'
-          },
-          {
-            title: 'Robust Node & Express APIs',
-            sub: 'Microservices, GraphQL, MongoDB & PostgreSQL',
-            icon: Zap,
-            iconClass: 'bg-cyan-950/80 border-cyan-500/30 text-cyan-400'
-          },
-          {
-            title: 'Global Delivery Track Record',
-            sub: '500+ Enterprise Projects Deployed with Zero Bug Rate',
-            icon: Globe,
-            iconClass: 'bg-emerald-950/80 border-emerald-500/30 text-emerald-400'
-          }
-        ],
-        footerLeft: 'Engineering Quality Standard',
-        footerRight: '100% Reliable Code'
-      }
-    },
-    {
-      badge: t.heroBadge2,
-      badgeColor: 'bg-cyan-950/85 border-cyan-500/50 text-cyan-300',
-      beaconColor: 'bg-cyan-400',
-      title: t.heroTitle2,
-      subtitle: t.heroSubtitle2,
-      image: '/images/banner/webdev-2.webp',
-      glow: 'bg-cyan-500/25',
-      accentColor: 'text-cyan-400',
-      telemetry: {
-        headerBadge: 'SERVER MESH OPERATIONS',
-        status: '99.99% SLA Uptime',
-        statusColor: 'text-cyan-400 bg-cyan-950/70 border-cyan-500/40',
-        items: [
-          {
-            title: 'Linux Bare-Metal & Hetzner Mesh',
-            sub: 'Nginx reverse proxies, Let’s Encrypt TLS & FastCGI',
-            icon: Server,
-            iconClass: 'bg-cyan-950/80 border-cyan-500/30 text-cyan-400'
-          },
-          {
-            title: 'Docker & Kubernetes CI/CD',
-            sub: 'Automated GitHub Actions deployment pipeline',
-            icon: Zap,
-            iconClass: 'bg-indigo-950/80 border-indigo-500/30 text-indigo-400'
-          },
-          {
-            title: 'Strict GDPR & BaFin Security',
-            sub: 'Hardened firewall, OWASP Top 10 mitigation & audit ready',
-            icon: Shield,
-            iconClass: 'bg-emerald-950/80 border-emerald-500/30 text-emerald-400'
-          }
-        ],
-        footerLeft: 'Frankfurt & US Edge Mesh',
-        footerRight: 'Zero Downtime'
-      }
-    },
-    {
-      badge: t.heroBadge3,
-      badgeColor: 'bg-purple-950/85 border-purple-500/50 text-purple-300',
-      beaconColor: 'bg-purple-400',
-      title: t.heroTitle3,
-      subtitle: t.heroSubtitle3,
-      image: '/images/banner/web-3.webp',
-      glow: 'bg-purple-600/25',
-      accentColor: 'text-purple-400',
-      telemetry: {
-        headerBadge: 'GLOBAL RETAIL COMMERCE',
-        status: '+38% Conversion Gain',
-        statusColor: 'text-purple-400 bg-purple-950/70 border-purple-500/40',
-        items: [
-          {
-            title: 'Headless Shopify Plus & Liquid',
-            sub: 'Custom Storefront API, checkout UI & sub-second speed',
-            icon: Globe,
-            iconClass: 'bg-purple-950/80 border-purple-500/30 text-purple-400'
-          },
-          {
-            title: 'High-Throughput WooCommerce',
-            sub: 'Redis object caching, MariaDB clustering & Stripe API',
-            icon: Zap,
-            iconClass: 'bg-amber-950/80 border-amber-500/30 text-amber-400'
-          },
-          {
-            title: 'Sub-Second Core Web Vitals',
-            sub: 'Optimized CDN delivery across North America & Europe',
-            icon: CheckCircle2,
-            iconClass: 'bg-emerald-950/80 border-emerald-500/30 text-emerald-400'
-          }
-        ],
-        footerLeft: 'International Payment Mesh',
-        footerRight: 'Multi-Currency Ready'
-      }
-    }
-  ];
+  const goToSlide = useCallback((index: number) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentIndex(index);
+    setTimeout(() => setIsTransitioning(false), 600);
+  }, [isTransitioning]);
 
-  // Auto advance slide every 8 seconds
+  const handleNext = useCallback(() => {
+    const nextIndex = (currentIndex + 1) % slides.length;
+    goToSlide(nextIndex);
+  }, [currentIndex, slides.length, goToSlide]);
+
+  const handlePrev = useCallback(() => {
+    const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+    goToSlide(prevIndex);
+  }, [currentIndex, slides.length, goToSlide]);
+
+  // Auto advance timer
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 8000);
-    return () => clearInterval(timer);
-  }, [slides.length]);
+    if (isPaused || slides.length <= 1) return;
 
-  const slide = slides[currentSlide];
+    timerRef.current = setInterval(() => {
+      handleNext();
+    }, AUTO_PLAY_INTERVAL);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [currentIndex, isPaused, slides.length, handleNext]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') handlePrev();
+      if (e.key === 'ArrowRight') handleNext();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleNext, handlePrev]);
+
+  // Action dispatcher
+  const executeAction = (action?: string) => {
+    switch (action) {
+      case 'quote':
+        if (onOpenQuote) onOpenQuote();
+        else if (onContactClick) onContactClick();
+        break;
+      case 'services':
+        if (onExploreServices) onExploreServices();
+        else if (onExploreClick) onExploreClick();
+        break;
+      case 'projects':
+        if (onNavigateProjects) onNavigateProjects();
+        else if (onExploreClick) onExploreClick();
+        break;
+      case 'contact':
+        if (onContactClick) onContactClick();
+        else if (onOpenQuote) onOpenQuote();
+        break;
+      default:
+        if (onOpenQuote) onOpenQuote();
+        break;
+    }
+  };
+
+  const currentSlide = slides[currentIndex] || slides[0];
 
   return (
-    <div 
-      ref={heroRef}
-      className="relative min-h-[640px] sm:min-h-[700px] lg:min-h-[780px] bg-slate-950 text-white flex items-center overflow-hidden border-b border-slate-800"
+    <section
+      className="relative min-h-[520px] sm:min-h-[560px] md:min-h-[580px] lg:min-h-[620px] w-full flex items-center overflow-hidden bg-slate-950 select-none"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      aria-label="Hero Showcase"
     >
-      {/* Dynamic High-Res Banner Background Slider */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        {slides.map((s, idx) => (
+      {/* Background Image Slides */}
+      {slides.map((slide, idx) => {
+        const isActive = idx === currentIndex;
+        return (
           <div
-            key={idx}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out transform ${
-              currentSlide === idx 
-                ? 'opacity-100 scale-100' 
-                : 'opacity-0 scale-105 pointer-events-none'
+            key={slide.id || `slide-${idx}`}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-out pointer-events-none ${
+              isActive ? 'opacity-100 z-0' : 'opacity-0 z-[-1]'
             }`}
           >
-            <img 
-              src={s.image} 
-              alt={s.title} 
-              className="w-full h-full object-cover object-center lg:object-right filter contrast-110 brightness-90"
-            />
-            {/* Cinematic Gradient Overlays: Deep slate from left for text contrast, letting 3D graphics glow on right */}
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 sm:via-slate-950/80 to-slate-950/40 lg:to-transparent"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/70"></div>
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-transparent to-transparent"></div>
+            {/* Background Image with subtle Ken Burns motion */}
+            {slide.backgroundImage && slide.backgroundImage.trim() !== '' ? (
+              <img
+                suppressHydrationWarning
+                src={slide.backgroundImage}
+                alt={slide.title}
+                className={`w-full h-full object-cover object-center transition-transform duration-[7000ms] ease-out ${
+                  isActive ? 'scale-105' : 'scale-100'
+                }`}
+              />
+            ) : null}
 
-            {/* Slide-specific ambient color glow */}
-            <div className={`absolute -top-24 left-1/4 w-72 sm:w-96 h-72 sm:h-96 ${s.glow} rounded-full blur-3xl md:blur-[140px]`}></div>
+            {/* Lightened & Refined Cinematic Gradient Overlays */}
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/55 to-slate-950/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/35" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_40%,_rgba(79,70,229,0.12),_transparent_60%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_60%,_rgba(6,182,212,0.10),_transparent_60%)]" />
           </div>
-        ))}
-      </div>
+        );
+      })}
 
-      <div className="relative z-10 max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          
-          {/* Main Hero Content (Left 8 cols) - Smoothly keyed to currentSlide */}
-          <div 
-            key={currentSlide} 
-            className="lg:col-span-8 space-y-5 sm:space-y-6 animate-hero-fade-in"
-          >
-            
-            {/* Eyebrow clean subtitle without pill background */}
-            <div className="inline-flex items-center gap-2">
-              <span className={`w-2 h-2 rounded-full ${slide.beaconColor} animate-ping`}></span>
-              <span className={`text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase font-mono ${slide.accentColor}`}>
-                {slide.badge}
-              </span>
+      {/* Hero Content Container - Centered with balanced vertical clearance */}
+      <div className="relative z-10 max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-14 w-full">
+        <div className="max-w-3xl">
+          {/* Animated Slide Content Box with smooth cross-fade */}
+          <div className={`transition-all duration-500 ease-out ${
+            isTransitioning ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'
+          }`}>
+            {/* Eyebrow / Stylish Italic Subheading (No Background) */}
+            <div className="inline-flex items-center gap-2 text-cyan-300 font-['Playfair_Display'] italic text-base sm:text-lg font-semibold tracking-wide mb-3 sm:mb-3.5">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              <span>{currentSlide.badge}</span>
             </div>
 
-            {/* Display Headline with international standard typography */}
-            <h1 className="text-xl xs:text-2xl sm:text-3xl md:text-[34px] lg:text-[40px] xl:text-[44px] font-extrabold tracking-tight text-white leading-[1.22] font-['Outfit'] drop-shadow-md max-w-3xl">
-              {slide.title}
-            </h1>
+            {/* Headline with reserved height for zero layout shift across slides */}
+            <div className="min-h-[64px] xs:min-h-[72px] sm:min-h-[84px] md:min-h-[96px] lg:min-h-[112px] flex items-center">
+              <h1 className="text-2xl xs:text-3xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold text-white tracking-tight leading-[1.18] font-['Archivo']">
+                {currentSlide.title}{' '}
+                {currentSlide.highlightText && (
+                  <span className="bg-gradient-to-r from-[#BBE7F1] via-teal-200 to-sky-300 bg-clip-text text-transparent">
+                    {currentSlide.highlightText}
+                  </span>
+                )}
+              </h1>
+            </div>
 
-            {/* Subheading */}
-            <p className="text-xs xs:text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl font-normal leading-relaxed drop-shadow-xs">
-              {slide.subtitle}
-            </p>
+            {/* Subtitle / Description with reserved height for identical slide dimensions */}
+            <div className="min-h-[48px] sm:min-h-[44px] lg:min-h-[48px] flex items-start mt-2.5 sm:mt-3">
+              <p className="text-xs xs:text-sm sm:text-base md:text-lg text-slate-200 font-normal leading-relaxed max-w-2xl font-['Instrument_Sans'] tracking-wide">
+                {currentSlide.subtitle}
+              </p>
+            </div>
 
             {/* Action Buttons */}
-            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+            <div className="mt-5 sm:mt-6 min-h-[48px] flex flex-wrap items-center gap-3 sm:gap-4">
               <button
-                id="hero-read-more-btn"
-                onClick={handleExplore}
-                className="bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 active:from-indigo-700 active:to-indigo-600 text-white font-semibold text-sm sm:text-base px-6 sm:px-7 py-3.5 rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-500/50 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2.5 group cursor-pointer min-h-[44px]"
+                onClick={() => executeAction(currentSlide.primaryBtnAction || 'quote')}
+                className="inline-flex items-center gap-2.5 px-6 sm:px-7 py-3 rounded-xl bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-bold text-sm sm:text-base border border-[#9cd5e2] transition-all duration-150 active:scale-[0.98] cursor-pointer shadow-xs"
               >
-                <span>{t.heroExploreBtn}</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <span>{currentSlide.primaryBtnText || 'Request Consultation'}</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 text-slate-950" />
               </button>
 
-              <button
-                id="hero-start-project-btn"
-                onClick={handleContact}
-                className="bg-slate-900/60 hover:bg-slate-800/80 active:bg-slate-800 text-slate-200 hover:text-white font-semibold text-sm sm:text-base px-5 sm:px-6 py-3.5 rounded-xl border border-slate-700/70 hover:border-slate-600 shadow-sm backdrop-blur-md hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 min-h-[44px] cursor-pointer"
-              >
-                <Sparkles className="w-4 h-4 text-indigo-400" />
-                <span>{t.heroConsultBtn}</span>
-              </button>
-            </div>
-
-            {/* Global Presence & Trust Verification strip - Sleek, distinct from buttons */}
-            <div className="pt-4 sm:pt-5 border-t border-slate-800/70 flex flex-wrap items-center gap-x-4 sm:gap-x-5 gap-y-2 text-xs sm:text-[13px]">
-              <div className="flex items-center gap-2 text-slate-300">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] shrink-0"></span>
-                <span className="text-slate-400 font-medium">EU Hub:</span>
-                <span className="font-semibold text-slate-100 flex items-center gap-1.5">
-                  <span>🇩🇪</span>
-                  <span>Leverkusen (NRW), Germany</span>
-                </span>
-              </div>
-
-              <span className="hidden sm:inline text-slate-700 select-none">•</span>
-
-              <div className="flex items-center gap-2 text-slate-300">
-                <span className="w-2 h-2 rounded-full bg-indigo-400 shadow-[0_0_8px_rgba(129,140,248,0.8)] shrink-0"></span>
-                <span className="text-slate-400 font-medium">R&D Center:</span>
-                <span className="font-medium text-slate-300 flex items-center gap-1.5">
-                  <span>🇧🇩</span>
-                  <span>Joypurhat, Bangladesh</span>
-                </span>
-              </div>
-
-              <span className="hidden sm:inline text-slate-700 select-none">•</span>
-
-              <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span>German GDPR (DSGVO) & CET Real-Time Delivery</span>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Right side dynamic telemetry preview (Right 4 cols) */}
-          <div 
-            key={`card-${currentSlide}`}
-            className="hidden lg:block lg:col-span-4 animate-hero-fade-in"
-          >
-            <div className="animate-float-slow bg-slate-950/80 backdrop-blur-xl border border-slate-800/90 rounded-3xl p-6 sm:p-7 shadow-2xl relative text-white">
-              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white text-[10px] font-bold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-md">
-                {slide.telemetry.headerBadge}
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                  <span className="text-xs text-slate-400 font-mono font-semibold">SYSTEM TELEMETRY</span>
-                  <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${slide.telemetry.statusColor}`}>
-                    {slide.telemetry.status}
-                  </span>
-                </div>
-
-                <div className="space-y-3.5">
-                  {slide.telemetry.items.map((item, i) => {
-                    const IconComponent = item.icon;
-                    return (
-                      <div key={i} className="flex items-center gap-3">
-                        <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 shadow-xs ${item.iconClass}`}>
-                          <IconComponent className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <div className="text-sm font-bold text-white">{item.title}</div>
-                          <div className="text-xs text-slate-400">{item.sub}</div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <div className="pt-3.5 border-t border-slate-800 text-xs text-slate-400 flex items-center justify-between">
-                  <span>{slide.telemetry.footerLeft}</span>
-                  <span className="text-indigo-400 font-bold">{slide.telemetry.footerRight}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Bottom Slide Pagination Controls */}
-        <div className="mt-8 sm:mt-12 pt-5 sm:pt-6 border-t border-slate-800/80 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="text-xs font-mono text-slate-400 font-bold tracking-wider">
-              <span className="text-indigo-400">{`0${currentSlide + 1}`}</span> / {`0${slides.length}`}
-            </div>
-            <div className="flex items-center gap-2">
-              {slides.map((_, idx) => (
+              {currentSlide.secondaryBtnText && (
                 <button
-                  key={idx}
-                  onClick={() => setCurrentSlide(idx)}
-                  className={`h-2 transition-all duration-300 rounded-full cursor-pointer ${
-                    currentSlide === idx 
-                      ? 'w-8 sm:w-10 bg-indigo-500 shadow-[0_0_12px_rgba(99,102,241,0.7)]' 
-                      : 'w-2.5 sm:w-3 bg-slate-700 hover:bg-slate-500'
-                  }`}
-                  aria-label={`Go to slide ${idx + 1}`}
-                />
-              ))}
+                  onClick={() => executeAction(currentSlide.secondaryBtnAction || 'services')}
+                  className="inline-flex items-center gap-2 px-5 sm:px-6 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 hover:border-white/30 text-white font-medium text-sm sm:text-base backdrop-blur-md transition-all duration-200 active:scale-[0.98] cursor-pointer"
+                >
+                  <span>{currentSlide.secondaryBtnText}</span>
+                </button>
+              )}
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
-              className="w-10 h-10 rounded-xl bg-slate-900/80 backdrop-blur-md border border-slate-700/80 flex items-center justify-center text-slate-300 hover:text-white hover:border-slate-500 transition-colors shadow-lg cursor-pointer min-w-[40px] min-h-[40px]"
-              aria-label="Previous slide"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
-              className="w-10 h-10 rounded-xl bg-slate-900/80 backdrop-blur-md border border-slate-700/80 flex items-center justify-center text-slate-300 hover:text-white hover:border-slate-500 transition-colors shadow-lg cursor-pointer min-w-[40px] min-h-[40px]"
-              aria-label="Next slide"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
+          {/* Micro Trust Indicators - Locked position for rock-solid stability */}
+          <div className="mt-6 sm:mt-8 pt-4 sm:pt-5 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4 text-xs sm:text-sm text-slate-300">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-cyan-400">
+                <Globe className="w-4 h-4" />
+              </div>
+              <div>
+                <span className="font-semibold text-white block text-xs sm:text-sm">Global Delivery</span>
+                <span className="text-slate-400 text-[11px] sm:text-xs">Serving US & EU Clients</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-[#BBE7F1]">
+                <Shield className="w-4 h-4" />
+              </div>
+              <div>
+                <span className="font-semibold text-white block text-xs sm:text-sm">Enterprise Security</span>
+                <span className="text-slate-400 text-[11px] sm:text-xs">100% IP & NDA Protected</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-emerald-400">
+                <Clock className="w-4 h-4" />
+              </div>
+              <div>
+                <span className="font-semibold text-white block text-xs sm:text-sm">Rapid Delivery</span>
+                <span className="text-slate-400 text-[11px] sm:text-xs">Agile Sprints & 24/7 CI/CD</span>
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
-    </div>
+
+      {/* Slider Navigation Controls */}
+      <div className="absolute right-4 sm:right-8 bottom-6 sm:bottom-8 z-20 flex items-center gap-3">
+        {/* Previous Button */}
+        <button
+          onClick={handlePrev}
+          aria-label="Previous slide"
+          className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 border border-white/15 backdrop-blur-md flex items-center justify-center text-white transition-all hover:border-white/30 cursor-pointer"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+
+        {/* Slide Counter & Indicators */}
+        <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-xs font-mono text-slate-300">
+          {slides.map((_, i) => (
+            <button
+              key={`dot-${i}`}
+              onClick={() => goToSlide(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                i === currentIndex
+                  ? 'w-6 bg-cyan-400'
+                  : 'w-2 bg-white/30 hover:bg-white/50'
+              }`}
+            />
+          ))}
+          <span className="ml-1 text-slate-400 font-sans text-xs">
+            0{currentIndex + 1} / 0{slides.length}
+          </span>
+        </div>
+
+        {/* Next Button */}
+        <button
+          onClick={handleNext}
+          aria-label="Next slide"
+          className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 border border-white/15 backdrop-blur-md flex items-center justify-center text-white transition-all hover:border-white/30 cursor-pointer"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* Autoplay Progress Bar */}
+      {!isPaused && (
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10 z-20 overflow-hidden">
+          <div
+            key={currentIndex}
+            className="h-full bg-gradient-to-r from-cyan-400 via-[#BBE7F1] to-cyan-300 animate-slideProgress"
+            style={{ animationDuration: `${AUTO_PLAY_INTERVAL}ms` }}
+          />
+        </div>
+      )}
+    </section>
   );
 };

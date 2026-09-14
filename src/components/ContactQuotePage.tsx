@@ -157,7 +157,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
       <Breadcrumb
         badge="ARCHITECTURE CONSULTATION & ESTIMATION"
         title="Initiate Your Enterprise Engineering Engagement"
-        subtitle="Direct collaboration with senior architects based in Joypurhat, Bangladesh and Leverkusen, Germany. Receive a comprehensive architectural scoping proposal within 24 hours."
+        subtitle="Direct collaboration with senior solutions architects. Receive a comprehensive technical assessment and architectural scoping proposal within 24 hours."
         items={[
           { label: 'Home', onClick: onBack },
           { label: 'Architecture Scoper & Quote', active: true }
@@ -182,16 +182,16 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                   <div className="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto border border-emerald-200">
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-900 font-['Outfit']">
+                  <h3 className="text-2xl font-bold text-slate-900 font-['Archivo']">
                     Consultation Request Successfully Transmitted
                   </h3>
                   <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-                    Thank you, {firstName}. Our engineering leads in Joypurhat and Leverkusen will review your requirements and reach out via {email} with technical scoping details.
+                    Thank you, {firstName}. Our solutions architecture leads will review your requirements and reach out via {email} with technical scoping details.
                   </p>
                   <div className="pt-4">
                     <button
                       onClick={onBack}
-                      className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold px-7 py-3.5 rounded-xl shadow-md cursor-pointer"
+                      className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 border border-[#9cd5e2] text-xs sm:text-sm font-bold px-7 py-3.5 rounded-xl transition-colors cursor-pointer"
                     >
                       Return to Website Overview
                     </button>
@@ -203,7 +203,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                   {/* Name Row */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-900 font-['Outfit'] uppercase tracking-wider">
+                      <label className="text-xs font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
                         First Name *
                       </label>
                       <input
@@ -212,12 +212,12 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         placeholder="e.g. Lars"
-                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-600 outline-none"
+                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
                       />
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-900 font-['Outfit'] uppercase tracking-wider">
+                      <label className="text-xs font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
                         Last Name *
                       </label>
                       <input
@@ -226,7 +226,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         placeholder="e.g. Weber"
-                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-600 outline-none"
+                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
                       />
                     </div>
                   </div>
@@ -234,7 +234,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                   {/* Email & Phone */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-900 font-['Outfit'] uppercase tracking-wider">
+                      <label className="text-xs font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
                         Business Email *
                       </label>
                       <input
@@ -243,12 +243,12 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="lars.weber@enterprise.de"
-                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-600 outline-none"
+                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
                       />
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-900 font-['Outfit'] uppercase tracking-wider">
+                      <label className="text-xs font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
                         Phone / WhatsApp
                       </label>
                       <input
@@ -256,7 +256,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         placeholder="+49 171 0000000 / +880..."
-                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-600 outline-none"
+                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
                       />
                     </div>
                   </div>
@@ -264,7 +264,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                   {/* Company & Project Type */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-900 font-['Outfit'] uppercase tracking-wider">
+                      <label className="text-xs font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
                         Company / Organization
                       </label>
                       <input
@@ -272,18 +272,18 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                         value={company}
                         onChange={(e) => setCompany(e.target.value)}
                         placeholder="Enterprise GmbH / Corp"
-                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-600 outline-none"
+                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
                       />
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-900 font-['Outfit'] uppercase tracking-wider">
+                      <label className="text-xs font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
                         Project Domain / Service
                       </label>
                       <select
                         value={projectType}
                         onChange={(e) => setProjectType(e.target.value)}
-                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-600 outline-none bg-white"
+                        className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none bg-white"
                       >
                         <option value="Full Stack & MERN">Full Stack MERN / Next.js Web App</option>
                         <option value="Cloud & Server Architecture">Cloud & Linux Server Infrastructure</option>
@@ -297,7 +297,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
 
                   {/* Target Market */}
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-900 font-['Outfit'] uppercase tracking-wider">
+                    <label className="text-xs font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
                       Target Deployment Market & Compliance
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -320,35 +320,35 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
 
                   {/* Preferred Meeting Timezone */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-900 font-['Outfit'] uppercase tracking-wider flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5 text-indigo-600" />
+                    <label className="text-xs font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-cyan-700" />
                       <span>Preferred Meeting Timezone (Sprint Sync)</span>
                     </label>
                     <select
                       value={timezone}
                       onChange={(e) => setTimezone(e.target.value)}
-                      className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-600 outline-none bg-white font-medium"
+                      className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none bg-white font-medium"
                     >
                       <option value="US Eastern (EST/EDT)">🇺🇸 US Eastern (EST/EDT) - New York / Miami / Atlanta</option>
                       <option value="US Pacific (PST/PDT)">🇺🇸 US Pacific (PST/PDT) - San Francisco / Seattle / LA</option>
                       <option value="UK (GMT/BST)">🇬🇧 United Kingdom (GMT/BST) - London / Manchester</option>
                       <option value="Central Europe (CET/CEST)">🇩🇪 Central Europe (CET/CEST) - Frankfurt / Berlin / Amsterdam</option>
-                      <option value="Bangladesh (BST UTC+6)">🇧🇩 Bangladesh Standard Time (BST UTC+6) - Dhaka / Joypurhat</option>
+                      <option value="Bangladesh (BST UTC+6)">🇧🇩 Bangladesh Standard Time (BST UTC+6)</option>
                     </select>
                   </div>
 
                   {/* Mutual NDA Request Checkbox */}
-                  <div className="p-3.5 rounded-2xl bg-indigo-50/70 border border-indigo-200/80 flex items-start gap-3">
+                  <div className="p-3.5 rounded-2xl bg-[#BBE7F1]/20 border border-[#9cd5e2]/80 flex items-start gap-3">
                     <input
                       type="checkbox"
                       id="nda-checkbox"
                       checked={ndaRequested}
                       onChange={(e) => setNdaRequested(e.target.checked)}
-                      className="mt-1 h-4 w-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer"
+                      className="mt-1 h-4 w-4 text-cyan-600 rounded border-slate-300 focus:ring-[#9cd5e2] cursor-pointer"
                     />
                     <label htmlFor="nda-checkbox" className="text-xs text-slate-700 cursor-pointer select-none">
                       <strong className="text-slate-900 block font-semibold flex items-center gap-1.5">
-                        <ShieldCheck className="w-4 h-4 text-indigo-600" />
+                        <ShieldCheck className="w-4 h-4 text-cyan-700" />
                         <span>Request Bilateral Non-Disclosure Agreement (NDA)</span>
                       </strong>
                       <span>We will email our mutual countersigned legal NDA prior to discussing proprietary architecture and source code.</span>
@@ -357,7 +357,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
 
                   {/* Message / Brief */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-900 font-['Outfit'] uppercase tracking-wider">
+                    <label className="text-xs font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
                       Project Brief & Technical Requirements *
                     </label>
                     <textarea
@@ -366,7 +366,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder="Outline your application goals, target timelines, expected user concurrency, and specific integrations needed..."
-                      className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-600 outline-none resize-none"
+                      className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none resize-none"
                     />
                   </div>
 
@@ -374,13 +374,13 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                    className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-bold text-xs sm:text-sm py-4 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
                   >
                     {isSubmitting ? (
                       <span>Transmitting Consultation Dossier...</span>
                     ) : (
                       <>
-                        <Send className="w-4 h-4" />
+                        <Send className="w-4 h-4 text-slate-950" />
                         <span>Submit Architecture Scoping Inquiry</span>
                       </>
                     )}
@@ -398,15 +398,15 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
           </div>
 
           {/* Right Sidebar: Hubs & Verification */}
-          <div className="quote-fade-item lg:col-span-4 space-y-6 lg:sticky lg:top-24 self-start">
+          <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-24 self-start lg:max-h-[calc(100vh-6.5rem)] lg:overflow-y-auto no-scrollbar z-20">
             
             {/* Enterprise Client Guarantees */}
-            <div className="p-6 rounded-3xl bg-slate-950 text-white border border-slate-800 space-y-3.5 shadow-xl">
-              <div className="flex items-center gap-2 text-xs font-mono font-bold text-indigo-400 uppercase tracking-wider">
-                <ShieldCheck className="w-4 h-4 text-indigo-400" />
+            <div className="quote-fade-item p-6 rounded-3xl bg-slate-950 text-white border border-slate-800 space-y-3.5 shadow-xl">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-cyan-300 uppercase tracking-wider">
+                <ShieldCheck className="w-4 h-4 text-cyan-400" />
                 <span>ENTERPRISE GUARANTEES</span>
               </div>
-              <h4 className="text-base font-bold text-white font-['Outfit']">
+              <h4 className="text-base font-bold text-white font-['Archivo']">
                 Global Client Trust & Delivery
               </h4>
               <ul className="text-xs text-slate-300 space-y-2.5 pt-1">
@@ -430,10 +430,10 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
             </div>
 
             {/* Leverkusen Germany Office - FIRST */}
-            <div className="p-6 rounded-3xl bg-slate-50 border border-emerald-500/30 space-y-3 shadow-xs">
+            <div className="quote-fade-item p-6 rounded-3xl bg-slate-50 border border-emerald-500/30 space-y-3 shadow-xs">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                <h3 className="text-sm font-bold text-slate-900 font-['Outfit']">
+                <h3 className="text-sm font-bold text-slate-900 font-['Archivo']">
                   European Engineering Hub (Germany)
                 </h3>
               </div>
@@ -459,10 +459,10 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
             </div>
 
             {/* Joypurhat Bangladesh Office - Dedicated R&D */}
-            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200/90 space-y-3 shadow-xs">
+            <div className="quote-fade-item p-6 rounded-3xl bg-slate-50 border border-slate-200/90 space-y-3 shadow-xs">
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
-                <h3 className="text-sm font-bold text-slate-900 font-['Outfit']">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#9cd5e2]"></span>
+                <h3 className="text-sm font-bold text-slate-900 font-['Archivo']">
                   Dedicated Offshore R&D Center (Bangladesh)
                 </h3>
               </div>
@@ -471,28 +471,28 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
               </p>
               <div className="pt-2 text-xs space-y-1.5 text-slate-600">
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                  <MapPin className="w-3.5 h-3.5 text-cyan-700 shrink-0" />
                   <span>Housing Estate, Ward No: 07, Joypurhat-5900</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Phone className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
-                  <a href="tel:+8801722301927" className="font-mono font-bold text-slate-900 hover:text-indigo-600">
+                  <Phone className="w-3.5 h-3.5 text-cyan-700 shrink-0" />
+                  <a href="tel:+8801722301927" className="font-mono font-bold text-slate-900 hover:text-cyan-800">
                     +880 1722-301927
                   </a>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Mail className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                  <Mail className="w-3.5 h-3.5 text-cyan-700 shrink-0" />
                   <span>info@webdevsoftwaresolutions.com</span>
                 </div>
               </div>
             </div>
 
             {/* SLA Guarantee Box */}
-            <div className="p-6 rounded-3xl bg-[#090d18] text-white space-y-3">
-              <div className="text-xs font-mono uppercase tracking-wider text-indigo-400 font-bold">
+            <div className="quote-fade-item p-6 rounded-3xl bg-[#090d18] text-white space-y-3">
+              <div className="text-xs font-mono uppercase tracking-wider text-cyan-300 font-bold">
                 Direct Technical Access
               </div>
-              <h4 className="text-base font-bold font-['Outfit']">
+              <h4 className="text-base font-bold font-['Archivo']">
                 Zero Middle-Management
               </h4>
               <p className="text-xs text-slate-400 leading-relaxed">
@@ -500,7 +500,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
               </p>
             </div>
 
-          </div>
+          </aside>
 
         </div>
 

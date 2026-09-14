@@ -27,7 +27,7 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
       icon: Code2,
       title: 'Full Stack & MERN',
       desc: 'High-performance React 19 apps with Node, Express & MongoDB/PostgreSQL backends.',
-      iconBg: 'bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white',
+      iconBg: 'bg-[#BBE7F1]/50 text-slate-950 group-hover:bg-[#BBE7F1] group-hover:text-slate-950',
       badge: 'Architecture'
     },
     {
@@ -55,12 +55,12 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
       badge: 'Ultra Fast'
     },
     {
-      id: 'feat-global',
+      id: 'feat-microservices',
       icon: Globe2,
-      title: 'German Quality & Delivery',
-      desc: 'Leverkusen (NRW), Germany client hub backed by dedicated high-velocity agile squads.',
+      title: 'API & Microservices',
+      desc: 'Resilient REST & GraphQL microservices with 99.9% uptime SLA and real-time monitoring.',
       iconBg: 'bg-purple-50 text-purple-600 group-hover:bg-purple-600 group-hover:text-white',
-      badge: 'Leverkusen, DE'
+      badge: 'Scalable'
     }
   ];
 
@@ -76,7 +76,7 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
               <div
                 key={item.id}
                 onClick={() => onSelectFeature && onSelectFeature(item.id)}
-                className="feature-card-item bg-white hover:bg-slate-50/80 border border-slate-200/90 hover:border-indigo-400 rounded-2xl p-5 sm:p-6 transition-[background-color,border-color,box-shadow,transform] duration-200 hover:-translate-y-1 cursor-pointer flex flex-col justify-between group shadow-xs hover:shadow-xl"
+                className="feature-card-item bg-white hover:bg-slate-50/80 border border-slate-200/90 hover:border-[#9cd5e2] rounded-2xl p-5 sm:p-6 transition-[background-color,border-color,box-shadow,transform] duration-200 hover:-translate-y-1 cursor-pointer flex flex-col justify-between group shadow-xs hover:shadow-xl"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -88,7 +88,7 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
                     </span>
                   </div>
                   
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 font-['Outfit'] group-hover:text-indigo-600 transition-colors">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 font-['Archivo'] group-hover:text-slate-950 transition-colors">
                     {item.title}
                   </h3>
                   
@@ -97,7 +97,7 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
                   </p>
                 </div>
 
-                <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm text-slate-600 group-hover:text-indigo-600 font-bold transition-colors">
+                <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm text-slate-600 group-hover:text-slate-950 font-bold transition-colors">
                   <span>Explore Standard</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>

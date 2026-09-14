@@ -71,49 +71,46 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
           {/* Left Column: Content */}
           <div className="lg:col-span-6 space-y-5 sm:space-y-6">
             
-            {/* Pill section label matching reference video */}
-            <div className="who-content-item inline-flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
-              <span className="text-xs font-bold tracking-[0.2em] text-indigo-600 uppercase font-mono">
-                WHO WE BRING
-              </span>
+            {/* Section Eyebrow - Stylish Italic (No Background) */}
+            <div className="who-content-item inline-flex items-center gap-2 text-cyan-700 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+              <span>Who We Bring & Our Pedigree</span>
             </div>
 
             {/* Bold Headline */}
-            <h2 className="who-content-item text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-[1.18] font-['Outfit']">
+            <h2 className="who-content-item text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-900 tracking-tight leading-[1.22] font-['Archivo']">
               World-Class Engineering for High-Growth Global Businesses
             </h2>
 
             {/* Subtext */}
-            <p className="who-content-item text-sm sm:text-base text-slate-600 leading-relaxed">
+            <p className="who-content-item text-sm sm:text-base text-slate-600 leading-relaxed font-['Instrument_Sans']">
               With over 10+ years of collective experience delivering software for enterprise clients in the USA, Germany, United Kingdom, and across Europe, we build mission-critical digital systems engineered to perform under heavy production loads.
             </p>
 
             {/* 4 Feature Checklist */}
             <div className="who-content-item grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
               <div className="flex items-center gap-2.5 text-slate-800 font-medium text-sm">
-                <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0">
+                <div className="w-5 h-5 rounded-full bg-[#BBE7F1]/50 border border-[#9cd5e2] flex items-center justify-center text-slate-900 shrink-0">
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
                 </div>
                 <span>Strict Bilateral NDA & 100% IP Transfer</span>
               </div>
 
               <div className="flex items-center gap-2.5 text-slate-800 font-medium text-sm">
-                <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0">
+                <div className="w-5 h-5 rounded-full bg-[#BBE7F1]/50 border border-[#9cd5e2] flex items-center justify-center text-slate-900 shrink-0">
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
                 </div>
                 <span>Hardened Cloud & Server DevOps (99.99% SLA)</span>
               </div>
 
               <div className="flex items-center gap-2.5 text-slate-800 font-medium text-sm">
-                <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0">
+                <div className="w-5 h-5 rounded-full bg-[#BBE7F1]/50 border border-[#9cd5e2] flex items-center justify-center text-slate-900 shrink-0">
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
                 </div>
                 <span>Full-Stack MERN & Next.js Core Engineering</span>
               </div>
 
               <div className="flex items-center gap-2.5 text-slate-800 font-medium text-sm">
-                <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0">
+                <div className="w-5 h-5 rounded-full bg-[#BBE7F1]/50 border border-[#9cd5e2] flex items-center justify-center text-slate-900 shrink-0">
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
                 </div>
                 <span>US, UK & German Overlapping Timezone Sync</span>
@@ -130,15 +127,15 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
               <button
                 id="more-about-us-btn"
                 onClick={onAboutClick}
-                className="w-full sm:w-auto justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-6 py-3.5 rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 transition-all flex items-center gap-2 group cursor-pointer min-h-[44px]"
+                className="w-full sm:w-auto justify-center bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-sm px-6 py-3.5 rounded-xl border border-[#9cd5e2] transition-all flex items-center gap-2 group cursor-pointer min-h-[44px] shadow-xs"
               >
                 <span>MORE ABOUT US</span>
-                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-slate-950" />
               </button>
 
               {/* Founder signature */}
               <div className="flex items-center gap-3">
-                <div className="font-serif italic text-xl sm:text-2xl font-bold text-indigo-900 tracking-wider font-['Outfit'] select-none">
+                <div className="font-serif italic text-xl sm:text-2xl font-bold text-slate-900 tracking-wider font-['Archivo'] select-none">
                   Md Moyen Uddin
                 </div>
                 <div className="text-left border-l border-slate-300 pl-3">
@@ -172,15 +169,15 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
                   className="w-full h-24 sm:h-36 object-cover"
                 />
                 <div className="p-2.5 sm:p-3 bg-white">
-                  <div className="text-xs sm:text-sm font-bold text-slate-900">Leverkusen, Germany</div>
-                  <div className="text-xs text-indigo-600 font-medium">European Engineering Hub</div>
+                  <div className="text-xs sm:text-sm font-bold text-slate-900">Engineering Excellence</div>
+                  <div className="text-xs text-cyan-800 font-semibold">Dedicated Agile Squads</div>
                 </div>
               </div>
 
               {/* Floating experience badge - safe relative positioning */}
-              <div className="absolute -top-3 right-2 sm:-top-4 sm:-right-4 bg-indigo-600 text-white p-3 sm:p-4 rounded-2xl shadow-xl flex items-center gap-2.5 sm:gap-3">
-                <div ref={counterRef} className="text-xl sm:text-3xl font-black font-['Outfit']">10+</div>
-                <div className="text-xs font-medium leading-tight">
+              <div className="absolute -top-3 right-2 sm:-top-4 sm:-right-4 bg-slate-950 text-white border border-slate-700/80 p-3 sm:p-4 rounded-2xl shadow-xl flex items-center gap-2.5 sm:gap-3">
+                <div ref={counterRef} className="text-xl sm:text-3xl font-black font-['Archivo'] text-[#BBE7F1]">10+</div>
+                <div className="text-xs font-medium leading-tight text-slate-300">
                   Years of<br />Excellence
                 </div>
               </div>

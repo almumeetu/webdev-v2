@@ -54,3 +54,56 @@ export function TwitterIcon({ className = "w-4 h-4" }: IconProps) {
     </svg>
   );
 }
+
+export function FacebookIcon({ className = "w-4 h-4" }: IconProps) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  );
+}
+
+export function InstagramIcon({ className = "w-4 h-4" }: IconProps) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  );
+}
+
+export function WhatsAppIcon({ className = "w-4 h-4" }: IconProps) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M17.498 14.382c-.301-.15-1.767-.867-2.04-.966-.274-.101-.473-.15-.673.15-.199.299-.772.966-.945 1.165-.175.199-.349.224-.65.075-.3-.15-1.271-.468-2.42-1.494-.894-.797-1.498-1.782-1.673-2.081-.174-.3-.018-.462.133-.611.136-.134.301-.349.452-.524.15-.175.199-.299.3-.499.099-.199.05-.373-.025-.523-.075-.15-.673-1.62-.922-2.218-.242-.584-.487-.51-.672-.51-.174-.01-.374-.01-.573-.01-.199 0-.523.075-.797.373-.274.299-1.046 1.02-1.046 2.487 0 1.468 1.07 2.888 1.22 3.088.15.199 2.103 3.208 5.094 4.498.712.308 1.268.492 1.701.629.715.227 1.365.195 1.88.118.574-.086 1.767-.723 2.016-1.419.25-.697.25-1.294.175-1.419-.075-.125-.274-.199-.575-.349z" />
+      <path d="M12 21.5a9.46 9.46 0 0 1-4.83-1.32l-.35-.21-3.6 1.18 1.19-3.51-.23-.37A9.47 9.47 0 1 1 12 21.5z" />
+    </svg>
+  );
+}
+
+

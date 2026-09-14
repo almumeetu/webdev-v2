@@ -37,11 +37,11 @@ export const ClientLogosSection: React.FC = () => {
         
         {/* Section Eyebrow Header */}
         <div className="text-center mb-6 sm:mb-8 space-y-1.5">
-          <div className="inline-flex items-center gap-2 text-indigo-600 text-xs font-bold font-mono tracking-[0.2em] uppercase">
-            <Globe className="w-3.5 h-3.5 text-indigo-600" />
-            <span>INTERNATIONAL ENTERPRISE CLIENTS & PARTNERS</span>
+          <div className="inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+            <Globe className="w-4 h-4 text-cyan-700" />
+            <span>International Enterprise Clients & Partners</span>
           </div>
-          <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 font-['Outfit']">
+          <h3 className="text-lg sm:text-xl font-bold tracking-tight text-slate-900 font-['Archivo']">
             Trusted by High-Growth Brands Across USA, Germany, UK & Europe
           </h3>
         </div>
@@ -51,7 +51,7 @@ export const ClientLogosSection: React.FC = () => {
           {clientLogos.map((logo: any, idx) => (
             <div
               key={idx}
-              className="logo-strip-item flex flex-col items-center justify-between p-3.5 rounded-2xl bg-white border border-slate-200/90 hover:border-indigo-400 hover:bg-white transition-all duration-300 cursor-default w-full group shadow-xs hover:shadow-md"
+              className="logo-strip-item flex flex-col items-center justify-between p-3.5 rounded-2xl bg-white border border-slate-200/90 hover:border-[#9cd5e2] hover:bg-white transition-all duration-300 cursor-default w-full group shadow-xs hover:shadow-md"
             >
               {/* Logo Area */}
               <div className="h-12 flex items-center justify-center w-full">
@@ -63,10 +63,10 @@ export const ClientLogosSection: React.FC = () => {
                   />
                 ) : (
                   <div className="flex items-center gap-1.5 font-bold text-slate-800">
-                    <div className="w-7 h-7 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-black text-xs font-mono shrink-0 shadow-xs">
+                    <div className="w-7 h-7 rounded-lg bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] flex items-center justify-center font-black text-xs font-mono shrink-0 shadow-xs">
                       {logo.symbol}
                     </div>
-                    <span className="text-xs tracking-tight font-['Outfit'] text-slate-800 truncate">{logo.name}</span>
+                    <span className="text-xs tracking-tight font-['Archivo'] text-slate-800 truncate">{logo.name}</span>
                   </div>
                 )}
               </div>
@@ -74,7 +74,7 @@ export const ClientLogosSection: React.FC = () => {
               {/* Country Badge */}
               <div className="mt-2 pt-2 border-t border-slate-100 w-full flex items-center justify-between text-[10px] text-slate-500 font-mono">
                 <span className="truncate max-w-[95px] text-slate-700 font-semibold">{logo.name}</span>
-                <span className="text-indigo-600 font-bold shrink-0">{logo.badge || logo.country}</span>
+                <span className="text-cyan-800 font-bold shrink-0">{logo.badge || logo.country}</span>
               </div>
             </div>
           ))}
@@ -87,7 +87,7 @@ export const ClientLogosSection: React.FC = () => {
             <span>100% Code & IP Ownership Legally Transferred</span>
           </div>
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-indigo-600 shrink-0" />
+            <ShieldCheck className="w-4 h-4 text-cyan-700 shrink-0" />
             <span>Strict Bilateral NDAs Signed Before Project Kickoff</span>
           </div>
           <div className="flex items-center gap-2">
