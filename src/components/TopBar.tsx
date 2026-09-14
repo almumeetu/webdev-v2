@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Clock, Globe, Phone } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import { GithubIcon, LinkedinIcon, TwitterIcon } from './SocialIcons';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -8,33 +8,24 @@ interface TopBarProps {
 }
 
 export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
-  const { lang, setLang, t } = useLanguage();
+  const { lang, setLang } = useLanguage();
 
   return (
     <div className="bg-slate-950 text-slate-400 text-xs sm:text-sm py-2.5 border-b border-slate-800/80">
       <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
         
-        {/* Left side: Contact Email & Working Hours */}
-        <div className="flex items-center flex-wrap gap-4 sm:gap-6">
-          {/* Email */}
-          <div className="flex items-center gap-2 text-slate-300">
-            <Mail className="w-4 h-4 text-cyan-400 shrink-0" />
-            <a 
-              href="mailto:info@webdevsoftwaresolutions.com" 
-              className="text-xs sm:text-sm hover:text-white transition-colors"
-            >
-              info@webdevsoftwaresolutions.com
-            </a>
-          </div>
-
-          {/* Operating SLA Hours */}
-          <div className="hidden sm:flex items-center gap-2 text-slate-400">
-            <Clock className="w-4 h-4 text-cyan-400 shrink-0" />
-            <span className="text-xs sm:text-sm">{t.topbarHours}</span>
-          </div>
+        {/* Left side: Contact Email */}
+        <div className="flex items-center gap-2 text-slate-300">
+          <Mail className="w-4 h-4 text-cyan-400 shrink-0" />
+          <a 
+            href="mailto:info@webdevsoftwaresolutions.com" 
+            className="text-xs sm:text-sm hover:text-white transition-colors"
+          >
+            info@webdevsoftwaresolutions.com
+          </a>
         </div>
 
-        {/* Right side: Language Switcher & Direct BD Hotline / Socials */}
+        {/* Right side: Language Switcher & Socials */}
         <div className="flex items-center gap-3 sm:gap-4">
           {/* German & English Language Switcher */}
           <div className="inline-flex items-center rounded-full bg-slate-900 border border-slate-700/80 p-0.5">
@@ -66,18 +57,8 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
             </button>
           </div>
 
-          {/* Direct Hotline */}
-          <a
-            href="tel:+491729766016"
-            className="flex items-center gap-1.5 text-slate-200 hover:text-emerald-400 font-medium text-xs sm:text-sm transition-colors"
-            title="European Client Line (+49 172 9766016)"
-          >
-            <span className="text-xs">🇩🇪</span>
-            <span className="font-mono font-bold">+49 172 9766016</span>
-          </a>
-
           {/* Clean Socials */}
-          <div className="hidden sm:flex items-center space-x-2 text-slate-400 border-l border-slate-800 pl-3">
+          <div className="flex items-center space-x-2 text-slate-400 border-l border-slate-800 pl-3">
             <a 
               href="https://github.com/almumeetusaikat" 
               target="_blank" 
