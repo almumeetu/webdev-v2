@@ -19,6 +19,8 @@ import { FaqAndExperienceSection } from './FaqAndExperienceSection';
 import { RecentProjectsSection } from './RecentProjectsSection';
 import { TestimonialsSection } from './TestimonialsSection';
 import { ClientLogosSection } from './ClientLogosSection';
+import { TechStackSection } from './TechStackSection';
+import { GlobalEcosystemSection } from './GlobalEcosystemSection';
 import { GlobalTrustSection } from './GlobalTrustSection';
 import { LatestNewsSection } from './LatestNewsSection';
 import { CallToActionBanner } from './CallToActionBanner';
@@ -271,8 +273,8 @@ function MainAppContent() {
               onExploreServices={() => handleNavigate('services')}
             />
 
-            {/* Client Logos Banner with REAL WebDev Brands */}
-            <ClientLogosSection />
+            {/* Powering World-Class Solutions - Tech Stack Section */}
+            <TechStackSection />
 
             {/* Service Feature Cards */}
             <ServiceFeatureCards
@@ -347,6 +349,9 @@ function MainAppContent() {
 
             {/* Verified International Testimonials */}
             <TestimonialsSection />
+
+            {/* Global Ecosystem - Trusted by Industry Leaders */}
+            <GlobalEcosystemSection />
 
             {/* Latest News and Insights */}
             <LatestNewsSection
