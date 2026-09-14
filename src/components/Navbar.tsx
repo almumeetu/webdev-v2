@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+'use client';
+
+import React, { useState, useEffect, useMemo } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { 
   Phone, 
   Menu, 
@@ -18,29 +21,23 @@ import {
   MapPin,
   Sparkles
 } from 'lucide-react';
-import { UserProfile, SiteSettings } from '../types';
+import { useAppContext } from '../context/AppContext';
+import { getRoute, getViewFromPathname } from '../utils/routes';
 
-interface NavbarProps {
-  currentView: string;
-  onNavigate: (view: string, subParam?: string) => void;
-  onOpenQuote: () => void;
-  onOpenAuth: () => void;
-  onOpenProfile: () => void;
-  currentUser: UserProfile | null;
-  siteSettings: SiteSettings;
-  savedCount?: number;
-}
+export const Navbar: React.FC = () => {
+  const pathname = usePathname();
+  const router = useRouter();
+  const { currentUser, siteSettings } = useAppContext();
 
-export const Navbar: React.FC<NavbarProps> = ({
-  currentView,
-  onNavigate,
-  onOpenQuote,
-  onOpenAuth,
-  onOpenProfile,
-  currentUser,
-  siteSettings,
-  savedCount = 0
-}) => {
+  // Derive legacy view name from pathname — all JSX active-state checks remain unchanged
+  const currentView = useMemo(() => getViewFromPathname(pathname), [pathname]);
+  const savedCount = 0;
+
+  // Local navigation wrappers — preserve the same variable names used throughout JSX
+  const onOpenQuote = () => router.push('/contact');
+  const onOpenAuth = () => router.push('/auth');
+  const onOpenProfile = () => router.push('/profile');
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
@@ -55,7 +52,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, []);
 
   const handleNavClick = (view: string, subParam?: string) => {
-    onNavigate(view, subParam);
+    router.push(getRoute(view, subParam));
     setMobileMenuOpen(false);
     setServicesDropdownOpen(false);
     setPortfolioDropdownOpen(false);
@@ -64,10 +61,10 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <header 
       id="main-header"
-      className={`sticky top-0 z-50 transition-all duration-200 ${
+      className={`sticky top-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-sm py-2.5 sm:py-3' 
-          : 'bg-white/90 backdrop-blur-md border-b border-slate-200/70 py-3.5 sm:py-4'
+          ? 'bg-slate-950/95 backdrop-blur-md border-b border-slate-800/90 shadow-md py-2.5 sm:py-3' 
+          : 'bg-gradient-to-b from-[#BBE7F1]/25 via-[#f8fcfd]/95 to-white/95 backdrop-blur-md border-b border-slate-200/90 py-3.5 sm:py-4 shadow-xs'
       }`}
     >
       <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -80,13 +77,23 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="flex items-center text-left group focus:outline-none shrink-0 cursor-pointer py-0.5"
           >
             {siteSettings.logoUrl && siteSettings.logoUrl.trim() !== '' ? (
-              <img 
-                src={siteSettings.logoUrl}
-                alt={siteSettings.companyName}
-                className="h-12 xs:h-14 sm:h-15 lg:h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-105 drop-shadow-xs"
-              />
+              isScrolled ? (
+                <div className="bg-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl inline-flex items-center justify-center shadow-xs transition-all duration-200">
+                  <img 
+                    src={siteSettings.logoUrl}
+                    alt={siteSettings.companyName}
+                    className="h-8 xs:h-9 sm:h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+                  />
+                </div>
+              ) : (
+                <img 
+                  src={siteSettings.logoUrl}
+                  alt={siteSettings.companyName}
+                  className="h-10 xs:h-11 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+                />
+              )
             ) : (
-              <span className="text-xl font-bold font-['Archivo'] text-white">
+              <span className={`text-xl font-bold font-['Archivo'] ${isScrolled ? 'text-white' : 'text-slate-900'}`}>
                 {siteSettings.companyName || 'WebDev'}
               </span>
             )}
@@ -100,7 +107,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                 currentView === 'home' 
                   ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
-                  : 'text-slate-600 hover:text-slate-950 hover:bg-[#BBE7F1]/25'
+                  : isScrolled
+                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
+                    : 'text-slate-700 hover:text-slate-950 hover:bg-[#BBE7F1]/35'
               }`}
             >
               Home
@@ -112,7 +121,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                 currentView === 'about' 
                   ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
-                  : 'text-slate-600 hover:text-slate-950 hover:bg-[#BBE7F1]/25'
+                  : isScrolled
+                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
+                    : 'text-slate-700 hover:text-slate-950 hover:bg-[#BBE7F1]/35'
               }`}
             >
               About
@@ -130,72 +141,116 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                   currentView === 'services' 
                     ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
-                    : 'text-slate-600 hover:text-slate-950 hover:bg-[#BBE7F1]/25'
+                    : isScrolled
+                      ? 'text-slate-300 hover:text-white hover:bg-slate-900'
+                      : 'text-slate-700 hover:text-slate-950 hover:bg-[#BBE7F1]/35'
                 }`}
               >
                 <span>Services</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${servicesDropdownOpen ? 'rotate-180 text-slate-900' : 'text-slate-400'}`} />
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                  servicesDropdownOpen 
+                    ? (isScrolled ? 'rotate-180 text-cyan-300' : 'rotate-180 text-cyan-800') 
+                    : (isScrolled ? 'text-slate-400' : 'text-slate-500')
+                }`} />
               </button>
 
               {servicesDropdownOpen && (
                 <div className="absolute top-full left-0 w-84 pt-2 z-50">
-                  <div className="bg-white border border-slate-200 rounded-2xl shadow-2xl p-2.5">
+                  <div className={`rounded-2xl shadow-2xl p-2.5 backdrop-blur-xl border ${
+                    isScrolled 
+                      ? 'bg-slate-900/95 border-slate-800' 
+                      : 'bg-white/98 border-slate-200'
+                  }`}>
                     <button
                       onClick={() => handleNavClick('services', 'serv-1')}
-                      className="w-full text-left flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group cursor-pointer"
+                      className={`w-full text-left flex items-start gap-3 p-2.5 rounded-xl transition-colors group cursor-pointer ${
+                        isScrolled ? 'hover:bg-slate-800/80' : 'hover:bg-slate-50'
+                      }`}
                     >
-                      <div className="p-2 rounded-xl bg-[#BBE7F1]/50 text-slate-950 group-hover:bg-[#BBE7F1] group-hover:text-slate-950 transition-colors">
+                      <div className="p-2 rounded-xl bg-[#BBE7F1]/20 text-[#BBE7F1] group-hover:bg-[#BBE7F1] group-hover:text-slate-950 transition-colors">
                         <Code2 className="w-4 h-4" />
                       </div>
                       <div>
-                        <div className="text-sm font-bold text-slate-900 group-hover:text-cyan-800 transition-colors">Full Stack & MERN</div>
-                        <div className="text-xs text-slate-500">Enterprise React 19, Next.js & Node</div>
+                        <div className={`text-sm font-bold transition-colors ${
+                          isScrolled ? 'text-slate-100 group-hover:text-[#BBE7F1]' : 'text-slate-900 group-hover:text-cyan-800'
+                        }`}>
+                          Full Stack & MERN
+                        </div>
+                        <div className={`text-xs ${isScrolled ? 'text-slate-400' : 'text-slate-500'}`}>
+                          Enterprise React 19, Next.js & Node
+                        </div>
                       </div>
                     </button>
 
                     <button
                       onClick={() => handleNavClick('services', 'serv-2')}
-                      className="w-full text-left flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group cursor-pointer"
+                      className={`w-full text-left flex items-start gap-3 p-2.5 rounded-xl transition-colors group cursor-pointer ${
+                        isScrolled ? 'hover:bg-slate-800/80' : 'hover:bg-slate-50'
+                      }`}
                     >
-                      <div className="p-2 rounded-xl bg-sky-50 text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-colors">
+                      <div className="p-2 rounded-xl bg-sky-950/60 text-sky-400 group-hover:bg-sky-500 group-hover:text-white transition-colors">
                         <Server className="w-4 h-4" />
                       </div>
                       <div>
-                        <div className="text-sm font-bold text-slate-900 group-hover:text-sky-600 transition-colors">Cloud & Linux Servers</div>
-                        <div className="text-xs text-slate-500">Nginx, Docker & 99.99% SLA Uptime</div>
+                        <div className={`text-sm font-bold transition-colors ${
+                          isScrolled ? 'text-slate-100 group-hover:text-sky-400' : 'text-slate-900 group-hover:text-sky-600'
+                        }`}>
+                          Cloud & Linux Servers
+                        </div>
+                        <div className={`text-xs ${isScrolled ? 'text-slate-400' : 'text-slate-500'}`}>
+                          Nginx, Docker & 99.99% SLA Uptime
+                        </div>
                       </div>
                     </button>
 
                     <button
                       onClick={() => handleNavClick('services', 'serv-3')}
-                      className="w-full text-left flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group cursor-pointer"
+                      className={`w-full text-left flex items-start gap-3 p-2.5 rounded-xl transition-colors group cursor-pointer ${
+                        isScrolled ? 'hover:bg-slate-800/80' : 'hover:bg-slate-50'
+                      }`}
                     >
-                      <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                      <div className="p-2 rounded-xl bg-emerald-950/60 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
                         <ShoppingCart className="w-4 h-4" />
                       </div>
                       <div>
-                        <div className="text-sm font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">E-Commerce Specialist</div>
-                        <div className="text-xs text-slate-500">Headless Shopify & custom WooCommerce</div>
+                        <div className={`text-sm font-bold transition-colors ${
+                          isScrolled ? 'text-slate-100 group-hover:text-emerald-400' : 'text-slate-900 group-hover:text-emerald-600'
+                        }`}>
+                          E-Commerce Specialist
+                        </div>
+                        <div className={`text-xs ${isScrolled ? 'text-slate-400' : 'text-slate-500'}`}>
+                          Headless Shopify & custom WooCommerce
+                        </div>
                       </div>
                     </button>
 
                     <button
                       onClick={() => handleNavClick('services', 'serv-4')}
-                      className="w-full text-left flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group cursor-pointer"
+                      className={`w-full text-left flex items-start gap-3 p-2.5 rounded-xl transition-colors group cursor-pointer ${
+                        isScrolled ? 'hover:bg-slate-800/80' : 'hover:bg-slate-50'
+                      }`}
                     >
-                      <div className="p-2 rounded-xl bg-purple-50 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                      <div className="p-2 rounded-xl bg-purple-950/60 text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
                         <Globe className="w-4 h-4" />
                       </div>
                       <div>
-                        <div className="text-sm font-bold text-slate-900 group-hover:text-purple-600 transition-colors">WordPress & Enterprise CMS</div>
-                        <div className="text-xs text-slate-500">High-speed custom plugin development</div>
+                        <div className={`text-sm font-bold transition-colors ${
+                          isScrolled ? 'text-slate-100 group-hover:text-purple-400' : 'text-slate-900 group-hover:text-purple-600'
+                        }`}>
+                          WordPress & Enterprise CMS
+                        </div>
+                        <div className={`text-xs ${isScrolled ? 'text-slate-400' : 'text-slate-500'}`}>
+                          High-speed custom plugin development
+                        </div>
                       </div>
                     </button>
                     
-                    <div className="pt-2 mt-1 border-t border-slate-100 px-2 pb-1">
+                    <div className={`pt-2 mt-1 border-t px-2 pb-1 ${isScrolled ? 'border-slate-800' : 'border-slate-100'}`}>
                       <button
                         onClick={() => handleNavClick('services')}
-                        className="text-xs font-bold text-cyan-800 hover:text-cyan-900 flex items-center justify-between w-full cursor-pointer py-1"
+                        className={`text-xs font-bold flex items-center justify-between w-full cursor-pointer py-1 transition-colors ${
+                          isScrolled ? 'text-[#BBE7F1] hover:text-white' : 'text-cyan-800 hover:text-cyan-950'
+                        }`}
                       >
                         <span>Explore All 6 IT Services</span>
                         <ArrowRight className="w-3.5 h-3.5" />
@@ -218,36 +273,64 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                   currentView === 'portfolio' 
                     ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
-                    : 'text-slate-600 hover:text-slate-950 hover:bg-[#BBE7F1]/25'
+                    : isScrolled
+                      ? 'text-slate-300 hover:text-white hover:bg-slate-900'
+                      : 'text-slate-700 hover:text-slate-950 hover:bg-[#BBE7F1]/35'
                 }`}
               >
                 <span>Portfolio</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${portfolioDropdownOpen ? 'rotate-180 text-slate-900' : 'text-slate-400'}`} />
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                  portfolioDropdownOpen 
+                    ? (isScrolled ? 'rotate-180 text-cyan-300' : 'rotate-180 text-cyan-800') 
+                    : (isScrolled ? 'text-slate-400' : 'text-slate-500')
+                }`} />
               </button>
 
               {portfolioDropdownOpen && (
                 <div className="absolute top-full left-0 w-64 pt-2 z-50">
-                  <div className="bg-white border border-slate-200 rounded-2xl shadow-2xl p-2">
+                  <div className={`rounded-2xl shadow-2xl p-2 backdrop-blur-xl border ${
+                    isScrolled 
+                      ? 'bg-slate-900/95 border-slate-800' 
+                      : 'bg-white/98 border-slate-200'
+                  }`}>
                     <button
                       onClick={() => handleNavClick('portfolio', 'all')}
-                      className="w-full text-left px-3 py-2 text-sm text-slate-700 hover:text-slate-950 hover:bg-slate-50 rounded-xl flex items-center justify-between cursor-pointer"
+                      className={`w-full text-left px-3 py-2 text-sm rounded-xl flex items-center justify-between cursor-pointer transition-colors ${
+                        isScrolled ? 'text-slate-300 hover:text-white hover:bg-slate-800/80' : 'text-slate-700 hover:text-slate-950 hover:bg-slate-50'
+                      }`}
                     >
                       <span className="font-medium">All Projects</span>
-                      <span className="text-xs bg-slate-100 px-2 py-0.5 rounded-full text-slate-600 font-semibold">6+</span>
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-semibold border ${
+                        isScrolled ? 'bg-slate-800 text-slate-300 border-slate-700' : 'bg-slate-100 text-slate-600 border-slate-200'
+                      }`}>
+                        6+
+                      </span>
                     </button>
                     <button
                       onClick={() => handleNavClick('portfolio', 'completed')}
-                      className="w-full text-left px-3 py-2 text-sm text-slate-700 hover:text-slate-950 hover:bg-slate-50 rounded-xl flex items-center justify-between cursor-pointer"
+                      className={`w-full text-left px-3 py-2 text-sm rounded-xl flex items-center justify-between cursor-pointer transition-colors ${
+                        isScrolled ? 'text-slate-300 hover:text-white hover:bg-slate-800/80' : 'text-slate-700 hover:text-slate-950 hover:bg-slate-50'
+                      }`}
                     >
                       <span className="font-medium">Recent Completed</span>
-                      <span className="text-xs bg-emerald-50 text-emerald-700 font-semibold px-2 py-0.5 rounded-full border border-emerald-200">Ready</span>
+                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${
+                        isScrolled ? 'bg-emerald-950/80 text-emerald-300 border-emerald-800/80' : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                      }`}>
+                        Ready
+                      </span>
                     </button>
                     <button
                       onClick={() => handleNavClick('portfolio', 'ongoing')}
-                      className="w-full text-left px-3 py-2 text-sm text-slate-700 hover:text-slate-950 hover:bg-slate-50 rounded-xl flex items-center justify-between cursor-pointer"
+                      className={`w-full text-left px-3 py-2 text-sm rounded-xl flex items-center justify-between cursor-pointer transition-colors ${
+                        isScrolled ? 'text-slate-300 hover:text-white hover:bg-slate-800/80' : 'text-slate-700 hover:text-slate-950 hover:bg-slate-50'
+                      }`}
                     >
                       <span className="font-medium">Ongoing Active</span>
-                      <span className="text-xs bg-amber-50 text-amber-700 font-semibold px-2 py-0.5 rounded-full border border-amber-200">Active</span>
+                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${
+                        isScrolled ? 'bg-amber-950/80 text-amber-300 border-amber-800/80' : 'bg-amber-50 text-amber-700 border-amber-200'
+                      }`}>
+                        Active
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -260,7 +343,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                 currentView === 'team' 
                   ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
-                  : 'text-slate-600 hover:text-slate-950 hover:bg-[#BBE7F1]/25'
+                  : isScrolled
+                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
+                    : 'text-slate-700 hover:text-slate-950 hover:bg-[#BBE7F1]/35'
               }`}
             >
               Team
@@ -272,7 +357,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                 currentView === 'blog' 
                   ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
-                  : 'text-slate-600 hover:text-slate-950 hover:bg-[#BBE7F1]/25'
+                  : isScrolled
+                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
+                    : 'text-slate-700 hover:text-slate-950 hover:bg-[#BBE7F1]/35'
               }`}
             >
               Blog
@@ -284,7 +371,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                 currentView === 'contact' 
                   ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
-                  : 'text-slate-600 hover:text-slate-950 hover:bg-[#BBE7F1]/25'
+                  : isScrolled
+                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
+                    : 'text-slate-700 hover:text-slate-950 hover:bg-[#BBE7F1]/35'
               }`}
             >
               Contact Us
@@ -299,7 +388,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 id="user-profile-btn"
                 onClick={onOpenProfile}
-                className="flex items-center gap-1.5 sm:gap-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-full py-1 pl-1 pr-2.5 sm:pr-3 text-xs font-medium text-slate-800 transition-all min-h-[38px] cursor-pointer"
+                className={`flex items-center gap-1.5 sm:gap-2 rounded-full py-1 pl-1 pr-2.5 sm:pr-3 text-xs font-medium transition-all min-h-[38px] cursor-pointer border ${
+                  isScrolled 
+                    ? 'bg-slate-900 hover:bg-slate-800 border-slate-800 hover:border-slate-700 text-slate-200' 
+                    : 'bg-white hover:bg-slate-50 border-slate-200/90 hover:border-slate-300 text-slate-800 shadow-xs'
+                }`}
                 title="Manage Profile"
               >
                 {currentUser.avatar && currentUser.avatar.trim() !== '' ? (
@@ -315,7 +408,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                 )}
                 <span className="hidden sm:inline max-w-[80px] truncate font-semibold">{currentUser.name.split(' ')[0]}</span>
                 {currentUser.role === 'admin' && (
-                  <span className="bg-[#BBE7F1]/60 text-slate-950 border border-[#9cd5e2] text-[10px] px-1.5 py-0.2 rounded font-bold">
+                  <span className={`text-[10px] px-1.5 py-0.2 rounded font-bold border ${
+                    isScrolled 
+                      ? 'bg-[#BBE7F1]/20 text-[#BBE7F1] border-[#9cd5e2]/30' 
+                      : 'bg-[#BBE7F1]/60 text-slate-950 border-[#9cd5e2]'
+                  }`}>
                     Admin
                   </span>
                 )}
@@ -324,7 +421,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 id="google-auth-trigger-btn"
                 onClick={onOpenAuth}
-                className="flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-950 border border-slate-200 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold transition-colors min-h-[38px] cursor-pointer"
+                className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold transition-colors min-h-[38px] cursor-pointer border ${
+                  isScrolled 
+                    ? 'bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-white border-slate-800 hover:border-slate-700' 
+                    : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-950 border-slate-200/90 hover:border-slate-300 shadow-xs'
+                }`}
                 title="Sign In / Register"
               >
                 <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
@@ -352,7 +453,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               id="mobile-menu-toggle"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 text-slate-700 hover:text-slate-950 flex items-center justify-center border border-slate-200 focus:outline-none cursor-pointer shrink-0"
+              className={`lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center border focus:outline-none cursor-pointer shrink-0 transition-colors ${
+                isScrolled
+                  ? 'bg-slate-900 text-slate-300 hover:text-white border-slate-800 hover:border-slate-700'
+                  : 'bg-white text-slate-700 hover:text-slate-950 border-slate-200/90 shadow-xs'
+              }`}
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -363,13 +468,19 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden mt-3 pt-3 border-t border-slate-200 pb-5 space-y-2 max-h-[80vh] overflow-y-auto">
+          <div className={`lg:hidden mt-3 pt-3 border-t pb-5 space-y-2 max-h-[80vh] overflow-y-auto ${
+            isScrolled ? 'border-slate-800' : 'border-slate-200'
+          }`}>
             
             {/* Quick Hub Notice */}
-            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between text-xs mb-3">
+            <div className={`p-3 rounded-xl border flex items-center justify-between text-xs mb-3 ${
+              isScrolled ? 'bg-slate-900 border-slate-800' : 'bg-white/90 border-slate-200 shadow-xs'
+            }`}>
               <div className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-slate-700 shrink-0" />
-                <span className="text-slate-700 font-medium">Global Engineering & Client Operations</span>
+                <MapPin className={`w-3.5 h-3.5 shrink-0 ${isScrolled ? 'text-cyan-400' : 'text-cyan-700'}`} />
+                <span className={`font-medium ${isScrolled ? 'text-slate-300' : 'text-slate-700'}`}>
+                  Global Engineering & Client Operations
+                </span>
               </div>
               <span className="text-[10px] bg-[#BBE7F1] text-slate-950 font-bold px-2 py-0.5 rounded-full border border-[#9cd5e2]">
                 Active
@@ -382,7 +493,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
                 currentView === 'home' 
                   ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
-                  : 'text-slate-700 hover:bg-slate-100'
+                  : isScrolled
+                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
+                    : 'text-slate-700 hover:bg-slate-100'
               }`}
             >
               <span>Home Overview</span>
@@ -394,7 +507,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
                 currentView === 'about' 
                   ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
-                  : 'text-slate-700 hover:bg-slate-100'
+                  : isScrolled
+                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
+                    : 'text-slate-700 hover:bg-slate-100'
               }`}
             >
               <span>About Company</span>
@@ -406,11 +521,17 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
                 currentView === 'services' 
                   ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
-                  : 'text-slate-700 hover:bg-slate-100'
+                  : isScrolled
+                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
+                    : 'text-slate-700 hover:bg-slate-100'
               }`}
             >
               <span>All IT & Server Services</span>
-              <span className="text-xs bg-white text-slate-800 border border-[#9cd5e2] font-bold px-2 py-0.5 rounded-md">6 Services</span>
+              <span className={`text-xs font-bold px-2 py-0.5 rounded-md border ${
+                isScrolled ? 'bg-slate-800 text-slate-300 border-slate-700' : 'bg-white text-slate-800 border-[#9cd5e2]'
+              }`}>
+                6 Services
+              </span>
             </button>
 
             <button
@@ -418,7 +539,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
                 currentView === 'portfolio' 
                   ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
-                  : 'text-slate-700 hover:bg-slate-100'
+                  : isScrolled
+                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
+                    : 'text-slate-700 hover:bg-slate-100'
               }`}
             >
               <span>Portfolio (Recent & Ongoing)</span>
@@ -430,7 +553,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
                 currentView === 'team' 
                   ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
-                  : 'text-slate-700 hover:bg-slate-100'
+                  : isScrolled
+                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
+                    : 'text-slate-700 hover:bg-slate-100'
               }`}
             >
               <span>Engineering Team & Leadership</span>
@@ -442,7 +567,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
                 currentView === 'blog' 
                   ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
-                  : 'text-slate-700 hover:bg-slate-100'
+                  : isScrolled
+                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
+                    : 'text-slate-700 hover:bg-slate-100'
               }`}
             >
               <span>Tech Insights & News</span>
@@ -458,7 +585,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-colors cursor-pointer min-h-[44px] ${
                 currentView === 'contact'
                   ? 'bg-[#BBE7F1] text-slate-950 font-bold border border-[#9cd5e2] shadow-xs'
-                  : 'text-slate-700 hover:bg-slate-100'
+                  : isScrolled
+                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
+                    : 'text-slate-700 hover:bg-slate-100'
               }`}
             >
               <span>Contact Us (Joypurhat & Leverkusen)</span>
@@ -466,23 +595,33 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             {/* Direct Calling & Action Buttons */}
-            <div className="pt-3 border-t border-slate-200 grid grid-cols-2 gap-2">
+            <div className={`pt-3 border-t grid grid-cols-2 gap-2 ${
+              isScrolled ? 'border-slate-800' : 'border-slate-200'
+            }`}>
               <a
                 href="tel:+8801722301927"
-                className="flex flex-col items-center justify-center p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-center hover:border-[#9cd5e2] transition-colors"
+                className={`flex flex-col items-center justify-center p-2.5 rounded-xl border text-center transition-colors ${
+                  isScrolled 
+                    ? 'bg-slate-900 border-slate-800 hover:border-slate-700' 
+                    : 'bg-white border-slate-200 hover:border-[#9cd5e2] shadow-xs'
+                }`}
               >
-                <Phone className="w-4 h-4 text-cyan-700 mb-1" />
-                <span className="text-xs text-slate-500">Bangladesh HQ</span>
-                <span className="text-xs font-bold text-slate-900 font-mono">+880 1722</span>
+                <Phone className={`w-4 h-4 mb-1 ${isScrolled ? 'text-cyan-400' : 'text-cyan-700'}`} />
+                <span className={`text-xs ${isScrolled ? 'text-slate-400' : 'text-slate-500'}`}>Bangladesh HQ</span>
+                <span className={`text-xs font-bold font-mono ${isScrolled ? 'text-slate-200' : 'text-slate-900'}`}>+880 1722</span>
               </a>
 
               <a
                 href="tel:+491729766016"
-                className="flex flex-col items-center justify-center p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-center hover:border-[#9cd5e2] transition-colors"
+                className={`flex flex-col items-center justify-center p-2.5 rounded-xl border text-center transition-colors ${
+                  isScrolled 
+                    ? 'bg-slate-900 border-slate-800 hover:border-slate-700' 
+                    : 'bg-white border-slate-200 hover:border-[#9cd5e2] shadow-xs'
+                }`}
               >
-                <Phone className="w-4 h-4 text-cyan-700 mb-1" />
-                <span className="text-xs text-slate-500">Germany Branch</span>
-                <span className="text-xs font-bold text-slate-900 font-mono">+49 172</span>
+                <Phone className={`w-4 h-4 mb-1 ${isScrolled ? 'text-cyan-400' : 'text-cyan-700'}`} />
+                <span className={`text-xs ${isScrolled ? 'text-slate-400' : 'text-slate-500'}`}>Germany Branch</span>
+                <span className={`text-xs font-bold font-mono ${isScrolled ? 'text-slate-200' : 'text-slate-900'}`}>+49 172</span>
               </a>
             </div>
 
@@ -492,7 +631,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setMobileMenuOpen(false);
                   handleNavClick('contact');
                 }}
-                className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold py-3 px-4 rounded-xl border border-[#9cd5e2] text-sm flex items-center justify-center gap-2 min-h-[44px] cursor-pointer"
+                className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold py-3 px-4 rounded-xl border border-[#9cd5e2] text-sm flex items-center justify-center gap-2 min-h-[44px] cursor-pointer shadow-xs"
               >
                 <Sparkles className="w-4 h-4 text-slate-950" />
                 <span>Contact Engineering Team</span>

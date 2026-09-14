@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Mail,
   Phone,
@@ -12,19 +13,17 @@ import {
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon, TwitterIcon, WhatsAppIcon } from './SocialIcons';
 import { useLanguage } from '../context/LanguageContext';
-import { SiteSettings } from '../types';
+import { useAppContext } from '../context/AppContext';
+import { getRoute } from '../utils/routes';
 
-interface FooterProps {
-  onNavigate: (view: string, subParam?: string) => void;
-  onOpenQuote: () => void;
-  siteSettings: SiteSettings;
-}
+export const Footer: React.FC = () => {
+  const router = useRouter();
+  const { siteSettings } = useAppContext();
 
-export const Footer: React.FC<FooterProps> = ({
-  onNavigate,
-  onOpenQuote,
-  siteSettings
-}) => {
+  // Local navigation wrappers — preserve the same variable names used throughout JSX
+  const onNavigate = (view: string, subParam?: string) => router.push(getRoute(view, subParam));
+  const onOpenQuote = () => router.push('/contact');
+
   const { t } = useLanguage();
 
   const scrollToTop = () => {

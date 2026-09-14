@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { LanguageProvider } from "@/context/LanguageContext";
+import { AppProvider } from "@/context/AppContext";
+import { AppShell } from "@/components/AppShell";
 
 export const viewport: Viewport = {
   themeColor: "#070b14",
@@ -53,7 +56,13 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-[#0b0f19] text-slate-100 antialiased selection:bg-[#BBE7F1] selection:text-slate-950">
-        {children}
+        <LanguageProvider>
+          <AppProvider>
+            <AppShell>
+              {children}
+            </AppShell>
+          </AppProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

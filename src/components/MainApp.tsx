@@ -347,15 +347,7 @@ function MainAppContent() {
       <TopBar />
 
       {/* 2. Navbar */}
-      <Navbar
-        currentView={currentView}
-        onNavigate={handleNavigate}
-        onOpenQuote={() => { setLeadName(undefined); setLeadProject(undefined); handleNavigate('contact'); }}
-        onOpenAuth={() => handleNavigate('auth')}
-        onOpenProfile={() => handleNavigate('profile')}
-        currentUser={currentUser}
-        siteSettings={siteSettings}
-      />
+      <Navbar />
 
       {/* Main Content Router */}
       <main className="flex-1">
@@ -643,11 +635,7 @@ function MainAppContent() {
       </main>
 
       {/* Footer */}
-      <Footer
-        onNavigate={handleNavigate}
-        onOpenQuote={() => { setLeadName(undefined); setLeadProject(undefined); handleNavigate('contact'); }}
-        siteSettings={siteSettings}
-      />
+      <Footer />
     </div>
   );
 }
