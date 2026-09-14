@@ -18,7 +18,7 @@ import {
   MapPin,
   Sparkles
 } from 'lucide-react';
-import { UserProfile } from '../types';
+import { UserProfile, SiteSettings } from '../types';
 
 interface NavbarProps {
   currentView: string;
@@ -27,6 +27,7 @@ interface NavbarProps {
   onOpenAuth: () => void;
   onOpenProfile: () => void;
   currentUser: UserProfile | null;
+  siteSettings: SiteSettings;
   savedCount?: number;
 }
 
@@ -37,6 +38,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenAuth,
   onOpenProfile,
   currentUser,
+  siteSettings,
   savedCount = 0
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -77,11 +79,17 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => handleNavClick('home')}
             className="flex items-center text-left group focus:outline-none shrink-0 cursor-pointer py-0.5"
           >
-            <img 
-              src="/images/logo/webdev-logo.png" 
-              alt="WebDev Software Solutions" 
-              className="h-12 xs:h-14 sm:h-15 lg:h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-105 drop-shadow-xs"
-            />
+            {siteSettings.logoUrl && siteSettings.logoUrl.trim() !== '' ? (
+              <img 
+                src={siteSettings.logoUrl}
+                alt={siteSettings.companyName}
+                className="h-12 xs:h-14 sm:h-15 lg:h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-105 drop-shadow-xs"
+              />
+            ) : (
+              <span className="text-xl font-bold font-['Archivo'] text-white">
+                {siteSettings.companyName || 'WebDev'}
+              </span>
+            )}
           </button>
 
           {/* Desktop Navigation Links */}
@@ -91,8 +99,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => handleNavClick('home')}
               className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                 currentView === 'home' 
-                  ? 'text-indigo-600 font-semibold bg-indigo-50/80' 
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
+                  ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-[#BBE7F1]/25'
               }`}
             >
               Home
@@ -103,8 +111,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => handleNavClick('about')}
               className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                 currentView === 'about' 
-                  ? 'text-indigo-600 font-semibold bg-indigo-50/80' 
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
+                  ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-[#BBE7F1]/25'
               }`}
             >
               About
@@ -121,12 +129,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => handleNavClick('services')}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                   currentView === 'services' 
-                    ? 'text-indigo-600 font-semibold bg-indigo-50/80' 
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
+                    ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
+                    : 'text-slate-600 hover:text-slate-950 hover:bg-[#BBE7F1]/25'
                 }`}
               >
                 <span>Services</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${servicesDropdownOpen ? 'rotate-180 text-indigo-600' : 'text-slate-400'}`} />
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${servicesDropdownOpen ? 'rotate-180 text-slate-900' : 'text-slate-400'}`} />
               </button>
 
               {servicesDropdownOpen && (
@@ -136,11 +144,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                       onClick={() => handleNavClick('services', 'serv-1')}
                       className="w-full text-left flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group cursor-pointer"
                     >
-                      <div className="p-2 rounded-xl bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                      <div className="p-2 rounded-xl bg-[#BBE7F1]/50 text-slate-950 group-hover:bg-[#BBE7F1] group-hover:text-slate-950 transition-colors">
                         <Code2 className="w-4 h-4" />
                       </div>
                       <div>
-                        <div className="text-sm font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Full Stack & MERN</div>
+                        <div className="text-sm font-bold text-slate-900 group-hover:text-cyan-800 transition-colors">Full Stack & MERN</div>
                         <div className="text-xs text-slate-500">Enterprise React 19, Next.js & Node</div>
                       </div>
                     </button>
@@ -187,7 +195,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     <div className="pt-2 mt-1 border-t border-slate-100 px-2 pb-1">
                       <button
                         onClick={() => handleNavClick('services')}
-                        className="text-xs font-bold text-indigo-600 hover:text-indigo-700 flex items-center justify-between w-full cursor-pointer py-1"
+                        className="text-xs font-bold text-cyan-800 hover:text-cyan-900 flex items-center justify-between w-full cursor-pointer py-1"
                       >
                         <span>Explore All 6 IT Services</span>
                         <ArrowRight className="w-3.5 h-3.5" />
@@ -209,12 +217,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => handleNavClick('portfolio')}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                   currentView === 'portfolio' 
-                    ? 'text-indigo-600 font-semibold bg-indigo-50/80' 
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
+                    ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
+                    : 'text-slate-600 hover:text-slate-950 hover:bg-[#BBE7F1]/25'
                 }`}
               >
                 <span>Portfolio</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${portfolioDropdownOpen ? 'rotate-180 text-indigo-600' : 'text-slate-400'}`} />
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${portfolioDropdownOpen ? 'rotate-180 text-slate-900' : 'text-slate-400'}`} />
               </button>
 
               {portfolioDropdownOpen && (
@@ -251,8 +259,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => handleNavClick('team')}
               className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                 currentView === 'team' 
-                  ? 'text-indigo-600 font-semibold bg-indigo-50/80' 
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
+                  ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-[#BBE7F1]/25'
               }`}
             >
               Team
@@ -263,8 +271,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => handleNavClick('blog')}
               className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                 currentView === 'blog' 
-                  ? 'text-indigo-600 font-semibold bg-indigo-50/80' 
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
+                  ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-[#BBE7F1]/25'
               }`}
             >
               Blog
@@ -275,8 +283,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => handleNavClick('contact')}
               className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                 currentView === 'contact' 
-                  ? 'text-indigo-600 font-semibold bg-indigo-50/80' 
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
+                  ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-[#BBE7F1]/25'
               }`}
             >
               Contact Us
@@ -294,14 +302,20 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="flex items-center gap-1.5 sm:gap-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-full py-1 pl-1 pr-2.5 sm:pr-3 text-xs font-medium text-slate-800 transition-all min-h-[38px] cursor-pointer"
                 title="Manage Profile"
               >
-                <img 
-                  src={currentUser.avatar} 
-                  alt={currentUser.name} 
-                  className="w-6 h-6 rounded-full object-cover border border-indigo-600" 
-                />
+                {currentUser.avatar && currentUser.avatar.trim() !== '' ? (
+                  <img 
+                    src={currentUser.avatar} 
+                    alt={currentUser.name} 
+                    className="w-6 h-6 rounded-full object-cover border border-[#9cd5e2]" 
+                  />
+                ) : (
+                  <div className="w-6 h-6 rounded-full bg-[#BBE7F1] border border-[#9cd5e2] text-slate-950 text-[10px] font-bold flex items-center justify-center">
+                    {currentUser.name?.charAt(0) || 'U'}
+                  </div>
+                )}
                 <span className="hidden sm:inline max-w-[80px] truncate font-semibold">{currentUser.name.split(' ')[0]}</span>
                 {currentUser.role === 'admin' && (
-                  <span className="bg-indigo-100 text-indigo-700 text-[10px] px-1.5 py-0.2 rounded font-bold">
+                  <span className="bg-[#BBE7F1]/60 text-slate-950 border border-[#9cd5e2] text-[10px] px-1.5 py-0.2 rounded font-bold">
                     Admin
                   </span>
                 )}
@@ -310,7 +324,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 id="google-auth-trigger-btn"
                 onClick={onOpenAuth}
-                className="flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-950 border border-slate-200 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold transition-colors min-h-[38px] shadow-xs cursor-pointer"
+                className="flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-950 border border-slate-200 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold transition-colors min-h-[38px] cursor-pointer"
                 title="Sign In / Register"
               >
                 <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
@@ -323,15 +337,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
             )}
 
-            {/* Primary Action Button - Clean International Style */}
+            {/* Primary Action Button - Theme #BBE7F1 Style */}
             <button
               id="get-started-cta-btn"
               onClick={() => handleNavClick('contact')}
-              className="bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-bold text-[11px] sm:text-xs tracking-wider uppercase px-2.5 sm:px-5 py-2 sm:py-2.5 rounded-xl shadow-md shadow-indigo-600/20 hover:shadow-indigo-600/35 transition-all flex items-center gap-1 sm:gap-1.5 group min-h-[38px] cursor-pointer shrink-0"
+              className="bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-bold text-[11px] sm:text-xs tracking-wider uppercase px-2.5 sm:px-5 py-2 sm:py-2.5 rounded-xl border border-[#9cd5e2] transition-all flex items-center gap-1 sm:gap-1.5 group min-h-[38px] cursor-pointer shrink-0 shadow-xs"
             >
               <span className="hidden xs:inline">CONTACT US</span>
               <span className="xs:hidden">CONTACT</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform text-slate-900" />
             </button>
 
             {/* Mobile Hamburger Toggle */}
@@ -354,10 +368,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Quick Hub Notice */}
             <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between text-xs mb-3">
               <div className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
-                <span className="text-slate-700 font-medium">Joypurhat (BD) & Leverkusen (DE)</span>
+                <MapPin className="w-3.5 h-3.5 text-slate-700 shrink-0" />
+                <span className="text-slate-700 font-medium">Global Engineering & Client Operations</span>
               </div>
-              <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">
+              <span className="text-[10px] bg-[#BBE7F1] text-slate-950 font-bold px-2 py-0.5 rounded-full border border-[#9cd5e2]">
                 Active
               </span>
             </div>
@@ -365,8 +379,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Main Links */}
             <button
               onClick={() => handleNavClick('home')}
-              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
-                currentView === 'home' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-700 hover:bg-slate-100'
+              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
+                currentView === 'home' 
+                  ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
+                  : 'text-slate-700 hover:bg-slate-100'
               }`}
             >
               <span>Home Overview</span>
@@ -375,28 +391,34 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={() => handleNavClick('about')}
-              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
-                currentView === 'about' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-700 hover:bg-slate-100'
+              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
+                currentView === 'about' 
+                  ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
+                  : 'text-slate-700 hover:bg-slate-100'
               }`}
             >
-              <span>About Company (Joypurhat & Leverkusen)</span>
+              <span>About Company</span>
               <ArrowRight className="w-4 h-4 opacity-70" />
             </button>
 
             <button
               onClick={() => handleNavClick('services')}
-              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
-                currentView === 'services' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-700 hover:bg-slate-100'
+              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
+                currentView === 'services' 
+                  ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
+                  : 'text-slate-700 hover:bg-slate-100'
               }`}
             >
               <span>All IT & Server Services</span>
-              <span className="text-xs bg-indigo-50 text-indigo-700 font-bold px-2 py-0.5 rounded-md">6 Services</span>
+              <span className="text-xs bg-white text-slate-800 border border-[#9cd5e2] font-bold px-2 py-0.5 rounded-md">6 Services</span>
             </button>
 
             <button
               onClick={() => handleNavClick('portfolio')}
-              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
-                currentView === 'portfolio' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-700 hover:bg-slate-100'
+              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
+                currentView === 'portfolio' 
+                  ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
+                  : 'text-slate-700 hover:bg-slate-100'
               }`}
             >
               <span>Portfolio (Recent & Ongoing)</span>
@@ -405,8 +427,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={() => handleNavClick('team')}
-              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
-                currentView === 'team' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-700 hover:bg-slate-100'
+              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
+                currentView === 'team' 
+                  ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
+                  : 'text-slate-700 hover:bg-slate-100'
               }`}
             >
               <span>Engineering Team & Leadership</span>
@@ -415,19 +439,26 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={() => handleNavClick('blog')}
-              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
-                currentView === 'blog' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-700 hover:bg-slate-100'
+              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
+                currentView === 'blog' 
+                  ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
+                  : 'text-slate-700 hover:bg-slate-100'
               }`}
             >
-              <span>Tech News & Insights</span>
+              <span>Tech Insights & News</span>
               <ArrowRight className="w-4 h-4 opacity-70" />
             </button>
 
-            {/* Contact Us Link in Mobile Drawer */}
+            {/* Contact Page Link */}
             <button
-              onClick={() => handleNavClick('contact')}
-              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
-                currentView === 'contact' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-700 hover:bg-slate-100'
+              onClick={() => {
+                setMobileMenuOpen(false);
+                handleNavClick('contact');
+              }}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-colors cursor-pointer min-h-[44px] ${
+                currentView === 'contact'
+                  ? 'bg-[#BBE7F1] text-slate-950 font-bold border border-[#9cd5e2] shadow-xs'
+                  : 'text-slate-700 hover:bg-slate-100'
               }`}
             >
               <span>Contact Us (Joypurhat & Leverkusen)</span>
@@ -438,18 +469,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="pt-3 border-t border-slate-200 grid grid-cols-2 gap-2">
               <a
                 href="tel:+8801722301927"
-                className="flex flex-col items-center justify-center p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-center hover:border-indigo-500 transition-colors"
+                className="flex flex-col items-center justify-center p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-center hover:border-[#9cd5e2] transition-colors"
               >
-                <Phone className="w-4 h-4 text-indigo-600 mb-1" />
+                <Phone className="w-4 h-4 text-cyan-700 mb-1" />
                 <span className="text-xs text-slate-500">Bangladesh HQ</span>
                 <span className="text-xs font-bold text-slate-900 font-mono">+880 1722</span>
               </a>
 
               <a
                 href="tel:+491729766016"
-                className="flex flex-col items-center justify-center p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-center hover:border-indigo-500 transition-colors"
+                className="flex flex-col items-center justify-center p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-center hover:border-[#9cd5e2] transition-colors"
               >
-                <Phone className="w-4 h-4 text-indigo-600 mb-1" />
+                <Phone className="w-4 h-4 text-cyan-700 mb-1" />
                 <span className="text-xs text-slate-500">Germany Branch</span>
                 <span className="text-xs font-bold text-slate-900 font-mono">+49 172</span>
               </a>
@@ -461,9 +492,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setMobileMenuOpen(false);
                   handleNavClick('contact');
                 }}
-                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl shadow-md text-sm flex items-center justify-center gap-2 min-h-[44px] cursor-pointer"
+                className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold py-3 px-4 rounded-xl border border-[#9cd5e2] text-sm flex items-center justify-center gap-2 min-h-[44px] cursor-pointer"
               >
-                <Sparkles className="w-4 h-4" />
+                <Sparkles className="w-4 h-4 text-slate-950" />
                 <span>Contact Engineering Team</span>
               </button>
             </div>

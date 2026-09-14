@@ -1,4 +1,4 @@
-import { Project, TeamMember, BlogPost, Inquiry, ServiceDetail } from '../types';
+import { Project, TeamMember, BlogPost, Inquiry, ServiceDetail, SiteSettings, Testimonial, HeroSlide } from '../types';
 
 export const initialProjects: Project[] = [
   {
@@ -6,7 +6,7 @@ export const initialProjects: Project[] = [
     title: 'FinTech Cloud Banking Portal',
     category: 'Full Stack & MERN',
     status: 'completed',
-    description: 'Enterprise full-stack banking portal built for a financial services client in Frankfurt & Leverkusen, Germany. Featuring high-throughput microservices, sub-second latency, multi-currency ledger, and real-time fraud monitoring.',
+    description: 'Enterprise full-stack banking portal built for a European financial services institution. Featuring high-throughput microservices, sub-second latency, multi-currency ledger, and real-time fraud monitoring.',
     clientName: 'Bavaria FinTech AG',
     clientCountry: 'Germany',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80',
@@ -78,11 +78,11 @@ export const initialProjects: Project[] = [
   },
   {
     id: 'proj-6',
-    title: 'Dhaka-Joypurhat Logistics SaaS',
+    title: 'Nationwide Freight & Logistics Telemetry',
     category: 'Web Application',
     status: 'completed',
-    description: 'Comprehensive nationwide supply chain & fleet tracking platform for a major freight operator in Bangladesh. Connects dispatchers, warehouse hubs in Joypurhat, Bogura, and Dhaka with live GPS telemetry.',
-    clientName: 'Bengal Cargo & Logistics',
+    description: 'Comprehensive nationwide supply chain & fleet tracking platform for an enterprise logistics operator. Connects dispatchers, regional fulfillment hubs, and delivery fleets with real-time GPS telemetry.',
+    clientName: 'Bengal Cargo & Logistics Network',
     clientCountry: 'Bangladesh',
     image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1000&q=80',
     completionDate: 'January 2026',
@@ -109,50 +109,6 @@ export const initialProjects: Project[] = [
 ];
 
 export const initialTeam: TeamMember[] = [
-  {
-    id: 'team-1',
-    name: 'Al-Mumeetu Saikat',
-    role: 'Full Stack Software Engineer | Business Development & E-Commerce Specialist',
-    headline: 'Full Stack Software Engineer | Business Development & E-Commerce Specialist | React, Next.js, Node.js & Cloud Solutions',
-    branch: 'Joypurhat, Bangladesh',
-    location: 'Joypurhat (BD) HQ',
-    image: '/images/team/Full-Stack.png',
-    bio: 'Energetic Full Stack Software Engineer & Business Development Specialist with 4+ years of expertise in architecting scalable web applications, e-commerce platforms, and full-stack enterprise systems. Specialized in Next.js, React, Node.js, Express, TypeScript, MongoDB, and secure cloud server infrastructure. Passionate about engineering high-converting web solutions for global clients across USA, Germany, UK, and South Asia.',
-    skills: ['Next.js 15', 'React 19', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'Cloud DevOps', 'Nginx & Linux', 'PostgreSQL', 'System Architecture', 'REST & GraphQL APIs', 'Docker'],
-    email: 'info@webdevsoftwaresolutions.com',
-    phone: '+880 1722-301927',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com/almumeetusaikat',
-    experienceYears: 4,
-    education: [
-      'First Capital University of Bangladesh — Bachelor of Science in Computer Science and Engineering (CSE)',
-      'Bagjana High School — Secondary School Certificate (SSC, Science)'
-    ],
-    certifications: [
-      'Enterprise Full-Stack Architecture & Microservices',
-      'Advanced Linux Bare-Metal Server & Cloud Security Administration'
-    ],
-    experienceHistory: [
-      {
-        role: 'Full Stack Software Engineer & Business Development Lead',
-        company: 'Softzino Technologies',
-        period: '2023 - Present',
-        type: 'Full-time',
-        location: 'Dhaka, Bangladesh',
-        description: 'Engineering scalable enterprise web applications, high-performance RESTful APIs, and full-stack microservices using Next.js, React, TypeScript, Node.js, and modern cloud deployment pipelines.'
-      },
-      {
-        role: 'Full Stack Lead & E-Commerce Specialist',
-        company: 'WebDev Software Solutions',
-        period: 'Nov 2021 - Present · 4+ yrs',
-        type: 'Full-time',
-        location: 'Joypurhat, Rajshahi, Bangladesh',
-        description: 'Directing architectural strategy, client software engineering, high-converting eCommerce builds, and bare-metal server infrastructure for global clients across USA, Germany, and worldwide.'
-      }
-    ],
-    languages: ['Bengali (Native)', 'English (Professional Working)'],
-    highlightedProjects: ['All Strings Nylon High-End E-Commerce & Audio Engine', 'Gilmore Electric Industrial SaaS Platform', 'Start Campus Sines Mega Data Center Telemetry']
-  },
   {
     id: 'team-2',
     name: 'Md Moyen Uddin, PMP®',
@@ -228,6 +184,50 @@ export const initialTeam: TeamMember[] = [
     ],
     languages: ['Bengali (Native)', 'English (Full Professional)', 'German (Professional Working)'],
     highlightedProjects: ['DACH Enterprise E-Commerce & Logistics Portal', 'Bavaria FinTech Cloud Banking Microservices', 'European Telemedicine & Health SaaS']
+  },
+  {
+    id: 'team-1',
+    name: 'Al-Mumeetu Saikat',
+    role: 'Full Stack Software Engineer | Business Development & E-Commerce Specialist',
+    headline: 'Full Stack Software Engineer | Business Development & E-Commerce Specialist | React, Next.js, Node.js & Cloud Solutions',
+    branch: 'Joypurhat, Bangladesh',
+    location: 'Joypurhat (BD) HQ',
+    image: '/images/team/Full-Stack.png',
+    bio: 'Energetic Full Stack Software Engineer & Business Development Specialist with 4+ years of expertise in architecting scalable web applications, e-commerce platforms, and full-stack enterprise systems. Specialized in Next.js, React, Node.js, Express, TypeScript, MongoDB, and secure cloud server infrastructure. Passionate about engineering high-converting web solutions for global clients across USA, Germany, UK, and South Asia.',
+    skills: ['Next.js 15', 'React 19', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'Cloud DevOps', 'Nginx & Linux', 'PostgreSQL', 'System Architecture', 'REST & GraphQL APIs', 'Docker'],
+    email: 'info@webdevsoftwaresolutions.com',
+    phone: '+880 1722-301927',
+    linkedin: 'https://linkedin.com',
+    github: 'https://github.com/almumeetusaikat',
+    experienceYears: 4,
+    education: [
+      'First Capital University of Bangladesh — Bachelor of Science in Computer Science and Engineering (CSE)',
+      'Bagjana High School — Secondary School Certificate (SSC, Science)'
+    ],
+    certifications: [
+      'Enterprise Full-Stack Architecture & Microservices',
+      'Advanced Linux Bare-Metal Server & Cloud Security Administration'
+    ],
+    experienceHistory: [
+      {
+        role: 'Full Stack Software Engineer & Business Development Lead',
+        company: 'Softzino Technologies',
+        period: '2023 - Present',
+        type: 'Full-time',
+        location: 'Dhaka, Bangladesh',
+        description: 'Engineering scalable enterprise web applications, high-performance RESTful APIs, and full-stack microservices using Next.js, React, TypeScript, Node.js, and modern cloud deployment pipelines.'
+      },
+      {
+        role: 'Full Stack Lead & E-Commerce Specialist',
+        company: 'WebDev Software Solutions',
+        period: 'Nov 2021 - Present · 4+ yrs',
+        type: 'Full-time',
+        location: 'Joypurhat, Rajshahi, Bangladesh',
+        description: 'Directing architectural strategy, client software engineering, high-converting eCommerce builds, and bare-metal server infrastructure for global clients across USA, Germany, and worldwide.'
+      }
+    ],
+    languages: ['Bengali (Native)', 'English (Professional Working)'],
+    highlightedProjects: ['All Strings Nylon High-End E-Commerce & Audio Engine', 'Gilmore Electric Industrial SaaS Platform', 'Start Campus Sines Mega Data Center Telemetry']
   },
   {
     id: 'team-3',
@@ -365,8 +365,8 @@ export const initialBlogs: BlogPost[] = [
     id: 'blog-1',
     title: 'How Technology and Business Leaders are Architecting High-Availability Systems',
     slug: 'architecting-high-availability-systems',
-    excerpt: 'Modern digital enterprises demand zero-downtime. Here is how our cross-border engineering teams deploy resilient cloud server meshes between Germany and South Asia.',
-    content: `In an era where every second of server downtime can cost thousands of euros or dollars, enterprise engineering teams must rethink infrastructure from the ground up. At WebDev Software Solutions, operating between our development center in Joypurhat, Bangladesh, and our European client hub in Leverkusen, Germany, we observe firsthand how international businesses maintain 99.99% availability.
+    excerpt: 'Modern digital enterprises demand zero-downtime. Here is how our engineering teams architect and deploy resilient, high-availability cloud server meshes.',
+    content: `In an era where every second of server downtime can cost thousands of euros or dollars, enterprise engineering teams must rethink infrastructure from the ground up. At WebDev Software Solutions, our distributed engineering squads collaborate closely with global clients to architect cloud infrastructure that maintains 99.99% availability under peak production loads.
 
 ### 1. The Redundancy Imperative
 A single server instance is a single point of failure. Modern architectures leverage multi-region failover, container orchestration via Docker and Kubernetes, and automated health checking. Even if a central data center experiences unexpected network degradation, edge proxies automatically route traffic to the nearest healthy node.
@@ -390,8 +390,8 @@ Security cannot be an afterthought. Automated SSH key rotation, non-standard por
     id: 'blog-2',
     title: 'Getting Started with Digital Transformation: From Local SME to Global E-Commerce',
     slug: 'getting-started-digital-transformation',
-    excerpt: 'Transitioning from brick-and-mortar or traditional operations to international headless commerce. What German and Bangladeshi manufacturers need to know.',
-    content: `Digital transformation is no longer a corporate buzzword—it is the prerequisite for sustainable market leadership. Whether you are a manufacturing company in North Rhine-Westphalia, Germany, or an ambitious textile and consumer goods producer in Bangladesh, your digital footprint determines your reach.
+    excerpt: 'Transitioning from brick-and-mortar or traditional operations to international headless commerce. What modern growing manufacturers and brands need to know.',
+    content: `Digital transformation is no longer a corporate buzzword—it is the prerequisite for sustainable market leadership. Whether you are a regional manufacturer or an ambitious consumer goods producer, your digital architecture determines your market velocity.
 
 ### Moving Beyond Generic Templates
 Standard off-the-shelf templates often crumble under complex localized logistics. International commerce requires:
@@ -453,11 +453,11 @@ export const initialTestimonials = [
     id: 'test-2',
     name: 'Henrik Von Klaus',
     role: 'Managing Director',
-    company: 'Rheinland Tech Logistik GmbH, Leverkusen / Frankfurt',
+    company: 'Rheinland Tech Logistik GmbH, Frankfurt',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
     country: 'Germany',
     flag: '🇩🇪',
-    quote: '"Very well thought out and articulate communication. Clear sprint milestones, zero shortcuts, and uncompromising precision. Even when requirements shifted, they responded with ingenious architectural solutions. WebDev delivers authentic German-grade engineering with incredible cost-efficiency. A premier software partner."',
+    quote: '"Very well thought out and articulate communication. Clear sprint milestones, zero shortcuts, and uncompromising precision. Even when requirements shifted, they responded with ingenious architectural solutions. WebDev delivers authentic high-performance engineering with incredible cost-efficiency. A premier software partner."',
     rating: 5,
     verified: true
   },
@@ -481,7 +481,7 @@ export const initialTestimonials = [
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
     country: 'Germany',
     flag: '🇩🇪',
-    quote: '"The headless Shopify build they produced for our brand surpassed every performance target. Our mobile conversion rate jumped by 43% in the first month alone. The collaboration between their German branch and Bangladeshi engineering core is world-class."',
+    quote: '"The headless Shopify build they produced for our brand surpassed every performance target. Our mobile conversion rate jumped by 43% in the first month alone. Their agile development velocity, clean code standards, and transparent collaboration are world-class."',
     rating: 5,
     verified: true
   },
@@ -493,7 +493,7 @@ export const initialTestimonials = [
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80',
     country: 'Bangladesh',
     flag: '🇧🇩',
-    quote: '"Working with WebDev Software Solutions transformed our supply chain logistics across Joypurhat, Rajshahi, and Dhaka. Their MERN stack system handles our tracking effortlessly and their 24/7 server support gives us complete peace of mind. Highly recommended for any serious business."',
+    quote: '"Working with WebDev Software Solutions transformed our supply chain logistics. Their MERN stack platform handles our fleet tracking effortlessly and their proactive server support gives us complete peace of mind. Highly recommended for any serious business."',
     rating: 5,
     verified: true
   }
@@ -622,7 +622,7 @@ export const initialInquiries: Inquiry[] = [
     lastName: 'Vogel',
     email: 'm.vogel@vogel-logistik.de',
     phoneNumber: '+49 171 498231',
-    company: 'Vogel Logistik GmbH (Leverkusen)',
+    company: 'Vogel Logistik GmbH',
     projectType: 'Full Stack & MERN',
     budget: '$6,000 - $15,000',
     targetMarket: 'Germany',
@@ -636,7 +636,7 @@ export const initialInquiries: Inquiry[] = [
     lastName: 'Hasan',
     email: 'arif@banglaspin.com',
     phoneNumber: '+880 1819-334455',
-    company: 'Bengal Spinning Mills (Joypurhat / Bogura)',
+    company: 'Bengal Spinning Mills',
     projectType: 'E-Commerce',
     budget: '$3,000 - $6,000',
     targetMarket: 'Both',
@@ -648,3 +648,188 @@ export const initialInquiries: Inquiry[] = [
 
 export const initialTeamMembers = initialTeam;
 export const initialBlogPosts = initialBlogs;
+export const initialHeroSlides: HeroSlide[] = [
+  {
+    id: 'slide-1',
+    badge: '✦ GERMANY & BANGLADESH ENGINEERING',
+    title: 'Modern Full-Stack & Cloud Solutions',
+    highlightText: 'Built to Scale',
+    subtitle: 'We craft high-performance web applications, enterprise software, and scalable digital architectures with European precision.',
+    primaryBtnText: 'Request Consultation',
+    primaryBtnAction: 'quote',
+    secondaryBtnText: 'Our Services',
+    secondaryBtnAction: 'services',
+    backgroundImage: '/images/background/webdev-bg.webp',
+    tag: '01 / Enterprise Systems'
+  },
+  {
+    id: 'slide-2',
+    badge: '✦ NEXT.JS & ENTERPRISE PERFORMANCE',
+    title: 'Transforming Ideas into Digital Realities',
+    highlightText: 'Fast & Secure',
+    subtitle: 'Specialized in MERN stack, Next.js, and cloud ecosystems engineered for high availability, security, and peak performance.',
+    primaryBtnText: 'Explore Portfolio',
+    primaryBtnAction: 'projects',
+    secondaryBtnText: 'Contact Us',
+    secondaryBtnAction: 'contact',
+    backgroundImage: '/images/background/hero-img-1.webp',
+    tag: '02 / Cloud Architecture'
+  },
+  {
+    id: 'slide-3',
+    badge: '✦ TAILORED SOFTWARE DEVELOPMENT',
+    title: 'End-to-End Engineering for Visionary Brands',
+    highlightText: 'Worldwide Impact',
+    subtitle: 'Empowering ambitious businesses worldwide with scalable architecture, robust code, and dedicated technical partnership.',
+    primaryBtnText: 'Start Your Project',
+    primaryBtnAction: 'quote',
+    secondaryBtnText: 'Explore Services',
+    secondaryBtnAction: 'services',
+    backgroundImage: '/images/background/webdev-bg-s.webp',
+    tag: '03 / Tailored Solutions'
+  }
+];
+
+export const initialSiteSettings: SiteSettings = {
+  companyName: 'WebDev Software Solutions',
+  tagline: 'Enterprise Software Engineering & Modern Cloud Architecture',
+  logoUrl: '/images/logo/webdev-logo.png',
+  heroSlides: initialHeroSlides,
+  email: 'info@webdevsoftwaresolutions.com',
+  phone_bd: '+880 1722-301927',
+  phone_de: '+49 172 9766016',
+  address_bd: 'Housing Estate, Ward No: 07, Joypurhat-5900, Bangladesh',
+  address_de: 'Küppersteg, 51373 Leverkusen, NRW, Germany',
+  socialLinks: {
+    github: 'https://github.com/almumeetusaikat',
+    twitter: 'https://x.com',
+    linkedin: 'https://linkedin.com',
+    whatsapp_bd: 'https://wa.me/8801722301927',
+    whatsapp_de: 'https://wa.me/491729766016'
+  },
+  privacyPolicy: `# Privacy Policy
+
+**WebDev Software Solutions** ("we", "our", or "us") is committed to protecting your personal data in accordance with the EU General Data Protection Regulation (GDPR) and applicable Bangladeshi data protection laws.
+
+## 1. Data We Collect
+We collect information you provide directly to us, including name, email address, phone number, company name, and project requirements when you submit an inquiry or contact form. We also collect standard server logs (IP address, browser type, pages visited) to operate and improve our services.
+
+## 2. How We Use Your Data
+- To respond to your inquiry and provide requested services
+- To send project updates and contractual communications
+- To comply with legal and regulatory obligations (including German BaFin and GDPR requirements)
+- We do **not** sell or rent your personal data to third parties
+
+## 3. Legal Basis (GDPR)
+Processing is based on your consent (Art. 6(1)(a) GDPR), contract performance (Art. 6(1)(b) GDPR), and our legitimate interests in operating our business (Art. 6(1)(f) GDPR).
+
+## 4. Data Retention
+We retain inquiry data for up to 36 months or as required by applicable law. You may request deletion at any time.
+
+## 5. Your Rights
+Under GDPR, you have the right to access, rectify, erase, restrict, or port your data. To exercise any right, email us at **info@webdevsoftwaresolutions.com**.
+
+## 6. Cookies
+Our website uses essential session cookies only. No tracking or advertising cookies are used.
+
+## 7. Contact & Data Controller
+**WebDev Software Solutions** · Küppersteg, 51373 Leverkusen, Germany · info@webdevsoftwaresolutions.com
+
+*Last updated: January 2026*`,
+
+  termsOfService: `# Terms of Service
+
+These Terms of Service ("Terms") govern your use of the WebDev Software Solutions website and engagement of our services. By submitting an inquiry or entering a service agreement, you agree to these Terms.
+
+## 1. Services
+WebDev Software Solutions provides custom software engineering, cloud architecture, e-commerce development, and related IT consulting services. All engagements are governed by a separate written contract or Statement of Work (SOW).
+
+## 2. Intellectual Property
+Upon full payment, all custom code, designs, and digital assets created specifically for you are transferred to you in full. We retain the right to display completed work in our portfolio unless a bilateral NDA prohibits disclosure.
+
+## 3. Confidentiality
+We offer mutual Non-Disclosure Agreements (NDAs) on all client engagements. Confidential information shared during discovery and development will not be disclosed to third parties.
+
+## 4. Payment Terms
+Milestone-based billing applies unless otherwise agreed. Payments are due within 14 days of milestone invoice. Late payments accrue 2% monthly interest under applicable German commercial law.
+
+## 5. Limitation of Liability
+Our liability is limited to the total fees paid for the specific service in question. We are not liable for indirect, consequential, or incidental damages.
+
+## 6. Governing Law
+These Terms are governed by the laws of Germany (NRW jurisdiction, Leverkusen) for European clients and the laws of Bangladesh for South Asian clients, as specified in the applicable SOW.
+
+## 7. Amendments
+We reserve the right to update these Terms. Continued use of our services constitutes acceptance of the updated Terms.
+
+## 8. Contact
+**WebDev Software Solutions** · Küppersteg, 51373 Leverkusen, Germany · info@webdevsoftwaresolutions.com
+
+*Last updated: January 2026*`,
+
+  footerAboutText: 'Premier software engineering consultancy delivering resilient web platforms, scalable cloud architectures, and modern digital applications for enterprises worldwide.',
+  gdprBadgeText: 'Transparent project governance, strict bilateral NDAs, and agile sprint delivery with real-time communication.'
+};
+
+export const initialTestimonialsData: Testimonial[] = [
+  {
+    id: 'test-1',
+    name: 'David H. Miller',
+    role: 'Chief Operating Officer',
+    company: 'All Strings Nylon, Apex, North Carolina',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+    country: 'USA',
+    flag: '🇺🇸',
+    quote: 'WebDev Software Solutions overhauled our entire eCommerce infrastructure. Communicating with Saikat and the team during our US Eastern business hours was seamless. Their attention to detail, sub-second search speeds, and custom audio player helped increase our US conversion rate by 38%. We trust them completely with our core digital assets.',
+    rating: 5,
+    verified: true
+  },
+  {
+    id: 'test-2',
+    name: 'Henrik Von Klaus',
+    role: 'Managing Director',
+    company: 'Rheinland Tech Logistik GmbH, Frankfurt',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+    country: 'Germany',
+    flag: '🇩🇪',
+    quote: 'Very well thought out and articulate communication. Clear sprint milestones, zero shortcuts, and uncompromising precision. Even when requirements shifted, they responded with ingenious architectural solutions. WebDev delivers authentic high-performance engineering with incredible cost-efficiency. A premier software partner.',
+    rating: 5,
+    verified: true
+  },
+  {
+    id: 'test-3',
+    name: 'Oliver Kensington',
+    role: 'Head of Engineering',
+    company: 'Apex Retail Solutions Ltd, London',
+    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&q=80',
+    country: 'UK',
+    flag: '🇬🇧',
+    quote: 'Working with WebDev felt like having an elite senior engineering squad right inside our London office. Their clean TypeScript code, Dockerized microservices, and adherence to strict bilateral NDAs gave our board total peace of mind. Delivered our platform two weeks ahead of schedule.',
+    rating: 5,
+    verified: true
+  },
+  {
+    id: 'test-4',
+    name: 'Elena Rostova',
+    role: 'Head of Product',
+    company: 'Nordic Commerce Group, Munich & Berlin',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+    country: 'Germany',
+    flag: '🇩🇪',
+    quote: 'The headless Shopify build they produced for our brand surpassed every performance target. Our mobile conversion rate jumped by 43% in the first month alone. Their agile development velocity, clean code standards, and transparent collaboration are world-class.',
+    rating: 5,
+    verified: true
+  },
+  {
+    id: 'test-5',
+    name: 'Kawsar Mahmud',
+    role: 'Chief Operating Officer',
+    company: 'Prime Agro Industries Ltd, Bangladesh',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80',
+    country: 'Bangladesh',
+    flag: '🇧🇩',
+    quote: 'Working with WebDev Software Solutions transformed our supply chain logistics. Their MERN stack platform handles our fleet tracking effortlessly and their proactive server support gives us complete peace of mind. Highly recommended for any serious business.',
+    rating: 5,
+    verified: true
+  }
+];

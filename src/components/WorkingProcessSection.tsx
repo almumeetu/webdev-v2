@@ -67,14 +67,11 @@ export const WorkingProcessSection: React.FC = () => {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-16 space-y-3">
-          <div className="process-header-anim inline-flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-indigo-400"></span>
-            <span className="text-xs font-bold tracking-[0.2em] text-indigo-400 uppercase font-mono">
-              WORKING PROCESS
-            </span>
+          <div className="process-header-anim inline-flex items-center gap-2 text-cyan-300 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+            <span>Our Working Process & Methodology</span>
           </div>
 
-          <h2 className="process-header-anim text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight font-['Outfit']">
+          <h2 className="process-header-anim text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-white tracking-tight font-['Archivo']">
             Get your IT solutions in 3 easy steps
           </h2>
 
@@ -90,15 +87,15 @@ export const WorkingProcessSection: React.FC = () => {
             return (
               <div
                 key={step.num}
-                className="process-step-item bg-slate-900/90 rounded-3xl p-6 sm:p-8 border border-slate-800 hover:border-indigo-500/60 shadow-xl hover:shadow-indigo-500/10 transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-1.5 flex flex-col justify-between group"
+                className="process-step-item bg-slate-900/90 rounded-3xl p-6 sm:p-8 border border-slate-800 hover:border-[#9cd5e2] shadow-xl hover:shadow-[#BBE7F1]/5 transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-1.5 flex flex-col justify-between group"
               >
                 <div>
                   {/* Top Step badge & Icon */}
                   <div className="flex items-center justify-between mb-6">
-                    <span className="text-3xl sm:text-4xl font-extrabold font-['Outfit'] text-indigo-500/40 group-hover:text-indigo-400 transition-colors">
+                    <span className="text-3xl sm:text-4xl font-extrabold font-['Archivo'] text-[#BBE7F1]/40 group-hover:text-[#BBE7F1] transition-colors">
                       {step.num}
                     </span>
-                    <span className="text-xs font-mono font-bold text-indigo-300 bg-indigo-950/80 border border-indigo-500/40 px-2.5 py-1 rounded-full">
+                    <span className="text-xs font-mono font-bold text-[#BBE7F1] bg-[#BBE7F1]/15 border border-[#9cd5e2]/50 px-2.5 py-1 rounded-full">
                       {step.badge}
                     </span>
                   </div>
@@ -111,13 +108,13 @@ export const WorkingProcessSection: React.FC = () => {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
-                    <div className="absolute bottom-3 left-3 w-10 h-10 rounded-xl bg-slate-900/90 border border-slate-700/80 text-indigo-400 flex items-center justify-center shadow-md">
+                    <div className="absolute bottom-3 left-3 w-10 h-10 rounded-xl bg-slate-900/90 border border-slate-700/80 text-[#BBE7F1] flex items-center justify-center shadow-md">
                       <Icon className="w-5 h-5" />
                     </div>
                   </div>
 
                   {/* Title & Description */}
-                  <h3 className="text-xl font-bold text-white group-hover:text-indigo-400 transition-colors font-['Outfit']">
+                  <h3 className="text-xl font-bold text-white group-hover:text-[#BBE7F1] transition-colors font-['Archivo']">
                     {step.title}
                   </h3>
 

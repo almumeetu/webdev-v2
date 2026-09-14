@@ -57,16 +57,22 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
           </button>
 
           <div className="flex items-center gap-4">
-            <img
-              src={currentUser.avatar}
-              alt={currentUser.name}
-              className="w-16 h-16 rounded-full object-cover border-2 border-indigo-500 shadow-xl"
-            />
+            {currentUser.avatar && currentUser.avatar.trim() !== '' ? (
+              <img
+                src={currentUser.avatar}
+                alt={currentUser.name}
+                className="w-16 h-16 rounded-full object-cover border-2 border-[#9cd5e2] shadow-xl"
+              />
+            ) : (
+              <div className="w-16 h-16 rounded-full bg-[#BBE7F1] text-slate-950 flex items-center justify-center font-bold text-lg border-2 border-[#9cd5e2] shadow-xl">
+                {currentUser.name?.charAt(0) || 'U'}
+              </div>
+            )}
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-xl font-bold font-['Outfit']">{currentUser.name}</h3>
+                <h3 className="text-xl font-bold font-['Archivo']">{currentUser.name}</h3>
                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
-                  currentUser.role === 'admin' ? 'bg-purple-600 text-white' : 'bg-indigo-600 text-white'
+                  currentUser.role === 'admin' ? 'bg-purple-600 text-white' : 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2]'
                 }`}>
                   {currentUser.role}
                 </span>
@@ -133,25 +139,25 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   onChange={(e) => setCountry(e.target.value as any)}
                   className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 bg-white"
                 >
-                  <option value="Germany">Germany (Leverkusen / NRW)</option>
-                  <option value="Bangladesh">Bangladesh (Joypurhat / Dhaka)</option>
-                  <option value="International">International</option>
+                  <option value="Germany">Germany / Europe (DACH)</option>
+                  <option value="Bangladesh">Bangladesh / South Asia</option>
+                  <option value="International">United States / Global</option>
                 </select>
               </div>
             </div>
 
             {/* Quick Role Toggle to easily test Admin Dashboard */}
-            <div className="p-3 bg-indigo-50 rounded-xl border border-indigo-100 flex items-center justify-between">
+            <div className="p-3 bg-[#BBE7F1]/20 rounded-xl border border-[#9cd5e2] flex items-center justify-between">
               <div>
-                <div className="text-xs font-bold text-indigo-950">Active Role Mode</div>
-                <div className="text-[11px] text-indigo-700">Switch role to test Admin Dashboard or Client view</div>
+                <div className="text-xs font-bold text-slate-950">Active Role Mode</div>
+                <div className="text-[11px] text-cyan-800">Switch role to test Admin Dashboard or Client view</div>
               </div>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setRole('client')}
                   className={`px-2.5 py-1 rounded text-xs font-bold transition-colors ${
-                    role === 'client' ? 'bg-indigo-600 text-white' : 'bg-white text-indigo-900 border border-indigo-200'
+                    role === 'client' ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2]' : 'bg-white text-slate-800 border border-slate-200'
                   }`}
                 >
                   Client
@@ -171,7 +177,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
             <div className="flex items-center justify-between pt-2">
               <button
                 type="submit"
-                className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition-colors flex items-center gap-1.5"
+                className="bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 border border-[#9cd5e2] text-xs font-bold px-5 py-2.5 rounded-xl transition-colors flex items-center gap-1.5 shadow-sm"
               >
                 {isSaved ? <Check className="w-3.5 h-3.5" /> : null}
                 <span>{isSaved ? 'Saved Changes!' : 'Update Profile'}</span>
@@ -191,7 +197,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
           {/* User Submitted Inquiries Section */}
           <div className="pt-4 border-t border-slate-100">
             <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <FileText className="w-3.5 h-3.5 text-indigo-600" />
+              <FileText className="w-3.5 h-3.5 text-cyan-800" />
               <span>Your Recent Project Estimates & Inquiries</span>
             </h4>
 

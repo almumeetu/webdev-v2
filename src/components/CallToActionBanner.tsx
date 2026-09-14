@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { ArrowRight, Sparkles, Shield, Globe, CheckCircle2 } from 'lucide-react';
 import { useGsapContext } from '../utils/gsapHelper';
 import gsap from 'gsap';
@@ -9,77 +9,123 @@ interface CallToActionBannerProps {
 
 export const CallToActionBanner: React.FC<CallToActionBannerProps> = ({ onContactClick }) => {
   const bannerRef = useRef<HTMLElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
 
+  /* ── Parallax on scroll ── */
+  useEffect(() => {
+    const el = bgRef.current;
+    if (!el) return;
+
+    const handleScroll = () => {
+      if (!bannerRef.current) return;
+      const rect = bannerRef.current.getBoundingClientRect();
+      const viewH = window.innerHeight;
+      // only run while section is in viewport
+      if (rect.bottom < 0 || rect.top > viewH) return;
+      const progress = (viewH - rect.top) / (viewH + rect.height);
+      const shift = (progress - 0.5) * 80; // ±40px travel
+      el.style.transform = `translateY(${shift}px)`;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  /* ── Entrance animation ── */
   useGsapContext(bannerRef, () => {
     if (!bannerRef.current) return;
-
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
     gsap.fromTo(
       '.cta-banner-item',
-      { opacity: 0, y: isMobile ? 12 : 25 },
+      { opacity: 0, y: isMobile ? 10 : 22 },
       {
         opacity: 1,
         y: 0,
-        duration: isMobile ? 0.35 : 0.65,
+        duration: isMobile ? 0.35 : 0.6,
         stagger: isMobile ? 0.04 : 0.1,
         ease: isMobile ? 'power1.out' : 'power2.out',
         scrollTrigger: {
           trigger: bannerRef.current,
           start: isMobile ? 'top 92%' : 'top 85%',
-          once: true
+          once: true,
         },
-        clearProps: 'transform,opacity'
+        clearProps: 'transform,opacity',
       }
     );
   });
 
   return (
-    <section ref={bannerRef} className="py-14 sm:py-18 bg-slate-100/90 border-t border-b border-slate-300/80">
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white rounded-3xl p-6 xs:p-8 sm:p-14 lg:p-16 shadow-2xl relative overflow-hidden border border-slate-800/90 text-center space-y-5 sm:space-y-6">
-          
-          {/* Subtle background circuit & light glow */}
-          <div className="absolute inset-0 bg-tech-circuit opacity-25 pointer-events-none"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 sm:w-96 h-72 sm:h-96 bg-indigo-600/20 rounded-full blur-3xl md:blur-[120px] pointer-events-none"></div>
+    <section
+      ref={bannerRef}
+      className="relative overflow-hidden py-10 sm:py-14 border-t border-b border-slate-800/80"
+      style={{ isolation: 'isolate' }}
+    >
+      {/* ── Parallax background image ── */}
+      <div
+        ref={bgRef}
+        aria-hidden="true"
+        className="absolute inset-0 -top-10 -bottom-10 will-change-transform pointer-events-none"
+        style={{
+          backgroundImage: 'url(/images/background/webdev-bg.webp)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 30%',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
 
-          <div className="cta-banner-item inline-flex items-center gap-2 text-indigo-300 text-xs font-mono font-bold tracking-[0.2em] uppercase">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-            <span>START YOUR DIGITAL TRANSFORMATION TODAY</span>
+      {/* ── Dark overlay layers ── */}
+      <div className="absolute inset-0 bg-slate-950/80 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-transparent to-slate-950/70 pointer-events-none" />
+      {/* subtle center glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-[#BBE7F1]/15 rounded-full blur-[90px] pointer-events-none" />
+
+      {/* ── Content ── */}
+      <div className="relative z-10 max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto text-center space-y-4 sm:space-y-5">
+
+          {/* Eyebrow label - Stylish Italic (No Background) */}
+          <div className="cta-banner-item inline-flex items-center gap-2 text-cyan-300 font-['Playfair_Display'] italic text-base sm:text-lg font-semibold tracking-wide">
+            <Sparkles className="w-4 h-4 text-cyan-400" />
+            <span>Start Your Digital Transformation Today</span>
           </div>
 
-          <h2 className="cta-banner-item text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.2] font-['Outfit'] max-w-3xl mx-auto">
+          {/* Headline */}
+          <h2 className="cta-banner-item text-base xs:text-lg sm:text-xl md:text-2xl lg:text-[28px] font-bold text-white tracking-tight leading-[1.25] font-['Archivo'] max-w-2xl mx-auto">
             Ready to gain competitive advantage by modernising your software architecture?
           </h2>
 
-          <p className="cta-banner-item text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
-            From Germany and the DACH region to North America and across the globe, our architects and senior full-stack engineers are ready to scope, build, and deploy your next system.
+          {/* Sub-copy */}
+          <p className="cta-banner-item text-xs sm:text-sm md:text-base text-slate-300/90 max-w-xl mx-auto leading-relaxed font-normal font-['Instrument_Sans']">
+            Partner with dedicated full-stack engineers and cloud architects delivering German enterprise quality at agile development speed.
           </p>
 
-          {/* Quick trust metrics */}
-          <div className="cta-banner-item pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-8 text-xs sm:text-sm text-slate-300">
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+          {/* Trust indicators */}
+          <div className="cta-banner-item flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[10px] sm:text-xs text-slate-300/90 pt-1">
+            <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-[6px] backdrop-blur-sm">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
               <span>Free Technical Consultation</span>
             </div>
-            <div className="flex items-center gap-1.5">
-              <Shield className="w-4 h-4 text-indigo-400" />
-              <span>Full IP & Source Code Ownership</span>
+            <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-[6px] backdrop-blur-sm">
+              <Shield className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+              <span>Full IP &amp; Source Code Ownership</span>
             </div>
-            <div className="flex items-center gap-1.5">
-              <Globe className="w-4 h-4 text-indigo-400" />
-              <span>GDPR & ISO Standard Protocols</span>
+            <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-[6px] backdrop-blur-sm">
+              <Globe className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+              <span>GDPR &amp; ISO Standard Protocols</span>
             </div>
           </div>
 
-          <div className="cta-banner-item pt-4">
+          {/* CTA button */}
+          <div className="cta-banner-item pt-2">
             <button
               id="cta-get-in-touch-btn"
               onClick={onContactClick}
-              className="w-full sm:w-auto justify-center bg-white hover:bg-slate-100 text-slate-950 font-bold text-sm sm:text-base px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl shadow-xl transition-all transform hover:scale-105 inline-flex items-center gap-2.5 cursor-pointer min-h-[44px]"
+              className="group w-full sm:w-auto justify-center bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-xs sm:text-sm px-6 sm:px-8 py-3 sm:py-3.5 rounded-[6px] transition-all transform hover:scale-[1.02] inline-flex items-center gap-2 cursor-pointer min-h-[42px] border border-[#9cd5e2] shadow-sm"
             >
               <span>SCHEDULE AN ARCHITECTURE CALL</span>
-              <ArrowRight className="w-4 h-4 text-indigo-600" />
+              <ArrowRight className="w-3.5 h-3.5 text-slate-950 group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>
 

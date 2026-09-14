@@ -8,16 +8,19 @@ import {
   Cpu, 
   ArrowRight 
 } from 'lucide-react';
+import { ServiceDetail } from '../types';
 import { initialServices } from '../data/initialData';
 import { useGsapContext, animateStagger } from '../utils/gsapHelper';
 import gsap from 'gsap';
 
 interface OurServicesSectionProps {
+  services?: ServiceDetail[];
   onSelectService: (serviceId: string) => void;
   onViewAllServices: () => void;
 }
 
 export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
+  services = initialServices,
   onSelectService,
   onViewAllServices,
 }) => {
@@ -68,41 +71,40 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-14 space-y-3">
-          <div className="services-header-anim inline-flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-indigo-600"></span>
-            <span className="text-xs font-bold tracking-[0.2em] text-indigo-600 uppercase font-mono">
-              OUR SERVICES
-            </span>
+          <div className="services-header-anim inline-flex items-center gap-2 text-cyan-700 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+            <span>Our Services & Engineering Solutions</span>
           </div>
 
-          <h2 className="services-header-anim text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-['Outfit']">
+          <h2 className="services-header-anim text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-900 tracking-tight font-['Archivo']">
             We Offer a Wide Variety of IT Services
           </h2>
 
-          <p className="services-header-anim text-slate-600 text-sm sm:text-base leading-relaxed">
+          <p className="services-header-anim text-slate-600 text-sm sm:text-base leading-relaxed font-['Instrument_Sans']">
             From modern web application development and cloud server setup to high-converting international e-commerce platforms, we engineer results.
           </p>
         </div>
 
         {/* 3x2 Grid of visual cards with clean international standard layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {initialServices.map((service) => (
+          {services.map((service) => (
             <div
               key={service.id}
               onClick={() => onSelectService(service.id)}
-              className="service-card-item group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-1.5 cursor-pointer flex flex-col border border-slate-200/90 hover:border-indigo-400"
+              className="service-card-item group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-1.5 cursor-pointer flex flex-col border border-slate-200/90 hover:border-[#9cd5e2]"
             >
               {/* Card visual banner with photo & subtle gradient overlay */}
               <div className="relative h-48 sm:h-56 overflow-hidden bg-slate-100">
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
+                {service.image && service.image.trim() !== '' ? (
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                ) : null}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
 
                 {/* Top right category tag */}
-                <div className="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-md text-xs font-mono font-semibold text-indigo-300 px-3 py-1 rounded-full border border-slate-700/80 shadow-sm">
+                <div className="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-md text-xs font-mono font-semibold text-[#BBE7F1] px-3 py-1 rounded-full border border-slate-700/80 shadow-sm">
                   Engineering
                 </div>
               </div>
@@ -110,11 +112,11 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
               {/* Card text content with dedicated, unclipped icon badge */}
               <div className="p-5 sm:p-7 flex-1 flex flex-col justify-between text-left bg-white">
                 <div>
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 text-white flex items-center justify-center shadow-lg shadow-indigo-600/25 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300 mb-4">
+                  <div className="w-12 h-12 rounded-2xl bg-[#BBE7F1] border border-[#9cd5e2] text-slate-950 flex items-center justify-center shadow-xs group-hover:scale-105 transition-all duration-300 mb-4">
                     {getIcon(service.iconName)}
                   </div>
 
-                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors font-['Outfit']">
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-slate-950 transition-colors font-['Archivo']">
                     {service.title}
                   </h3>
                   <p className="mt-2.5 text-sm text-slate-600 line-clamp-3 leading-relaxed">
@@ -135,7 +137,7 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
                     ))}
                   </div>
 
-                  <span className="text-sm font-bold text-indigo-600 group-hover:text-indigo-700 flex items-center gap-1 shrink-0 whitespace-nowrap">
+                  <span className="text-sm font-bold text-slate-950 group-hover:text-cyan-800 flex items-center gap-1 shrink-0 whitespace-nowrap">
                     <span className="whitespace-nowrap">Details</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform shrink-0" />
                   </span>
@@ -149,10 +151,10 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
         <div className="mt-12 text-center">
           <button
             onClick={onViewAllServices}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm sm:text-base border border-slate-200 shadow-xs hover:shadow transition-all cursor-pointer min-h-[44px]"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 font-bold text-sm sm:text-base border border-slate-200 transition-all cursor-pointer min-h-[44px]"
           >
             <span>Explore All 6 Enterprise Practice Areas</span>
-            <ArrowRight className="w-4 h-4 text-indigo-600" />
+            <ArrowRight className="w-4 h-4 text-slate-900" />
           </button>
         </div>
 

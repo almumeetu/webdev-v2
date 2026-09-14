@@ -69,7 +69,7 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
     },
     {
       q: '3. How do international clients communicate across timezones?',
-      a: 'Operating from our European hub in Leverkusen, Germany (CET) backed by our dedicated offshore development center, our teams provide seamless real-time communication during European, UK, and North American business hours. We collaborate via Slack, Microsoft Teams, Zoom, Jira, and GitHub with dedicated engineering leads and direct communication.'
+      a: 'Our engineering squads provide direct, real-time collaboration structured around European, UK, and North American business hours. We work in dedicated Slack or Teams channels, run weekly sprint demos on Zoom or Google Meet, and maintain continuous transparency through Jira, Linear, and GitHub.'
     },
     {
       q: '4. Do you provide ongoing server maintenance and SLA uptime guarantees?',
@@ -98,7 +98,7 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
 
               {/* Verified Trust overlay chip */}
               <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-semibold text-slate-800 shadow-md flex items-center gap-1.5 border border-slate-200/80">
-                <Shield className="w-3.5 h-3.5 text-indigo-600" />
+                <Shield className="w-3.5 h-3.5 text-cyan-700" />
                 <span>GDPR & ISO Standard Compliant</span>
               </div>
 
@@ -106,7 +106,7 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
               <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 bg-slate-900/95 text-white p-4 sm:p-5 rounded-2xl shadow-2xl flex items-center gap-3 sm:gap-4 border border-slate-700/80 backdrop-blur-md">
                 <div 
                   ref={expCounterRef}
-                  className="text-3xl sm:text-5xl font-extrabold font-['Outfit'] tracking-tight text-indigo-400"
+                  className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-['Archivo'] tracking-tight text-[#BBE7F1]"
                 >
                   10+
                 </div>
@@ -120,20 +120,17 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
           {/* Right Column: FAQs Accordion */}
           <div className="lg:col-span-6 space-y-5 sm:space-y-6">
             
-            {/* Pill label */}
-            <div className="faq-text-content inline-flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-indigo-600"></span>
-              <span className="text-xs font-bold tracking-[0.2em] text-indigo-600 uppercase font-mono">
-                FREQUENTLY ASKED QUESTIONS
-              </span>
+            {/* Eyebrow Subheading - Stylish Italic (No Background) */}
+            <div className="faq-text-content inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+              <span>Frequently Asked Questions & Answers</span>
             </div>
 
             {/* Headline */}
-            <h2 className="faq-text-content text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-950 tracking-tight leading-[1.18] font-['Outfit']">
+            <h2 className="faq-text-content text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-950 tracking-tight leading-[1.22] font-['Archivo']">
               Have any Question to our team?
             </h2>
 
-            <p className="faq-text-content text-sm sm:text-base text-slate-600 leading-relaxed">
+            <p className="faq-text-content text-sm sm:text-base text-slate-600 leading-relaxed font-['Instrument_Sans']">
               Everything you need to know about our international delivery process, pricing transparency, and technology stack.
             </p>
 
@@ -146,7 +143,7 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
                     key={idx}
                     className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
                       isOpen 
-                        ? 'border-indigo-600 bg-indigo-50/50 shadow-xs' 
+                        ? 'border-[#9cd5e2] bg-[#BBE7F1]/20 shadow-xs' 
                         : 'border-slate-200/90 bg-white hover:border-slate-300'
                     }`}
                   >
@@ -154,18 +151,18 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
                       onClick={() => setOpenFaq(isOpen ? null : idx)}
                       className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 focus:outline-none min-h-[44px] cursor-pointer"
                     >
-                      <span className="text-sm sm:text-base font-bold text-slate-900 font-['Outfit']">
+                      <span className="text-sm sm:text-base font-bold text-slate-900 font-['Instrument_Sans']">
                         {faq.q}
                       </span>
                       <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors ${
-                        isOpen ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'
+                        isOpen ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2]' : 'bg-slate-100 text-slate-600'
                       }`}>
                         {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                       </div>
                     </button>
 
                     {isOpen && (
-                      <div className="px-4 sm:px-5 pb-5 text-sm sm:text-base text-slate-600 leading-relaxed border-t border-indigo-100 pt-3 font-normal">
+                      <div className="px-4 sm:px-5 pb-5 text-sm sm:text-base text-slate-600 leading-relaxed border-t border-[#9cd5e2]/40 pt-3 font-normal">
                         {faq.a}
                       </div>
                     )}

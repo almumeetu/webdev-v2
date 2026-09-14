@@ -102,14 +102,14 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
 
           <div className="inline-flex items-center gap-2 bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-xs font-mono font-medium mb-3">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>LET'S CONNECT • LEVERKUSEN (DE) & GLOBAL R&D</span>
+            <span>LET'S CONNECT • RAPID SCOPING & ARCHITECTURE</span>
           </div>
 
-          <h3 className="text-2xl sm:text-3xl font-extrabold font-['Outfit']">
+          <h3 className="text-2xl sm:text-3xl font-extrabold font-['Archivo']">
             Got an App or Server in Mind?
           </h3>
           <p className="text-slate-400 text-xs sm:text-sm mt-1">
-            Send us your requirements, and our engineering leads in Leverkusen, Germany and global R&D squads will prepare a complimentary architecture review & estimate within 24 hours.
+            Send us your requirements, and our solutions architects will prepare a complimentary architecture review and estimate within 24 hours.
           </p>
         </div>
 
@@ -119,7 +119,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
             <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-10 h-10" />
             </div>
-            <h4 className="text-2xl font-bold text-slate-900 font-['Outfit']">
+            <h4 className="text-2xl font-bold text-slate-900 font-['Archivo']">
               Inquiry Received Successfully!
             </h4>
             <p className="text-sm text-slate-600 max-w-md mx-auto">
@@ -141,7 +141,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
                   placeholder="e.g. Lukas or Tanvir"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50"
                 />
               </div>
 
@@ -155,7 +155,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
                   placeholder="e.g. Schneider or Rahman"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50"
                 />
               </div>
             </div>
@@ -172,7 +172,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
                   placeholder="name@company.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50"
                 />
               </div>
 
@@ -186,7 +186,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
                   placeholder="+49 ... or +880 ..."
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50"
                 />
               </div>
             </div>
@@ -200,7 +200,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
                 <select
                   value={projectType}
                   onChange={(e) => setProjectType(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 bg-white"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 bg-white"
                 >
                   <option value="Full Stack & MERN">Full Stack & MERN Platform</option>
                   <option value="Cloud & Server Architecture">Linux Server & DevOps Architecture</option>
@@ -218,7 +218,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
                 <select
                   value={targetMarket}
                   onChange={(e) => setTargetMarket(e.target.value as any)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 bg-white"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 bg-white"
                 >
                   <option value="Germany">Germany & DACH Region (Europe)</option>
                   <option value="Bangladesh">Bangladesh & South Asia</option>
@@ -239,7 +239,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
                 placeholder="Describe features, server load, integrations (e.g. MERN stack, Shopify, Hetzner server setup, payment gateways)..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
+                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50"
               />
             </div>
 
@@ -248,7 +248,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-bold text-sm py-3.5 rounded-xl shadow-lg shadow-indigo-600/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-bold text-sm py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer border border-[#9cd5e2] shadow-sm"
               >
                 {isSubmitting ? (
                   <span>Processing Estimate...</span>

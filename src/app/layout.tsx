@@ -14,12 +14,12 @@ export const metadata: Metadata = {
     template: "%s | WebDev Software Solutions",
   },
   description:
-    "Enterprise web applications, high-performance MERN platforms, Linux server infrastructure, and e-commerce solutions headquartered in Joypurhat, Bangladesh.",
+    "Enterprise web applications, high-performance MERN platforms, Linux server infrastructure, and conversion-focused e-commerce solutions for global businesses.",
   keywords: [
     "WebDev Software Solutions",
     "Full Stack MERN",
     "React 19 Next.js",
-    "Joypurhat Bangladesh",
+    "Cloud Architecture",
     "Server Engineering",
     "Shopify WooCommerce",
   ],
@@ -48,11 +48,11 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@1,500;1,600;1,700&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen bg-[#0b0f19] text-slate-100 antialiased selection:bg-indigo-600 selection:text-white">
+      <body className="min-h-screen bg-[#0b0f19] text-slate-100 antialiased selection:bg-[#BBE7F1] selection:text-slate-950">
         {children}
       </body>
     </html>

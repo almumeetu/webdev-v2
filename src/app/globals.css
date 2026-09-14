@@ -1,6 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap');
 @import "tailwindcss";
 
 @theme {
+  --font-sans: "Instrument Sans", Helvetica, Arial, sans-serif;
+  --font-body: "Instrument Sans", Helvetica, Arial, sans-serif;
+  --font-heading: Archivo, Helvetica, sans-serif;
+  --font-archivo: Archivo, Helvetica, sans-serif;
+  --font-instrument: "Instrument Sans", Helvetica, Arial, sans-serif;
   --color-primary-50: #f0f9ff;
   --color-primary-100: #e0f2fe;
   --color-primary-200: #bae6fd;
@@ -12,30 +18,116 @@
   --color-primary-800: #075985;
   --color-primary-900: #0c4a6e;
   --color-primary-950: #082f49;
+
+  /* Theme Brand & Active Accents - #BBE7F1 */
+  --color-theme-active: #BBE7F1;
+  --color-theme-hover: #a7dfed;
+  --color-theme-border: #9cd5e2;
+  --color-theme-light: #f4fafc;
+  --color-theme-tint: rgba(187, 231, 241, 0.35);
 }
 
 @layer base {
   html {
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    font-family: "Instrument Sans", Helvetica, Arial, sans-serif;
+    font-weight: 400;
     scroll-behavior: smooth;
-    overflow-x: hidden;
+    overflow-x: clip;
     max-width: 100%;
     -webkit-text-size-adjust: 100%;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
-    letter-spacing: -0.02em;
-  }
 
   body {
+    font-family: "Instrument Sans", Helvetica, Arial, sans-serif;
+    font-weight: 400;
     background-color: #ffffff;
     color: #0f172a;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
+    overflow-x: clip;
     max-width: 100%;
     position: relative;
+  }
+  
+  h1, h2 {
+    font-family: Archivo, Helvetica, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+
+  h3, h4, h5, h6 {
+    font-family: Archivo, Helvetica, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  /* Stylish font for all subheadings, section subtitles, and descriptive kickers */
+  .stylish-subheading,
+  .section-subtitle,
+  .subheading {
+    font-family: Archivo, Helvetica, sans-serif !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em;
+  }
+
+  /* Stylish cursive/italic subheading - strictly NO background */
+  .stylish-italic-subheading,
+  .cursive-subheading {
+    font-family: 'Playfair Display', 'Caveat', Georgia, serif !important;
+    font-style: italic !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  /* Universal Flat Modern Button Standard - No Tacky Shadows */
+  button,
+  [role="button"] {
+    box-shadow: none !important;
+  }
+}
+
+/* Universal font mappings for Archivo & Instrument Sans */
+[class*="font-['Outfit']"],
+[class*="font-['Archivo']"],
+.font-archivo,
+.font-heading {
+  font-family: Archivo, Helvetica, sans-serif !important;
+}
+
+[class*="font-['Space_Grotesk']"],
+[class*="font-['Plus_Jakarta_Sans']"],
+[class*="font-['Instrument_Sans']"],
+.font-instrument,
+.font-body {
+  font-family: "Instrument Sans", Helvetica, Arial, sans-serif !important;
+}
+
+/* Standard Section Container - Unified 1520px width design system standard across all sections */
+.standard-container {
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .standard-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .standard-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 
@@ -72,6 +164,40 @@
 .animate-float-slow {
   animation: floatSlow 4s ease-in-out infinite;
 }
+
+/* Premium Hero — subtle dot grid background */
+.hero-dot-grid {
+  background-image: radial-gradient(circle, rgba(99, 102, 241, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Hero showcase card glass style */
+.hero-glass-card {
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(99, 102, 241, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Hero floating card hover lift */
+.hero-float-card {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+.hero-float-card:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.15), 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Reduced motion: disable all hero floating and parallax */
+@media (prefers-reduced-motion: reduce) {
+  .hero-float-card,
+  .animate-float-slow {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 
 @keyframes marquee {
   0% {
@@ -169,8 +295,65 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Prevent accidental horizontal overflow jitter */
+/* Prevent accidental horizontal overflow without breaking position: sticky */
 html, body {
-  overflow-x: hidden;
+  overflow-x: clip;
   scroll-behavior: smooth;
 }
+
+/* Enhanced sticky sidebar utility */
+.sticky-sidebar-container {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 6rem !important;
+  align-self: flex-start !important;
+  max-height: calc(100vh - 7rem);
+  overflow-y: auto;
+}
+
+/* Hide scrollbar cleanly while allowing smooth scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes slideProgress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-slideProgress {
+  animation-name: slideProgress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes pulseSlow {
+  0%, 100% {
+    opacity: 0.12;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.28;
+    transform: scale(1.06);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulseSlow 7s ease-in-out infinite;
+}
+
+.heading-gradient {
+  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+

@@ -118,7 +118,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         align="left"
       />
 
-      <div className="max-w-xl mx-auto px-4 space-y-8 py-12 sm:py-16">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <div className="max-w-xl mx-auto space-y-8">
 
         {/* Card */}
         <div className="auth-fade-item bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-10 shadow-xl space-y-6">
@@ -128,7 +129,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               alt="WebDev Software Solutions" 
               className="h-12 sm:h-14 w-auto object-contain mx-auto mb-2"
             />
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-950 font-['Outfit']">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-950 font-['Archivo']">
               Client & Enterprise Sign In
             </h1>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-sm mx-auto">
@@ -143,7 +144,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               onClick={() => setSelectedRole('client')}
               className={`py-2.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
                 selectedRole === 'client'
-                  ? 'bg-white text-slate-900 shadow-sm'
+                  ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -154,7 +155,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               onClick={() => setSelectedRole('admin')}
               className={`py-2.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
                 selectedRole === 'admin'
-                  ? 'bg-white text-slate-900 shadow-sm'
+                  ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -165,41 +166,41 @@ export const AuthPage: React.FC<AuthPageProps> = ({
           {selectedRole === 'client' && (
             <div className="space-y-4 pt-1">
               <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-900 font-['Outfit'] uppercase tracking-wider">
+                <label className="text-xs font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
                   Partner Name
                 </label>
                 <input
                   type="text"
                   value={customName}
                   onChange={(e) => setCustomName(e.target.value)}
-                  className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-600 outline-none"
+                  className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-900 font-['Outfit'] uppercase tracking-wider">
+                <label className="text-xs font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
                   Corporate Email
                 </label>
                 <input
                   type="email"
                   value={customEmail}
                   onChange={(e) => setCustomEmail(e.target.value)}
-                  className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-600 outline-none"
+                  className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-900 font-['Outfit'] uppercase tracking-wider">
+                <label className="text-xs font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
                   Operating Headquarters
                 </label>
                 <select
                   value={customCountry}
                   onChange={(e) => setCustomCountry(e.target.value as any)}
-                  className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-600 outline-none bg-white"
+                  className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none bg-white"
                 >
                   <option value="Germany">Germany / Europe (DACH)</option>
-                  <option value="Bangladesh">Bangladesh (Joypurhat / Dhaka)</option>
-                  <option value="International">International (USA / Global)</option>
+                  <option value="Bangladesh">Bangladesh / South Asia</option>
+                  <option value="International">United States / Global</option>
                 </select>
               </div>
             </div>
@@ -209,7 +210,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
           <button
             onClick={() => handleSignIn(selectedRole)}
             disabled={isLoading}
-            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm py-4 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
           >
             {isLoading ? (
               <span>Authorizing Session...</span>
@@ -224,8 +225,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
           </div>
 
         </div>
-
       </div>
     </div>
-  );
+  </div>
+);
 };

@@ -81,18 +81,12 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
         {/* Compact Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-9">
           <div>
-            <div className="inline-flex items-center gap-2 mb-2.5">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-600"></span>
-              </span>
-              <span className="text-xs font-bold tracking-[0.2em] text-indigo-600 uppercase font-mono">
-                RECENT & ONGOING PROJECTS
-              </span>
+            <div className="inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide mb-2.5">
+              <span>Recent & Ongoing Projects</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight font-['Outfit']">
+            <h2 className="text-xl sm:text-2xl lg:text-[30px] font-bold text-slate-900 tracking-tight font-['Archivo']">
               Check our{' '}
-              <span className="bg-gradient-to-r from-indigo-600 to-sky-600 bg-clip-text text-transparent">
+              <span className="text-slate-950 underline decoration-[#9cd5e2] decoration-2 underline-offset-4">
                 recent and ongoing work
               </span>
             </h2>
@@ -110,11 +104,11 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
                   onClick={() => setSelectedCategory(cat.name)}
                   className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0 min-h-[38px] ${
                     isSelected
-                      ? 'bg-indigo-600 text-white shadow-sm ring-2 ring-indigo-600/30'
+                      ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs'
                       : 'bg-slate-100 hover:bg-slate-200/80 text-slate-700 border border-slate-200/80'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isSelected ? 'text-white' : 'text-slate-500'}`} />
+                  <Icon className={`w-4 h-4 ${isSelected ? 'text-slate-950' : 'text-slate-500'}`} />
                   <span>{cat.name}</span>
                 </button>
               );
@@ -140,15 +134,17 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
               <div
                 key={`${project.id}-${idx}`}
                 onClick={() => onSelectProject(project)}
-                className="w-[280px] xs:w-[310px] sm:w-[340px] shrink-0 bg-white rounded-2xl overflow-hidden border border-slate-200/90 hover:border-indigo-400 shadow-xs hover:shadow-xl transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-1.5 cursor-pointer flex flex-col justify-between group"
+                className="w-[280px] xs:w-[310px] sm:w-[340px] shrink-0 bg-white rounded-2xl overflow-hidden border border-slate-200/90 hover:border-[#9cd5e2] shadow-xs hover:shadow-xl transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-1.5 cursor-pointer flex flex-col justify-between group"
               >
                 {/* Card Image Banner */}
                 <div className="relative h-48 sm:h-52 overflow-hidden bg-slate-100">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+                  {project.image && project.image.trim() !== '' ? (
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : null}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
 
                   {/* Top Status & Country Badges */}
@@ -181,14 +177,14 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
                 <div className="p-5 flex-1 flex flex-col justify-between space-y-3.5 bg-white">
                   <div>
                     <div className="flex items-center justify-between text-xs mb-1.5">
-                      <span className="font-mono font-bold text-indigo-600 tracking-wide">{project.category}</span>
+                      <span className="font-mono font-bold text-cyan-800 tracking-wide">{project.category}</span>
                       <span className="text-slate-500 font-medium truncate max-w-[130px] flex items-center gap-1">
                         <Building2 className="w-3 h-3 text-slate-400 shrink-0" />
                         <span className="truncate">{project.clientName}</span>
                       </span>
                     </div>
 
-                    <h3 className="text-base sm:text-lg font-extrabold text-slate-900 group-hover:text-indigo-600 transition-colors font-['Outfit'] line-clamp-1">
+                    <h3 className="text-base sm:text-lg font-extrabold text-slate-900 group-hover:text-cyan-800 transition-colors font-['Archivo'] line-clamp-1">
                       {project.title}
                     </h3>
 
@@ -212,7 +208,7 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
                       )}
                     </div>
 
-                    <div className="inline-flex items-center gap-1 text-sm font-bold text-indigo-600 group-hover:text-indigo-700 shrink-0 whitespace-nowrap">
+                    <div className="inline-flex items-center gap-1 text-sm font-bold text-slate-950 group-hover:text-cyan-800 shrink-0 whitespace-nowrap">
                       <span className="whitespace-nowrap">View Project</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
                     </div>
@@ -227,10 +223,10 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
         <div className="mt-9 text-center">
           <button
             onClick={onViewAllProjects}
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-800 font-bold text-sm sm:text-base border border-slate-200 shadow-2xs hover:shadow transition-all cursor-pointer min-h-[44px]"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-800 font-bold text-sm sm:text-base border border-slate-200 transition-all cursor-pointer min-h-[44px]"
           >
             <span>Explore All 12+ Worldwide Case Studies</span>
-            <ArrowRight className="w-4 h-4 text-indigo-600" />
+            <ArrowRight className="w-4 h-4 text-slate-950" />
           </button>
         </div>
 

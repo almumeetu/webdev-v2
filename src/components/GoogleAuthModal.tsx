@@ -95,7 +95,7 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
             />
           </div>
 
-          <h3 className="text-xl font-bold font-['Outfit']">
+          <h3 className="text-xl font-bold font-['Archivo']">
             WebDev Client & Admin Portal
           </h3>
           <p className="text-xs text-slate-400 mt-1">
@@ -111,7 +111,7 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
             <button
               onClick={() => handleGoogleSignIn('admin')}
               disabled={isLoading}
-              className="w-full flex items-center justify-center gap-3 bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-indigo-500 py-3 px-4 rounded-xl text-sm font-semibold text-slate-800 shadow-sm hover:shadow transition-all group"
+              className="w-full flex items-center justify-center gap-3 bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-[#9cd5e2] py-3 px-4 rounded-xl text-sm font-semibold text-slate-800 transition-all group cursor-pointer"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -169,7 +169,7 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
                 <select
                   value={selectedRole}
                   onChange={(e) => setSelectedRole(e.target.value as any)}
-                  className="w-full px-2.5 py-2 text-xs rounded-lg border border-slate-200 bg-white font-semibold text-indigo-600"
+                  className="w-full px-2.5 py-2 text-xs rounded-lg border border-slate-200 bg-white font-semibold text-cyan-800"
                 >
                   <option value="client">Client User</option>
                   <option value="admin">Admin / Staff</option>
@@ -189,7 +189,7 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
 
           <div className="text-[11px] text-slate-400 text-center flex items-center justify-center gap-1.5">
             <Shield className="w-3.5 h-3.5 text-emerald-500" />
-            <span>Encrypted OAuth2 session • Leverkusen (DE) & Global Hubs</span>
+            <span>Encrypted OAuth2 session • 256-bit TLS Security</span>
           </div>
 
         </div>

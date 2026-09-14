@@ -27,15 +27,15 @@ export const GlobalEcosystemSection: React.FC = () => {
       </div>
 
       <div className="relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+        <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 mb-16">
           <div className="text-center space-y-6">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-primary-300 text-xs font-bold tracking-widest uppercase backdrop-blur-md shadow-lg">
-              Global Ecosystem
-            </span>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight">
+            <div className="inline-flex items-center gap-2 text-cyan-300 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+              <span>Global Ecosystem & Partnerships</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-white tracking-tight">
               Trusted by Industry <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-orange-400">Leaders</span>
             </h2>
-            <p className="text-lg text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
+            <p className="text-lg text-slate-300 max-w-2xl mx-auto font-light leading-relaxed font-['Instrument_Sans']">
               We collaborate with ambitious brands and startups to build the digital infrastructure of tomorrow.
             </p>
           </div>
@@ -81,21 +81,23 @@ export const GlobalEcosystemSection: React.FC = () => {
         </div>
 
         {/* Bottom Status Bar */}
-        <div className="mt-16 flex flex-wrap justify-center gap-6 md:gap-12 border-t border-white/10 pt-10">
-           <div className="text-center">
-              <p className="text-3xl font-bold text-white">500+</p>
-              <p className="text-xs text-primary-400 uppercase tracking-widest mt-1">Clients Worldwide</p>
-           </div>
-           <div className="w-px h-12 bg-white/10 hidden md:block"></div>
-           <div className="text-center">
-              <p className="text-3xl font-bold text-white">98%</p>
-              <p className="text-xs text-primary-400 uppercase tracking-widest mt-1">Retention Rate</p>
-           </div>
-           <div className="w-px h-12 bg-white/10 hidden md:block"></div>
-           <div className="text-center">
-              <p className="text-3xl font-bold text-white">24/7</p>
-              <p className="text-xs text-primary-400 uppercase tracking-widest mt-1">Active Support</p>
-           </div>
+        <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mt-16 flex flex-wrap justify-center gap-6 md:gap-12 border-t border-white/10 pt-10">
+             <div className="text-center">
+                <p className="text-3xl font-bold text-white">500+</p>
+                <p className="text-xs text-primary-400 uppercase tracking-widest mt-1">Clients Worldwide</p>
+             </div>
+             <div className="w-px h-12 bg-white/10 hidden md:block"></div>
+             <div className="text-center">
+                <p className="text-3xl font-bold text-white">98%</p>
+                <p className="text-xs text-primary-400 uppercase tracking-widest mt-1">Retention Rate</p>
+             </div>
+             <div className="w-px h-12 bg-white/10 hidden md:block"></div>
+             <div className="text-center">
+                <p className="text-3xl font-bold text-white">24/7</p>
+                <p className="text-xs text-primary-400 uppercase tracking-widest mt-1">Active Support</p>
+             </div>
+          </div>
         </div>
 
       </div>

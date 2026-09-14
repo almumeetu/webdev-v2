@@ -11,22 +11,14 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
   const { lang, setLang, t } = useLanguage();
 
   return (
-    <div className="bg-slate-950 text-slate-400 text-xs sm:text-sm py-2.5 px-4 sm:px-6 lg:px-8 border-b border-slate-800/80">
-      <div className="max-w-[1520px] mx-auto flex items-center justify-between gap-4">
+    <div className="bg-slate-950 text-slate-400 text-xs sm:text-sm py-2.5 border-b border-slate-800/80">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
         
-        {/* Left side: Hub Info & Working Hours */}
+        {/* Left side: Contact Email & Working Hours */}
         <div className="flex items-center flex-wrap gap-4 sm:gap-6">
-          {/* Dual Engineering Hub */}
-          <div className="flex items-center gap-2 text-slate-300 font-medium truncate">
-            <Globe className="w-4 h-4 text-indigo-400 shrink-0" />
-            <span className="text-xs sm:text-sm truncate">
-              <span className="text-white font-semibold">{t.topbarHub}</span>
-            </span>
-          </div>
-
           {/* Email */}
-          <div className="hidden md:flex items-center gap-2 text-slate-400">
-            <Mail className="w-4 h-4 text-indigo-400 shrink-0" />
+          <div className="flex items-center gap-2 text-slate-300">
+            <Mail className="w-4 h-4 text-cyan-400 shrink-0" />
             <a 
               href="mailto:info@webdevsoftwaresolutions.com" 
               className="text-xs sm:text-sm hover:text-white transition-colors"
@@ -36,8 +28,8 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
           </div>
 
           {/* Operating SLA Hours */}
-          <div className="hidden xl:flex items-center gap-2 text-slate-400">
-            <Clock className="w-4 h-4 text-indigo-400 shrink-0" />
+          <div className="hidden sm:flex items-center gap-2 text-slate-400">
+            <Clock className="w-4 h-4 text-cyan-400 shrink-0" />
             <span className="text-xs sm:text-sm">{t.topbarHours}</span>
           </div>
         </div>
@@ -45,12 +37,12 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
         {/* Right side: Language Switcher & Direct BD Hotline / Socials */}
         <div className="flex items-center gap-3 sm:gap-4">
           {/* German & English Language Switcher */}
-          <div className="inline-flex items-center rounded-full bg-slate-900 border border-slate-700/80 p-0.5 shadow-xs">
+          <div className="inline-flex items-center rounded-full bg-slate-900 border border-slate-700/80 p-0.5">
             <button
               onClick={() => setLang('en')}
               className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
                 lang === 'en'
-                  ? 'bg-indigo-600 text-white shadow-xs'
+                  ? 'bg-[#BBE7F1] text-slate-950 font-bold'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
               title="Switch language to English"
@@ -63,7 +55,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
               onClick={() => setLang('de')}
               className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
                 lang === 'de'
-                  ? 'bg-indigo-600 text-white shadow-xs'
+                  ? 'bg-[#BBE7F1] text-slate-950 font-bold'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
               title="Sprache auf Deutsch umstellen"
@@ -78,7 +70,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
           <a
             href="tel:+491729766016"
             className="flex items-center gap-1.5 text-slate-200 hover:text-emerald-400 font-medium text-xs sm:text-sm transition-colors"
-            title="Direct German Client Line (Leverkusen, DE)"
+            title="European Client Line (+49 172 9766016)"
           >
             <span className="text-xs">🇩🇪</span>
             <span className="font-mono font-bold">+49 172 9766016</span>

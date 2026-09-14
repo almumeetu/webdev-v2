@@ -21,11 +21,13 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
         
         {/* Banner with close button */}
         <div className="relative h-64 sm:h-80 bg-slate-950 overflow-hidden">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover"
-          />
+          {project.image && project.image.trim() !== '' ? (
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover"
+            />
+          ) : null}
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
 
           <button
@@ -37,7 +39,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
 
           <div className="absolute bottom-6 left-6 right-6 text-white space-y-2">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs font-mono font-bold uppercase tracking-wider bg-indigo-600 px-3 py-1 rounded-full">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] px-3 py-1 rounded-full">
                 {project.category}
               </span>
               {project.status === 'completed' ? (
@@ -51,7 +53,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
               )}
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-extrabold font-['Outfit']">
+            <h2 className="text-2xl sm:text-3xl font-extrabold font-['Archivo']">
               {project.title}
             </h2>
           </div>
@@ -69,7 +71,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
             <div>
               <div className="text-slate-400 font-semibold uppercase">Region</div>
               <div className="font-bold text-slate-800 mt-0.5 flex items-center gap-1">
-                <Globe className="w-3.5 h-3.5 text-indigo-600" />
+                <Globe className="w-3.5 h-3.5 text-cyan-800" />
                 {project.clientCountry}
               </div>
             </div>
@@ -78,14 +80,14 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
               <div className="font-bold text-slate-800 mt-0.5">{project.completionDate}</div>
             </div>
             <div>
-              <div className="text-slate-400 font-semibold uppercase">Engineering Hub</div>
-              <div className="font-bold text-indigo-600 mt-0.5">Joypurhat & Leverkusen</div>
+              <div className="text-slate-400 font-semibold uppercase">Engagement Type</div>
+              <div className="font-bold text-cyan-800 mt-0.5">Dedicated Agile Squad</div>
             </div>
           </div>
 
           {/* Description */}
           <div>
-            <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider font-['Outfit'] mb-2">
+            <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider font-['Archivo'] mb-2">
               Project Overview
             </h4>
             <p className="text-slate-600 text-sm leading-relaxed">
@@ -95,7 +97,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
 
           {/* Key Deliverables & Features */}
           <div>
-            <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider font-['Outfit'] mb-3">
+            <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider font-['Archivo'] mb-3">
               Key Engineering Features
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -110,12 +112,12 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
 
           {/* Tech Stack Chips */}
           <div>
-            <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider font-['Outfit'] mb-2">
+            <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider font-['Archivo'] mb-2">
               Technology Stack Used
             </h4>
             <div className="flex items-center gap-2 flex-wrap">
               {project.techStack.map((tech, i) => (
-                <span key={i} className="text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1 rounded-lg">
+                <span key={i} className="text-xs font-semibold bg-[#BBE7F1]/30 text-slate-950 border border-[#9cd5e2] px-3 py-1 rounded-lg">
                   {tech}
                 </span>
               ))}
@@ -124,10 +126,10 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
 
           {/* Metrics Callout */}
           {project.metrics && (
-            <div className="p-4 rounded-2xl bg-gradient-to-r from-indigo-900 to-purple-900 text-white flex items-center gap-3 shadow-lg">
+            <div className="p-4 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-950 border border-slate-800 text-white flex items-center gap-3 shadow-lg">
               <TrendingUp className="w-6 h-6 text-emerald-400 shrink-0" />
               <div>
-                <div className="text-xs text-indigo-200 uppercase font-mono font-bold">Business Outcome & Impact</div>
+                <div className="text-xs text-cyan-300 uppercase font-mono font-bold">Business Outcome & Impact</div>
                 <div className="text-sm font-bold">{project.metrics}</div>
               </div>
             </div>
@@ -147,7 +149,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
                 onClose();
                 onGetQuoteForSimilar();
               }}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-6 py-3 rounded-xl shadow-lg shadow-indigo-600/30 transition-all flex items-center gap-2"
+              className="bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 border border-[#9cd5e2] text-xs font-bold px-6 py-3 rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-sm"
             >
               <span>Build A Similar Solution For Your Business</span>
               <ExternalLink className="w-3.5 h-3.5" />

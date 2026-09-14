@@ -1,33 +1,31 @@
-import React, { useState } from 'react';
-import { 
-  Mail, 
-  Phone, 
-  MapPin, 
-  ArrowUpRight, 
-  ShieldCheck, 
-  Globe, 
-  Clock, 
-  CheckCircle2, 
-  LayoutDashboard,
+'use client';
+
+import React from 'react';
+import {
+  Mail,
+  Phone,
   ArrowUp,
-  Sparkles,
+  ArrowUpRight,
+  ShieldCheck,
   Lock,
-  Layers,
-  FileCode2,
-  Server
+  Clock
 } from 'lucide-react';
-import { GithubIcon, LinkedinIcon, TwitterIcon } from './SocialIcons';
+import { GithubIcon, LinkedinIcon, TwitterIcon, WhatsAppIcon } from './SocialIcons';
 import { useLanguage } from '../context/LanguageContext';
+import { SiteSettings } from '../types';
 
 interface FooterProps {
   onNavigate: (view: string, subParam?: string) => void;
   onOpenQuote: () => void;
+  siteSettings: SiteSettings;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenQuote }) => {
+export const Footer: React.FC<FooterProps> = ({
+  onNavigate,
+  onOpenQuote,
+  siteSettings
+}) => {
   const { t } = useLanguage();
-  const [emailInput, setEmailInput] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
 
   const scrollToTop = () => {
     if (typeof window !== 'undefined') {
@@ -35,340 +33,363 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenQuote }) => {
     }
   };
 
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!emailInput.trim()) return;
-    setSubscribed(true);
-    setTimeout(() => {
-      setEmailInput('');
-      setSubscribed(false);
-    }, 4000);
-  };
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-slate-950 text-slate-400 border-t border-slate-800/90 overflow-hidden">
-      {/* Background Imagery with Dark Glassmorphic Blur Overlay */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-        {/* Background Network Graphic Image */}
-        <img 
-          src="/images/footer/footer-tech-bg.jpg" 
-          alt="WebDev Global Network Architecture" 
-          className="w-full h-full object-cover object-center opacity-35 mix-blend-screen scale-105 filter blur-[0.5px]"
-        />
+    <footer className="relative bg-slate-950 text-slate-300 border-t border-slate-800/80">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-10 sm:pb-12">
 
-        {/* Cinematic Multi-Layer Gradient Overlays & Backdrop Blur */}
-        <div className="absolute inset-0 bg-slate-950/85 backdrop-blur-md"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-slate-950/90"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(99,102,241,0.14),transparent)]"></div>
-        <div className="absolute -top-40 right-1/4 w-96 h-96 bg-emerald-600/10 rounded-full blur-[140px]"></div>
-        <div className="absolute -bottom-40 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-[140px]"></div>
-      </div>
+        {/* ── Pre-Footer Conversation Invitation ── */}
+        <div className="pb-10 sm:pb-12 mb-10 sm:mb-12 border-b border-slate-800/70">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div className="max-w-2xl">
+              <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight font-['Archivo']">
+                Ready to engineer your next software solution?
+              </h3>
+              <p className="mt-2 text-sm text-slate-400 font-['Instrument_Sans'] leading-relaxed">
+                Partner with our engineering teams in Germany and Bangladesh for high-performance web systems, cloud architectures, and dedicated product delivery.
+              </p>
+            </div>
 
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-12 sm:pt-16 lg:pt-20 pb-10 sm:pb-12">
-        
-        {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 pb-12 sm:pb-14 border-b border-slate-800/80">
-          
-          {/* Column 1: Brand & German Enterprise Focus (4 cols) */}
-          <div className="lg:col-span-4 space-y-5 sm:space-y-6">
-            <div className="space-y-3 sm:space-y-4">
-              {/* Official Brand Logo */}
-              <div className="flex items-center gap-3">
-                <div className="bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-md border border-slate-200/20 inline-flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                  <img 
-                    src="/images/logo/webdev-logo.png" 
-                    alt="WebDev Software Solutions Logo" 
-                    className="h-9 sm:h-11 w-auto object-contain"
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
+              <button
+                type="button"
+                onClick={onOpenQuote}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-sm transition-colors cursor-pointer border border-[#9cd5e2] shadow-sm"
+              >
+                <span>Request a Proposal</span>
+                <ArrowUpRight className="w-4 h-4 text-slate-950" />
+              </button>
+              <a
+                href={`mailto:${siteSettings.email}`}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 text-sm font-medium transition-colors"
+              >
+                <Mail className="w-4 h-4 text-slate-400" />
+                <span>{siteSettings.email}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Main 4-Column Grid ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 pb-12 sm:pb-14 border-b border-slate-800/70">
+
+          {/* Column 1: Brand & Enterprise Credentials (4 cols) */}
+          <div className="lg:col-span-4 space-y-4">
+            <div className="flex items-center gap-3">
+              {siteSettings.logoUrl && siteSettings.logoUrl.trim() !== '' ? (
+                <div className="bg-white px-2.5 py-1 rounded-lg inline-flex items-center justify-center">
+                  <img
+                    src={siteSettings.logoUrl}
+                    alt={`${siteSettings.companyName} Logo`}
+                    className="h-7 w-auto object-contain"
                   />
                 </div>
-              </div>
-
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                {t.footerAboutText || 'Premier software consultancy and engineering firm with our European Hub in Küppersteg, Leverkusen, Germany and dedicated offshore R&D centers. Delivering high-performance web platforms, cloud architectures, and GDPR-compliant digital solutions.'}
-              </p>
-            </div>
-
-            {/* German & European Enterprise Standards Card */}
-            <div className="p-4 rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-emerald-500/25 space-y-2.5 shadow-lg">
-              <div className="flex items-center justify-between text-xs font-mono font-bold text-slate-200">
-                <span className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>German & EU Standards</span>
+              ) : (
+                <div className="w-8 h-8 rounded-lg bg-[#BBE7F1] border border-[#9cd5e2] flex items-center justify-center text-slate-950 font-bold text-sm">
+                  {siteSettings.companyName?.slice(0, 2).toUpperCase() || 'WD'}
+                </div>
+              )}
+              <div>
+                <span className="text-base font-bold text-white tracking-tight leading-none block font-['Archivo']">
+                  {siteSettings.companyName}
                 </span>
-                <span className="text-emerald-400 text-[11px] font-semibold flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <span>DSGVO / GDPR</span>
+                <span className="text-[11px] font-medium text-slate-400 tracking-wider uppercase block mt-1 font-['Instrument_Sans']">
+                  Software Solutions &amp; Cloud Engineering
                 </span>
               </div>
-              <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed">
-                Direct European contracting, strict bilateral NDAs, and CET business hours real-time collaboration from our Leverkusen office.
-              </p>
             </div>
 
-            {/* Social Icons with sleek hover glows */}
-            <div className="space-y-2 pt-1">
-              <div className="text-[11px] sm:text-xs font-mono uppercase tracking-wider text-slate-400 font-bold">
-                Connect With Us
+            <p className="text-sm text-slate-400 leading-relaxed font-['Instrument_Sans']">
+              {t.footerAboutText || siteSettings.footerAboutText}
+            </p>
+
+            {/* Formal Compliance & Assurance Badges */}
+            <div className="pt-1 flex flex-col gap-2 text-xs text-slate-400 font-['Instrument_Sans']">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>EU GDPR / DSGVO Compliant Protocols</span>
               </div>
-              <div className="flex items-center space-x-2.5">
-                <a 
-                  href="https://github.com/almumeetusaikat" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-10 h-10 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-indigo-500 text-slate-400 hover:text-white flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5 shadow-sm"
-                  aria-label="GitHub Profile"
-                  title="GitHub Profile"
+              <div className="flex items-center gap-2">
+                <Lock className="w-4 h-4 text-cyan-400 shrink-0" />
+                <span>100% Client IP &amp; Source Code Ownership</span>
+              </div>
+            </div>
+
+            {/* Social Communications Links */}
+            <div className="flex items-center gap-2 pt-2">
+              {siteSettings.socialLinks.github && (
+                <a
+                  href={siteSettings.socialLinks.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 hover:border-slate-700 flex items-center justify-center transition-colors"
+                  aria-label="GitHub"
+                  title="GitHub"
                 >
                   <GithubIcon className="w-4 h-4" />
                 </a>
-                <a 
-                  href="https://x.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-10 h-10 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-sky-500 text-slate-400 hover:text-white flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5 shadow-sm"
-                  aria-label="Twitter / X"
-                  title="Twitter / X"
-                >
-                  <TwitterIcon className="w-4 h-4" />
-                </a>
-                <a 
-                  href="https://linkedin.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-10 h-10 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-indigo-500 text-slate-400 hover:text-white flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5 shadow-sm"
+              )}
+              {siteSettings.socialLinks.linkedin && (
+                <a
+                  href={siteSettings.socialLinks.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 hover:border-slate-700 flex items-center justify-center transition-colors"
                   aria-label="LinkedIn"
                   title="LinkedIn"
                 >
                   <LinkedinIcon className="w-4 h-4" />
                 </a>
-                <a 
-                  href="mailto:info@webdevsoftwaresolutions.com" 
-                  className="w-10 h-10 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500 text-slate-400 hover:text-white flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5 shadow-sm"
-                  aria-label="Email WebDev Software Solutions"
-                  title="Direct Email"
+              )}
+              {siteSettings.socialLinks.twitter && (
+                <a
+                  href={siteSettings.socialLinks.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 hover:border-slate-700 flex items-center justify-center transition-colors"
+                  aria-label="Twitter / X"
+                  title="Twitter / X"
                 >
-                  <Mail className="w-4 h-4" />
+                  <TwitterIcon className="w-4 h-4" />
+                </a>
+              )}
+              {siteSettings.socialLinks.whatsapp_de && (
+                <a
+                  href={siteSettings.socialLinks.whatsapp_de}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-emerald-400 border border-slate-800 hover:border-slate-700 flex items-center justify-center transition-colors"
+                  aria-label="WhatsApp"
+                  title="WhatsApp"
+                >
+                  <WhatsAppIcon className="w-4 h-4 text-emerald-400" />
+                </a>
+              )}
+              <a
+                href={`mailto:${siteSettings.email}`}
+                className="w-8 h-8 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 hover:border-slate-700 flex items-center justify-center transition-colors"
+                aria-label="Email"
+                title={siteSettings.email}
+              >
+                <Mail className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+
+          {/* Column 2: Solutions & Capabilities (2.5 cols) */}
+          <div className="lg:col-span-2 space-y-3.5">
+            <h4 className="text-xs font-bold text-white uppercase tracking-wider font-['Archivo']">
+              Practice Areas
+            </h4>
+            <ul className="space-y-2.5 text-sm font-['Instrument_Sans']">
+              {[
+                { label: 'Full-Stack Web Apps', id: 'serv-1' },
+                { label: 'Cloud & Linux DevOps', id: 'serv-2' },
+                { label: 'Headless E-Commerce', id: 'serv-3' },
+                { label: 'Enterprise CMS Portals', id: 'serv-4' },
+                { label: 'Microservices & APIs', id: 'serv-5' },
+                { label: 'Database Optimization', id: 'serv-6' }
+              ].map((item) => (
+                <li key={item.id}>
+                  <button
+                    onClick={() => onNavigate('services', item.id)}
+                    className="text-slate-400 hover:text-white transition-colors text-left cursor-pointer font-normal block"
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 3: Corporate Directory (2 cols) */}
+          <div className="lg:col-span-2 space-y-3.5">
+            <h4 className="text-xs font-bold text-white uppercase tracking-wider font-['Archivo']">
+              Corporate
+            </h4>
+            <ul className="space-y-2.5 text-sm font-['Instrument_Sans']">
+              <li>
+                <button onClick={() => onNavigate('about')} className="text-slate-400 hover:text-white transition-colors text-left cursor-pointer font-normal block">
+                  About WebDev
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('team')} className="text-slate-400 hover:text-white transition-colors text-left cursor-pointer font-normal block">
+                  Leadership &amp; Engineers
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('portfolio')} className="text-slate-400 hover:text-white transition-colors text-left cursor-pointer font-normal block">
+                  Case Studies &amp; Work
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('blog')} className="text-slate-400 hover:text-white transition-colors text-left cursor-pointer font-normal block">
+                  Engineering Insights
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('contact')} className="text-slate-400 hover:text-white transition-colors text-left cursor-pointer font-normal block">
+                  Contact &amp; Inquiries
+                </button>
+              </li>
+              <li className="pt-1">
+                <button
+                  onClick={onOpenQuote}
+                  className="text-[#BBE7F1] hover:text-[#a7dfed] font-medium inline-flex items-center gap-1 cursor-pointer transition-colors"
+                >
+                  <span>Request Proposal</span>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-[#BBE7F1]" />
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 4: Global Offices (4 cols) */}
+          <div className="lg:col-span-4 space-y-4">
+            <h4 className="text-xs font-bold text-white uppercase tracking-wider font-['Archivo']">
+              Global Offices
+            </h4>
+
+            {/* Germany HQ */}
+            <div className="space-y-1.5 pb-3.5 border-b border-slate-800/60">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-semibold text-white font-['Archivo']">Leverkusen, Germany</span>
+                  <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-[#BBE7F1]/10 text-cyan-300 border border-[#9cd5e2]/30 font-semibold">
+                    European HQ
+                  </span>
+                </div>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Küppersteg,+51373+Leverkusen,+Germany"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-slate-400 hover:text-[#BBE7F1] inline-flex items-center gap-1 transition-colors"
+                  title="Open in Google Maps"
+                >
+                  <span>Map</span>
+                  <ArrowUpRight className="w-3 h-3" />
                 </a>
               </div>
-            </div>
-          </div>
 
-          {/* Column 2: Operating Hubs & Offices (4 cols) */}
-          <div className="lg:col-span-4 space-y-4">
-            <h4 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider font-mono flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-emerald-400" />
-              <span>Operating Hubs & Offices</span>
-            </h4>
-            
-            <div className="space-y-4 text-xs sm:text-sm">
-              {/* Germany European Hub - Displayed FIRST */}
-              <div className="p-4 sm:p-4.5 rounded-2xl bg-slate-900/85 backdrop-blur-xl border border-emerald-500/35 hover:border-emerald-500/60 transition-colors space-y-2.5 shadow-md">
-                <div className="flex items-center justify-between text-white font-bold">
-                  <span className="flex items-center gap-1.5">
-                    <span className="text-base">🇩🇪</span>
-                    <span className="tracking-tight">Leverkusen, Germany</span>
-                  </span>
-                  <span className="text-[11px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono font-bold">
-                    European Hub
-                  </span>
-                </div>
-                <p className="text-slate-300 text-xs leading-relaxed">
-                  Küppersteg, 51373 Leverkusen, North Rhine-Westphalia, Germany
-                </p>
-                <div className="pt-1 flex flex-wrap items-center justify-between gap-2 text-xs border-t border-slate-800/80">
-                  <a 
-                    href="tel:+491729766016" 
-                    className="text-emerald-400 hover:text-emerald-300 font-mono font-bold transition-colors flex items-center gap-1.5"
-                  >
-                    <Phone className="w-3.5 h-3.5" />
-                    <span>+49 172 9766016</span>
-                  </a>
-                  <span className="text-slate-400 font-mono text-[11px]">9:00 - 18:00 CET</span>
-                </div>
-              </div>
+              <p className="text-xs text-slate-400 leading-relaxed font-['Instrument_Sans']">
+                {siteSettings.address_de}
+              </p>
 
-              {/* Bangladesh Global R&D Center */}
-              <div className="p-4 sm:p-4.5 rounded-2xl bg-slate-900/85 backdrop-blur-xl border border-slate-800/90 hover:border-slate-700 transition-colors space-y-2.5">
-                <div className="flex items-center justify-between text-white font-bold">
-                  <span className="flex items-center gap-1.5">
-                    <span className="text-base">🇧🇩</span>
-                    <span className="tracking-tight">Joypurhat, Bangladesh</span>
-                  </span>
-                  <span className="text-[11px] bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-2 py-0.5 rounded-full font-mono font-bold">
-                    Offshore R&D
-                  </span>
-                </div>
-                <p className="text-slate-400 text-xs leading-relaxed">
-                  Housing Estate, Ward No: 07, Joypurhat-5900, Rajshahi Division, Bangladesh
-                </p>
-                <div className="pt-1 flex flex-wrap items-center justify-between gap-2 text-xs border-t border-slate-800/80">
-                  <a 
-                    href="tel:+8801722301927" 
-                    className="text-indigo-400 hover:text-indigo-300 font-mono font-bold transition-colors flex items-center gap-1.5"
-                  >
-                    <Phone className="w-3.5 h-3.5" />
-                    <span>+880 1722-301927</span>
-                  </a>
-                  <span className="text-slate-500 font-mono text-[11px]">24/7 Continuous Delivery</span>
-                </div>
+              <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1 text-xs font-mono pt-0.5">
+                <a
+                  href={`tel:${siteSettings.phone_de.replace(/\s+/g, '')}`}
+                  className="text-slate-300 hover:text-white transition-colors inline-flex items-center gap-1.5"
+                >
+                  <Phone className="w-3 h-3 text-cyan-400" />
+                  <span>{siteSettings.phone_de}</span>
+                </a>
+                <span className="text-slate-700 hidden sm:inline">·</span>
+                <span className="text-slate-400 inline-flex items-center gap-1">
+                  <Clock className="w-3 h-3 text-slate-500" />
+                  <span>Mon–Fri 09:00–18:00 CET</span>
+                </span>
               </div>
             </div>
-          </div>
 
-          {/* Column 3: Engineering Capabilities (2 cols) */}
-          <div className="lg:col-span-2 space-y-3.5">
-            <h4 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider font-mono flex items-center gap-2">
-              <Layers className="w-4 h-4 text-indigo-400" />
-              <span>Capabilities</span>
-            </h4>
-            <ul className="space-y-2.5 text-xs sm:text-sm">
-              <li>
-                <button 
-                  onClick={() => onNavigate('services', 'serv-1')} 
-                  className="hover:text-white hover:translate-x-1 transition-all text-left cursor-pointer flex items-center gap-1.5 group w-full"
+            {/* Bangladesh Center */}
+            <div className="space-y-1.5 pt-0.5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-semibold text-white font-['Archivo']">Joypurhat, Bangladesh</span>
+                  <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold">
+                    R&amp;D Center
+                  </span>
+                </div>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Housing+Estate,+Ward+07,+Joypurhat-5900,+Bangladesh"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-slate-400 hover:text-emerald-300 inline-flex items-center gap-1 transition-colors"
+                  title="Open in Google Maps"
                 >
-                  <span className="text-slate-600 group-hover:text-indigo-400 transition-colors">›</span>
-                  <span>Full-Stack MERN</span>
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => onNavigate('services', 'serv-2')} 
-                  className="hover:text-white hover:translate-x-1 transition-all text-left cursor-pointer flex items-center gap-1.5 group w-full"
-                >
-                  <span className="text-slate-600 group-hover:text-indigo-400 transition-colors">›</span>
-                  <span>Cloud & Linux DevOps</span>
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => onNavigate('services', 'serv-3')} 
-                  className="hover:text-white hover:translate-x-1 transition-all text-left cursor-pointer flex items-center gap-1.5 group w-full"
-                >
-                  <span className="text-slate-600 group-hover:text-indigo-400 transition-colors">›</span>
-                  <span>Headless Shopify Apps</span>
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => onNavigate('services', 'serv-4')} 
-                  className="hover:text-white hover:translate-x-1 transition-all text-left cursor-pointer flex items-center gap-1.5 group w-full"
-                >
-                  <span className="text-slate-600 group-hover:text-indigo-400 transition-colors">›</span>
-                  <span>Enterprise CMS & Portals</span>
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => onNavigate('services', 'serv-5')} 
-                  className="hover:text-white hover:translate-x-1 transition-all text-left cursor-pointer flex items-center gap-1.5 group w-full"
-                >
-                  <span className="text-slate-600 group-hover:text-indigo-400 transition-colors">›</span>
-                  <span>REST & GraphQL APIs</span>
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => onNavigate('services', 'serv-6')} 
-                  className="hover:text-white hover:translate-x-1 transition-all text-left cursor-pointer flex items-center gap-1.5 group w-full"
-                >
-                  <span className="text-slate-600 group-hover:text-indigo-400 transition-colors">›</span>
-                  <span>Database Optimization</span>
-                </button>
-              </li>
-            </ul>
-          </div>
+                  <span>Map</span>
+                  <ArrowUpRight className="w-3 h-3" />
+                </a>
+              </div>
 
-          {/* Column 4: Quick Navigation & Consultation (2 cols) */}
-          <div className="lg:col-span-2 space-y-3.5">
-            <h4 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider font-mono flex items-center gap-2">
-              <FileCode2 className="w-4 h-4 text-indigo-400" />
-              <span>Direct Navigation</span>
-            </h4>
-            <ul className="space-y-2.5 text-xs sm:text-sm">
-              <li>
-                <button onClick={() => onNavigate('about')} className="hover:text-white hover:translate-x-1 transition-all text-left cursor-pointer flex items-center gap-1.5 group w-full">
-                  <span className="text-slate-600 group-hover:text-indigo-400 transition-colors">›</span>
-                  <span>About Our Firm</span>
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('team')} className="hover:text-white hover:translate-x-1 transition-all text-left cursor-pointer flex items-center gap-1.5 group w-full">
-                  <span className="text-slate-600 group-hover:text-indigo-400 transition-colors">›</span>
-                  <span>Engineering Team</span>
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('portfolio')} className="hover:text-white hover:translate-x-1 transition-all text-left cursor-pointer flex items-center gap-1.5 group w-full">
-                  <span className="text-slate-600 group-hover:text-indigo-400 transition-colors">›</span>
-                  <span>Case Studies & Demos</span>
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('blog')} className="hover:text-white hover:translate-x-1 transition-all text-left cursor-pointer flex items-center gap-1.5 group w-full">
-                  <span className="text-slate-600 group-hover:text-indigo-400 transition-colors">›</span>
-                  <span>Tech Blog & Insights</span>
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('contact')} className="text-emerald-400 font-bold hover:text-emerald-300 transition-colors text-left cursor-pointer flex items-center gap-1 pt-1 w-full">
-                  <span>Client Consultation</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
-                </button>
-              </li>
+              <p className="text-xs text-slate-400 leading-relaxed font-['Instrument_Sans']">
+                {siteSettings.address_bd}
+              </p>
 
-              {/* Admin Dashboard Console Trigger */}
-              <li className="pt-2">
-                <button 
-                  onClick={() => onNavigate('admin')} 
-                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-400 hover:text-white hover:border-indigo-500/70 hover:bg-indigo-950/30 transition-all text-xs font-semibold cursor-pointer group shadow-sm"
+              <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1 text-xs font-mono pt-0.5">
+                <a
+                  href={`tel:${siteSettings.phone_bd.replace(/\s+/g, '')}`}
+                  className="text-slate-300 hover:text-white transition-colors inline-flex items-center gap-1.5"
                 >
-                  <LayoutDashboard className="w-3.5 h-3.5 text-indigo-400 group-hover:text-indigo-300 transition-colors" />
-                  <span>Admin Console</span>
-                </button>
-              </li>
-            </ul>
+                  <Phone className="w-3 h-3 text-emerald-400" />
+                  <span>{siteSettings.phone_bd}</span>
+                </a>
+                <span className="text-slate-700 hidden sm:inline">·</span>
+                <span className="text-slate-400 inline-flex items-center gap-1">
+                  <Clock className="w-3 h-3 text-slate-500" />
+                  <span>Sun–Thu 10:00–19:00 BST</span>
+                </span>
+              </div>
+            </div>
+
           </div>
 
         </div>
 
-        {/* Bottom Bar: Copyright, Trust Badges, and Scroll-to-Top */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-slate-400">
-          
-          {/* Copyright */}
-          <div className="flex flex-col sm:flex-row items-center gap-2 text-center sm:text-left">
-            <span className="text-slate-300 font-medium">© {new Date().getFullYear()} WebDev Software Solutions.</span>
-            <span className="hidden sm:inline text-slate-600">•</span>
-            <span className="text-slate-400">{t.footerRights || 'All rights reserved. Bilateral NDAs & 100% IP Transfer guaranteed.'}</span>
-          </div>
-
-          {/* Security & Governance Badges */}
-          <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 text-slate-400">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-[11px] text-slate-300">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span>German GDPR & ISO 27001</span>
+        {/* ── Sub-Footer / Formal Governance & Legal Bar ── */}
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400 font-['Instrument_Sans']">
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
+            <span>
+              © {currentYear} <strong className="text-slate-200 font-medium">{siteSettings.companyName}</strong>. All rights reserved.
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-[11px] text-slate-300">
-              <Lock className="w-3.5 h-3.5 text-indigo-400" />
-              <span>100% Source Code Ownership</span>
+            <span className="hidden sm:inline text-slate-700">|</span>
+            <span className="text-slate-400">
+              Dual-Registered in Germany &amp; Bangladesh · GDPR (DSGVO) Compliant
             </span>
           </div>
 
-          {/* Scroll To Top Button */}
-          <div className="shrink-0">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5 font-medium">
+            <button
+              onClick={() => onNavigate('privacy')}
+              className="text-slate-400 hover:text-white transition-colors cursor-pointer"
+            >
+              Privacy Policy
+            </button>
+            <button
+              onClick={() => onNavigate('terms')}
+              className="text-slate-400 hover:text-white transition-colors cursor-pointer"
+            >
+              Terms of Engagement
+            </button>
+            <button
+              onClick={() => onNavigate('contact')}
+              className="text-slate-400 hover:text-white transition-colors cursor-pointer"
+            >
+              Security &amp; NDA
+            </button>
+            <button
+              onClick={() => onNavigate('admin')}
+              className="text-slate-400 hover:text-white transition-colors cursor-pointer"
+            >
+              Admin Portal
+            </button>
+
             <button
               onClick={scrollToTop}
-              className="w-10 h-10 rounded-xl bg-slate-900/90 hover:bg-indigo-600 border border-slate-800 hover:border-indigo-500 text-slate-400 hover:text-white flex items-center justify-center transition-all duration-200 cursor-pointer shadow-sm group"
-              title="Scroll to Top"
-              aria-label="Scroll to Top"
+              className="w-8 h-8 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+              title="Back to Top"
+              aria-label="Back to Top"
             >
-              <ArrowUp className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
+              <ArrowUp className="w-4 h-4" />
             </button>
           </div>
-
         </div>
 
       </div>
     </footer>
   );
 };
+
+export default Footer;

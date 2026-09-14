@@ -15,6 +15,7 @@ import {
 import { Project } from '../types';
 import { useGsapContext } from '../utils/gsapHelper';
 import gsap from 'gsap';
+import { BreadcrumbBar } from './Breadcrumb';
 
 
 interface ProjectDetailPageProps {
@@ -54,12 +55,12 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
   if (!project) {
     return (
       <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center">
-        <h2 className="text-2xl font-bold text-slate-900 mb-3 font-['Outfit']">
+        <h2 className="text-2xl font-bold text-slate-900 mb-3 font-['Archivo']">
           Project Case Study Not Found
         </h2>
         <button
           onClick={onBack}
-          className="bg-indigo-600 text-white text-xs font-bold px-6 py-3 rounded-xl shadow-md cursor-pointer"
+          className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 border border-[#9cd5e2] text-xs font-bold px-6 py-3 rounded-xl transition-colors cursor-pointer"
         >
           ← Return to Portfolio
         </button>
@@ -69,39 +70,35 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
 
   return (
     <div ref={pageRef} className="min-h-screen bg-white text-slate-900">
-      {/* Top Back Action & Minimal Navigation */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-3 flex items-center justify-between">
-        <button
-          onClick={onBack}
-          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-indigo-600 transition-colors cursor-pointer group py-1.5 px-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200"
-        >
-          <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-          <span>Back to Portfolio</span>
-        </button>
-        {onBackToHome && (
-          <button
-            onClick={onBackToHome}
-            className="text-xs font-medium text-slate-400 hover:text-indigo-600 transition-colors cursor-pointer"
-          >
-            Home
-          </button>
-        )}
+      {/* Top Breadcrumb Navigation */}
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 pt-5 sm:pt-6 pb-2">
+        <BreadcrumbBar
+          items={[
+            { label: 'Home', onClick: onBackToHome },
+            { label: 'Case Studies & Portfolio', onClick: onBack },
+            { label: project.title, active: true }
+          ]}
+          backAction={onBack}
+          backLabel="Back to Portfolio"
+        />
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-6 sm:py-8">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-6 sm:py-8">
 
         {/* Project Hero Banner */}
         <div className="proj-anim-fade relative h-72 sm:h-96 rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover"
-          />
+          {project.image && project.image.trim() !== '' ? (
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover"
+            />
+          ) : null}
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
 
           <div className="absolute bottom-6 left-6 right-6 text-white space-y-3">
             <div className="flex items-center gap-2.5 flex-wrap">
-              <span className="text-xs font-mono font-bold uppercase tracking-wider bg-indigo-600 px-3.5 py-1.5 rounded-full">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] px-3.5 py-1.5 rounded-full">
                 {project.category}
               </span>
               {project.status === 'completed' ? (
@@ -115,7 +112,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
               )}
             </div>
 
-            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold font-['Outfit']">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-bold font-['Archivo'] tracking-tight leading-snug">
               {project.title}
             </h1>
           </div>
@@ -130,14 +127,14 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
           <div>
             <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">Client Region</div>
             <div className="text-xs sm:text-sm font-bold text-slate-900 mt-1 flex items-center gap-1">
-              <Globe className="w-3.5 h-3.5 text-indigo-600" />
+              <Globe className="w-3.5 h-3.5 text-cyan-700" />
               <span>{project.clientCountry}</span>
             </div>
           </div>
           <div>
             <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">Delivery Date</div>
             <div className="text-xs sm:text-sm font-bold text-slate-900 mt-1 flex items-center gap-1">
-              <Calendar className="w-3.5 h-3.5 text-indigo-600" />
+              <Calendar className="w-3.5 h-3.5 text-cyan-700" />
               <span>{project.completionDate}</span>
             </div>
           </div>
@@ -149,7 +146,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-indigo-600 hover:text-indigo-800 flex items-center gap-1"
+                  className="text-cyan-800 hover:text-cyan-900 font-bold flex items-center gap-1"
                 >
                   <span>Visit Live</span>
                   <ExternalLink className="w-3 h-3" />
@@ -166,7 +163,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
           
           {/* Executive Overview */}
           <div className="space-y-3">
-            <h2 className="text-lg font-bold text-slate-900 uppercase tracking-wider font-['Outfit']">
+            <h2 className="text-lg font-bold text-slate-900 uppercase tracking-wider font-['Archivo']">
               Architecture & System Overview
             </h2>
             <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
@@ -177,14 +174,14 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
           {/* Key Deliverables & Features */}
           {project.features && project.features.length > 0 && (
             <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-4">
-              <h2 className="text-base font-bold text-slate-900 font-['Outfit'] flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-indigo-600" />
+              <h2 className="text-base font-bold text-slate-900 font-['Archivo'] flex items-center gap-2">
+                <CheckCircle2 className="w-5 h-5 text-cyan-700" />
                 <span>Engineered Core Deliverables</span>
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {project.features.map((feat, idx) => (
                   <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 mt-2 shrink-0"></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-700 mt-2 shrink-0"></span>
                     <span>{feat}</span>
                   </div>
                 ))}
@@ -233,10 +230,10 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
 
             <button
               onClick={() => onGetQuoteForSimilar(project.title)}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold px-7 py-3.5 rounded-xl shadow-md transition-all flex items-center gap-2 cursor-pointer"
+              className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-xs sm:text-sm px-7 py-3.5 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center gap-2 cursor-pointer"
             >
               <span>Request Similar Architecture</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 text-slate-950" />
             </button>
           </div>
 

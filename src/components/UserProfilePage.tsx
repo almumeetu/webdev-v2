@@ -73,23 +73,29 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
         align="left"
       />
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-12 sm:py-16">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-12 sm:py-16">
 
         {/* User Card */}
         <div className="profile-fade-item bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-md flex flex-col sm:flex-row items-center sm:items-start gap-6">
-          <img
-            src={currentUser.avatar}
-            alt={currentUser.name}
-            className="w-24 h-24 rounded-2xl object-cover border-2 border-indigo-600 shadow-md shrink-0"
-          />
+          {currentUser.avatar && currentUser.avatar.trim() !== '' ? (
+            <img
+              src={currentUser.avatar}
+              alt={currentUser.name}
+              className="w-24 h-24 rounded-2xl object-cover border-2 border-[#9cd5e2] shadow-xs shrink-0"
+            />
+          ) : (
+            <div className="w-24 h-24 rounded-2xl bg-[#BBE7F1] border-2 border-[#9cd5e2] flex items-center justify-center text-slate-900 font-bold text-2xl shrink-0">
+              {currentUser.name?.charAt(0) || 'U'}
+            </div>
+          )}
           <div className="space-y-2 text-center sm:text-left flex-1">
             <div className="flex items-center justify-center sm:justify-start gap-2">
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 bg-[#BBE7F1] px-3 py-1 rounded-full border border-[#9cd5e2]">
                 {currentUser.role === 'admin' ? 'System Administrator' : 'Client Partner'}
               </span>
               <span className="text-xs text-slate-500 font-medium">({currentUser.country})</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-950 font-['Outfit']">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-950 font-['Archivo']">
               {currentUser.name}
             </h1>
             <p className="text-xs sm:text-sm text-slate-600">
@@ -111,7 +117,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
           
           {/* Edit form */}
           <div className="profile-fade-item lg:col-span-5 bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-7 shadow-xs space-y-4 lg:sticky lg:top-24 self-start">
-            <h2 className="text-base font-bold text-slate-900 font-['Outfit']">
+            <h2 className="text-base font-bold text-slate-900 font-['Archivo']">
               Account Information
             </h2>
             <form onSubmit={handleSave} className="space-y-4">
@@ -121,7 +127,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-600 outline-none"
+                  className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
                 />
               </div>
 
@@ -131,7 +137,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
                   type="text"
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
-                  className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-600 outline-none"
+                  className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
                 />
               </div>
 
@@ -141,13 +147,13 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
                   type="text"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-600 outline-none"
+                  className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-3 rounded-xl shadow-md transition-all cursor-pointer"
+                className="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-3 rounded-xl transition-all cursor-pointer"
               >
                 {isSaved ? 'Updated Successfully!' : 'Save Account Updates'}
               </button>
@@ -156,7 +162,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
 
           {/* Inquiries */}
           <div className="profile-fade-item lg:col-span-7 bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-7 shadow-xs space-y-4">
-            <h2 className="text-base font-bold text-slate-900 font-['Outfit']">
+            <h2 className="text-base font-bold text-slate-900 font-['Archivo']">
               Submitted Architecture Inquiries ({userInquiries.length})
             </h2>
             {userInquiries.length === 0 ? (
@@ -169,7 +175,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
                   <div key={inq.id} className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-bold text-slate-900">{inq.projectType}</span>
-                      <span className="text-[11px] font-semibold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-100">
+                      <span className="text-[11px] font-semibold text-slate-950 bg-[#BBE7F1] px-2 py-0.5 rounded-full border border-[#9cd5e2]">
                         {inq.status.toUpperCase()}
                       </span>
                     </div>

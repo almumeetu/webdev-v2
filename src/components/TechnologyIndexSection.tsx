@@ -96,12 +96,12 @@ export const TechnologyIndexSection: React.FC = () => {
               {/* Floating tech badge */}
               <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 bg-slate-900/90 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-slate-700/80 text-white flex items-center justify-between shadow-2xl">
                 <div>
-                  <div className="text-xs sm:text-sm text-emerald-400 font-mono font-bold tracking-wider">EUROPEAN ENGINEERING DELIVERY</div>
-                  <div className="text-sm sm:text-base font-bold text-slate-100">Leverkusen, Germany • European & Global Clients</div>
+                  <div className="text-xs sm:text-sm text-emerald-400 font-mono font-bold tracking-wider">ENTERPRISE DELIVERY TRACK RECORD</div>
+                  <div className="text-sm sm:text-base font-bold text-slate-100">Modern Architecture • High Velocity & Quality</div>
                 </div>
                 <div 
                   ref={badgeNumRef} 
-                  className="w-11 h-11 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center font-bold text-base sm:text-lg shadow-lg shrink-0 ml-3"
+                  className="w-11 h-11 rounded-xl bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] flex items-center justify-center font-bold text-base sm:text-lg shadow-lg shrink-0 ml-3"
                 >
                   99%
                 </div>
@@ -112,27 +112,24 @@ export const TechnologyIndexSection: React.FC = () => {
           {/* Right Column: Content & Skill Bars matching Frame 00:05 */}
           <div className="lg:col-span-6 space-y-5 sm:space-y-6">
             
-            {/* Pill label matching reference */}
-            <div className="tech-index-text inline-flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
-              <span className="text-xs font-bold tracking-[0.2em] text-indigo-600 uppercase font-mono">
-                TECHNOLOGY INDEX
-              </span>
+            {/* Section Eyebrow - Stylish Italic (No Background) */}
+            <div className="tech-index-text inline-flex items-center gap-2 text-cyan-700 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+              <span>Technology Index & Competencies</span>
             </div>
 
             {/* Bold Headline matching reference */}
-            <h2 className="tech-index-text text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-[1.18] font-['Outfit']">
+            <h2 className="tech-index-text text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-900 tracking-tight leading-[1.22] font-['Archivo']">
               We Are Always Best For Technology Solution
             </h2>
 
             {/* Two Side-by-Side Highlight Cards matching reference */}
             <div className="tech-index-text grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3">
-                <div className="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-lg bg-[#BBE7F1]/50 border border-[#9cd5e2] text-slate-950 flex items-center justify-center shrink-0">
                   <Award className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-base font-bold text-slate-900 font-['Outfit']">Experience</h4>
+                  <h4 className="text-base font-bold text-slate-900 font-['Instrument_Sans']">Experience</h4>
                   <p className="text-sm text-slate-600 mt-1">
                     We deliver premier engineering excellence and modern architecture for your software.
                   </p>
@@ -144,7 +141,7 @@ export const TechnologyIndexSection: React.FC = () => {
                   <Headphones className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-base font-bold text-slate-900 font-['Outfit']">Quick Support</h4>
+                  <h4 className="text-base font-bold text-slate-900 font-['Instrument_Sans']">Quick Support</h4>
                   <p className="text-sm text-slate-600 mt-1">
                     Dedicated 24/7 technical monitoring and rapid support across global timezones.
                   </p>
@@ -155,17 +152,17 @@ export const TechnologyIndexSection: React.FC = () => {
             {/* GSAP Animated Progress Bars matching Frame 00:05 */}
             <div className="tech-index-text space-y-4 pt-2">
               <div>
-                <div className="flex justify-between text-sm font-bold text-slate-800 mb-1.5 font-['Outfit']">
+                <div className="flex justify-between text-sm font-bold text-slate-800 mb-1.5 font-['Instrument_Sans']">
                   <span>IT Management & System Architecture</span>
-                  <span className="text-indigo-600 font-mono">95%</span>
+                  <span className="text-cyan-700 font-mono">95%</span>
                 </div>
                 <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                  <div className="skill-bar-1 h-full bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-full w-0"></div>
+                  <div className="skill-bar-1 h-full bg-gradient-to-r from-[#9cd5e2] to-[#BBE7F1] rounded-full w-0"></div>
                 </div>
               </div>
 
               <div>
-                <div className="flex justify-between text-sm font-bold text-slate-800 mb-1.5 font-['Outfit']">
+                <div className="flex justify-between text-sm font-bold text-slate-800 mb-1.5 font-['Archivo']">
                   <span>Data Security & Cloud DevOps</span>
                   <span className="text-purple-600 font-mono">80%</span>
                 </div>
@@ -175,7 +172,7 @@ export const TechnologyIndexSection: React.FC = () => {
               </div>
 
               <div>
-                <div className="flex justify-between text-sm font-bold text-slate-800 mb-1.5 font-['Outfit']">
+                <div className="flex justify-between text-sm font-bold text-slate-800 mb-1.5 font-['Archivo']">
                   <span>Technology Solution & Full-Stack MERN</span>
                   <span className="text-blue-600 font-mono">90%</span>
                 </div>
@@ -185,7 +182,7 @@ export const TechnologyIndexSection: React.FC = () => {
               </div>
 
               <div>
-                <div className="flex justify-between text-sm font-bold text-slate-800 mb-1.5 font-['Outfit']">
+                <div className="flex justify-between text-sm font-bold text-slate-800 mb-1.5 font-['Archivo']">
                   <span>High-Availability Server SLA & Uptime</span>
                   <span className="text-emerald-600 font-mono">99.9%</span>
                 </div>
