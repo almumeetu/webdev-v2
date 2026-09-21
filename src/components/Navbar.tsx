@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { 
   Phone, 
@@ -19,7 +19,11 @@ import {
   ArrowRight,
   FileText,
   MapPin,
-  Sparkles
+  Sparkles,
+  LogIn,
+  UserPlus,
+  LogOut,
+  Shield
 } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import { getRoute, getViewFromPathname } from '../utils/routes';
@@ -27,7 +31,7 @@ import { getRoute, getViewFromPathname } from '../utils/routes';
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const { currentUser, siteSettings } = useAppContext();
+  const { currentUser, siteSettings, logout } = useAppContext();
 
   // Derive legacy view name from pathname — all JSX active-state checks remain unchanged
   const currentView = useMemo(() => getViewFromPathname(pathname), [pathname]);
@@ -36,12 +40,21 @@ export const Navbar: React.FC = () => {
   // Local navigation wrappers — preserve the same variable names used throughout JSX
   const onOpenQuote = () => router.push('/contact');
   const onOpenAuth = () => router.push('/auth');
+  const onOpenSignUp = () => router.push('/auth?mode=signup');
   const onOpenProfile = () => router.push('/profile');
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const [portfolioDropdownOpen, setPortfolioDropdownOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const userDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Clean user display name: removes any (CTO & Admin) parenthetical suffixes
+  const cleanUserName = useMemo(() => {
+    if (!currentUser?.name) return 'User';
+    return currentUser.name.replace(/\s*\(.*?\)\s*/g, '').trim();
+  }, [currentUser?.name]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,11 +64,52 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close user dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userDropdownRef.current && !userDropdownRef.current.contains(event.target as Node)) {
+        setUserDropdownOpen(false);
+      }
+    };
+    if (userDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [userDropdownOpen]);
+
   const handleNavClick = (view: string, subParam?: string) => {
     router.push(getRoute(view, subParam));
     setMobileMenuOpen(false);
     setServicesDropdownOpen(false);
     setPortfolioDropdownOpen(false);
+    setUserDropdownOpen(false);
+  };
+
+  // Simple, elegant active nav styling: no harsh colored buttons or shadows
+  const getNavLinkClass = (viewName: string) => {
+    const isActive = currentView === viewName;
+    if (isActive) {
+      return isScrolled
+        ? 'text-white font-semibold bg-white/10'
+        : 'text-slate-950 font-semibold bg-slate-100/90';
+    }
+    return isScrolled
+      ? 'text-slate-400 hover:text-white hover:bg-white/5'
+      : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100/60';
+  };
+
+  const getMobileNavLinkClass = (viewName: string) => {
+    const isActive = currentView === viewName;
+    if (isActive) {
+      return isScrolled
+        ? 'bg-white/10 text-white font-semibold'
+        : 'bg-slate-100 text-slate-950 font-semibold';
+    }
+    return isScrolled
+      ? 'text-slate-300 hover:text-white hover:bg-slate-900'
+      : 'text-slate-700 hover:bg-slate-100';
   };
 
   return (
@@ -63,54 +117,50 @@ export const Navbar: React.FC = () => {
       id="main-header"
       className={`sticky top-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-slate-950/95 backdrop-blur-md border-b border-slate-800/90 shadow-md py-2.5 sm:py-3' 
-          : 'bg-gradient-to-b from-[#BBE7F1]/25 via-[#f8fcfd]/95 to-white/95 backdrop-blur-md border-b border-slate-200/90 py-3.5 sm:py-4 shadow-xs'
+          ? 'bg-slate-950/95 backdrop-blur-md border-b border-slate-800/90 shadow-md py-1.5 sm:py-2' 
+          : 'bg-gradient-to-b from-[#BBE7F1]/25 via-[#f8fcfd]/95 to-white/95 backdrop-blur-md border-b border-slate-200/90 py-2 sm:py-2.5 shadow-xs'
       }`}
     >
       <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-3 sm:gap-4">
+        <div className="relative flex items-center justify-between gap-3 sm:gap-4">
           
           {/* Brand Logo - Official WebDev Software Solutions Logo */}
-          <button
-            id="brand-logo-btn"
-            onClick={() => handleNavClick('home')}
-            className="flex items-center text-left group focus:outline-none shrink-0 cursor-pointer py-0.5"
-          >
-            {siteSettings.logoUrl && siteSettings.logoUrl.trim() !== '' ? (
-              isScrolled ? (
-                <div className="bg-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl inline-flex items-center justify-center shadow-xs transition-all duration-200">
+          <div className="flex items-center shrink-0 z-10">
+            <button
+              id="brand-logo-btn"
+              onClick={() => handleNavClick('home')}
+              className="flex items-center text-left group focus:outline-none shrink-0 cursor-pointer py-0.5"
+            >
+              {siteSettings.logoUrl && siteSettings.logoUrl.trim() !== '' ? (
+                isScrolled ? (
+                  <div className="bg-white px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg inline-flex items-center justify-center shadow-xs transition-all duration-200">
+                    <img 
+                      src={siteSettings.logoUrl}
+                      alt={siteSettings.companyName}
+                      className="h-7 xs:h-7.5 sm:h-8 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+                    />
+                  </div>
+                ) : (
                   <img 
                     src={siteSettings.logoUrl}
                     alt={siteSettings.companyName}
-                    className="h-8 xs:h-9 sm:h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+                    className="h-8 xs:h-8.5 sm:h-9 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
                   />
-                </div>
+                )
               ) : (
-                <img 
-                  src={siteSettings.logoUrl}
-                  alt={siteSettings.companyName}
-                  className="h-10 xs:h-11 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
-                />
-              )
-            ) : (
-              <span className={`text-xl font-bold font-['Archivo'] ${isScrolled ? 'text-white' : 'text-slate-900'}`}>
-                {siteSettings.companyName || 'WebDev'}
-              </span>
-            )}
-          </button>
+                <span className={`text-xl font-bold font-['Archivo'] ${isScrolled ? 'text-white' : 'text-slate-900'}`}>
+                  {siteSettings.companyName || 'WebDev'}
+                </span>
+              )}
+            </button>
+          </div>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-1 font-medium text-sm">
+          {/* Desktop Navigation Links - Centered */}
+          <nav className="hidden lg:flex items-center space-x-0.5 xl:space-x-1 font-medium text-sm absolute left-1/2 -translate-x-1/2 z-10">
             <button
               id="nav-home"
               onClick={() => handleNavClick('home')}
-              className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
-                currentView === 'home' 
-                  ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
-                  : isScrolled
-                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
-                    : 'text-slate-700 hover:text-slate-950 hover:bg-[#BBE7F1]/35'
-              }`}
+              className={`px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer ${getNavLinkClass('home')}`}
             >
               Home
             </button>
@@ -118,13 +168,7 @@ export const Navbar: React.FC = () => {
             <button
               id="nav-about"
               onClick={() => handleNavClick('about')}
-              className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
-                currentView === 'about' 
-                  ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
-                  : isScrolled
-                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
-                    : 'text-slate-700 hover:text-slate-950 hover:bg-[#BBE7F1]/35'
-              }`}
+              className={`px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer ${getNavLinkClass('about')}`}
             >
               About
             </button>
@@ -138,18 +182,14 @@ export const Navbar: React.FC = () => {
               <button
                 id="nav-services"
                 onClick={() => handleNavClick('services')}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg transition-colors cursor-pointer ${
-                  currentView === 'services' 
-                    ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
-                    : isScrolled
-                      ? 'text-slate-300 hover:text-white hover:bg-slate-900'
-                      : 'text-slate-700 hover:text-slate-950 hover:bg-[#BBE7F1]/35'
-                }`}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer ${getNavLinkClass('services')}`}
               >
                 <span>Services</span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                  servicesDropdownOpen 
-                    ? (isScrolled ? 'rotate-180 text-cyan-300' : 'rotate-180 text-cyan-800') 
+                  servicesDropdownOpen ? 'rotate-180' : ''
+                } ${
+                  currentView === 'services' 
+                    ? (isScrolled ? 'text-white' : 'text-slate-900') 
                     : (isScrolled ? 'text-slate-400' : 'text-slate-500')
                 }`} />
               </button>
@@ -270,18 +310,14 @@ export const Navbar: React.FC = () => {
               <button
                 id="nav-portfolio"
                 onClick={() => handleNavClick('portfolio')}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg transition-colors cursor-pointer ${
-                  currentView === 'portfolio' 
-                    ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
-                    : isScrolled
-                      ? 'text-slate-300 hover:text-white hover:bg-slate-900'
-                      : 'text-slate-700 hover:text-slate-950 hover:bg-[#BBE7F1]/35'
-                }`}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer ${getNavLinkClass('portfolio')}`}
               >
                 <span>Portfolio</span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                  portfolioDropdownOpen 
-                    ? (isScrolled ? 'rotate-180 text-cyan-300' : 'rotate-180 text-cyan-800') 
+                  portfolioDropdownOpen ? 'rotate-180' : ''
+                } ${
+                  currentView === 'portfolio' 
+                    ? (isScrolled ? 'text-white' : 'text-slate-900') 
                     : (isScrolled ? 'text-slate-400' : 'text-slate-500')
                 }`} />
               </button>
@@ -340,13 +376,7 @@ export const Navbar: React.FC = () => {
             <button
               id="nav-team"
               onClick={() => handleNavClick('team')}
-              className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
-                currentView === 'team' 
-                  ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
-                  : isScrolled
-                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
-                    : 'text-slate-700 hover:text-slate-950 hover:bg-[#BBE7F1]/35'
-              }`}
+              className={`px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer ${getNavLinkClass('team')}`}
             >
               Team
             </button>
@@ -354,13 +384,7 @@ export const Navbar: React.FC = () => {
             <button
               id="nav-blog"
               onClick={() => handleNavClick('blog')}
-              className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
-                currentView === 'blog' 
-                  ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
-                  : isScrolled
-                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
-                    : 'text-slate-700 hover:text-slate-950 hover:bg-[#BBE7F1]/35'
-              }`}
+              className={`px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer ${getNavLinkClass('blog')}`}
             >
               Blog
             </button>
@@ -368,81 +392,227 @@ export const Navbar: React.FC = () => {
             <button
               id="nav-contact"
               onClick={() => handleNavClick('contact')}
-              className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
-                currentView === 'contact' 
-                  ? 'text-slate-950 font-bold bg-[#BBE7F1] border border-[#9cd5e2] shadow-xs' 
-                  : isScrolled
-                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
-                    : 'text-slate-700 hover:text-slate-950 hover:bg-[#BBE7F1]/35'
-              }`}
+              className={`px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer ${getNavLinkClass('contact')}`}
             >
               Contact Us
             </button>
           </nav>
 
           {/* Right Action Items */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0 ml-auto z-20">
 
             {/* User Auth / Profile */}
             {currentUser ? (
-              <button
-                id="user-profile-btn"
-                onClick={onOpenProfile}
-                className={`flex items-center gap-1.5 sm:gap-2 rounded-full py-1 pl-1 pr-2.5 sm:pr-3 text-xs font-medium transition-all min-h-[38px] cursor-pointer border ${
-                  isScrolled 
-                    ? 'bg-slate-900 hover:bg-slate-800 border-slate-800 hover:border-slate-700 text-slate-200' 
-                    : 'bg-white hover:bg-slate-50 border-slate-200/90 hover:border-slate-300 text-slate-800 shadow-xs'
-                }`}
-                title="Manage Profile"
-              >
-                {currentUser.avatar && currentUser.avatar.trim() !== '' ? (
-                  <img 
-                    src={currentUser.avatar} 
-                    alt={currentUser.name} 
-                    className="w-6 h-6 rounded-full object-cover border border-[#9cd5e2]" 
-                  />
-                ) : (
-                  <div className="w-6 h-6 rounded-full bg-[#BBE7F1] border border-[#9cd5e2] text-slate-950 text-[10px] font-bold flex items-center justify-center">
-                    {currentUser.name?.charAt(0) || 'U'}
-                  </div>
-                )}
-                <span className="hidden sm:inline max-w-[80px] truncate font-semibold">{currentUser.name.split(' ')[0]}</span>
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 {currentUser.role === 'admin' && (
-                  <span className={`text-[10px] px-1.5 py-0.2 rounded font-bold border ${
-                    isScrolled 
-                      ? 'bg-[#BBE7F1]/20 text-[#BBE7F1] border-[#9cd5e2]/30' 
-                      : 'bg-[#BBE7F1]/60 text-slate-950 border-[#9cd5e2]'
-                  }`}>
-                    Admin
-                  </span>
+                  <button
+                    id="navbar-admin-cms-btn"
+                    onClick={() => router.push('/admin')}
+                    className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+                      isScrolled 
+                        ? 'bg-purple-950/70 hover:bg-purple-900/90 text-purple-200 border-purple-800/80 shadow-2xs' 
+                        : 'bg-purple-50 hover:bg-purple-100 text-purple-800 border-purple-200 shadow-2xs'
+                    }`}
+                    title="Open Admin CMS Dashboard"
+                  >
+                    <LayoutDashboard className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+                    <span className="text-[11px] font-bold hidden sm:inline">Admin CMS</span>
+                    <span className="text-[11px] font-bold sm:hidden">CMS</span>
+                  </button>
                 )}
-              </button>
+
+                {/* Sleek Compact Avatar Menu Trigger */}
+                <div className="relative" ref={userDropdownRef}>
+                  <button
+                    id="user-profile-btn"
+                    onClick={() => setUserDropdownOpen((prev) => !prev)}
+                    className={`flex items-center gap-1 rounded-full p-0.5 sm:p-1 text-xs font-medium transition-all cursor-pointer border ${
+                      userDropdownOpen
+                        ? 'ring-2 ring-cyan-400 border-transparent shadow-xs'
+                        : isScrolled 
+                          ? 'bg-slate-900 hover:bg-slate-800 border-slate-700 hover:border-slate-600 text-slate-200' 
+                          : 'bg-white hover:bg-slate-50 border-slate-200/90 hover:border-slate-300 text-slate-800 shadow-2xs'
+                    }`}
+                    title={`${cleanUserName} - Account Options`}
+                    aria-label="User profile and account settings"
+                    aria-expanded={userDropdownOpen}
+                  >
+                    <div className="relative">
+                      {currentUser.avatar && currentUser.avatar.trim() !== '' ? (
+                        <img 
+                          src={currentUser.avatar} 
+                          alt={cleanUserName} 
+                          className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full object-cover border border-[#9cd5e2]" 
+                        />
+                      ) : (
+                        <div className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full bg-gradient-to-tr from-[#9cd5e2] to-[#BBE7F1] text-slate-950 text-xs font-bold flex items-center justify-center border border-[#9cd5e2]">
+                          {cleanUserName.charAt(0) || 'U'}
+                        </div>
+                      )}
+
+                      {currentUser.role === 'admin' && (
+                        <span 
+                          className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-purple-600 border-2 border-white dark:border-slate-950" 
+                          title="Administrator"
+                        />
+                      )}
+                    </div>
+
+                    <ChevronDown className={`w-3 h-3 text-slate-500 mr-0.5 transition-transform duration-200 ${
+                      userDropdownOpen ? 'rotate-180 text-cyan-600' : ''
+                    }`} />
+                  </button>
+
+                  {/* Popover Dropdown */}
+                  {userDropdownOpen && (
+                    <div className={`absolute right-0 top-full mt-2 w-60 rounded-2xl shadow-xl border p-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150 ${
+                      isScrolled 
+                        ? 'bg-slate-900/98 border-slate-800 text-slate-200 backdrop-blur-xl' 
+                        : 'bg-white/98 border-slate-200 text-slate-800 backdrop-blur-xl'
+                    }`}>
+                      {/* User Account Summary Card */}
+                      <div className={`px-3 py-2 border-b mb-1 ${isScrolled ? 'border-slate-800' : 'border-slate-100'}`}>
+                        <div className="flex items-center gap-2.5">
+                          {currentUser.avatar && currentUser.avatar.trim() !== '' ? (
+                            <img 
+                              src={currentUser.avatar} 
+                              alt={cleanUserName} 
+                              className="w-8 h-8 rounded-full object-cover border border-[#9cd5e2]" 
+                            />
+                          ) : (
+                            <div className="w-8 h-8 rounded-full bg-[#BBE7F1] text-slate-950 text-xs font-bold flex items-center justify-center border border-[#9cd5e2]">
+                              {cleanUserName.charAt(0) || 'U'}
+                            </div>
+                          )}
+                          <div className="min-w-0 flex-1">
+                            <p className={`text-xs font-bold truncate ${isScrolled ? 'text-white' : 'text-slate-900'}`}>
+                              {cleanUserName}
+                            </p>
+                            <p className={`text-[10px] truncate ${isScrolled ? 'text-slate-400' : 'text-slate-500'}`}>
+                              {currentUser.email}
+                            </p>
+                            <div className="mt-0.5">
+                              {currentUser.role === 'admin' ? (
+                                <span className={`inline-flex items-center gap-1 text-[9px] font-bold px-1.5 py-0.2 rounded border ${
+                                  isScrolled 
+                                    ? 'bg-purple-950/80 text-purple-300 border-purple-800/80' 
+                                    : 'bg-purple-50 text-purple-800 border-purple-200'
+                                }`}>
+                                  <Shield className="w-2.5 h-2.5 text-purple-600" />
+                                  CTO & Admin
+                                </span>
+                              ) : (
+                                <span className={`inline-flex items-center gap-1 text-[9px] font-bold px-1.5 py-0.2 rounded border ${
+                                  isScrolled 
+                                    ? 'bg-cyan-950/80 text-cyan-300 border-cyan-800/80' 
+                                    : 'bg-cyan-50 text-cyan-800 border-cyan-200'
+                                }`}>
+                                  Client Partner
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Menu Items */}
+                      <div className="space-y-0.5">
+                        {currentUser.role === 'admin' && (
+                          <button
+                            onClick={() => {
+                              setUserDropdownOpen(false);
+                              router.push('/admin');
+                            }}
+                            className={`w-full flex items-center justify-between px-3 py-2 text-xs font-semibold rounded-xl transition-colors cursor-pointer ${
+                              isScrolled 
+                                ? 'text-purple-300 hover:bg-purple-950/60 hover:text-white' 
+                                : 'text-purple-700 hover:bg-purple-50 hover:text-purple-900'
+                            }`}
+                          >
+                            <div className="flex items-center gap-2">
+                              <LayoutDashboard className="w-3.5 h-3.5 text-purple-500" />
+                              <span>Admin CMS Dashboard</span>
+                            </div>
+                            <span className="text-[9px] uppercase font-bold px-1.5 py-0.2 rounded bg-purple-100 text-purple-800">
+                              CMS
+                            </span>
+                          </button>
+                        )}
+
+                        <button
+                          onClick={() => {
+                            setUserDropdownOpen(false);
+                            onOpenProfile();
+                          }}
+                          className={`w-full flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-xl transition-colors cursor-pointer ${
+                            isScrolled 
+                              ? 'text-slate-300 hover:bg-slate-800 hover:text-white' 
+                              : 'text-slate-700 hover:bg-slate-100 hover:text-slate-950'
+                          }`}
+                        >
+                          <UserIcon className="w-3.5 h-3.5 text-cyan-600" />
+                          <span>My Profile & Settings</span>
+                        </button>
+                      </div>
+
+                      {/* Sign Out */}
+                      <div className={`mt-1 pt-1 border-t ${isScrolled ? 'border-slate-800' : 'border-slate-100'}`}>
+                        <button
+                          onClick={() => {
+                            setUserDropdownOpen(false);
+                            logout();
+                          }}
+                          className={`w-full flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-xl transition-colors cursor-pointer ${
+                            isScrolled 
+                              ? 'text-rose-400 hover:bg-rose-950/40 hover:text-rose-300' 
+                              : 'text-rose-600 hover:bg-rose-50 hover:text-rose-700'
+                          }`}
+                        >
+                          <LogOut className="w-3.5 h-3.5 text-rose-500" />
+                          <span>Sign Out</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             ) : (
-              <button
-                id="google-auth-trigger-btn"
-                onClick={onOpenAuth}
-                className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold transition-colors min-h-[38px] cursor-pointer border ${
-                  isScrolled 
-                    ? 'bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-white border-slate-800 hover:border-slate-700' 
-                    : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-950 border-slate-200/90 hover:border-slate-300 shadow-xs'
-                }`}
-                title="Sign In / Register"
-              >
-                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
-                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
-                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
-                </svg>
-                <span className="hidden sm:inline">Sign In</span>
-              </button>
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <button
+                  id="nav-signin-btn"
+                  onClick={onOpenAuth}
+                  className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors cursor-pointer border ${
+                    isScrolled 
+                      ? 'bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-white border-slate-800 hover:border-slate-700' 
+                      : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-950 border-slate-200/90 hover:border-slate-300 shadow-2xs'
+                  }`}
+                  title="Sign In to Portal"
+                >
+                  <LogIn className="w-3.5 h-3.5 text-cyan-600" />
+                  <span className="hidden sm:inline">Sign In</span>
+                </button>
+
+                <button
+                  id="nav-signup-btn"
+                  onClick={onOpenSignUp}
+                  className={`hidden sm:flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors cursor-pointer border ${
+                    isScrolled 
+                      ? 'bg-slate-800/80 hover:bg-slate-800 text-slate-200 hover:text-white border-slate-700' 
+                      : 'bg-slate-100 hover:bg-slate-200/70 text-slate-800 border-slate-200 shadow-2xs'
+                  }`}
+                  title="Create Enterprise Account"
+                >
+                  <UserPlus className="w-3.5 h-3.5 text-slate-700" />
+                  <span>Register</span>
+                </button>
+              </div>
             )}
 
             {/* Primary Action Button - Theme #BBE7F1 Style */}
             <button
               id="get-started-cta-btn"
               onClick={() => handleNavClick('contact')}
-              className="bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-bold text-[11px] sm:text-xs tracking-wider uppercase px-2.5 sm:px-5 py-2 sm:py-2.5 rounded-xl border border-[#9cd5e2] transition-all flex items-center gap-1 sm:gap-1.5 group min-h-[38px] cursor-pointer shrink-0 shadow-xs"
+              className="bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-bold text-[11px] sm:text-xs tracking-wider uppercase px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl border border-[#9cd5e2] transition-all flex items-center gap-1 sm:gap-1.5 group cursor-pointer shrink-0 shadow-2xs"
             >
               <span className="hidden xs:inline">CONTACT US</span>
               <span className="xs:hidden">CONTACT</span>
@@ -490,13 +660,7 @@ export const Navbar: React.FC = () => {
             {/* Main Links */}
             <button
               onClick={() => handleNavClick('home')}
-              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
-                currentView === 'home' 
-                  ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
-                  : isScrolled
-                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
-                    : 'text-slate-700 hover:bg-slate-100'
-              }`}
+              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${getMobileNavLinkClass('home')}`}
             >
               <span>Home Overview</span>
               <ArrowRight className="w-4 h-4 opacity-70" />
@@ -504,13 +668,7 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => handleNavClick('about')}
-              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
-                currentView === 'about' 
-                  ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
-                  : isScrolled
-                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
-                    : 'text-slate-700 hover:bg-slate-100'
-              }`}
+              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${getMobileNavLinkClass('about')}`}
             >
               <span>About Company</span>
               <ArrowRight className="w-4 h-4 opacity-70" />
@@ -518,13 +676,7 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => handleNavClick('services')}
-              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
-                currentView === 'services' 
-                  ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
-                  : isScrolled
-                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
-                    : 'text-slate-700 hover:bg-slate-100'
-              }`}
+              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${getMobileNavLinkClass('services')}`}
             >
               <span>All IT & Server Services</span>
               <span className={`text-xs font-bold px-2 py-0.5 rounded-md border ${
@@ -536,13 +688,7 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => handleNavClick('portfolio')}
-              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
-                currentView === 'portfolio' 
-                  ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
-                  : isScrolled
-                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
-                    : 'text-slate-700 hover:bg-slate-100'
-              }`}
+              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${getMobileNavLinkClass('portfolio')}`}
             >
               <span>Portfolio (Recent & Ongoing)</span>
               <ArrowRight className="w-4 h-4 opacity-70" />
@@ -550,13 +696,7 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => handleNavClick('team')}
-              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
-                currentView === 'team' 
-                  ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
-                  : isScrolled
-                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
-                    : 'text-slate-700 hover:bg-slate-100'
-              }`}
+              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${getMobileNavLinkClass('team')}`}
             >
               <span>Engineering Team & Leadership</span>
               <ArrowRight className="w-4 h-4 opacity-70" />
@@ -564,13 +704,7 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => handleNavClick('blog')}
-              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${
-                currentView === 'blog' 
-                  ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs' 
-                  : isScrolled
-                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
-                    : 'text-slate-700 hover:bg-slate-100'
-              }`}
+              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${getMobileNavLinkClass('blog')}`}
             >
               <span>Tech Insights & News</span>
               <ArrowRight className="w-4 h-4 opacity-70" />
@@ -582,17 +716,87 @@ export const Navbar: React.FC = () => {
                 setMobileMenuOpen(false);
                 handleNavClick('contact');
               }}
-              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-colors cursor-pointer min-h-[44px] ${
-                currentView === 'contact'
-                  ? 'bg-[#BBE7F1] text-slate-950 font-bold border border-[#9cd5e2] shadow-xs'
-                  : isScrolled
-                    ? 'text-slate-300 hover:text-white hover:bg-slate-900'
-                    : 'text-slate-700 hover:bg-slate-100'
-              }`}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-colors cursor-pointer min-h-[44px] ${getMobileNavLinkClass('contact')}`}
             >
               <span>Contact Us (Joypurhat & Leverkusen)</span>
               <ArrowRight className="w-4 h-4 opacity-70" />
             </button>
+
+            {/* Mobile Auth Access Bar */}
+            <div className={`pt-2 pb-1 border-t space-y-2 ${isScrolled ? 'border-slate-800' : 'border-slate-200'}`}>
+              {currentUser ? (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#BBE7F1]/20 border border-[#9cd5e2]">
+                    <div className="flex items-center gap-2.5">
+                      {currentUser.avatar && currentUser.avatar.trim() !== '' ? (
+                        <img src={currentUser.avatar} alt={cleanUserName} className="w-8 h-8 rounded-full object-cover border border-[#9cd5e2]" />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full bg-[#BBE7F1] text-slate-950 font-bold text-xs flex items-center justify-center border border-[#9cd5e2]">
+                          {cleanUserName.charAt(0) || 'U'}
+                        </div>
+                      )}
+                      <div>
+                        <p className="text-xs font-bold text-slate-900 leading-tight">{cleanUserName}</p>
+                        <p className="text-[10px] text-slate-500 font-mono">{currentUser.role === 'admin' ? 'CTO & Administrator' : 'Client Partner'}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={() => { setMobileMenuOpen(false); onOpenProfile(); }}
+                        className="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-slate-900 text-white cursor-pointer"
+                      >
+                        Profile
+                      </button>
+                      <button
+                        onClick={() => { setMobileMenuOpen(false); logout(); }}
+                        className="p-1 text-slate-500 hover:text-rose-600 cursor-pointer"
+                        title="Sign Out"
+                        aria-label="Sign Out"
+                      >
+                        <LogOut className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {currentUser.role === 'admin' && (
+                    <button
+                      onClick={() => { setMobileMenuOpen(false); router.push('/admin'); }}
+                      className="w-full py-2 px-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs cursor-pointer transition-all"
+                    >
+                      <LayoutDashboard className="w-3.5 h-3.5" />
+                      <span>Admin CMS Dashboard</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div className="space-y-1.5">
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={() => { setMobileMenuOpen(false); onOpenAuth(); }}
+                      className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 text-xs font-bold shadow-xs cursor-pointer"
+                    >
+                      <LogIn className="w-3.5 h-3.5 text-cyan-700" />
+                      <span>Sign In</span>
+                    </button>
+                    <button
+                      onClick={() => { setMobileMenuOpen(false); onOpenSignUp(); }}
+                      className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-[#9cd5e2] bg-[#BBE7F1] text-slate-950 text-xs font-bold shadow-xs cursor-pointer"
+                    >
+                      <UserPlus className="w-3.5 h-3.5 text-slate-950" />
+                      <span>Register</span>
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => { setMobileMenuOpen(false); router.push('/admin'); }}
+                    className="w-full text-center text-[11px] text-purple-700 hover:text-purple-900 font-bold py-1 cursor-pointer flex items-center justify-center gap-1"
+                  >
+                    <LayoutDashboard className="w-3 h-3" />
+                    <span>Staff / Administrator CMS Portal</span>
+                  </button>
+                </div>
+              )}
+            </div>
 
             {/* Direct Calling & Action Buttons */}
             <div className={`pt-3 border-t grid grid-cols-2 gap-2 ${

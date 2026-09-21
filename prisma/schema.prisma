@@ -1,0 +1,183 @@
+// ==============================================================================
+// WebDev Software Solutions - Prisma PostgreSQL Schema
+// ==============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── 1. USER & AUTH ──────────────────────────────────────────────────────────
+enum Role {
+  admin
+  client
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         Role      @default(client)
+  country      String    @default("Germany")
+  company      String?
+  phone        String?
+  avatar       String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  inquiries    Inquiry[]
+}
+
+// ─── 2. PROJECTS ─────────────────────────────────────────────────────────────
+enum ProjectStatus {
+  completed
+  ongoing
+}
+
+model Project {
+  id             String        @id @default(cuid())
+  title          String
+  category       String        // 'Web Application' | 'Full Stack & MERN' | etc.
+  status         ProjectStatus @default(ongoing)
+  description    String        @db.Text
+  clientName     String
+  clientCountry  String        // 'Germany' | 'Bangladesh' | 'USA' | etc.
+  image          String
+  completionDate String
+  techStack      String[]      // PostgreSQL native String array
+  liveUrl        String?
+  features       String[]
+  metrics        String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+// ─── 3. TEAM MEMBERS ─────────────────────────────────────────────────────────
+model TeamMember {
+  id                  String   @id @default(cuid())
+  name                String
+  role                String
+  headline            String?
+  branch              String   // 'Joypurhat, Bangladesh' | 'Leverkusen, Germany'
+  location            String?
+  image               String
+  bio                 String   @db.Text
+  skills              String[]
+  email               String   @unique
+  phone               String?
+  linkedin            String?
+  github              String?
+  experienceYears     Int      @default(3)
+  highlightedProjects String[]
+  education           String[]
+  certifications      String[]
+  languages           String[]
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+// ─── 4. BLOG POSTS ───────────────────────────────────────────────────────────
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String   @db.Text
+  content     String   @db.Text
+  author      String
+  authorRole  String
+  authorImage String
+  date        String
+  readTime    String
+  category    String
+  tags        String[]
+  image       String
+  likes       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ─── 5. SERVICES ─────────────────────────────────────────────────────────────
+model Service {
+  id           String   @id @default(cuid())
+  title        String
+  shortDesc    String   @db.Text
+  fullDesc     String   @db.Text
+  iconName     String
+  image        String
+  techs        String[]
+  features     String[]
+  deliverables String[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// ─── 6. TESTIMONIALS ─────────────────────────────────────────────────────────
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  company   String
+  avatar    String
+  country   String
+  flag      String
+  quote     String   @db.Text
+  rating    Int      @default(5)
+  verified  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── 7. CLIENT INQUIRIES ─────────────────────────────────────────────────────
+enum InquiryStatus {
+  new
+  contacted
+  in_progress
+  completed
+}
+
+model Inquiry {
+  id           String        @id @default(cuid())
+  firstName    String
+  lastName     String
+  email        String
+  phoneNumber  String
+  company      String?
+  projectType  String
+  budget       String
+  currency     String?       @default("USD")
+  timezone     String?
+  ndaRequested Boolean       @default(false)
+  targetMarket String        @default("International")
+  message      String        @db.Text
+  status       InquiryStatus @default(new)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  userId       String?
+  user         User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+// ─── 8. SITE SETTINGS ────────────────────────────────────────────────────────
+model SiteSetting {
+  id              String   @id @default("singleton")
+  companyName     String   @default("WebDev Software Solutions")
+  tagline         String   @default("Enterprise Web & Cloud Engineering")
+  logoUrl         String   @default("/images/logo/webdev-logo.png")
+  email           String   @default("info@webdevsoftwaresolutions.com")
+  phone_bd        String   @default("+880 1722-301927")
+  phone_de        String   @default("+49 172 9766016")
+  address_bd      String   @default("Housing Estate, Ward 07, Joypurhat-5900, Bangladesh")
+  address_de      String   @default("Küppersteg, 51373 Leverkusen, Germany")
+  socialLinks     Json     // { github, twitter, linkedin, whatsapp_bd, whatsapp_de }
+  heroSlides      Json     // Array of 3 slides
+  privacyPolicy   String   @db.Text
+  termsOfService  String   @db.Text
+  footerAboutText String   @db.Text
+  gdprBadgeText   String   @default("ISO 27001 & GDPR Compliant")
+  updatedAt       DateTime @updatedAt
+}

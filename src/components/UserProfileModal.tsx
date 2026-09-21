@@ -80,7 +80,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
               <p className="text-xs text-slate-400 mt-0.5 font-mono">{currentUser.email}</p>
               <div className="text-[11px] text-emerald-400 font-medium mt-1 flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                Connected via Google Authentication
+                Verified Security Session • Email & Password
               </div>
             </div>
           </div>

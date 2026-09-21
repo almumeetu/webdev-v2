@@ -80,6 +80,7 @@ interface AdminDashboardProps {
   onUpdateTestimonial?: (id: string, t: Partial<Testimonial>) => void;
   onDeleteTestimonial?: (id: string) => void;
   onUpdateSiteSettings?: (settings: SiteSettings) => void;
+  onResetDefaults?: () => void;
   onClose: () => void;
 }
 
@@ -112,6 +113,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   onUpdateTestimonial,
   onDeleteTestimonial,
   onUpdateSiteSettings,
+  onResetDefaults,
   onClose
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('overview');
@@ -2242,6 +2244,33 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
+
+                {/* Reset to Factory Defaults */}
+                {onResetDefaults && (
+                  <div className="bg-[#12141c] border border-rose-500/20 rounded-lg p-5 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div>
+                      <h4 className="text-sm font-bold text-rose-300 flex items-center gap-2">
+                        <AlertCircle className="w-4 h-4 text-rose-400" />
+                        Reset All Content to Factory Defaults
+                      </h4>
+                      <p className="text-xs text-zinc-400 mt-1">
+                        Restores all initial projects, team members, blog posts, services, testimonials, and site settings.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (confirm('Are you sure you want to reset all portfolio content to factory defaults?')) {
+                          onResetDefaults();
+                          alert('Reset successfully! All initial sample data has been restored.');
+                        }
+                      }}
+                      className="px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold rounded-md transition-all cursor-pointer whitespace-nowrap"
+                    >
+                      Reset All Data
+                    </button>
+                  </div>
+                )}
 
                 {/* Brand & Identity */}
                 <div className="bg-[#12141c] border border-white/[0.06] rounded-lg p-6 shadow-xl space-y-5">

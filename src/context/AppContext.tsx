@@ -71,6 +71,9 @@ interface AppContextType {
 
   // ─── Site Settings ────────────────────────────────────────────────────────────
   updateSiteSettings: (settings: SiteSettings) => void;
+
+  // ─── Factory Reset ───────────────────────────────────────────────────────────
+  resetToDefaultData: () => void;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -94,18 +97,76 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   // ─── Auth ─────────────────────────────────────────────────────────────────────
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
 
-  // ─── Hydrate site settings from localStorage ─────────────────────────────────
+  // ─── Hydrate all collections from localStorage on mount ─────────────────────────
+  const [isHydrated, setIsHydrated] = useState(false);
+
   useEffect(() => {
     try {
-      const saved = localStorage.getItem('webdev_site_settings');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        setSiteSettings((prev) => ({ ...prev, ...parsed }));
-      }
+      const savedSettings = localStorage.getItem('webdev_site_settings');
+      if (savedSettings) setSiteSettings(JSON.parse(savedSettings));
+
+      const savedUser = localStorage.getItem('webdev_auth_user');
+      if (savedUser) setCurrentUser(JSON.parse(savedUser));
+
+      const savedProjects = localStorage.getItem('webdev_projects');
+      if (savedProjects) setProjects(JSON.parse(savedProjects));
+
+      const savedTeam = localStorage.getItem('webdev_team_members');
+      if (savedTeam) setTeamMembers(JSON.parse(savedTeam));
+
+      const savedBlogs = localStorage.getItem('webdev_blogs');
+      if (savedBlogs) setBlogs(JSON.parse(savedBlogs));
+
+      const savedInquiries = localStorage.getItem('webdev_inquiries');
+      if (savedInquiries) setInquiries(JSON.parse(savedInquiries));
+
+      const savedServices = localStorage.getItem('webdev_services');
+      if (savedServices) setServices(JSON.parse(savedServices));
+
+      const savedTestimonials = localStorage.getItem('webdev_testimonials');
+      if (savedTestimonials) setTestimonials(JSON.parse(savedTestimonials));
     } catch (e) {
-      console.error('Failed to parse saved siteSettings', e);
+      console.error('Failed to parse saved state from localStorage', e);
+    } finally {
+      setIsHydrated(true);
     }
   }, []);
+
+  // ─── Bidirectional Sync: Persist whenever modified (after hydration) ───────────
+  useEffect(() => {
+    if (!isHydrated) return;
+    try { localStorage.setItem('webdev_projects', JSON.stringify(projects)); } catch {}
+  }, [projects, isHydrated]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    try { localStorage.setItem('webdev_team_members', JSON.stringify(teamMembers)); } catch {}
+  }, [teamMembers, isHydrated]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    try { localStorage.setItem('webdev_blogs', JSON.stringify(blogs)); } catch {}
+  }, [blogs, isHydrated]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    try { localStorage.setItem('webdev_inquiries', JSON.stringify(inquiries)); } catch {}
+  }, [inquiries, isHydrated]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    try { localStorage.setItem('webdev_services', JSON.stringify(services)); } catch {}
+  }, [services, isHydrated]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    try { localStorage.setItem('webdev_testimonials', JSON.stringify(testimonials)); } catch {}
+  }, [testimonials, isHydrated]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    try { localStorage.setItem('webdev_site_settings', JSON.stringify(siteSettings)); } catch {}
+  }, [siteSettings, isHydrated]);
 
   // ─── Projects CRUD ────────────────────────────────────────────────────────────
   const addProject = (data: Partial<Project>) => {
@@ -259,11 +320,38 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const deleteInquiry = (id: string) => setInquiries((prev) => prev.filter((i) => i.id !== id));
 
   // ─── Auth ─────────────────────────────────────────────────────────────────────
-  const login = (user: UserProfile) => setCurrentUser(user);
+  const login = (user: UserProfile) => {
+    setCurrentUser(user);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('webdev_auth_user', JSON.stringify(user));
+      } catch (e) {
+        console.error('Failed to persist user session', e);
+      }
+    }
+  };
 
-  const logout = () => setCurrentUser(null);
+  const logout = () => {
+    setCurrentUser(null);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.removeItem('webdev_auth_user');
+      } catch (e) {
+        console.error('Failed to clear user session', e);
+      }
+    }
+  };
 
-  const updateProfile = (updated: UserProfile) => setCurrentUser(updated);
+  const updateProfile = (updated: UserProfile) => {
+    setCurrentUser(updated);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('webdev_auth_user', JSON.stringify(updated));
+      } catch (e) {
+        console.error('Failed to update user session', e);
+      }
+    }
+  };
 
   // ─── Site Settings ────────────────────────────────────────────────────────────
   const updateSiteSettings = (settings: SiteSettings) => {
@@ -274,6 +362,27 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       } catch (e) {
         console.error('Failed to persist siteSettings', e);
       }
+    }
+  };
+
+  const resetToDefaultData = () => {
+    setProjects(initialProjects);
+    setTeamMembers(initialTeamMembers);
+    setBlogs(initialBlogPosts);
+    setInquiries(initialInquiries);
+    setServices(initialServices);
+    setTestimonials(initialTestimonialsData);
+    setSiteSettings(initialSiteSettings);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.removeItem('webdev_projects');
+        localStorage.removeItem('webdev_team_members');
+        localStorage.removeItem('webdev_blogs');
+        localStorage.removeItem('webdev_inquiries');
+        localStorage.removeItem('webdev_services');
+        localStorage.removeItem('webdev_testimonials');
+        localStorage.removeItem('webdev_site_settings');
+      } catch {}
     }
   };
 
@@ -288,6 +397,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     addInquiry, updateInquiryStatus, deleteInquiry,
     login, logout, updateProfile,
     updateSiteSettings,
+    resetToDefaultData,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { ArrowLeft, User, Mail, Phone, Building, Globe, CheckCircle2, Clock, LogOut } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ArrowLeft, User, Mail, Phone, Building, Globe, CheckCircle2, Clock, LogOut, LayoutDashboard, ArrowRight } from 'lucide-react';
 import { UserProfile, Inquiry } from '../types';
 import { useGsapContext } from '../utils/gsapHelper';
 import gsap from 'gsap';
@@ -20,6 +21,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
   onLogout,
   userInquiries
 }) => {
+  const router = useRouter();
   const pageRef = useRef<HTMLDivElement>(null);
   const [name, setName] = useState(currentUser.name);
   const [phone, setPhone] = useState(currentUser.phone || '');
@@ -111,6 +113,33 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
             <span>Sign Out</span>
           </button>
         </div>
+
+        {/* Admin Workstation Launch Banner */}
+        {currentUser.role === 'admin' && (
+          <div className="profile-fade-item bg-gradient-to-r from-purple-950 via-slate-900 to-slate-950 text-white rounded-3xl p-6 sm:p-8 border border-purple-800/60 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="space-y-1.5 text-center md:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold border border-purple-500/30">
+                <LayoutDashboard className="w-3.5 h-3.5" />
+                <span>Administrator CMS Access Verified</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-bold font-['Archivo'] text-white">
+                WebDev Master Admin Workstation
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
+                Add and manage projects, team members, blog articles, client inquiries, services, testimonials, and homepage hero sliders with real-time frontend synchronization.
+              </p>
+            </div>
+            
+            <button
+              onClick={() => router.push('/admin')}
+              className="bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl transition-all shadow-lg flex items-center gap-2 cursor-pointer shrink-0 hover:scale-[1.02]"
+            >
+              <LayoutDashboard className="w-4 h-4" />
+              <span>Launch Admin Dashboard</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
 
         {/* Update Profile Form & Inquiries Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
