@@ -14,7 +14,6 @@ import {
   ShieldCheck, 
   Cpu, 
   User as UserIcon, 
-  LayoutDashboard, 
   Layers,
   ArrowRight,
   FileText,
@@ -22,8 +21,7 @@ import {
   Sparkles,
   LogIn,
   UserPlus,
-  LogOut,
-  Shield
+  LogOut
 } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import { getRoute, getViewFromPathname } from '../utils/routes';
@@ -404,23 +402,6 @@ export const Navbar: React.FC = () => {
             {/* User Auth / Profile */}
             {currentUser ? (
               <div className="flex items-center gap-1.5 sm:gap-2">
-                {currentUser.role === 'admin' && (
-                  <button
-                    id="navbar-admin-cms-btn"
-                    onClick={() => router.push('/admin')}
-                    className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
-                      isScrolled 
-                        ? 'bg-purple-950/70 hover:bg-purple-900/90 text-purple-200 border-purple-800/80 shadow-2xs' 
-                        : 'bg-purple-50 hover:bg-purple-100 text-purple-800 border-purple-200 shadow-2xs'
-                    }`}
-                    title="Open Admin CMS Dashboard"
-                  >
-                    <LayoutDashboard className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
-                    <span className="text-[11px] font-bold hidden sm:inline">Admin CMS</span>
-                    <span className="text-[11px] font-bold sm:hidden">CMS</span>
-                  </button>
-                )}
-
                 {/* Sleek Compact Avatar Menu Trigger */}
                 <div className="relative" ref={userDropdownRef}>
                   <button
@@ -448,13 +429,6 @@ export const Navbar: React.FC = () => {
                         <div className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full bg-gradient-to-tr from-[#9cd5e2] to-[#BBE7F1] text-slate-950 text-xs font-bold flex items-center justify-center border border-[#9cd5e2]">
                           {cleanUserName.charAt(0) || 'U'}
                         </div>
-                      )}
-
-                      {currentUser.role === 'admin' && (
-                        <span 
-                          className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-purple-600 border-2 border-white dark:border-slate-950" 
-                          title="Administrator"
-                        />
                       )}
                     </div>
 
@@ -492,24 +466,13 @@ export const Navbar: React.FC = () => {
                               {currentUser.email}
                             </p>
                             <div className="mt-0.5">
-                              {currentUser.role === 'admin' ? (
-                                <span className={`inline-flex items-center gap-1 text-[9px] font-bold px-1.5 py-0.2 rounded border ${
-                                  isScrolled 
-                                    ? 'bg-purple-950/80 text-purple-300 border-purple-800/80' 
-                                    : 'bg-purple-50 text-purple-800 border-purple-200'
-                                }`}>
-                                  <Shield className="w-2.5 h-2.5 text-purple-600" />
-                                  CTO & Admin
-                                </span>
-                              ) : (
-                                <span className={`inline-flex items-center gap-1 text-[9px] font-bold px-1.5 py-0.2 rounded border ${
-                                  isScrolled 
-                                    ? 'bg-cyan-950/80 text-cyan-300 border-cyan-800/80' 
-                                    : 'bg-cyan-50 text-cyan-800 border-cyan-200'
-                                }`}>
-                                  Client Partner
-                                </span>
-                              )}
+                              <span className={`inline-flex items-center gap-1 text-[9px] font-bold px-1.5 py-0.2 rounded border ${
+                                isScrolled 
+                                  ? 'bg-cyan-950/80 text-cyan-300 border-cyan-800/80' 
+                                  : 'bg-cyan-50 text-cyan-800 border-cyan-200'
+                              }`}>
+                                Verified Member
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -517,27 +480,6 @@ export const Navbar: React.FC = () => {
 
                       {/* Menu Items */}
                       <div className="space-y-0.5">
-                        {currentUser.role === 'admin' && (
-                          <button
-                            onClick={() => {
-                              setUserDropdownOpen(false);
-                              router.push('/admin');
-                            }}
-                            className={`w-full flex items-center justify-between px-3 py-2 text-xs font-semibold rounded-xl transition-colors cursor-pointer ${
-                              isScrolled 
-                                ? 'text-purple-300 hover:bg-purple-950/60 hover:text-white' 
-                                : 'text-purple-700 hover:bg-purple-50 hover:text-purple-900'
-                            }`}
-                          >
-                            <div className="flex items-center gap-2">
-                              <LayoutDashboard className="w-3.5 h-3.5 text-purple-500" />
-                              <span>Admin CMS Dashboard</span>
-                            </div>
-                            <span className="text-[9px] uppercase font-bold px-1.5 py-0.2 rounded bg-purple-100 text-purple-800">
-                              CMS
-                            </span>
-                          </button>
-                        )}
 
                         <button
                           onClick={() => {
@@ -737,7 +679,7 @@ export const Navbar: React.FC = () => {
                       )}
                       <div>
                         <p className="text-xs font-bold text-slate-900 leading-tight">{cleanUserName}</p>
-                        <p className="text-[10px] text-slate-500 font-mono">{currentUser.role === 'admin' ? 'CTO & Administrator' : 'Client Partner'}</p>
+                        <p className="text-[10px] text-slate-500 font-mono">Verified Member</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-1.5">
@@ -757,17 +699,6 @@ export const Navbar: React.FC = () => {
                       </button>
                     </div>
                   </div>
-
-                  {currentUser.role === 'admin' && (
-                    <button
-                      onClick={() => { setMobileMenuOpen(false); router.push('/admin'); }}
-                      className="w-full py-2 px-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs cursor-pointer transition-all"
-                    >
-                      <LayoutDashboard className="w-3.5 h-3.5" />
-                      <span>Admin CMS Dashboard</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  )}
                 </div>
               ) : (
                 <div className="space-y-1.5">
@@ -787,13 +718,6 @@ export const Navbar: React.FC = () => {
                       <span>Register</span>
                     </button>
                   </div>
-                  <button
-                    onClick={() => { setMobileMenuOpen(false); router.push('/admin'); }}
-                    className="w-full text-center text-[11px] text-purple-700 hover:text-purple-900 font-bold py-1 cursor-pointer flex items-center justify-center gap-1"
-                  >
-                    <LayoutDashboard className="w-3 h-3" />
-                    <span>Staff / Administrator CMS Portal</span>
-                  </button>
                 </div>
               )}
             </div>

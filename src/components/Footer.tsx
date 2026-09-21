@@ -369,10 +369,13 @@ export const Footer: React.FC = () => {
               Security &amp; NDA
             </button>
             <button
+              id="footer-admin-link"
               onClick={() => onNavigate('admin')}
-              className="text-slate-400 hover:text-white transition-colors cursor-pointer"
+              className="text-slate-400 hover:text-[#BBE7F1] transition-colors cursor-pointer inline-flex items-center gap-1"
+              title="Administrator Portal"
             >
-              Admin Portal
+              <Lock className="w-3 h-3 text-slate-500" />
+              <span>Admin Portal</span>
             </button>
 
             <button
