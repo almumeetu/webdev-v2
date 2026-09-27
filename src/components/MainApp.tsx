@@ -57,9 +57,12 @@ import {
   SiteSettings,
   Testimonial,
 } from '../types';
-import { LanguageProvider } from '../context/LanguageContext';
+import { LanguageProvider, useLanguage } from '../context/LanguageContext';
 
 function MainAppContent() {
+  const { lang } = useLanguage();
+  const isDe = lang === 'de';
+
   // ─── Navigation ────────────────────────────────────────────────────────────
   const [currentView, setCurrentView] = useState<string>('home');
   const [activeServiceId, setActiveServiceId] = useState<string | undefined>(undefined);
@@ -431,15 +434,17 @@ function MainAppContent() {
         {currentView === 'services' && (
           <div>
             <Breadcrumb
-              badge="ENTERPRISE CAPABILITIES"
-              title="All IT & Cloud Services"
-              subtitle="Full-stack web engineering, cloud infrastructure, AI integrations & bespoke enterprise software development."
+              badge={isDe ? 'UNTERNEHMENSKAPAZITÄTEN' : 'ENTERPRISE CAPABILITIES'}
+              title={isDe ? 'Alle IT- & Cloud-Dienste' : 'All IT & Cloud Services'}
+              subtitle={isDe 
+                ? 'Full-Stack Web-Engineering, Cloud-Infrastruktur, KI-Integrationen & maßgeschneiderte Unternehmenssoftware.' 
+                : 'Full-stack web engineering, cloud infrastructure, AI integrations & bespoke enterprise software development.'}
               items={[
-                { label: 'Home', onClick: () => handleNavigate('home') },
-                { label: 'All IT & Cloud Services', active: true }
+                { label: isDe ? 'Startseite' : 'Home', onClick: () => handleNavigate('home') },
+                { label: isDe ? 'Alle IT- & Cloud-Dienste' : 'All IT & Cloud Services', active: true }
               ]}
               backAction={() => handleNavigate('home')}
-              backLabel="Back to Home"
+              backLabel={isDe ? 'Zurück zur Startseite' : 'Back to Home'}
               align="left"
             />
             <div className="py-8">
@@ -475,15 +480,17 @@ function MainAppContent() {
         {currentView === 'portfolio' && (
           <div>
             <Breadcrumb
-              badge="PROVEN DELIVERIES"
-              title="Enterprise Projects & Case Studies"
-              subtitle="Explore production-grade platforms, e-commerce architectures, and SaaS applications deployed across USA & Europe."
+              badge={isDe ? 'BEWIESENE ERFOLGE' : 'PROVEN DELIVERIES'}
+              title={isDe ? 'Unternehmensprojekte & Fallstudien' : 'Enterprise Projects & Case Studies'}
+              subtitle={isDe 
+                ? 'Entdecken Sie produktionsreife Plattformen, E-Commerce-Architekturen und SaaS-Anwendungen, bereitgestellt in Europa & den USA.' 
+                : 'Explore production-grade platforms, e-commerce architectures, and SaaS applications deployed across USA & Europe.'}
               items={[
-                { label: 'Home', onClick: () => handleNavigate('home') },
-                { label: 'Projects & Case Studies', active: true }
+                { label: isDe ? 'Startseite' : 'Home', onClick: () => handleNavigate('home') },
+                { label: isDe ? 'Projekte & Fallstudien' : 'Projects & Case Studies', active: true }
               ]}
               backAction={() => handleNavigate('home')}
-              backLabel="Back to Home"
+              backLabel={isDe ? 'Zurück zur Startseite' : 'Back to Home'}
               align="left"
             />
             <div className="py-8">
@@ -500,15 +507,17 @@ function MainAppContent() {
         {currentView === 'team' && (
           <div>
             <Breadcrumb
-              badge="EXECUTIVE LEADERSHIP & CORE ENGINEERS"
-              title="Engineering Team & Technical Leadership"
-              subtitle="Senior software architects, full-stack engineers, and cloud infrastructure specialists delivering enterprise digital solutions."
+              badge={isDe ? 'FÜHRUNGSTEAM & KERNENTWICKLER' : 'EXECUTIVE LEADERSHIP & CORE ENGINEERS'}
+              title={isDe ? 'Entwicklungsteam & Technische Führung' : 'Engineering Team & Technical Leadership'}
+              subtitle={isDe 
+                ? 'Erfahrene Software-Architekten, Full-Stack-Ingenieure und Cloud-Spezialisten für erstklassige digitale Lösungen.' 
+                : 'Senior software architects, full-stack engineers, and cloud infrastructure specialists delivering enterprise digital solutions.'}
               items={[
-                { label: 'Home', onClick: () => handleNavigate('home') },
-                { label: 'Engineering Team & Leadership', active: true }
+                { label: isDe ? 'Startseite' : 'Home', onClick: () => handleNavigate('home') },
+                { label: isDe ? 'Entwicklungsteam & Führung' : 'Engineering Team & Leadership', active: true }
               ]}
               backAction={() => handleNavigate('home')}
-              backLabel="Back to Home"
+              backLabel={isDe ? 'Zurück zur Startseite' : 'Back to Home'}
               align="left"
             />
             <div className="py-8">
@@ -550,15 +559,17 @@ function MainAppContent() {
         {currentView === 'blog' && (
           <div>
             <Breadcrumb
-              badge="ENGINEERING BLOG"
-              title="Technical Insights & News"
-              subtitle="Deep dives on distributed systems, modern web architecture, cloud deployment, and engineering best practices."
+              badge={isDe ? 'ENGINEERING-BLOG' : 'ENGINEERING BLOG'}
+              title={isDe ? 'Technische Einblicke & Neuigkeiten' : 'Technical Insights & News'}
+              subtitle={isDe 
+                ? 'Fundierte Analysen zu verteilten Systemen, moderner Webarchitektur, Cloud-Deployment und Best Practices.' 
+                : 'Deep dives on distributed systems, modern web architecture, cloud deployment, and engineering best practices.'}
               items={[
-                { label: 'Home', onClick: () => handleNavigate('home') },
-                { label: 'Technical Insights & News', active: true }
+                { label: isDe ? 'Startseite' : 'Home', onClick: () => handleNavigate('home') },
+                { label: isDe ? 'Technische Einblicke & News' : 'Technical Insights & News', active: true }
               ]}
               backAction={() => handleNavigate('home')}
-              backLabel="Back to Home"
+              backLabel={isDe ? 'Zurück zur Startseite' : 'Back to Home'}
               align="left"
             />
             <div className="py-8">

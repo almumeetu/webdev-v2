@@ -3,6 +3,7 @@ import { TeamMember } from '../types';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
 import { ArrowUpRight, Phone, Mail, User } from 'lucide-react';
 import { gsap, useGsapContext } from '../utils/gsapHelper';
+import { useLanguage } from '../context/LanguageContext';
 
 interface MeetOurTeamSectionProps {
   teamMembers: TeamMember[];
@@ -15,6 +16,7 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
   onSelectMember,
   onViewAllTeam
 }) => {
+  const { t, lang, localizeTeamMember } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
 
   useGsapContext(sectionRef, () => {
@@ -55,11 +57,21 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
     );
   });
 
-  const moyenUddin = teamMembers.find(m => m.id === 'team-2' || m.name.toLowerCase().includes('moyen')) || teamMembers[0];
-  const saikat = teamMembers.find(m => m.id === 'team-1' || m.name.toLowerCase().includes('saikat')) || teamMembers[1] || teamMembers[0];
-  const muheetu = teamMembers.find(m => m.id === 'team-3' || m.name.toLowerCase().includes('muheetu')) || teamMembers[2] || teamMembers[0];
+  const rawMoyen = teamMembers.find(m => m.id === 'team-2' || m.name.toLowerCase().includes('moyen')) || teamMembers[0];
+  const rawSaikat = teamMembers.find(m => m.id === 'team-1' || m.name.toLowerCase().includes('saikat')) || teamMembers[1] || teamMembers[0];
+  const rawMuheetu = teamMembers.find(m => m.id === 'team-3' || m.name.toLowerCase().includes('muheetu')) || teamMembers[2] || teamMembers[0];
+
+  const moyenUddin = localizeTeamMember(rawMoyen);
+  const saikat = localizeTeamMember(rawSaikat);
+  const muheetu = localizeTeamMember(rawMuheetu);
 
   const getCleanRole = (member: TeamMember) => {
+    if (lang === 'de') {
+      if (member.id === 'team-2' || member.name.toLowerCase().includes('moyen')) return 'Gründer & Geschäftsführer | European Delivery Lead';
+      if (member.id === 'team-1' || member.name.toLowerCase().includes('saikat')) return 'Full Stack Software Engineer & E-Commerce Lead';
+      if (member.id === 'team-3' || member.name.toLowerCase().includes('muheetu')) return 'Mobile Application Engineer (Android & iOS)';
+      return member.role.split('|')[0].trim();
+    }
     if (member.id === 'team-2' || member.name.toLowerCase().includes('moyen')) return 'Founder & CEO | European Delivery Lead';
     if (member.id === 'team-1' || member.name.toLowerCase().includes('saikat')) return 'Full Stack Software Engineer & E-Commerce Lead';
     if (member.id === 'team-3' || member.name.toLowerCase().includes('muheetu')) return 'Mobile Application Engineer (Android & iOS)';
@@ -67,6 +79,15 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
   };
 
   const getCleanBio = (member: TeamMember) => {
+    if (lang === 'de') {
+      if (member.id === 'team-2' || member.name.toLowerCase().includes('moyen')) {
+        return 'PMP®-zertifizierter Projektleiter & Senior Software Engineer mit über 10 Jahren Führungserfahrung in europäischen Softwareprojekten, AWS Cloud und DSGVO-Compliance.';
+      }
+      if (member.id === 'team-1' || member.name.toLowerCase().includes('saikat')) {
+        return 'Spezialisiert auf Next.js, React, Node.js, Express und Cloud-Serverinfrastrukturen für skalierbare Enterprise-Webplattformen.';
+      }
+      return 'Spezialisiert auf native Android-Entwicklung (Kotlin/Compose), Flutter und mobile Architekturen.';
+    }
     if (member.id === 'team-2' || member.name.toLowerCase().includes('moyen')) {
       return 'PMP® certified leader & Senior Software Engineer with 10+ years driving European agile software delivery, AWS cloud, and German GDPR compliance.';
     }
@@ -76,7 +97,7 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
     if (member.id === 'team-3' || member.name.toLowerCase().includes('muheetu')) {
       return 'Dedicated mobile specialist with 4+ years building high-performance native Android (Kotlin), iOS (Swift), and Flutter apps.';
     }
-    return member.headline || member.bio.slice(0, 150) + '...';
+    return member.bio || 'Specialized in native mobile architectures and cross-platform Flutter solutions.';
   };
 
   const getImagePosition = (member: TeamMember) => {
@@ -301,13 +322,13 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
         {/* Section Header */}
         <div className="team-ref-header text-center mb-12 sm:mb-16 space-y-3">
           <div className="inline-flex items-center text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-            <span>Executive Leadership & Engineering</span>
+            <span>{t.teamKicker}</span>
           </div>
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-950 tracking-tight font-['Kufam']">
-            Meet Our Leadership & Team
+            {t.teamHeading}
           </h2>
           <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto font-['Kufam']">
-            Guided by PMP® certified technical leadership and senior solutions architects, delivering enterprise-grade digital products and high-performance cloud platforms worldwide.
+            {t.teamSubheading}
           </p>
         </div>
 
@@ -339,7 +360,7 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
         {/* Bottom attribution */}
         <div className="text-center mt-12 sm:mt-16 space-y-4">
           <p className="text-xs sm:text-sm font-['Kufam'] font-medium text-slate-500">
-            Leadership & Engineering ·{' '}
+            {lang === 'de' ? 'Führung & Entwicklung · ' : 'Leadership & Engineering · '}
             <span className="text-slate-900 font-bold underline decoration-[#9cd5e2] underline-offset-4">WebDev Software Solutions</span>
           </p>
 
@@ -349,7 +370,7 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
                 onClick={onViewAllTeam}
                 className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-slate-950 transition-colors cursor-pointer py-1.5 border-b border-slate-400/50 hover:border-[#9cd5e2]"
               >
-                <span>Explore Full Engineering Team Profiles & Case Studies</span>
+                <span>{t.teamViewAll}</span>
                 <ArrowUpRight className="w-4 h-4" />
               </button>
             </div>

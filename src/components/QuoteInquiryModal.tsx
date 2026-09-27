@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Send, Sparkles, CheckCircle2, DollarSign, Globe, Calculator, AlertCircle } from 'lucide-react';
 import { Inquiry } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface QuoteInquiryModalProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
   onClose,
   onSubmitSuccess,
 }) => {
+  const { lang, t } = useLanguage();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -95,21 +97,24 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
         <div className="bg-[#090d18] text-white p-6 sm:p-8 relative">
           <button
             onClick={onClose}
-            className="absolute top-6 right-6 w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors"
+            className="absolute top-6 right-6 w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+            aria-label="Close"
           >
             <X className="w-5 h-5" />
           </button>
 
           <div className="inline-flex items-center gap-2 bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-xs font-mono font-medium mb-3">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>LET'S CONNECT • RAPID SCOPING & ARCHITECTURE</span>
+            <span>{lang === 'de' ? 'KONTAKT AUFNEHMEN • SCHNELLE ANALYSE & ARCHITEKTUR' : "LET'S CONNECT • RAPID SCOPING & ARCHITECTURE"}</span>
           </div>
 
           <h3 className="text-2xl sm:text-3xl font-extrabold font-['Archivo']">
-            Got an App or Server in Mind?
+            {lang === 'de' ? 'Haben Sie ein Projekt oder eine Cloud-Infrastruktur im Sinn?' : 'Got an App or Server in Mind?'}
           </h3>
           <p className="text-slate-400 text-xs sm:text-sm mt-1">
-            Send us your requirements, and our solutions architects will prepare a complimentary architecture review and estimate within 24 hours.
+            {lang === 'de'
+              ? 'Senden Sie uns Ihre Anforderungen. Unsere Lösungsarchitekten erstellen innerhalb von 24 Stunden eine kostenfreie Architekturanalyse und Kostenschätzung.'
+              : 'Send us your requirements, and our solutions architects will prepare a complimentary architecture review and estimate within 24 hours.'}
           </p>
         </div>
 
@@ -120,10 +125,14 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
               <CheckCircle2 className="w-10 h-10" />
             </div>
             <h4 className="text-2xl font-bold text-slate-900 font-['Archivo']">
-              Inquiry Received Successfully!
+              {lang === 'de' ? 'Anfrage erfolgreich eingegangen!' : 'Inquiry Received Successfully!'}
             </h4>
             <p className="text-sm text-slate-600 max-w-md mx-auto">
-              Thank you, {firstName}! Our technical leads have received your project details. We will reach out via <strong className="text-slate-800">{email}</strong> promptly.
+              {lang === 'de' ? (
+                <>Vielen Dank, {firstName}! Unsere technischen Leads haben Ihre Projektdetails erhalten. Wir melden uns zeitnah unter <strong className="text-slate-800">{email}</strong> bei Ihnen.</>
+              ) : (
+                <>Thank you, {firstName}! Our technical leads have received your project details. We will reach out via <strong className="text-slate-800">{email}</strong> promptly.</>
+              )}
             </p>
           </div>
         ) : (
@@ -133,29 +142,29 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  First Name *
+                  {lang === 'de' ? 'Vorname *' : 'First Name *'}
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Lukas or Tanvir"
+                  placeholder={lang === 'de' ? 'z. B. Lukas oder Tanvir' : 'e.g. Lukas or Tanvir'}
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 text-slate-900"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Last Name *
+                  {lang === 'de' ? 'Nachname *' : 'Last Name *'}
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Schneider or Rahman"
+                  placeholder={lang === 'de' ? 'z. B. Schneider oder Rahman' : 'e.g. Schneider or Rahman'}
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 text-slate-900"
                 />
               </div>
             </div>
@@ -164,7 +173,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Work Email *
+                  {lang === 'de' ? 'Geschäftliche E-Mail *' : 'Work Email *'}
                 </label>
                 <input
                   type="email"
@@ -172,21 +181,21 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
                   placeholder="name@company.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 text-slate-900"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Phone / WhatsApp *
+                  {lang === 'de' ? 'Telefon / WhatsApp *' : 'Phone / WhatsApp *'}
                 </label>
                 <input
                   type="tel"
                   required
-                  placeholder="+49 ... or +880 ..."
+                  placeholder="+49 ... oder +880 ..."
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 text-slate-900"
                 />
               </div>
             </div>
@@ -195,35 +204,35 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Project Domain
+                  {lang === 'de' ? 'Projektbereich / Architektur' : 'Project Domain'}
                 </label>
                 <select
                   value={projectType}
                   onChange={(e) => setProjectType(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 bg-white"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 bg-white text-slate-900"
                 >
-                  <option value="Full Stack & MERN">Full Stack & MERN Platform</option>
-                  <option value="Cloud & Server Architecture">Linux Server & DevOps Architecture</option>
-                  <option value="E-Commerce">E-Commerce (Shopify Plus / Woo)</option>
-                  <option value="WordPress & CMS">WordPress & Enterprise Custom CMS</option>
-                  <option value="Web Application">Interactive Web Application</option>
-                  <option value="Backend & API">High-Throughput Backend & APIs</option>
+                  <option value="Full Stack & MERN">{lang === 'de' ? 'Full Stack & MERN Plattform' : 'Full Stack & MERN Platform'}</option>
+                  <option value="Cloud & Server Architecture">{lang === 'de' ? 'Linux Server & DevOps Infrastruktur' : 'Linux Server & DevOps Architecture'}</option>
+                  <option value="E-Commerce">{lang === 'de' ? 'E-Commerce (Shopify Plus / Woo)' : 'E-Commerce (Shopify Plus / Woo)'}</option>
+                  <option value="WordPress & CMS">{lang === 'de' ? 'WordPress & Enterprise Headless CMS' : 'WordPress & Enterprise Custom CMS'}</option>
+                  <option value="Web Application">{lang === 'de' ? 'Interaktive Webapplikation' : 'Interactive Web Application'}</option>
+                  <option value="Backend & API">{lang === 'de' ? 'Hochperformante Backends & APIs' : 'High-Throughput Backend & APIs'}</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Target Market / Deployment Region
+                  {lang === 'de' ? 'Zielmarkt / Bereitstellungsregion' : 'Target Market / Deployment Region'}
                 </label>
                 <select
                   value={targetMarket}
                   onChange={(e) => setTargetMarket(e.target.value as any)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 bg-white"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 bg-white text-slate-900"
                 >
-                  <option value="Germany">Germany & DACH Region (Europe)</option>
-                  <option value="Bangladesh">Bangladesh & South Asia</option>
-                  <option value="International">International / Worldwide</option>
-                  <option value="Both">Both (Cross-Border Integration)</option>
+                  <option value="Germany">{lang === 'de' ? 'Deutschland & DACH-Region (Europa)' : 'Germany & DACH Region (Europe)'}</option>
+                  <option value="Bangladesh">{lang === 'de' ? 'Bangladesch & Südasien' : 'Bangladesh & South Asia'}</option>
+                  <option value="International">{lang === 'de' ? 'International / Weltweit' : 'International / Worldwide'}</option>
+                  <option value="Both">{lang === 'de' ? 'Beide (Grenzüberschreitende Integration)' : 'Both (Cross-Border Integration)'}</option>
                 </select>
               </div>
             </div>
@@ -231,15 +240,15 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
             {/* Message / Specifications */}
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Tell Us About Your Project & Architecture Goals
+                {lang === 'de' ? 'Erzählen Sie uns von Ihrem Projekt & Ihren Architekturzielen' : 'Tell Us About Your Project & Architecture Goals'}
               </label>
               <textarea
                 rows={3}
                 required
-                placeholder="Describe features, server load, integrations (e.g. MERN stack, Shopify, Hetzner server setup, payment gateways)..."
+                placeholder={lang === 'de' ? 'Beschreiben Sie gewünschte Features, Serverlast, Schnittstellen (z. B. MERN-Stack, Shopify, Hetzner-Server, Zahlungs-Gateways)...' : 'Describe features, server load, integrations (e.g. MERN stack, Shopify, Hetzner server setup, payment gateways)...'}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50"
+                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 text-slate-900"
               />
             </div>
 
@@ -251,16 +260,18 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
                 className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-bold text-sm py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer border border-[#9cd5e2] shadow-sm"
               >
                 {isSubmitting ? (
-                  <span>Processing Estimate...</span>
+                  <span>{lang === 'de' ? 'Kostenschätzung wird vorbereitet...' : 'Processing Estimate...'}</span>
                 ) : (
                   <>
-                    <span>SUBMIT INQUIRY & GET ESTIMATE</span>
+                    <span>{lang === 'de' ? 'ANFRAGE ABSENDEN & SCHÄTZUNG ERHALTEN' : 'SUBMIT INQUIRY & GET ESTIMATE'}</span>
                     <Send className="w-4 h-4" />
                   </>
                 )}
               </button>
               <p className="text-center text-[11px] text-slate-400 mt-2">
-                🔒 Protected by mutual NDA & German GDPR data privacy standards.
+                {lang === 'de' 
+                  ? '🔒 Geschützt durch beidseitige Geheimhaltungsvereinbarung (NDA) & DSGVO-Datenschutzstandards.' 
+                  : '🔒 Protected by mutual NDA & German GDPR data privacy standards.'}
               </p>
             </div>
 

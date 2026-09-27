@@ -21,6 +21,7 @@ import { useGsapContext } from '../utils/gsapHelper';
 import gsap from 'gsap';
 import { BreadcrumbBar } from './Breadcrumb';
 import { ProjectOrderModal } from './ProjectOrderModal';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ProjectDetailPageProps {
   project: Project | null;
@@ -30,13 +31,16 @@ interface ProjectDetailPageProps {
 }
 
 export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
-  project,
+  project: rawProject,
   onBack,
   onBackToHome,
   onGetQuoteForSimilar,
 }) => {
   const pageRef = useRef<HTMLDivElement>(null);
   const [orderModalOpen, setOrderModalOpen] = useState(false);
+  const { lang, t, localizeProject } = useLanguage();
+
+  const project = rawProject ? localizeProject(rawProject) : null;
 
   useGsapContext(pageRef, () => {
     if (!pageRef.current) return;
@@ -61,13 +65,13 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
     return (
       <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center">
         <h2 className="text-2xl font-bold text-slate-900 mb-3 font-['Kufam']">
-          Project Case Study Not Found
+          {lang === 'de' ? 'Projekt-Fallstudie nicht gefunden' : 'Project Case Study Not Found'}
         </h2>
         <button
           onClick={onBack}
           className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 border border-[#9cd5e2] text-xs font-bold px-6 py-3 rounded-xl transition-colors cursor-pointer"
         >
-          ← Return to Portfolio
+          {lang === 'de' ? '← Zurück zum Portfolio' : '← Return to Portfolio'}
         </button>
       </div>
     );
@@ -79,12 +83,12 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 sm:pt-6 pb-2">
         <BreadcrumbBar
           items={[
-            { label: 'Home', onClick: onBackToHome },
-            { label: 'Case Studies & Portfolio', onClick: onBack },
+            { label: lang === 'de' ? 'Startseite' : 'Home', onClick: onBackToHome },
+            { label: lang === 'de' ? 'Fallstudien & Portfolio' : 'Case Studies & Portfolio', onClick: onBack },
             { label: project.title, active: true }
           ]}
           backAction={onBack}
-          backLabel="Back to Portfolio"
+          backLabel={lang === 'de' ? 'Zurück zum Portfolio' : 'Back to Portfolio'}
         />
       </div>
 
@@ -108,11 +112,13 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
               </span>
               {project.status === 'completed' ? (
                 <span className="text-xs font-bold uppercase tracking-wider bg-emerald-500 text-white px-3.5 py-1.5 rounded-full flex items-center gap-1.5 shrink-0 whitespace-nowrap">
-                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0" /> <span className="whitespace-nowrap">Completed & Deployed</span>
+                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />{' '}
+                  <span className="whitespace-nowrap">{lang === 'de' ? 'Abgeschlossen & Bereitgestellt' : 'Completed & Deployed'}</span>
                 </span>
               ) : (
                 <span className="text-xs font-bold uppercase tracking-wider bg-amber-500 text-slate-950 px-3.5 py-1.5 rounded-full flex items-center gap-1.5 shrink-0 whitespace-nowrap">
-                  <Clock className="w-3.5 h-3.5 shrink-0" /> <span className="whitespace-nowrap">Ongoing Live Project</span>
+                  <Clock className="w-3.5 h-3.5 shrink-0" />{' '}
+                  <span className="whitespace-nowrap">{lang === 'de' ? 'In aktivem Betrieb' : 'Ongoing Live Project'}</span>
                 </span>
               )}
             </div>
@@ -126,25 +132,33 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
         {/* Metadata Strip */}
         <div className="proj-anim-fade grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 rounded-2xl bg-slate-50 border border-slate-200/80">
           <div>
-            <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">Client Organization</div>
+            <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">
+              {lang === 'de' ? 'Auftraggeber' : 'Client Organization'}
+            </div>
             <div className="text-xs sm:text-sm font-bold text-slate-900 mt-1">{project.clientName}</div>
           </div>
           <div>
-            <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">Client Region</div>
+            <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">
+              {lang === 'de' ? 'Region' : 'Client Region'}
+            </div>
             <div className="text-xs sm:text-sm font-bold text-slate-900 mt-1 flex items-center gap-1">
               <Globe className="w-3.5 h-3.5 text-cyan-700" />
               <span>{project.clientCountry}</span>
             </div>
           </div>
           <div>
-            <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">Delivery Date</div>
+            <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">
+              {lang === 'de' ? 'Fertigstellung' : 'Delivery Date'}
+            </div>
             <div className="text-xs sm:text-sm font-bold text-slate-900 mt-1 flex items-center gap-1">
               <Calendar className="w-3.5 h-3.5 text-cyan-700" />
               <span>{project.completionDate}</span>
             </div>
           </div>
           <div>
-            <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">Production URL</div>
+            <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">
+              {lang === 'de' ? 'Live-System' : 'Production URL'}
+            </div>
             <div className="text-xs sm:text-sm font-bold mt-1">
               {project.liveUrl ? (
                 <a
@@ -153,11 +167,13 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
                   rel="noopener noreferrer"
                   className="text-cyan-800 hover:text-cyan-900 font-bold flex items-center gap-1"
                 >
-                  <span>Visit Live</span>
+                  <span>{lang === 'de' ? 'Live ansehen' : 'Visit Live'}</span>
                   <ExternalLink className="w-3 h-3" />
                 </a>
               ) : (
-                <span className="text-slate-400">Enterprise Private</span>
+                <span className="text-slate-400">
+                  {lang === 'de' ? 'Internes Unternehmenssystem' : 'Enterprise Private'}
+                </span>
               )}
             </div>
           </div>
@@ -169,7 +185,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
           {/* Executive Overview */}
           <div className="space-y-3">
             <h2 className="text-lg font-bold text-slate-900 uppercase tracking-wider font-['Archivo']">
-              Architecture & System Overview
+              {lang === 'de' ? 'Architektur- & Systemübersicht' : 'Architecture & System Overview'}
             </h2>
             <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
               {project.description}
@@ -181,7 +197,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
             <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-4">
               <h2 className="text-base font-bold text-slate-900 font-['Archivo'] flex items-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-cyan-700" />
-                <span>Engineered Core Deliverables</span>
+                <span>{lang === 'de' ? 'Geleistete Kern-Deliverables' : 'Engineered Core Deliverables'}</span>
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {project.features.map((feat, idx) => (
@@ -199,7 +215,9 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
             <div className="p-6 rounded-2xl bg-emerald-50/60 border border-emerald-200/70 space-y-2">
               <div className="text-xs font-mono uppercase tracking-wider text-emerald-800 font-bold flex items-center gap-1.5 shrink-0 whitespace-nowrap">
                 <TrendingUp className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span className="whitespace-nowrap">Verified Impact & Performance</span>
+                <span className="whitespace-nowrap">
+                  {lang === 'de' ? 'Verifizierter Einfluss & Performance' : 'Verified Impact & Performance'}
+                </span>
               </div>
               <p className="text-sm font-semibold text-emerald-950">
                 {project.metrics}
@@ -210,7 +228,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
           {/* Tech Stack */}
           <div className="space-y-3">
             <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold">
-              Applied Technologies
+              {lang === 'de' ? 'Eingesetzte Technologien' : 'Applied Technologies'}
             </h3>
             <div className="flex flex-wrap gap-2">
               {project.techStack.map((tech, idx) => (
@@ -229,19 +247,31 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
             <div className="space-y-1.5 max-w-xl">
               <div className="inline-flex items-center gap-1.5 text-[#BBE7F1] text-xs font-mono font-bold uppercase tracking-wider">
                 <Zap className="w-3.5 h-3.5" />
-                <span>Turnkey Deployment & Custom Order Available</span>
+                <span>
+                  {lang === 'de'
+                    ? 'SCHLÜSSELFERTIGE BEREITSTELLUNG & INDIVIDUELLE BESTELLUNG'
+                    : 'Turnkey Deployment & Custom Order Available'}
+                </span>
               </div>
               <h3 className="text-lg sm:text-xl font-bold font-['Archivo']">
-                Want a Platform Like {project.title} for Your Business?
+                {lang === 'de'
+                  ? `Wünschen Sie eine Plattform wie ${project.title} für Ihr Unternehmen?`
+                  : `Want a Platform Like ${project.title} for Your Business?`}
               </h3>
               <p className="text-xs sm:text-sm text-slate-300">
-                We can re-brand and deploy this battle-tested architecture for your enterprise, or customize the features, APIs, and workflows to match your exact business model.
+                {lang === 'de'
+                  ? 'Wir können diese praxiserprobte Architektur für Ihr Unternehmen rebranden und schlüsselfertig bereitstellen oder APIs, Funktionen und Workflows exakt an Ihr Geschäftsmodell anpassen.'
+                  : 'We can re-brand and deploy this battle-tested architecture for your enterprise, or customize the features, APIs, and workflows to match your exact business model.'}
               </p>
               {project.priceRange && (
                 <div className="pt-1 flex items-center gap-3 text-xs">
-                  <span className="text-slate-400">Est. Investment: <strong className="text-emerald-400">{project.priceRange}</strong></span>
+                  <span className="text-slate-400">
+                    {lang === 'de' ? 'Geschätzte Investition:' : 'Est. Investment:'} <strong className="text-emerald-400">{project.priceRange}</strong>
+                  </span>
                   {project.estimatedDelivery && (
-                    <span className="text-slate-400">• Turnaround: <strong className="text-cyan-300">{project.estimatedDelivery}</strong></span>
+                    <span className="text-slate-400">
+                      • {lang === 'de' ? 'Lieferzeit:' : 'Turnaround:'} <strong className="text-cyan-300">{project.estimatedDelivery}</strong>
+                    </span>
                   )}
                 </div>
               )}
@@ -254,7 +284,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
                 className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-extrabold text-xs sm:text-sm px-6 py-3.5 rounded-xl border border-[#9cd5e2] transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
               >
                 <Zap className="w-4 h-4 text-slate-950" />
-                <span>Order This Website Now</span>
+                <span>{lang === 'de' ? 'Diese Website jetzt bestellen' : 'Order This Website Now'}</span>
               </button>
             </div>
           </div>
@@ -265,7 +295,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
               onClick={onBack}
               className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold px-6 py-3.5 rounded-xl transition-all cursor-pointer"
             >
-              ← Back to Portfolio
+              {lang === 'de' ? '← Zurück zum Portfolio' : '← Back to Portfolio'}
             </button>
 
             <div className="flex items-center gap-3">
@@ -273,7 +303,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
                 onClick={() => setOrderModalOpen(true)}
                 className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center gap-2 cursor-pointer"
               >
-                <span>Order Architecture</span>
+                <span>{lang === 'de' ? 'Architektur bestellen' : 'Order Architecture'}</span>
                 <Zap className="w-4 h-4 text-slate-950" />
               </button>
 
@@ -281,7 +311,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
                 onClick={() => onGetQuoteForSimilar(project.title)}
                 className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl border border-slate-700 shadow-sm transition-all flex items-center gap-2 cursor-pointer"
               >
-                <span>Request Custom Quote</span>
+                <span>{lang === 'de' ? 'Individuelles Angebot' : 'Request Custom Quote'}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>

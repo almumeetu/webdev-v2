@@ -24,7 +24,7 @@ export const Footer: React.FC = () => {
   const onNavigate = (view: string, subParam?: string) => router.push(getRoute(view, subParam));
   const onOpenQuote = () => router.push('/contact');
 
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   const scrollToTop = () => {
     if (typeof window !== 'undefined') {
@@ -43,7 +43,7 @@ export const Footer: React.FC = () => {
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div className="max-w-2xl">
               <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight font-['Archivo']">
-                Ready to engineer your next software solution?
+                {lang === 'de' ? 'Bereit für Ihre nächste Enterprise-Softwarelösung?' : 'Ready to engineer your next software solution?'}
               </h3>
             </div>
 
@@ -53,7 +53,7 @@ export const Footer: React.FC = () => {
                 onClick={onOpenQuote}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-sm transition-colors cursor-pointer border border-[#9cd5e2] shadow-sm"
               >
-                <span>Request a Proposal</span>
+                <span>{t.requestConsultation}</span>
                 <ArrowUpRight className="w-4 h-4 text-slate-950" />
               </button>
               <a
@@ -90,8 +90,8 @@ export const Footer: React.FC = () => {
 
             {/* Company Real Description */}
             <p className="text-sm text-slate-400 leading-relaxed font-['Instrument_Sans'] max-w-sm">
-              {siteSettings.footerAboutText || 
-                'WebDev Software Solutions is a full-cycle software engineering consultancy engineering high-performance web platforms, enterprise cloud infrastructures, and bespoke digital products for global businesses.'}
+              {lang === 'de' ? t.footerAboutText : (siteSettings.footerAboutText || 
+                'WebDev Software Solutions is a full-cycle software engineering consultancy engineering high-performance web platforms, enterprise cloud infrastructures, and bespoke digital products for global businesses.')}
             </p>
 
             {/* Trust & Presence Badges */}
@@ -102,7 +102,7 @@ export const Footer: React.FC = () => {
               </span>
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-slate-300">
                 <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
-                GDPR &amp; Enterprise Grade
+                {lang === 'de' ? 'DSGVO & Enterprise-konform' : 'GDPR & Enterprise Grade'}
               </span>
             </div>
 
@@ -170,16 +170,16 @@ export const Footer: React.FC = () => {
           {/* Column 2: Solutions & Capabilities (2.5 cols) */}
           <div className="lg:col-span-2 space-y-3.5">
             <h4 className="text-xs font-bold text-white uppercase tracking-wider font-['Archivo']">
-              Practice Areas
+              {lang === 'de' ? 'Fachbereiche' : 'Practice Areas'}
             </h4>
             <ul className="space-y-2.5 text-sm font-['Instrument_Sans']">
               {[
-                { label: 'Full-Stack Web Apps', id: 'serv-1' },
-                { label: 'Cloud & Linux DevOps', id: 'serv-2' },
-                { label: 'Headless E-Commerce', id: 'serv-3' },
-                { label: 'Enterprise CMS Portals', id: 'serv-4' },
-                { label: 'Microservices & APIs', id: 'serv-5' },
-                { label: 'Database Optimization', id: 'serv-6' }
+                { label: lang === 'de' ? 'Full-Stack Web-Apps' : 'Full-Stack Web Apps', id: 'serv-1' },
+                { label: lang === 'de' ? 'Cloud & Linux DevOps' : 'Cloud & Linux DevOps', id: 'serv-2' },
+                { label: lang === 'de' ? 'Headless E-Commerce' : 'Headless E-Commerce', id: 'serv-3' },
+                { label: lang === 'de' ? 'Enterprise CMS-Portale' : 'Enterprise CMS Portals', id: 'serv-4' },
+                { label: lang === 'de' ? 'Microservices & APIs' : 'Microservices & APIs', id: 'serv-5' },
+                { label: lang === 'de' ? 'Datenbank-Optimierung' : 'Database Optimization', id: 'serv-6' }
               ].map((item) => (
                 <li key={item.id}>
                   <button
@@ -196,42 +196,42 @@ export const Footer: React.FC = () => {
           {/* Column 3: Corporate Directory (2 cols) */}
           <div className="lg:col-span-2 space-y-3.5">
             <h4 className="text-xs font-bold text-white uppercase tracking-wider font-['Archivo']">
-              Corporate
+              {lang === 'de' ? 'Unternehmen' : 'Corporate'}
             </h4>
             <ul className="space-y-2.5 text-sm font-['Instrument_Sans']">
               <li>
                 <button onClick={() => onNavigate('about')} className="text-slate-400 hover:text-white transition-colors text-left cursor-pointer font-normal block">
-                  About WebDev
+                  {lang === 'de' ? 'Über WebDev' : 'About WebDev'}
                 </button>
               </li>
               <li>
                 <button onClick={() => onNavigate('team')} className="text-slate-400 hover:text-white transition-colors text-left cursor-pointer font-normal block">
-                  Our Team &amp; Leadership
+                  {lang === 'de' ? 'Team & Führung' : 'Our Team & Leadership'}
                 </button>
               </li>
               <li>
                 <button onClick={() => onNavigate('careers')} className="text-slate-400 hover:text-cyan-300 transition-colors text-left cursor-pointer font-normal inline-flex items-center gap-1.5">
-                  <span>Careers</span>
+                  <span>{t.navCareers}</span>
                   {activeJobsCount > 0 && (
                     <span className="px-1.5 py-0.5 text-[10px] font-mono font-semibold rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                      Hiring
+                      {lang === 'de' ? 'Stellen' : 'Hiring'}
                     </span>
                   )}
                 </button>
               </li>
               <li>
                 <button onClick={() => onNavigate('portfolio')} className="text-slate-400 hover:text-white transition-colors text-left cursor-pointer font-normal block">
-                  Case Studies &amp; Work
+                  {lang === 'de' ? 'Fallstudien & Projekte' : 'Case Studies & Work'}
                 </button>
               </li>
               <li>
                 <button onClick={() => onNavigate('blog')} className="text-slate-400 hover:text-white transition-colors text-left cursor-pointer font-normal block">
-                  Engineering Insights
+                  {lang === 'de' ? 'Fachartikel & News' : 'Engineering Insights'}
                 </button>
               </li>
               <li>
                 <button onClick={() => onNavigate('contact')} className="text-slate-400 hover:text-white transition-colors text-left cursor-pointer font-normal block">
-                  Contact &amp; Inquiries
+                  {lang === 'de' ? 'Kontakt & Anfragen' : 'Contact & Inquiries'}
                 </button>
               </li>
               <li className="pt-1">
@@ -239,7 +239,7 @@ export const Footer: React.FC = () => {
                   onClick={onOpenQuote}
                   className="text-[#BBE7F1] hover:text-[#a7dfed] font-medium inline-flex items-center gap-1 cursor-pointer transition-colors"
                 >
-                  <span>Request Proposal</span>
+                  <span>{lang === 'de' ? 'Angebot anfordern' : 'Request Proposal'}</span>
                   <ArrowUpRight className="w-3.5 h-3.5 text-[#BBE7F1]" />
                 </button>
               </li>
@@ -249,23 +249,25 @@ export const Footer: React.FC = () => {
           {/* Column 4: Global Offices (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
             <h4 className="text-xs font-bold text-white uppercase tracking-wider font-['Archivo']">
-              Global Offices
+              {lang === 'de' ? 'Standorte' : 'Global Offices'}
             </h4>
 
             {/* Germany HQ */}
             <div className="space-y-1.5 pb-3.5 border-b border-slate-800/60">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-white font-['Archivo']">Leverkusen, Germany</span>
+                  <span className="text-sm font-semibold text-white font-['Archivo']">
+                    {lang === 'de' ? 'Leverkusen, Deutschland' : 'Leverkusen, Germany'}
+                  </span>
                 </div>
                 <a
                   href="https://www.google.com/maps/search/?api=1&query=Küppersteg,+51373+Leverkusen,+Germany"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs text-slate-400 hover:text-[#BBE7F1] inline-flex items-center gap-1 transition-colors"
-                  title="Open in Google Maps"
+                  title={lang === 'de' ? 'In Google Maps öffnen' : 'Open in Google Maps'}
                 >
-                  <span>Map</span>
+                  <span>{lang === 'de' ? 'Karte' : 'Map'}</span>
                   <ArrowUpRight className="w-3 h-3" />
                 </a>
               </div>
@@ -296,9 +298,9 @@ export const Footer: React.FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs text-slate-400 hover:text-emerald-300 inline-flex items-center gap-1 transition-colors"
-                  title="Open in Google Maps"
+                  title={lang === 'de' ? 'In Google Maps öffnen' : 'Open in Google Maps'}
                 >
-                  <span>Map</span>
+                  <span>{lang === 'de' ? 'Karte' : 'Map'}</span>
                   <ArrowUpRight className="w-3 h-3" />
                 </a>
               </div>
@@ -326,9 +328,8 @@ export const Footer: React.FC = () => {
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400 font-['Instrument_Sans']">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
             <span>
-              © {currentYear} <strong className="text-slate-200 font-medium">{siteSettings.companyName}</strong>. All rights reserved.
+              © {currentYear} <strong className="text-slate-200 font-medium">{siteSettings.companyName}</strong>. {lang === 'de' ? 'Alle Rechte vorbehalten.' : 'All rights reserved.'}
             </span>
-
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5 font-medium">
@@ -336,35 +337,35 @@ export const Footer: React.FC = () => {
               onClick={() => onNavigate('privacy')}
               className="text-slate-400 hover:text-white transition-colors cursor-pointer"
             >
-              Privacy Policy
+              {t.footerPrivacy}
             </button>
             <button
               onClick={() => onNavigate('terms')}
               className="text-slate-400 hover:text-white transition-colors cursor-pointer"
             >
-              Terms of Engagement
+              {t.footerTerms}
             </button>
             <button
               onClick={() => onNavigate('contact')}
               className="text-slate-400 hover:text-white transition-colors cursor-pointer"
             >
-              Security &amp; NDA
+              {lang === 'de' ? 'Sicherheit & NDA' : 'Security & NDA'}
             </button>
             <button
               id="footer-admin-link"
               onClick={() => onNavigate('admin')}
               className="text-slate-400 hover:text-[#BBE7F1] transition-colors cursor-pointer inline-flex items-center gap-1"
-              title="Administrator Portal"
+              title={lang === 'de' ? 'Administrator-Portal' : 'Administrator Portal'}
             >
               <Lock className="w-3 h-3 text-slate-500" />
-              <span>Admin Portal</span>
+              <span>{lang === 'de' ? 'Admin-Bereich' : 'Admin Portal'}</span>
             </button>
 
             <button
               onClick={scrollToTop}
               className="w-8 h-8 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
-              title="Back to Top"
-              aria-label="Back to Top"
+              title={lang === 'de' ? 'Nach oben scrollen' : 'Back to Top'}
+              aria-label={lang === 'de' ? 'Nach oben scrollen' : 'Back to Top'}
             >
               <ArrowUp className="w-4 h-4" />
             </button>

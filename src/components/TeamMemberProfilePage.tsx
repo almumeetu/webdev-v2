@@ -22,6 +22,7 @@ import {
 import { TeamMember, Project } from '../types';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
 import { useGsapContext } from '../utils/gsapHelper';
+import { useLanguage } from '../context/LanguageContext';
 import gsap from 'gsap';
 import { BreadcrumbBar } from './Breadcrumb';
 
@@ -41,6 +42,8 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
   onContactLead,
   onSelectProject
 }) => {
+  const { lang, t, localizeTeamMember } = useLanguage();
+  const currentMember = member ? localizeTeamMember(member) : null;
   const pageRef = useRef<HTMLDivElement>(null);
 
   useGsapContext(pageRef, () => {
@@ -62,26 +65,28 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
      );
    });
 
-  if (!member) {
+  if (!currentMember) {
     return (
       <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center">
         <h2 className="text-2xl font-bold text-slate-900 mb-3 font-['Archivo']">
-          Specialist Profile Not Found
+          {lang === 'de' ? 'Spezialistenprofil nicht gefunden' : 'Specialist Profile Not Found'}
         </h2>
         <p className="text-sm text-slate-600 mb-6">
-          The requested leadership or engineering profile is unavailable.
+          {lang === 'de' 
+            ? 'Das angeforderte Führungs- oder Ingenieursprofil ist derzeit nicht verfügbar.' 
+            : 'The requested leadership or engineering profile is unavailable.'}
         </p>
         <button
           onClick={onBack}
           className="bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 border border-[#9cd5e2] text-xs font-bold px-6 py-3 rounded-xl transition-colors cursor-pointer shadow-sm"
         >
-          ← Return to Leadership Team
+          {lang === 'de' ? '← Zurück zum Führungsteam' : '← Return to Leadership Team'}
         </button>
       </div>
     );
   }
 
-  const isCEO = member.role.toLowerCase().includes('ceo') || member.role.toLowerCase().includes('founder');
+  const isCEO = currentMember.role.toLowerCase().includes('ceo') || currentMember.role.toLowerCase().includes('founder');
 
   return (
     <div ref={pageRef} className="min-h-screen bg-slate-50/50 text-slate-900 relative">
@@ -89,12 +94,12 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 sm:pt-6 pb-2">
         <BreadcrumbBar
           items={[
-            { label: 'Home', onClick: onBackToHome },
-            { label: 'Leadership & Team', onClick: onBack },
-            { label: member.name, active: true }
+            { label: lang === 'de' ? 'Startseite' : 'Home', onClick: onBackToHome },
+            { label: lang === 'de' ? 'Führung & Team' : 'Leadership & Team', onClick: onBack },
+            { label: currentMember.name, active: true }
           ]}
           backAction={onBack}
-          backLabel="Back to Team"
+          backLabel={lang === 'de' ? 'Zurück zum Team' : 'Back to Team'}
         />
       </div>
 
@@ -107,10 +112,10 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
             {/* Portrait Column */}
             <div className="lg:col-span-4 flex flex-col items-center sm:items-start text-center sm:text-left">
               <div className="relative w-56 h-64 sm:w-64 sm:h-72 rounded-3xl overflow-hidden bg-gradient-to-b from-slate-100 via-slate-100 to-[#BBE7F1]/20 border border-slate-200 shadow-xl group shrink-0 flex items-center justify-center">
-                {member.image && member.image.trim() !== '' ? (
+                {currentMember.image && currentMember.image.trim() !== '' ? (
                   <img
-                    src={member.image}
-                    alt={member.name}
+                    src={currentMember.image}
+                    alt={currentMember.name}
                     className="w-full h-full object-cover object-top"
                   />
                 ) : (
@@ -120,7 +125,7 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
                 {/* Floating branch badge */}
                 <div className="absolute bottom-3 inset-x-3 bg-slate-950/85 backdrop-blur-md text-white text-[11px] font-medium py-1.5 px-3 rounded-xl border border-slate-800 flex items-center justify-center gap-1.5 shadow-sm">
                   <MapPin className="w-3 h-3 text-cyan-400 shrink-0" />
-                  <span className="truncate">{member.location || member.branch}</span>
+                  <span className="truncate">{currentMember.location || currentMember.branch}</span>
                 </div>
               </div>
 
@@ -128,11 +133,11 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
               <div className="mt-4 flex items-center gap-2 flex-wrap justify-center sm:justify-start">
                 <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200/80 shrink-0 whitespace-nowrap">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
-                  <span className="whitespace-nowrap">Active Lead</span>
+                  <span className="whitespace-nowrap">{lang === 'de' ? 'Aktiver Lead' : 'Active Lead'}</span>
                 </span>
                 <span className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-950 bg-[#BBE7F1] px-3 py-1 rounded-full border border-[#9cd5e2] shrink-0 whitespace-nowrap">
                   <ShieldCheck className="w-3.5 h-3.5 text-slate-950 shrink-0" />
-                  <span className="whitespace-nowrap">Verified Engineering Lead</span>
+                  <span className="whitespace-nowrap">{lang === 'de' ? 'Verifizierter Engineering Lead' : 'Verified Engineering Lead'}</span>
                 </span>
               </div>
             </div>
@@ -141,36 +146,36 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
             <div className="lg:col-span-8 space-y-5">
               <div className="space-y-2">
                 <div className="text-xs sm:text-sm font-['Kufam'] font-semibold text-cyan-800 tracking-wide">
-                  {member.role}
+                  {currentMember.role}
                 </div>
                 
                 <h1 className="text-2xl sm:text-3xl lg:text-[34px] font-bold text-slate-950 tracking-tight font-['Kufam']">
-                  {member.name}
+                  {currentMember.name}
                 </h1>
 
-                {member.headline && (
+                {currentMember.headline && (
                   <p className="text-xs sm:text-sm font-medium text-slate-900 bg-[#BBE7F1]/30 px-3.5 py-2 rounded-xl border border-[#9cd5e2] leading-snug">
-                    {member.headline}
+                    {currentMember.headline}
                   </p>
                 )}
 
                 <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 font-medium pt-1">
                   <Award className="w-4 h-4 text-cyan-800 shrink-0" />
-                  <span>{member.experienceYears}+ Years Industry Track Record & Technical Stewardship</span>
+                  <span>{currentMember.experienceYears}+ {lang === 'de' ? 'Jahre Branchenerfahrung & Technische Führung' : 'Years Industry Track Record & Technical Stewardship'}</span>
                 </div>
               </div>
 
               {/* Bio snippet */}
               <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
-                {member.bio}
+                {currentMember.bio}
               </p>
 
               {/* Contact & Social Links Bar */}
               <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-2.5">
-                  {member.github && (
+                  {currentMember.github && (
                     <a
-                      href={member.github}
+                      href={currentMember.github}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-900 text-slate-700 hover:text-white flex items-center justify-center transition-colors shadow-xs"
@@ -179,9 +184,9 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
                       <GithubIcon className="w-4 h-4" />
                     </a>
                   )}
-                  {member.linkedin && (
+                  {currentMember.linkedin && (
                     <a
-                      href={member.linkedin}
+                      href={currentMember.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-10 h-10 rounded-xl bg-slate-100 hover:bg-[#BBE7F1] text-slate-700 hover:text-slate-950 flex items-center justify-center transition-colors shadow-xs border border-transparent hover:border-[#9cd5e2]"
@@ -190,31 +195,31 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
                       <LinkedinIcon className="w-4 h-4" />
                     </a>
                   )}
-                  {member.email && (
+                  {currentMember.email && (
                     <a
-                      href={`mailto:${member.email}`}
+                      href={`mailto:${currentMember.email}`}
                       className="inline-flex items-center gap-2 text-xs font-mono font-medium text-slate-700 bg-slate-100 hover:bg-[#BBE7F1]/40 hover:text-cyan-800 px-3.5 py-2.5 rounded-xl border border-slate-200/80 hover:border-[#9cd5e2] transition-colors"
                     >
                       <Mail className="w-3.5 h-3.5 text-cyan-800" />
-                      <span>{member.email}</span>
+                      <span>{currentMember.email}</span>
                     </a>
                   )}
-                  {member.phone && (
+                  {currentMember.phone && (
                     <a
-                      href={`tel:${member.phone}`}
+                      href={`tel:${currentMember.phone}`}
                       className="inline-flex items-center gap-2 text-xs font-mono font-medium text-slate-700 bg-slate-100 hover:bg-[#BBE7F1]/40 hover:text-cyan-800 px-3.5 py-2.5 rounded-xl border border-slate-200/80 hover:border-[#9cd5e2] transition-colors"
                     >
                       <Phone className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>{member.phone}</span>
+                      <span>{currentMember.phone}</span>
                     </a>
                   )}
                 </div>
 
                 <button
-                  onClick={() => onContactLead(member.name)}
+                  onClick={() => onContactLead(currentMember.name)}
                   className="bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 border border-[#9cd5e2] text-xs sm:text-sm font-bold px-6 py-3 rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-sm"
                 >
-                  <span>Book Consultation With {member.name}</span>
+                  <span>{lang === 'de' ? `Beratungsgespräch mit ${currentMember.name} buchen` : `Book Consultation With ${currentMember.name}`}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -233,13 +238,15 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
             <div className="profile-anim-item bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 space-y-4 shadow-xs">
               <h2 className="text-lg sm:text-xl font-bold text-slate-950 font-['Archivo'] flex items-center gap-2">
                 <Layers className="w-5 h-5 text-cyan-800" />
-                <span>Core Architectural Competencies & Tech Stack</span>
+                <span>{lang === 'de' ? 'Zentrale Architektur-Kompetenzen & Tech-Stack' : 'Core Architectural Competencies & Tech Stack'}</span>
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Technologies, frameworks, and methodologies continuously applied across mission-critical client systems.
+                {lang === 'de'
+                  ? 'Technologien, Frameworks und Methoden, die in geschäftskritischen Kundensystemen fortlaufend eingesetzt werden.'
+                  : 'Technologies, frameworks, and methodologies continuously applied across mission-critical client systems.'}
               </p>
               <div className="flex flex-wrap gap-2 pt-2">
-                {member.skills.map((skill, idx) => (
+                {currentMember.skills.map((skill, idx) => (
                   <span
                     key={idx}
                     className="text-xs font-semibold bg-slate-50 text-slate-800 px-3.5 py-2 rounded-xl border border-slate-200/80 hover:border-[#9cd5e2] hover:bg-[#BBE7F1]/30 hover:text-slate-950 transition-colors"
@@ -251,20 +258,20 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
             </div>
 
             {/* Professional Experience & Career History */}
-            {member.experienceHistory && member.experienceHistory.length > 0 && (
+            {currentMember.experienceHistory && currentMember.experienceHistory.length > 0 && (
               <div className="profile-anim-item bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 space-y-5 shadow-xs">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                   <h2 className="text-lg sm:text-xl font-bold text-slate-950 font-['Archivo'] flex items-center gap-2">
                     <Briefcase className="w-5 h-5 text-cyan-800" />
-                    <span>Professional Experience & Track Record</span>
+                    <span>{lang === 'de' ? 'Berufliche Erfahrung & Werdegang' : 'Professional Experience & Track Record'}</span>
                   </h2>
                   <span className="text-[11px] font-mono font-bold text-slate-950 bg-[#BBE7F1] px-2.5 py-1 rounded-full border border-[#9cd5e2] shrink-0 whitespace-nowrap">
-                    Verified Industry History
+                    {lang === 'de' ? 'Verifizierter Werdegang' : 'Verified Industry History'}
                   </span>
                 </div>
 
                 <div className="space-y-4 pt-1">
-                  {member.experienceHistory.map((exp, idx) => (
+                  {currentMember.experienceHistory.map((exp, idx) => (
                     <div 
                       key={idx} 
                       className="p-4 sm:p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:border-[#9cd5e2] transition-colors space-y-2"
@@ -308,14 +315,14 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
             )}
 
             {/* Academic Credentials & Education */}
-            {member.education && member.education.length > 0 && (
+            {currentMember.education && currentMember.education.length > 0 && (
               <div className="profile-anim-item bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 space-y-4 shadow-xs">
                 <h2 className="text-lg sm:text-xl font-bold text-slate-950 font-['Archivo'] flex items-center gap-2">
                   <GraduationCap className="w-5 h-5 text-cyan-800" />
-                  <span>Academic Background & Engineering Degrees</span>
+                  <span>{lang === 'de' ? 'Akademischer Hintergrund & Hochschulabschlüsse' : 'Academic Background & Engineering Degrees'}</span>
                 </h2>
                 <div className="grid grid-cols-1 gap-3 pt-2">
-                  {member.education.map((edu, idx) => (
+                  {currentMember.education.map((edu, idx) => (
                     <div key={idx} className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-start gap-3">
                       <div className="w-8 h-8 rounded-xl bg-[#BBE7F1]/40 border border-[#9cd5e2] text-slate-950 flex items-center justify-center shrink-0 mt-0.5">
                         <GraduationCap className="w-4 h-4" />
@@ -330,14 +337,14 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
             )}
 
             {/* Professional Certifications & Accreditations */}
-            {member.certifications && member.certifications.length > 0 && (
+            {currentMember.certifications && currentMember.certifications.length > 0 && (
               <div className="profile-anim-item bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 space-y-4 shadow-xs">
                 <h2 className="text-lg sm:text-xl font-bold text-slate-950 font-['Archivo'] flex items-center gap-2">
                   <Award className="w-5 h-5 text-amber-500" />
-                  <span>Licenses & Professional Certifications</span>
+                  <span>{lang === 'de' ? 'Lizenzen & Professionelle Zertifizierungen' : 'Licenses & Professional Certifications'}</span>
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                  {member.certifications.map((cert, idx) => (
+                  {currentMember.certifications.map((cert, idx) => (
                     <div key={idx} className="p-3.5 rounded-2xl bg-amber-50/50 border border-amber-200/60 flex items-start gap-3">
                       <div className="w-7 h-7 rounded-lg bg-amber-100/80 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
                         <Award className="w-4 h-4" />
@@ -352,18 +359,20 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
             )}
 
             {/* Signature Project Highlights */}
-            {member.highlightedProjects && member.highlightedProjects.length > 0 && (
+            {currentMember.highlightedProjects && currentMember.highlightedProjects.length > 0 && (
               <div className="profile-anim-item bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 space-y-5 shadow-xs">
                 <h2 className="text-lg sm:text-xl font-bold text-slate-950 font-['Archivo'] flex items-center gap-2">
                   <Briefcase className="w-5 h-5 text-cyan-800" />
-                  <span>Signature Project Contributions & Deliverables</span>
+                  <span>{lang === 'de' ? 'Herausragende Projektbeiträge & Meilensteine' : 'Signature Project Contributions & Deliverables'}</span>
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  Enterprise-grade platforms and systems engineered under {member.name}'s direct supervision.
+                  {lang === 'de' 
+                    ? `Enterprise-Systeme und Plattformen unter direkter Leitung von ${currentMember.name}.`
+                    : `Enterprise-grade platforms and systems engineered under ${currentMember.name}'s direct supervision.`}
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                  {member.highlightedProjects.map((projTitle, idx) => (
+                  {currentMember.highlightedProjects.map((projTitle, idx) => (
                     <div
                       key={idx}
                       onClick={() => onSelectProject && onSelectProject(projTitle)}
@@ -371,14 +380,14 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
                     >
                       <div className="space-y-1">
                         <div className="text-[10px] font-mono uppercase tracking-wider text-cyan-800 font-bold">
-                          Client Case Study {idx + 1}
+                          {lang === 'de' ? 'Kunden-Fallstudie' : 'Client Case Study'} {idx + 1}
                         </div>
                         <h3 className="text-sm font-bold text-slate-900 group-hover:text-cyan-800 transition-colors font-['Archivo']">
                           {projTitle}
                         </h3>
                       </div>
                       <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-200/60 gap-2">
-                        <span className="whitespace-nowrap">Production Deployment</span>
+                        <span className="whitespace-nowrap">{lang === 'de' ? 'Produktivbereitstellung' : 'Production Deployment'}</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-cyan-800 shrink-0" />
                       </div>
                     </div>
@@ -391,28 +400,32 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
             <div className="profile-anim-item bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 space-y-4 shadow-xs">
               <h2 className="text-lg sm:text-xl font-bold text-slate-950 font-['Archivo'] flex items-center gap-2">
                 <ShieldCheck className="w-5 h-5 text-emerald-600" />
-                <span>Governance, Security & Delivery Standards</span>
+                <span>{lang === 'de' ? 'Governance, Sicherheit & Qualitätsstandards' : 'Governance, Security & Delivery Standards'}</span>
               </h2>
               <div className="space-y-3 text-xs sm:text-sm text-slate-600 leading-relaxed">
                 <p>
-                  At <strong>WebDev Software Solutions</strong>, {member.name} adheres to zero-compromise architectural guidelines. All client repositories are maintained with automated continuous integration, strict TypeScript compilation, SonarQube static analysis, and German GDPR privacy standards.
+                  {lang === 'de' ? (
+                    <>Bei <strong>WebDev Software Solutions</strong> folgt {currentMember.name} kompromisslosen Architekturrichtlinien. Alle Kunden-Repositories unterliegen automatisierter CI/CD, strikter TypeScript-Kompilierung, SonarQube-Prüfungen und strengen deutschen DSGVO-Standards.</>
+                  ) : (
+                    <>At <strong>WebDev Software Solutions</strong>, {currentMember.name} adheres to zero-compromise architectural guidelines. All client repositories are maintained with automated continuous integration, strict TypeScript compilation, SonarQube static analysis, and German GDPR privacy standards.</>
+                  )}
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                   <div className="flex items-center gap-2 text-slate-700">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>ISO-27001 Code Governance</span>
+                    <span>{lang === 'de' ? 'ISO-27001 Code-Governance' : 'ISO-27001 Code Governance'}</span>
                   </div>
                   <div className="flex items-center gap-2 text-slate-700">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>BaFin & GDPR Data Privacy</span>
+                    <span>{lang === 'de' ? 'BaFin & DSGVO Datenschutz' : 'BaFin & GDPR Data Privacy'}</span>
                   </div>
                   <div className="flex items-center gap-2 text-slate-700">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>Zero-Downtime Blue/Green CI/CD</span>
+                    <span>{lang === 'de' ? 'Zero-Downtime Blue/Green CI/CD' : 'Zero-Downtime Blue/Green CI/CD'}</span>
                   </div>
                   <div className="flex items-center gap-2 text-slate-700">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>100% Client Code Ownership</span>
+                    <span>{lang === 'de' ? '100% Quellcode-Eigentum' : '100% Client Code Ownership'}</span>
                   </div>
                 </div>
               </div>
@@ -424,16 +437,16 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
           <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-24 self-start lg:max-h-[calc(100vh-6.5rem)] lg:overflow-y-auto no-scrollbar z-20">
             
             {/* Multilingual Communication Proficiency */}
-            {member.languages && member.languages.length > 0 && (
+            {currentMember.languages && currentMember.languages.length > 0 && (
               <div className="profile-anim-item bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-7 space-y-4 shadow-xs">
                 <h3 className="text-base font-bold text-slate-900 font-['Archivo'] flex items-center gap-2">
                   <Languages className="w-4 h-4 text-cyan-800 shrink-0" />
-                  <span>Language Proficiency</span>
+                  <span>{lang === 'de' ? 'Sprachkenntnisse' : 'Language Proficiency'}</span>
                 </h3>
                 <div className="space-y-2.5">
-                  {member.languages.map((lang, idx) => {
-                    const name = lang.split(' (')[0].trim();
-                    const rawLevel = lang.includes('(') ? lang.split('(')[1].replace(')', '').trim() : 'Fluent';
+                  {currentMember.languages.map((langItem, idx) => {
+                    const name = langItem.split(' (')[0].trim();
+                    const rawLevel = langItem.includes('(') ? langItem.split('(')[1].replace(')', '').trim() : 'Fluent';
                     const level = rawLevel.replace(/\s*Proficiency/gi, '').trim();
 
                     return (
@@ -458,31 +471,31 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
             {/* Office & Direct Contact Card */}
             <div className="profile-anim-item bg-slate-50 rounded-3xl border border-slate-200/90 p-6 sm:p-7 space-y-5">
               <h3 className="text-base font-bold text-slate-900 font-['Archivo']">
-                Operational Headquarters
+                {lang === 'de' ? 'Unternehmenszentralen & Standorte' : 'Operational Headquarters'}
               </h3>
 
               <div className="space-y-3 text-xs text-slate-600">
                 <div className="flex items-start gap-2.5">
                   <Globe className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-slate-900 block">European Operations Hub:</strong>
-                    <span>Küppersteg, 51373 Leverkusen, Germany (+49 172 9766016)</span>
+                    <strong className="text-slate-900 block">{lang === 'de' ? 'Europäischer Operations-Hub:' : 'European Operations Hub:'}</strong>
+                    <span>Küppersteg, 51373 Leverkusen, Deutschland (+49 172 9766016)</span>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-2.5 pt-2 border-t border-slate-200">
                   <MapPin className="w-4 h-4 text-cyan-800 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-slate-900 block">Dedicated Global R&D Lab:</strong>
-                    <span>Housing Estate, Ward No: 07, Joypurhat-5900, Bangladesh</span>
+                    <strong className="text-slate-900 block">{lang === 'de' ? 'Dediziertes globales F&E-Zentrum:' : 'Dedicated Global R&D Lab:'}</strong>
+                    <span>Housing Estate, Ward No: 07, Joypurhat-5900, Bangladesch</span>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-2.5 pt-2 border-t border-slate-200">
                   <Clock className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-slate-900 block">Direct Collaboration Timezone:</strong>
-                    <span>Central European Time (CET) & 24/7 Agile Delivery</span>
+                    <strong className="text-slate-900 block">{lang === 'de' ? 'Zusammenarbeit & Zeitzone:' : 'Direct Collaboration Timezone:'}</strong>
+                    <span>{lang === 'de' ? 'Mitteleuropäische Zeit (MEZ) & 24/7 Agile Bereitstellung' : 'Central European Time (CET) & 24/7 Agile Delivery'}</span>
                   </div>
                 </div>
               </div>
@@ -491,19 +504,21 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
             {/* Direct Consultation Box */}
             <div className="profile-anim-item bg-[#090d18] text-white rounded-3xl p-6 sm:p-7 space-y-4">
               <div className="text-xs sm:text-sm font-['Kufam'] font-semibold text-cyan-300 tracking-wide">
-                Direct Client Advisory
+                {lang === 'de' ? 'Direkte Kundenberatung' : 'Direct Client Advisory'}
               </div>
               <h3 className="text-lg font-bold font-['Kufam']">
-                Engage With {member.name} Directly
+                {lang === 'de' ? `Direkt mit ${currentMember.name} sprechen` : `Engage With ${currentMember.name} Directly`}
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Schedule an architectural scoping session or technical feasibility review for your upcoming enterprise software initiative.
+                {lang === 'de'
+                  ? 'Vereinbaren Sie eine Architektur-Scoping-Session oder Machbarkeitsanalyse für Ihr bevorstehendes Enterprise-Vorhaben.'
+                  : 'Schedule an architectural scoping session or technical feasibility review for your upcoming enterprise software initiative.'}
               </p>
               <button
-                onClick={() => onContactLead(member.name)}
+                onClick={() => onContactLead(currentMember.name)}
                 className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 border border-[#9cd5e2] text-xs font-bold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
               >
-                <span>Initiate Architecture Discussion</span>
+                <span>{lang === 'de' ? 'Architektur-Gespräch initiieren' : 'Initiate Architecture Discussion'}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>

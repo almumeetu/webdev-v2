@@ -1,5 +1,6 @@
 import React from 'react';
 import { Home, ChevronRight, ArrowLeft, Sparkles } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export interface BreadcrumbItem {
   label: string;
@@ -21,11 +22,15 @@ export interface BreadcrumbBarProps {
 export const BreadcrumbBar: React.FC<BreadcrumbBarProps> = ({
   items,
   backAction,
-  backLabel = 'Back',
+  backLabel,
   className = '',
   theme = 'light'
 }) => {
   const isDark = theme === 'dark';
+  const { lang } = useLanguage();
+  const isDe = lang === 'de';
+  const defaultHomeLabel = isDe ? 'Startseite' : 'Home';
+  const resolvedBackLabel = backLabel || (isDe ? 'Zurück' : 'Back');
 
   return (
     <div className={`flex flex-wrap items-center justify-between gap-3 ${className}`}>
@@ -47,7 +52,7 @@ export const BreadcrumbBar: React.FC<BreadcrumbBarProps> = ({
               }`}
             >
               <Home className={`w-3.5 h-3.5 shrink-0 ${isDark ? 'text-cyan-300' : 'text-slate-700'}`} />
-              <span className="font-semibold">{items[0]?.label || 'Home'}</span>
+              <span className="font-semibold">{items[0]?.label || defaultHomeLabel}</span>
             </button>
           </li>
 
@@ -99,7 +104,7 @@ export const BreadcrumbBar: React.FC<BreadcrumbBarProps> = ({
           }`}
         >
           <ArrowLeft className="w-3.5 h-3.5 shrink-0" />
-          <span>{backLabel}</span>
+          <span>{resolvedBackLabel}</span>
         </button>
       )}
     </div>
@@ -125,14 +130,19 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
   subtitle,
   badge,
   backAction,
-  backLabel = 'Back',
+  backLabel,
   className = '',
   align = 'left',
   children
 }) => {
+  const { lang } = useLanguage();
+  const isDe = lang === 'de';
+  const defaultHomeLabel = isDe ? 'Startseite' : 'Home';
+  const resolvedBackLabel = backLabel || (isDe ? 'Zurück' : 'Back');
+
   // Determine page title from explicit prop or active last item
-  const pageTitle = title || items[items.length - 1]?.label || 'Overview';
-  const pageBadge = badge || (items[items.length - 1]?.label ? `WEBDEV • ${items[items.length - 1]?.label.toUpperCase()}` : 'ABOUT WEBDEV SOFTWARE SOLUTIONS');
+  const pageTitle = title || items[items.length - 1]?.label || (isDe ? 'Übersicht' : 'Overview');
+  const pageBadge = badge || (items[items.length - 1]?.label ? `WEBDEV • ${items[items.length - 1]?.label.toUpperCase()}` : (isDe ? 'ÜBER WEBDEV SOFTWARE SOLUTIONS' : 'ABOUT WEBDEV SOFTWARE SOLUTIONS'));
 
   const isCenter = align === 'center';
 
@@ -167,7 +177,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
                   className="inline-flex items-center gap-1.5 text-slate-300 hover:text-white font-medium transition-colors cursor-pointer py-0.5 px-1.5 rounded-lg hover:bg-slate-800/70"
                 >
                   <Home className="w-3.5 h-3.5 text-cyan-300 shrink-0" />
-                  <span className="font-semibold">{items[0]?.label || 'Home'}</span>
+                  <span className="font-semibold">{items[0]?.label || defaultHomeLabel}</span>
                 </button>
               </li>
 
@@ -209,7 +219,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-2xl bg-slate-900/85 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-700/80 transition-all cursor-pointer text-xs font-semibold backdrop-blur-md shadow-md shrink-0"
             >
               <ArrowLeft className="w-3.5 h-3.5 text-slate-300 shrink-0" />
-              <span>{backLabel}</span>
+              <span>{resolvedBackLabel}</span>
             </button>
           )}
         </div>

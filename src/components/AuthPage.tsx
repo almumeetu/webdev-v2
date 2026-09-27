@@ -35,6 +35,7 @@ import { UserProfile } from '../types';
 import { useGsapContext } from '../utils/gsapHelper';
 import { useAppContext } from '../context/AppContext';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 import gsap from 'gsap';
 
 interface AuthPageProps {
@@ -51,6 +52,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
   const pageRef = useRef<HTMLDivElement>(null);
   const { siteSettings } = useAppContext();
   const { theme, toggleTheme } = useTheme();
+  const { lang } = useLanguage();
+  const isDe = lang === 'de';
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>(initialMode);
 
   // ─── Sign In State ───────────────────────────────────────────────────────────
@@ -121,10 +124,10 @@ export const AuthPage: React.FC<AuthPageProps> = ({
     if (/[0-9]/.test(pass)) score += 1;
     if (/[^A-Za-z0-9]/.test(pass)) score += 1;
 
-    if (score <= 1) return { score: 1, label: 'Weak', color: 'bg-rose-500' };
-    if (score <= 2) return { score: 2, label: 'Fair', color: 'bg-amber-500' };
-    if (score <= 3) return { score: 3, label: 'Good', color: 'bg-cyan-500' };
-    return { score: 4, label: 'Strong', color: 'bg-emerald-500' };
+    if (score <= 1) return { score: 1, label: isDe ? 'Schwach' : 'Weak', color: 'bg-rose-500' };
+    if (score <= 2) return { score: 2, label: isDe ? 'Mittel' : 'Fair', color: 'bg-amber-500' };
+    if (score <= 3) return { score: 3, label: isDe ? 'Gut' : 'Good', color: 'bg-cyan-500' };
+    return { score: 4, label: isDe ? 'Stark' : 'Strong', color: 'bg-emerald-500' };
   };
 
   const passwordStrength = getPasswordStrength(signUpPassword);
@@ -139,11 +142,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({
     if (type === 'client') {
       setSignInEmail('client@enterprise.com');
       setSignInPassword('client123');
-      setDemoNotice('Demo Client credentials filled');
+      setDemoNotice(isDe ? 'Demo-Kundendaten eingefügt' : 'Demo Client credentials filled');
     } else {
       setSignInEmail('admin@webdevsoftware.com');
       setSignInPassword('admin123');
-      setDemoNotice('Demo Admin credentials filled');
+      setDemoNotice(isDe ? 'Demo-Administratordaten eingefügt' : 'Demo Admin credentials filled');
     }
 
     setTimeout(() => setDemoNotice(null), 4000);
@@ -154,7 +157,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
     setErrorMessage(null);
     setSuccessMessage(null);
     setIsLoading(true);
-    setLoadingMessage(`Connecting to ${provider}...`);
+    setLoadingMessage(isDe ? `Verbindung zu ${provider} wird hergestellt...` : `Connecting to ${provider}...`);
 
     try {
       await new Promise(r => setTimeout(r, 700));
@@ -185,12 +188,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         }
       }
 
-      setSuccessMessage(`${provider} SSO verified. Launching workspace...`);
+      setSuccessMessage(isDe ? `${provider}-SSO verifiziert. Arbeitsbereich wird gestartet...` : `${provider} SSO verified. Launching workspace...`);
       setTimeout(() => {
         onLoginSuccess(ssoUser);
       }, 500);
     } catch {
-      setErrorMessage(`Failed to complete ${provider} SSO. Please try again.`);
+      setErrorMessage(isDe ? `${provider}-SSO fehlgeschlagen. Bitte versuchen Sie es erneut.` : `Failed to complete ${provider} SSO. Please try again.`);
     } finally {
       setIsLoading(false);
     }
@@ -203,12 +206,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({
     setSuccessMessage(null);
 
     if (!signInEmail.trim() || !signInPassword) {
-      setErrorMessage('Please enter both email and password.');
+      setErrorMessage(isDe ? 'Bitte geben Sie sowohl E-Mail als auch Passwort ein.' : 'Please enter both email and password.');
       return;
     }
 
     setIsLoading(true);
-    setLoadingMessage('Verifying Credentials...');
+    setLoadingMessage(isDe ? 'Anmeldedaten werden überprüft...' : 'Verifying Credentials...');
 
     try {
       const res = await fetch('/api/auth/login', {
@@ -223,7 +226,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
       const data = await res.json();
 
       if (res.ok && data.success && data.user) {
-        setSuccessMessage('Authentication verified. Loading portal...');
+        setSuccessMessage(isDe ? 'Authentifizierung erfolgreich. Portal wird geladen...' : 'Authentication verified. Loading portal...');
         setTimeout(() => {
           onLoginSuccess(data.user);
         }, 500);
@@ -241,7 +244,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
 
           if (matched) {
             const { password: _, ...cleanProfile } = matched;
-            setSuccessMessage('Credentials authenticated. Initializing...');
+            setSuccessMessage(isDe ? 'Anmeldedaten authentifiziert. Initialisierung...' : 'Credentials authenticated. Initializing...');
             setTimeout(() => {
               onLoginSuccess(cleanProfile);
             }, 500);
@@ -252,9 +255,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         }
       }
 
-      setErrorMessage(data.message || 'Invalid email or password.');
+      setErrorMessage(data.message || (isDe ? 'Ungültige E-Mail-Adresse oder Passwort.' : 'Invalid email or password.'));
     } catch {
-      setErrorMessage('Unable to reach server. Please check your connection.');
+      setErrorMessage(isDe ? 'Server nicht erreichbar. Bitte überprüfen Sie Ihre Internetverbindung.' : 'Unable to reach server. Please check your connection.');
     } finally {
       setIsLoading(false);
     }
@@ -267,32 +270,32 @@ export const AuthPage: React.FC<AuthPageProps> = ({
     setSuccessMessage(null);
 
     if (!signUpName.trim()) {
-      setErrorMessage('Please enter your full name.');
+      setErrorMessage(isDe ? 'Bitte geben Sie Ihren vollständigen Namen ein.' : 'Please enter your full name.');
       return;
     }
 
     if (!signUpEmail.trim() || !signUpEmail.includes('@')) {
-      setErrorMessage('Please enter a valid email.');
+      setErrorMessage(isDe ? 'Bitte geben Sie eine gültige E-Mail-Adresse ein.' : 'Please enter a valid email.');
       return;
     }
 
     if (signUpPassword.length < 6) {
-      setErrorMessage('Password must be at least 6 characters.');
+      setErrorMessage(isDe ? 'Das Passwort muss mindestens 6 Zeichen lang sein.' : 'Password must be at least 6 characters.');
       return;
     }
 
     if (signUpPassword !== signUpConfirmPassword) {
-      setErrorMessage('Passwords do not match.');
+      setErrorMessage(isDe ? 'Die Passwörter stimmen nicht überein.' : 'Passwords do not match.');
       return;
     }
 
     if (!agreedToTerms) {
-      setErrorMessage('Please accept the Terms of Service.');
+      setErrorMessage(isDe ? 'Bitte akzeptieren Sie die Nutzungsbedingungen.' : 'Please accept the Terms of Service.');
       return;
     }
 
     setIsLoading(true);
-    setLoadingMessage('Creating Account...');
+    setLoadingMessage(isDe ? 'Konto wird erstellt...' : 'Creating Account...');
 
     try {
       const res = await fetch('/api/auth/register', {
@@ -340,12 +343,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         }
       }
 
-      setSuccessMessage('Account created successfully!');
+      setSuccessMessage(isDe ? 'Konto erfolgreich erstellt!' : 'Account created successfully!');
       setTimeout(() => {
         onLoginSuccess(createdUser);
       }, 600);
     } catch {
-      setErrorMessage('Registration failed. Please try again.');
+      setErrorMessage(isDe ? 'Registrierung fehlgeschlagen. Bitte versuchen Sie es erneut.' : 'Registration failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -390,7 +393,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
           <ArrowLeft className={`w-3.5 h-3.5 transition-transform group-hover:-translate-x-1 ${
             isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'
           }`} />
-          <span>Back to Website</span>
+          <span>{isDe ? 'Zurück zur Website' : 'Back to Website'}</span>
         </button>
 
         <div className="flex items-center gap-3">
@@ -402,7 +405,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 ? 'bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-[#BBE7F1]'
                 : 'bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 text-slate-700'
             }`}
-            title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+            title={`Switch to ${isDark ? (isDe ? 'Hell' : 'light') : (isDe ? 'Dunkel' : 'dark')} mode`}
           >
             {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
@@ -448,7 +451,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                     : 'bg-cyan-50 border border-cyan-200 text-cyan-900'
                 }`}>
                   <Sparkles className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
-                  <span>Enterprise Portal</span>
+                  <span>{isDe ? 'Enterprise-Portal' : 'Enterprise Portal'}</span>
                 </div>
 
                 <div className={`text-[11px] font-mono font-medium ${isDark ? 'text-slate-500' : 'text-slate-600'}`}>
@@ -459,12 +462,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               <h1 className={`text-2xl sm:text-3xl font-extrabold font-['Archivo'] tracking-tight ${
                 isDark ? 'text-white' : 'text-slate-950'
               }`}>
-                {authMode === 'signin' ? 'Sign In to Portal' : 'Create Account'}
+                {authMode === 'signin' ? (isDe ? 'Portal-Anmeldung' : 'Sign In to Portal') : (isDe ? 'Konto erstellen' : 'Create Account')}
               </h1>
               <p className={`text-xs sm:text-sm leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 {authMode === 'signin' 
-                  ? 'Access your projects, milestones, and dedicated support.'
-                  : 'Join our platform to manage your projects and collaborate with our team.'}
+                  ? (isDe ? 'Greifen Sie auf Ihre Projekte, Meilensteine und dedizierten Support zu.' : 'Access your projects, milestones, and dedicated support.')
+                  : (isDe ? 'Registrieren Sie sich auf unserer Plattform, um Ihre Projekte zu verwalten und mit unserem Team zusammenzuarbeiten.' : 'Join our platform to manage your projects and collaborate with our team.')}
               </p>
             </div>
 
@@ -492,7 +495,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 }`}
               >
                 <LogIn className={`w-4 h-4 ${authMode === 'signin' ? (isDark ? 'text-[#BBE7F1]' : 'text-cyan-600') : ''}`} />
-                <span>Sign In</span>
+                <span>{isDe ? 'Anmelden' : 'Sign In'}</span>
               </button>
               
               <button
@@ -513,7 +516,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 }`}
               >
                 <UserPlus className={`w-4 h-4 ${authMode === 'signup' ? (isDark ? 'text-[#BBE7F1]' : 'text-cyan-600') : ''}`} />
-                <span>Sign Up</span>
+                <span>{isDe ? 'Registrieren' : 'Sign Up'}</span>
               </button>
             </div>
 
@@ -527,7 +530,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 isDark ? 'text-[#BBE7F1]' : 'text-cyan-900'
               }`}>
                 <Zap className={`w-3.5 h-3.5 shrink-0 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
-                <span>Quick Demo:</span>
+                <span>{isDe ? 'Schnell-Demo:' : 'Quick Demo:'}</span>
               </div>
               <div className="flex items-center gap-2">
                 <button
@@ -539,7 +542,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       : 'bg-white hover:bg-slate-50 text-cyan-900 border border-cyan-200'
                   }`}
                 >
-                  Client
+                  {isDe ? 'Kunde' : 'Client'}
                 </button>
                 <button
                   type="button"
@@ -612,7 +615,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 <span className={`px-3 text-[11px] font-semibold uppercase tracking-wider font-['Archivo'] shrink-0 ${
                   isDark ? 'bg-slate-900/90 text-slate-500' : 'bg-white text-slate-600'
                 }`}>
-                  or email
+                  {isDe ? 'oder mit E-Mail' : 'or email'}
                 </span>
                 <div className={`border-t w-full ${isDark ? 'border-slate-800' : 'border-slate-200'}`} />
               </div>
@@ -652,7 +655,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                     isDark ? 'text-slate-300' : 'text-slate-800'
                   }`}>
                     <Mail className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
-                    <span>Email Address</span>
+                    <span>{isDe ? 'E-Mail-Adresse' : 'Email Address'}</span>
                   </label>
                   <div className="relative">
                     <input
@@ -680,7 +683,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       isDark ? 'text-slate-300' : 'text-slate-800'
                     }`}>
                       <Lock className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
-                      <span>Password</span>
+                      <span>{isDe ? 'Passwort' : 'Password'}</span>
                     </label>
                     <button
                       type="button"
@@ -693,7 +696,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                         isDark ? 'text-[#BBE7F1] hover:text-cyan-300' : 'text-cyan-800 hover:text-cyan-950'
                       }`}
                     >
-                      Forgot password?
+                      {isDe ? 'Passwort vergessen?' : 'Forgot password?'}
                     </button>
                   </div>
                   
@@ -734,7 +737,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                         : 'text-amber-700 bg-amber-50 border border-amber-200'
                     }`}>
                       <AlertCircle className="w-3 h-3" />
-                      <span>Caps Lock is ON</span>
+                      <span>{isDe ? 'Feststelltaste ist aktiviert' : 'Caps Lock is ON'}</span>
                     </div>
                   )}
                 </div>
@@ -754,11 +757,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                           : 'accent-cyan-600 border-slate-300'
                       }`}
                     />
-                    <span className={isDark ? 'text-slate-300' : 'text-slate-700'}>Remember me</span>
+                    <span className={isDark ? 'text-slate-300' : 'text-slate-700'}>{isDe ? 'Angemeldet bleiben' : 'Remember me'}</span>
                   </label>
                   <span className={`text-[11px] flex items-center gap-1 ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
                     <Shield className="w-3.5 h-3.5 text-emerald-500" />
-                    <span>Encrypted</span>
+                    <span>{isDe ? 'Verschlüsselt' : 'Encrypted'}</span>
                   </span>
                 </div>
 
@@ -783,7 +786,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                     </div>
                   ) : (
                     <>
-                      <span>Sign In</span>
+                      <span>{isDe ? 'Anmelden' : 'Sign In'}</span>
                       <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${
                         isDark ? 'text-slate-950' : 'text-[#BBE7F1]'
                       }`} />
@@ -804,7 +807,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                     isDark ? 'text-slate-300' : 'text-slate-800'
                   }`}>
                     <User className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
-                    <span>Full Name *</span>
+                    <span>{isDe ? 'Vollständiger Name *' : 'Full Name *'}</span>
                   </label>
                   <div className="relative">
                     <input
@@ -831,7 +834,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                     isDark ? 'text-slate-300' : 'text-slate-800'
                   }`}>
                     <Mail className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
-                    <span>Email *</span>
+                    <span>{isDe ? 'E-Mail-Adresse *' : 'Email *'}</span>
                   </label>
                   <div className="relative">
                     <input
@@ -858,7 +861,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                     isDark ? 'text-slate-300' : 'text-slate-800'
                   }`}>
                     <Globe2 className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
-                    <span>Region</span>
+                    <span>{isDe ? 'Region' : 'Region'}</span>
                   </label>
                   <select
                     value={signUpCountry}
@@ -869,9 +872,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                         : 'border border-slate-200 bg-white focus:border-cyan-600 focus:ring-4 focus:ring-cyan-100 text-slate-900'
                     }`}
                   >
-                    <option value="Germany">🇩🇪 Germany / Europe</option>
-                    <option value="Bangladesh">🇧🇩 Bangladesh</option>
-                    <option value="International">🌐 International</option>
+                    <option value="Germany">🇩🇪 {isDe ? 'Deutschland / Europa' : 'Germany / Europe'}</option>
+                    <option value="Bangladesh">🇧🇩 {isDe ? 'Bangladesch' : 'Bangladesh'}</option>
+                    <option value="International">🌐 {isDe ? 'International' : 'International'}</option>
                   </select>
                 </div>
 
@@ -882,11 +885,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       isDark ? 'text-slate-300' : 'text-slate-800'
                     }`}>
                       <Building className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
-                      <span>Company</span>
+                      <span>{isDe ? 'Unternehmen' : 'Company'}</span>
                     </label>
                     <input
                       type="text"
-                      placeholder="Company Name"
+                      placeholder={isDe ? 'Name des Unternehmens' : 'Company Name'}
                       value={signUpCompany}
                       onChange={(e) => setSignUpCompany(e.target.value)}
                       className={`w-full text-xs sm:text-sm p-3 rounded-xl outline-none transition-all placeholder:text-slate-400 ${
@@ -902,7 +905,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       isDark ? 'text-slate-300' : 'text-slate-800'
                     }`}>
                       <Phone className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
-                      <span>Phone</span>
+                      <span>{isDe ? 'Telefon' : 'Phone'}</span>
                     </label>
                     <input
                       type="tel"
@@ -926,7 +929,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                         isDark ? 'text-slate-300' : 'text-slate-800'
                       }`}>
                         <Lock className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
-                        <span>Password *</span>
+                        <span>{isDe ? 'Passwort *' : 'Password *'}</span>
                       </label>
                       {signUpPassword && (
                         <span className={`text-[10px] font-bold ${
@@ -941,7 +944,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                         type={showSignUpPassword ? 'text' : 'password'}
                         required
                         minLength={6}
-                        placeholder="Min 6 characters"
+                        placeholder={isDe ? 'Mind. 6 Zeichen' : 'Min 6 characters'}
                         value={signUpPassword}
                         onChange={(e) => setSignUpPassword(e.target.value)}
                         className={`w-full text-xs sm:text-sm p-3 pr-10 rounded-xl outline-none transition-all placeholder:text-slate-400 font-mono ${
@@ -984,11 +987,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                         isDark ? 'text-slate-300' : 'text-slate-800'
                       }`}>
                         <KeyRound className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
-                        <span>Confirm *</span>
+                        <span>{isDe ? 'Bestätigen *' : 'Confirm *'}</span>
                       </label>
                       {passwordsMatch && (
                         <span className="text-[10px] text-emerald-500 font-bold flex items-center gap-1">
-                          <Check className="w-3 h-3" /> Match
+                          <Check className="w-3 h-3" /> {isDe ? 'Übereinstimmung' : 'Match'}
                         </span>
                       )}
                     </div>
@@ -996,7 +999,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       type={showSignUpPassword ? 'text' : 'password'}
                       required
                       minLength={6}
-                      placeholder="Re-enter password"
+                      placeholder={isDe ? 'Passwort wiederholen' : 'Re-enter password'}
                       value={signUpConfirmPassword}
                       onChange={(e) => setSignUpConfirmPassword(e.target.value)}
                       className={`w-full text-xs sm:text-sm p-3 rounded-xl outline-none transition-all placeholder:text-slate-400 font-mono ${
@@ -1026,9 +1029,18 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       }`}
                     />
                     <span className="leading-snug text-[11px]">
-                      I accept the <a href="/terms" className={`font-semibold underline ${
+                      {isDe ? 'Ich akzeptiere die ' : 'I accept the '}
+                      <a href="/terms" className={`font-semibold underline ${
                         isDark ? 'text-[#BBE7F1]' : 'text-cyan-900'
-                      }`}>Terms of Service</a> and Privacy Policy.
+                      }`}>
+                        {isDe ? 'AGB' : 'Terms of Service'}
+                      </a>
+                      {isDe ? ' und die ' : ' and '}
+                      <a href="/privacy" className={`font-semibold underline ${
+                        isDark ? 'text-[#BBE7F1]' : 'text-cyan-900'
+                      }`}>
+                        {isDe ? 'Datenschutzerklärung' : 'Privacy Policy'}
+                      </a>.
                     </span>
                   </label>
                 </div>
@@ -1055,7 +1067,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   ) : (
                     <>
                       <Sparkles className="w-4 h-4" />
-                      <span>Create Account</span>
+                      <span>{isDe ? 'Konto erstellen' : 'Create Account'}</span>
                     </>
                   )}
                 </button>
@@ -1068,7 +1080,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               isDark ? 'text-slate-500 border-slate-800' : 'text-slate-600 border-slate-100'
             }`}>
               <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
-              <span>TLS 1.3 End-to-End Encryption</span>
+              <span>{isDe ? 'TLS 1.3 Ende-zu-Ende-Verschlüsselung' : 'TLS 1.3 End-to-End Encryption'}</span>
             </div>
 
           </div>
@@ -1104,11 +1116,13 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 <h3 className={`text-xl font-bold font-['Archivo'] tracking-tight flex items-center gap-2 ${
                   isDark ? 'text-white' : 'text-slate-950'
                 }`}>
-                  <span>Enterprise Client Portal</span>
+                  <span>{isDe ? 'Enterprise-Kundenportal' : 'Enterprise Client Portal'}</span>
                   <Sparkles className={`w-4 h-4 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
                 </h3>
                 <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                  Direct access to your projects, milestones, and dedicated technical support.
+                  {isDe 
+                    ? 'Direkter Zugriff auf Ihre Projekte, Meilensteine und dedizierten technischen Support.' 
+                    : 'Direct access to your projects, milestones, and dedicated technical support.'}
                 </p>
               </div>
 
@@ -1128,10 +1142,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   </div>
                   <div>
                     <h4 className={`font-bold font-['Archivo'] ${isDark ? 'text-white' : 'text-slate-950'}`}>
-                      Dual-Hub Engineering
+                      {isDe ? 'Dual-Hub-Engineering' : 'Dual-Hub Engineering'}
                     </h4>
                     <p className={`text-[11px] mt-0.5 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                      Germany and Bangladesh teams for maximum delivery speed.
+                      {isDe 
+                        ? 'Teams in Deutschland und Bangladesch für maximale Umsetzungsgeschwindigkeit.' 
+                        : 'Germany and Bangladesh teams for maximum delivery speed.'}
                     </p>
                   </div>
                 </div>
@@ -1150,10 +1166,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   </div>
                   <div>
                     <h4 className={`font-bold font-['Archivo'] ${isDark ? 'text-white' : 'text-slate-950'}`}>
-                      RBAC Governance
+                      {isDe ? 'RBAC-Sicherheitsarchitektur' : 'RBAC Governance'}
                     </h4>
                     <p className={`text-[11px] mt-0.5 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                      Role-based encryption for secure project management.
+                      {isDe 
+                        ? 'Rollenbasierte Verschlüsselung für sicheres Projektmanagement.' 
+                        : 'Role-based encryption for secure project management.'}
                     </p>
                   </div>
                 </div>
@@ -1172,10 +1190,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   </div>
                   <div>
                     <h4 className={`font-bold font-['Archivo'] ${isDark ? 'text-white' : 'text-slate-950'}`}>
-                      CI/CD Auditing
+                      {isDe ? 'CI/CD-Auditierung' : 'CI/CD Auditing'}
                     </h4>
                     <p className={`text-[11px] mt-0.5 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                      Automated testing and production-ready deployments.
+                      {isDe 
+                        ? 'Automatisierte Tests und produktionsreife Bereitstellung.' 
+                        : 'Automated testing and production-ready deployments.'}
                     </p>
                   </div>
                 </div>
@@ -1193,15 +1213,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   </span>
                 </div>
                 <p className={`text-xs italic leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                  &ldquo;Delivered our platform 3 weeks ahead of schedule with zero technical debt.&rdquo;
+                  {isDe 
+                    ? '„Hat unsere Plattform 3 Wochen vor dem Zeitplan mit null technischer Schuld geliefert.“' 
+                    : '“Delivered our platform 3 weeks ahead of schedule with zero technical debt.”'}
                 </p>
                 <div className={`mt-2.5 flex items-center justify-between text-[11px] ${
                   isDark ? 'text-slate-400' : 'text-slate-600'
                 }`}>
                   <span className={`font-semibold font-['Archivo'] ${isDark ? 'text-white' : 'text-slate-950'}`}>
-                    Head of Digital
+                    {isDe ? 'Leitung Digitalisierung' : 'Head of Digital'}
                   </span>
-                  <span>EMEA Partner</span>
+                  <span>{isDe ? 'EMEA-Partner' : 'EMEA Partner'}</span>
                 </div>
               </div>
 
@@ -1218,7 +1240,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               }`}>
                 <span className={`flex items-center gap-1.5 ${isDark ? 'text-white' : 'text-slate-950'}`}>
                   <Headphones className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
-                  <span>Direct Hotlines</span>
+                  <span>{isDe ? 'Direkte Hotlines' : 'Direct Hotlines'}</span>
                 </span>
                 <span className="text-[10px] text-emerald-400 font-mono">Live</span>
               </div>
@@ -1232,7 +1254,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       : 'bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900'
                   }`}
                 >
-                  <span className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>🇩🇪 Germany:</span>
+                  <span className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{isDe ? '🇩🇪 Deutschland:' : '🇩🇪 Germany:'}</span>
                   <span className="font-mono text-cyan-400 font-semibold text-[11px]">{siteSettings.phone_de}</span>
                 </a>
                 <a 
@@ -1243,7 +1265,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       : 'bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900'
                   }`}
                 >
-                  <span className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>🇧🇩 Bangladesh:</span>
+                  <span className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{isDe ? '🇧🇩 Bangladesch:' : '🇧🇩 Bangladesh:'}</span>
                   <span className="font-mono text-emerald-400 font-semibold text-[11px]">{siteSettings.phone_bd}</span>
                 </a>
               </div>
@@ -1260,17 +1282,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({
           ? 'text-slate-500 border-slate-900' 
           : 'text-slate-600 border-slate-200'
       }`}>
-        <span>&copy; {new Date().getFullYear()} {siteSettings.companyName}. All rights reserved.</span>
+        <span>&copy; {new Date().getFullYear()} {siteSettings.companyName}. {isDe ? 'Alle Rechte vorbehalten.' : 'All rights reserved.'}</span>
         <div className={`flex items-center gap-4 text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
           <a href="/privacy" className={`transition-colors ${isDark ? 'hover:text-white' : 'hover:text-slate-900'}`}>
-            Privacy
+            {isDe ? 'Datenschutz' : 'Privacy'}
           </a>
           <span>•</span>
           <a href="/terms" className={`transition-colors ${isDark ? 'hover:text-white' : 'hover:text-slate-900'}`}>
-            Terms
+            {isDe ? 'AGB' : 'Terms'}
           </a>
           <span>•</span>
-          <span>GDPR Compliant</span>
+          <span>{isDe ? 'DSGVO-konform' : 'GDPR Compliant'}</span>
         </div>
       </footer>
 
@@ -1307,10 +1329,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               <h3 className={`text-xl font-bold font-['Archivo'] ${
                 isDark ? 'text-white' : 'text-slate-950'
               }`}>
-                Reset Password
+                {isDe ? 'Passwort zurücksetzen' : 'Reset Password'}
               </h3>
               <p className={`text-xs mt-1 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                Enter your email and we'll send you a recovery link.
+                {isDe 
+                  ? 'Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Wiederherstellungslink.' 
+                  : "Enter your email and we'll send you a recovery link."}
               </p>
             </div>
 
@@ -1322,10 +1346,10 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               }`}>
                 <div className={`flex items-center gap-2 font-bold ${isDark ? 'text-emerald-300' : 'text-emerald-900'}`}>
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Recovery Email Sent</span>
+                  <span>{isDe ? 'Wiederherstellungs-E-Mail gesendet' : 'Recovery Email Sent'}</span>
                 </div>
                 <p className="leading-relaxed">
-                  Check <strong>{forgotPasswordEmail}</strong> for instructions.
+                  {isDe ? 'Prüfen Sie ' : 'Check '}<strong>{forgotPasswordEmail}</strong>{isDe ? ' für Anweisungen zur Wiederherstellung.' : ' for instructions.'}
                 </p>
                 <button
                   type="button"
@@ -1336,7 +1360,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       : 'bg-slate-950 text-white hover:bg-slate-800'
                   }`}
                 >
-                  Back to Sign In
+                  {isDe ? 'Zurück zur Anmeldung' : 'Back to Sign In'}
                 </button>
               </div>
             ) : (
@@ -1353,7 +1377,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   <label className={`text-[11px] font-bold uppercase tracking-wider font-['Archivo'] ${
                     isDark ? 'text-slate-300' : 'text-slate-800'
                   }`}>
-                    Email Address
+                    {isDe ? 'E-Mail-Adresse' : 'Email Address'}
                   </label>
                   <input
                     type="email"
@@ -1377,11 +1401,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       : 'bg-slate-950 hover:bg-slate-800 text-white'
                   }`}
                 >
-                  Send Recovery Link
+                  {isDe ? 'Wiederherstellungslink senden' : 'Send Recovery Link'}
                 </button>
 
                 <p className={`text-[10px] text-center pt-1 ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
-                  Protected by 256-bit encryption.
+                  {isDe ? 'Geschützt durch 256-Bit-Verschlüsselung.' : 'Protected by 256-bit encryption.'}
                 </p>
               </form>
             )}

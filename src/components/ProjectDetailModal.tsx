@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, CheckCircle2, Clock, Globe, Calendar, Layers, ExternalLink, ShieldCheck, TrendingUp } from 'lucide-react';
 import { Project } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ProjectDetailModalProps {
   project: Project | null;
@@ -9,10 +10,13 @@ interface ProjectDetailModalProps {
 }
 
 export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
-  project,
+  project: rawProject,
   onClose,
   onGetQuoteForSimilar,
 }) => {
+  const { lang, localizeProject } = useLanguage();
+  const project = rawProject ? localizeProject(rawProject) : null;
+
   if (!project) return null;
 
   return (
@@ -44,11 +48,11 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
               </span>
               {project.status === 'completed' ? (
                 <span className="text-xs font-bold uppercase tracking-wider bg-emerald-500/90 px-3 py-1 rounded-full flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Completed Project
+                  <CheckCircle2 className="w-3.5 h-3.5" /> {lang === 'de' ? 'Abgeschlossenes Projekt' : 'Completed Project'}
                 </span>
               ) : (
                 <span className="text-xs font-bold uppercase tracking-wider bg-amber-500/90 px-3 py-1 rounded-full flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5" /> Ongoing Live Project
+                  <Clock className="w-3.5 h-3.5" /> {lang === 'de' ? 'Laufendes Live-Projekt' : 'Ongoing Live Project'}
                 </span>
               )}
             </div>
@@ -65,30 +69,30 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
           {/* Quick Meta Row */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 text-xs">
             <div>
-              <div className="text-slate-400 font-semibold uppercase">Client</div>
+              <div className="text-slate-400 font-semibold uppercase">{lang === 'de' ? 'Auftraggeber' : 'Client'}</div>
               <div className="font-bold text-slate-800 mt-0.5">{project.clientName}</div>
             </div>
             <div>
-              <div className="text-slate-400 font-semibold uppercase">Region</div>
+              <div className="text-slate-400 font-semibold uppercase">{lang === 'de' ? 'Region' : 'Region'}</div>
               <div className="font-bold text-slate-800 mt-0.5 flex items-center gap-1">
                 <Globe className="w-3.5 h-3.5 text-cyan-800" />
                 {project.clientCountry}
               </div>
             </div>
             <div>
-              <div className="text-slate-400 font-semibold uppercase">Timeline</div>
+              <div className="text-slate-400 font-semibold uppercase">{lang === 'de' ? 'Zeitraum' : 'Timeline'}</div>
               <div className="font-bold text-slate-800 mt-0.5">{project.completionDate}</div>
             </div>
             <div>
-              <div className="text-slate-400 font-semibold uppercase">Engagement Type</div>
-              <div className="font-bold text-cyan-800 mt-0.5">Dedicated Agile Squad</div>
+              <div className="text-slate-400 font-semibold uppercase">{lang === 'de' ? 'Modell' : 'Engagement Type'}</div>
+              <div className="font-bold text-cyan-800 mt-0.5">{lang === 'de' ? 'Dediziertes Agile-Squad' : 'Dedicated Agile Squad'}</div>
             </div>
           </div>
 
           {/* Description */}
           <div>
             <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider font-['Archivo'] mb-2">
-              Project Overview
+              {lang === 'de' ? 'Projektübersicht' : 'Project Overview'}
             </h4>
             <p className="text-slate-600 text-sm leading-relaxed">
               {project.description}
@@ -98,7 +102,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
           {/* Key Deliverables & Features */}
           <div>
             <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider font-['Archivo'] mb-3">
-              Key Engineering Features
+              {lang === 'de' ? 'Wichtigste technische Features' : 'Key Engineering Features'}
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {project.features.map((feature, i) => (
@@ -113,7 +117,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
           {/* Tech Stack Chips */}
           <div>
             <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider font-['Archivo'] mb-2">
-              Technology Stack Used
+              {lang === 'de' ? 'Eingesetzter Technologie-Stack' : 'Technology Stack Used'}
             </h4>
             <div className="flex items-center gap-2 flex-wrap">
               {project.techStack.map((tech, i) => (
@@ -129,7 +133,9 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
             <div className="p-4 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-950 border border-slate-800 text-white flex items-center gap-3 shadow-lg">
               <TrendingUp className="w-6 h-6 text-emerald-400 shrink-0" />
               <div>
-                <div className="text-xs text-cyan-300 uppercase font-mono font-bold">Business Outcome & Impact</div>
+                <div className="text-xs text-cyan-300 uppercase font-mono font-bold">
+                  {lang === 'de' ? 'Geschäftlicher Mehrwert & Impact' : 'Business Outcome & Impact'}
+                </div>
                 <div className="text-sm font-bold">{project.metrics}</div>
               </div>
             </div>
@@ -139,9 +145,9 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
           <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
             <button
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50"
+              className="px-5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 cursor-pointer"
             >
-              Close Window
+              {lang === 'de' ? 'Fenster schließen' : 'Close Window'}
             </button>
 
             <button
@@ -151,7 +157,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
               }}
               className="bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 border border-[#9cd5e2] text-xs font-bold px-6 py-3 rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-sm"
             >
-              <span>Build A Similar Solution For Your Business</span>
+              <span>{lang === 'de' ? 'Ähnliche Lösung für Ihr Unternehmen beauftragen' : 'Build A Similar Solution For Your Business'}</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </button>
           </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { X, MapPin, Mail, Phone, Award, CheckCircle2, Briefcase, ArrowUpRight, User } from 'lucide-react';
 import { TeamMember } from '../types';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
+import { useLanguage } from '../context/LanguageContext';
 
 interface TeamDetailModalProps {
   member: TeamMember | null;
@@ -14,7 +15,10 @@ export const TeamDetailModal: React.FC<TeamDetailModalProps> = ({
   onClose,
   onContactLead
 }) => {
-  if (!member) return null;
+  const { lang, t, localizeTeamMember } = useLanguage();
+  const currentMember = member ? localizeTeamMember(member) : null;
+
+  if (!currentMember) return null;
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn">
@@ -35,10 +39,10 @@ export const TeamDetailModal: React.FC<TeamDetailModalProps> = ({
 
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left relative z-10">
             <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-slate-800 border-2 border-[#9cd5e2] shadow-xl shrink-0 flex items-center justify-center">
-              {member.image && member.image.trim() !== '' ? (
+              {currentMember.image && currentMember.image.trim() !== '' ? (
                 <img
-                  src={member.image}
-                  alt={member.name}
+                  src={currentMember.image}
+                  alt={currentMember.name}
                   className="w-full h-full object-cover object-top"
                 />
               ) : (
@@ -49,26 +53,26 @@ export const TeamDetailModal: React.FC<TeamDetailModalProps> = ({
             <div className="space-y-2">
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
                 <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-950 bg-[#BBE7F1] px-3 py-1 rounded-full border border-[#9cd5e2]">
-                  {member.branch}
+                  {currentMember.branch}
                 </span>
                 <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <span>Active Lead</span>
+                  <span>{lang === 'de' ? 'Aktiver Lead' : 'Active Lead'}</span>
                 </span>
               </div>
 
               <h3 className="text-2xl sm:text-3xl font-extrabold font-['Kufam'] text-white">
-                {member.name}
+                {currentMember.name}
               </h3>
               
               <p className="text-xs sm:text-sm font-semibold text-cyan-300 font-['Kufam']">
-                {member.role}
+                {currentMember.role}
               </p>
 
               <div className="text-xs text-slate-400 flex items-center justify-center sm:justify-start gap-3 pt-0.5">
                 <span className="flex items-center gap-1 text-slate-300">
                   <Award className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>{member.experienceYears}+ Years Track Record</span>
+                  <span>{currentMember.experienceYears}+ {lang === 'de' ? 'Jahre Erfahrung' : 'Years Track Record'}</span>
                 </span>
               </div>
             </div>
@@ -80,19 +84,19 @@ export const TeamDetailModal: React.FC<TeamDetailModalProps> = ({
           
           <div>
             <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2 font-['Archivo']">
-              Professional Biography
+              {lang === 'de' ? 'Beruflicher Werdegang' : 'Professional Biography'}
             </h4>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              {member.bio}
+              {currentMember.bio}
             </p>
           </div>
 
           <div>
             <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2.5 font-['Archivo']">
-              Core Technical Competencies & Specializations
+              {lang === 'de' ? 'Zentrale Technische Kompetenzen & Schwerpunkte' : 'Core Technical Competencies & Specializations'}
             </h4>
             <div className="flex flex-wrap gap-2">
-              {member.skills.map((skill, idx) => (
+              {currentMember.skills.map((skill, idx) => (
                 <span key={idx} className="text-xs font-semibold bg-slate-100 text-slate-700 px-3 py-1.5 rounded-lg border border-slate-200">
                   {skill}
                 </span>
@@ -100,13 +104,13 @@ export const TeamDetailModal: React.FC<TeamDetailModalProps> = ({
             </div>
           </div>
 
-          {member.highlightedProjects && member.highlightedProjects.length > 0 && (
+          {currentMember.highlightedProjects && currentMember.highlightedProjects.length > 0 && (
             <div>
               <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2.5 font-['Archivo']">
-                Key Contributions & Signature Case Studies
+                {lang === 'de' ? 'Wesentliche Beiträge & Kunden-Fallstudien' : 'Key Contributions & Signature Case Studies'}
               </h4>
               <div className="space-y-2">
-                {member.highlightedProjects.map((proj, idx) => (
+                {currentMember.highlightedProjects.map((proj, idx) => (
                   <div key={idx} className="flex items-center gap-2.5 text-xs font-semibold text-slate-800 bg-slate-50 p-3 rounded-xl border border-slate-200/80">
                     <Briefcase className="w-4 h-4 text-cyan-800 shrink-0" />
                     <span>{proj}</span>
@@ -119,9 +123,9 @@ export const TeamDetailModal: React.FC<TeamDetailModalProps> = ({
           {/* Contact & Inquiry action */}
           <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              {member.github && (
+              {currentMember.github && (
                 <a
-                  href={member.github}
+                  href={currentMember.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-900 text-slate-600 hover:text-white flex items-center justify-center transition-colors"
@@ -130,9 +134,9 @@ export const TeamDetailModal: React.FC<TeamDetailModalProps> = ({
                   <GithubIcon className="w-4 h-4" />
                 </a>
               )}
-              {member.linkedin && (
+              {currentMember.linkedin && (
                 <a
-                  href={member.linkedin}
+                  href={currentMember.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-[#BBE7F1] text-slate-600 hover:text-slate-950 flex items-center justify-center transition-colors border border-transparent hover:border-[#9cd5e2]"
@@ -141,13 +145,13 @@ export const TeamDetailModal: React.FC<TeamDetailModalProps> = ({
                   <LinkedinIcon className="w-4 h-4" />
                 </a>
               )}
-              {member.email && (
+              {currentMember.email && (
                 <a
-                  href={`mailto:${member.email}`}
+                  href={`mailto:${currentMember.email}`}
                   className="text-xs text-slate-600 hover:text-cyan-800 flex items-center gap-1.5 font-mono font-medium"
                 >
                   <Mail className="w-3.5 h-3.5" />
-                  <span>{member.email}</span>
+                  <span>{currentMember.email}</span>
                 </a>
               )}
             </div>
@@ -155,11 +159,11 @@ export const TeamDetailModal: React.FC<TeamDetailModalProps> = ({
             <button
               onClick={() => {
                 onClose();
-                onContactLead(member.name);
+                onContactLead(currentMember.name);
               }}
               className="bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 border border-[#9cd5e2] text-xs font-bold px-5 py-2.5 rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
             >
-              <span>Consult With {member.name.split(' ')[0]}</span>
+              <span>{lang === 'de' ? `Gespräch mit ${currentMember.name.split(' ')[0]} anfragen` : `Consult With ${currentMember.name.split(' ')[0]}`}</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
           </div>

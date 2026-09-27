@@ -1,138 +1,32 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
+import {
+  Language,
+  Translations,
+  translations,
+  germanHeroSlides,
+  germanServices,
+  germanProjects,
+  germanTeamMembers,
+  germanTestimonials,
+  germanBlogs,
+} from '../data/translations';
+import { ServiceDetail, Project, TeamMember, Testimonial, BlogPost, HeroSlide } from '../types';
 
-export type Language = 'en' | 'de';
-
-interface Translations {
-  // TopBar
-  topbarHub: string;
-  topbarHours: string;
-  
-  // Navbar
-  navHome: string;
-  navAbout: string;
-  navServices: string;
-  navPortfolio: string;
-  navTeam: string;
-  navBlog: string;
-  navContact: string;
-  navGetQuote: string;
-  
-  // Hero
-  heroEyebrow: string;
-  heroHeadline: string;
-  heroSubtext: string;
-  heroPrimaryBtn: string;
-  heroSecondaryBtn: string;
-  
-  // Services
-  servicesKicker: string;
-  servicesHeading: string;
-  servicesSubheading: string;
-  servicesViewDetails: string;
-  
-  // Team
-  teamKicker: string;
-  teamHeading: string;
-  teamSubheading: string;
-  teamActiveLead: string;
-  teamCoreSpecialties: string;
-  teamViewProfile: string;
-  
-  // Who We Are
-  whoKicker: string;
-  whoHeading: string;
-  whoMoreBtn: string;
-  
-  // Footer
-  footerAboutText: string;
-  footerRights: string;
-}
-
-const translations: Record<Language, Translations> = {
-  en: {
-    topbarHub: '',
-    topbarHours: 'Mon - Fri: 9:00 AM - 6:00 PM · Dedicated Client Support',
-    
-    navHome: 'Home',
-    navAbout: 'About Us',
-    navServices: 'Services',
-    navPortfolio: 'Portfolio',
-    navTeam: 'Engineering Team',
-    navBlog: 'Insights & News',
-    navContact: 'Contact Us',
-    navGetQuote: 'Get Quote',
-    
-    heroEyebrow: 'Software · Architecture · Cloud',
-    heroHeadline: 'We Build Scalable Digital Products That Move Your Business Forward',
-    heroSubtext: 'Full-stack web engineering, resilient cloud infrastructure, and bespoke digital platforms engineered for performance, security, and measurable impact.',
-    heroPrimaryBtn: 'Start a Project',
-    heroSecondaryBtn: 'Explore Our Work',
-    
-    servicesKicker: 'OUR CORE CAPABILITIES',
-    servicesHeading: 'High-Impact Software Engineering Services',
-    servicesSubheading: 'End-to-end full stack web applications, scalable cloud infrastructure, and modern digital platforms engineered to top production standards.',
-    servicesViewDetails: 'View Specification',
-    
-    teamKicker: 'ENGINEERING LEADERSHIP',
-    teamHeading: 'Direct Access to Senior Software Architects',
-    teamSubheading: 'Collaborate directly with senior full-stack architects, cloud specialists, and engineering leads who take full ownership of your product delivery.',
-    teamActiveLead: 'Active Lead',
-    teamCoreSpecialties: 'Core Specialties',
-    teamViewProfile: 'View Specialist Profile',
-    
-    whoKicker: 'WHO WE ARE',
-    whoHeading: 'Engineering Excellence Built for High-Growth Global Enterprises',
-    whoMoreBtn: 'Explore Our Story & Methodology',
-    
-    footerAboutText: 'Premier software engineering consultancy delivering resilient web applications, scalable cloud architectures, and modern digital platforms for enterprises worldwide.',
-    footerRights: 'All rights reserved. Bilateral NDAs & 100% IP Transfer guaranteed.'
-  },
-  de: {
-    topbarHub: '',
-    topbarHours: 'Mo - Fr: 9:00 - 18:00 (MEZ) · Dedizierter Support',
-    
-    navHome: 'Startseite',
-    navAbout: 'Über uns',
-    navServices: 'Leistungen',
-    navPortfolio: 'Portfolio',
-    navTeam: 'Entwicklerteam',
-    navBlog: 'Fachartikel',
-    navContact: 'Kontakt',
-    navGetQuote: 'Angebot anfordern',
-    
-    heroEyebrow: 'Software · Architektur · Cloud',
-    heroHeadline: 'Wir entwickeln skalierbare Produkte, die Ihr Unternehmen voranbringen',
-    heroSubtext: 'Full-Stack-Engineering, belastbare Cloud-Infrastruktur und moderne digitale Plattformen – entwickelt für höchste Performance, Sicherheit und messbaren Erfolg.',
-    heroPrimaryBtn: 'Projekt starten',
-    heroSecondaryBtn: 'Unsere Arbeit entdecken',
-    
-    servicesKicker: 'UNSERE KERNKOMPETENZEN',
-    servicesHeading: 'Erstklassige Software-Engineering-Leistungen',
-    servicesSubheading: 'Ganzheitliche Full-Stack-Webanwendungen, robuste Cloud-Infrastrukturen und moderne digitale Systeme nach höchsten Qualitätsstandards.',
-    servicesViewDetails: 'Spezifikation ansehen',
-    
-    teamKicker: 'TECHNISCHE FÜHRUNG',
-    teamHeading: 'Direkter Kontakt zu Senior Software Architects',
-    teamSubheading: 'Arbeiten Sie direkt mit erfahrenen Full-Stack-Architekten, Cloud-Spezialisten und technischen Lead-Entwicklern zusammen.',
-    teamActiveLead: 'Aktiver Projektleiter',
-    teamCoreSpecialties: 'Kernkompetenzen',
-    teamViewProfile: 'Spezialistenprofil ansehen',
-    
-    whoKicker: 'ÜBER UNS',
-    whoHeading: 'Ingenieursqualität & verlässliche Software-Entwicklung für Unternehmen',
-    whoMoreBtn: 'Mehr über unsere Arbeitsweise',
-    
-    footerAboutText: 'Führendes Beratungs- und Softwareunternehmen für performante Webplattformen, skalierbare Cloud-Architekturen und zukunftssichere Enterprise-Systeme weltweit.',
-    footerRights: 'Alle Rechte vorbehalten. Bilaterale Geheimhaltungsvereinbarungen & 100% IP-Übertragung garantiert.'
-  }
-};
+export type { Language, Translations };
 
 interface LanguageContextType {
   lang: Language;
   setLang: (lang: Language) => void;
+  toggleLang: () => void;
   t: Translations;
+  localizeService: (service: ServiceDetail) => ServiceDetail;
+  localizeProject: (project: Project) => Project;
+  localizeTeamMember: (member: TeamMember) => TeamMember;
+  localizeTestimonial: (test: Testimonial) => Testimonial;
+  localizeBlog: (blog: BlogPost) => BlogPost;
+  localizeHeroSlide: (slide: HeroSlide, index: number) => HeroSlide;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -140,28 +34,145 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [lang, setLangState] = useState<Language>('en');
 
+  // Load language preference from localStorage on mount
   useEffect(() => {
     try {
       const saved = localStorage.getItem('webdev_lang') as Language;
       if (saved === 'en' || saved === 'de') {
         setLangState(saved);
+        document.documentElement.lang = saved;
       }
     } catch {
       // ignore
     }
   }, []);
 
-  const setLang = (newLang: Language) => {
+  const setLang = useCallback((newLang: Language) => {
     setLangState(newLang);
     try {
       localStorage.setItem('webdev_lang', newLang);
+      document.documentElement.lang = newLang;
     } catch {
       // ignore
     }
-  };
+  }, []);
+
+  const toggleLang = useCallback(() => {
+    setLang(lang === 'en' ? 'de' : 'en');
+  }, [lang, setLang]);
+
+  // Localization Helpers
+  const localizeService = useCallback((service: ServiceDetail): ServiceDetail => {
+    if (lang !== 'de') return service;
+    const deData = germanServices[service.id];
+    if (!deData) return service;
+    return {
+      ...service,
+      ...deData,
+      title: deData.title || service.title,
+      shortDesc: deData.shortDesc || service.shortDesc,
+      fullDesc: deData.fullDesc || service.fullDesc,
+      features: deData.features || service.features,
+      deliverables: deData.deliverables || service.deliverables,
+    };
+  }, [lang]);
+
+  const localizeProject = useCallback((project: Project): Project => {
+    if (lang !== 'de') return project;
+    const deData = germanProjects[project.id];
+    if (!deData) return project;
+    return {
+      ...project,
+      ...deData,
+      title: deData.title || project.title,
+      category: deData.category || project.category,
+      description: deData.description || project.description,
+      features: deData.features || project.features,
+      metrics: deData.metrics || project.metrics,
+      highlight: deData.highlight || project.highlight,
+    };
+  }, [lang]);
+
+  const localizeTeamMember = useCallback((member: TeamMember): TeamMember => {
+    if (lang !== 'de') return member;
+    const deData = germanTeamMembers[member.id];
+    if (!deData) return member;
+    return {
+      ...member,
+      ...deData,
+      role: deData.role || member.role,
+      headline: deData.headline || member.headline,
+      bio: deData.bio || member.bio,
+      location: deData.location || member.location,
+    };
+  }, [lang]);
+
+  const localizeTestimonial = useCallback((test: Testimonial): Testimonial => {
+    if (lang !== 'de') return test;
+    const deData = germanTestimonials[test.id];
+    if (!deData) return test;
+    return {
+      ...test,
+      ...deData,
+      quote: deData.quote || test.quote,
+      role: deData.role || test.role,
+    };
+  }, [lang]);
+
+  const localizeBlog = useCallback((blog: BlogPost): BlogPost => {
+    if (lang !== 'de') return blog;
+    const deData = germanBlogs[blog.id];
+    if (!deData) return blog;
+    return {
+      ...blog,
+      ...deData,
+      title: deData.title || blog.title,
+      excerpt: deData.excerpt || blog.excerpt,
+      readTime: deData.readTime || blog.readTime,
+    };
+  }, [lang]);
+
+  const localizeHeroSlide = useCallback((slide: HeroSlide, index: number): HeroSlide => {
+    if (lang !== 'de') return slide;
+    const deData = germanHeroSlides[index];
+    if (!deData) return slide;
+    return {
+      ...slide,
+      ...deData,
+      badge: deData.badge || slide.badge,
+      title: deData.title || slide.title,
+      highlightText: deData.highlightText || slide.highlightText,
+      subtitle: deData.subtitle || slide.subtitle,
+      primaryBtnText: deData.primaryBtnText || slide.primaryBtnText,
+      secondaryBtnText: deData.secondaryBtnText || slide.secondaryBtnText,
+    };
+  }, [lang]);
+
+  const value = useMemo(() => ({
+    lang,
+    setLang,
+    toggleLang,
+    t: translations[lang] || translations.en,
+    localizeService,
+    localizeProject,
+    localizeTeamMember,
+    localizeTestimonial,
+    localizeBlog,
+    localizeHeroSlide,
+  }), [
+    lang,
+    setLang,
+    toggleLang,
+    localizeService,
+    localizeProject,
+    localizeTeamMember,
+    localizeTestimonial,
+    localizeBlog,
+    localizeHeroSlide,
+  ]);
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t: translations[lang] }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );
@@ -170,7 +181,18 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 export const useLanguage = (): LanguageContextType => {
   const context = useContext(LanguageContext);
   if (!context) {
-    throw new Error('useLanguage must be used within a LanguageProvider');
+    return {
+      lang: 'en',
+      setLang: () => {},
+      toggleLang: () => {},
+      t: translations.en,
+      localizeService: (s) => s,
+      localizeProject: (p) => p,
+      localizeTeamMember: (m) => m,
+      localizeTestimonial: (t) => t,
+      localizeBlog: (b) => b,
+      localizeHeroSlide: (s) => s,
+    };
   }
   return context;
 };

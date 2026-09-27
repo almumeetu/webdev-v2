@@ -13,6 +13,7 @@ import {
   Building2
 } from 'lucide-react';
 import { Project } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface RecentProjectsSectionProps {
   projects: Project[];
@@ -25,23 +26,26 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
   onSelectProject,
   onViewAllProjects
 }) => {
+  const { t, lang, localizeProject } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const sliderRef = useRef<HTMLDivElement>(null);
 
+  const localizedProjects = useMemo(() => projects.map(p => localizeProject(p)), [projects, localizeProject]);
+
   const categories = [
-    { name: 'All', icon: Sparkles },
-    { name: 'Web Application', icon: Laptop },
-    { name: 'Full Stack & MERN', icon: Code2 },
-    { name: 'Backend & Cloud', icon: Server },
-    { name: 'E-Commerce', icon: ShoppingBag },
-    { name: 'WordPress & Shopify', icon: Store }
+    { name: 'All', label: t.portfolioAllCategory, icon: Sparkles },
+    { name: 'Web Application', label: lang === 'de' ? 'Web-Anwendungen' : 'Web Application', icon: Laptop },
+    { name: 'Full Stack & MERN', label: 'Full Stack & MERN', icon: Code2 },
+    { name: 'Backend & Cloud', label: lang === 'de' ? 'Backend & Cloud' : 'Backend & Cloud', icon: Server },
+    { name: 'E-Commerce', label: 'E-Commerce', icon: ShoppingBag },
+    { name: 'WordPress & Shopify', label: 'WordPress & Shopify', icon: Store }
   ];
 
   // Filtering based on single-line category tabs
   const filteredProjects = useMemo(() => {
-    if (selectedCategory === 'All') return projects;
-    return projects.filter((proj) => proj.category === selectedCategory);
-  }, [projects, selectedCategory]);
+    if (selectedCategory === 'All') return localizedProjects;
+    return localizedProjects.filter((proj) => proj.category === selectedCategory);
+  }, [localizedProjects, selectedCategory]);
 
   // Duplicate items for continuous seamless marquee loop
   const marqueeItems = useMemo(() => {
@@ -65,13 +69,10 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-9">
           <div>
             <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide mb-2">
-              <span>Recent & Ongoing Projects</span>
+              <span>{t.portfolioKicker}</span>
             </div>
             <h2 className="text-xl sm:text-2xl lg:text-[30px] font-bold text-slate-900 tracking-tight font-['Kufam']">
-              Check our{' '}
-              <span className="text-slate-950 underline decoration-[#9cd5e2] decoration-2 underline-offset-4">
-                recent and ongoing work
-              </span>
+              {t.portfolioHeading}
             </h2>
           </div>
 
@@ -92,7 +93,7 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
                   }`}
                 >
                   <Icon className={`w-4 h-4 ${isSelected ? 'text-slate-950' : 'text-slate-500'}`} />
-                  <span>{cat.name}</span>
+                  <span>{cat.label}</span>
                 </button>
               );
             })}
@@ -177,7 +178,7 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
                     </div>
 
                     <div className="inline-flex items-center gap-1 text-sm font-bold text-slate-950 group-hover:text-cyan-800 shrink-0 whitespace-nowrap">
-                      <span className="whitespace-nowrap">View Project</span>
+                      <span className="whitespace-nowrap">{t.portfolioViewProject}</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
                     </div>
                   </div>
@@ -193,7 +194,7 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
             onClick={onViewAllProjects}
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-800 font-bold text-sm sm:text-base border border-slate-200 transition-all cursor-pointer min-h-[44px]"
           >
-            <span>Explore All 13+ Worldwide Case Studies & Live Demos</span>
+            <span>{t.portfolioViewAll}</span>
             <ArrowRight className="w-4 h-4 text-slate-950" />
           </button>
         </div>

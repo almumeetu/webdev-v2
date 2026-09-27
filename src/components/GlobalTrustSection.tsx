@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck, Lock, Globe, Clock, ArrowRight } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface GlobalTrustSectionProps {
   onOpenQuote?: () => void;
@@ -10,33 +11,35 @@ export const GlobalTrustSection: React.FC<GlobalTrustSectionProps> = ({
   onOpenQuote,
   onExplorePortfolio
 }) => {
+  const { t, lang } = useLanguage();
+
   const trustPillars = [
     {
       icon: Globe,
-      title: 'Enterprise Architecture & Delivery',
-      desc: 'Modern cloud-native engineering squads with high velocity and full timezone alignment.',
-      tag: 'Global Delivery Standards',
+      title: lang === 'de' ? 'Enterprise-Architektur & Delivery' : 'Enterprise Architecture & Delivery',
+      desc: lang === 'de' ? 'Moderne Cloud-native Entwicklerteams mit hoher Geschwindigkeit und voller Zeitzonenausrichtung.' : 'Modern cloud-native engineering squads with high velocity and full timezone alignment.',
+      tag: lang === 'de' ? 'Globale Delivery-Standards' : 'Global Delivery Standards',
       color: 'text-slate-950 bg-[#BBE7F1]/60 border-[#9cd5e2]'
     },
     {
       icon: Lock,
-      title: 'Strict NDAs & 100% IP Transfer',
-      desc: 'Full IP ownership legally transferred to your enterprise with ironclad bilateral NDAs.',
-      tag: 'Legally Protected',
+      title: lang === 'de' ? 'Strikte NDAs & 100% IP-Übertragung' : 'Strict NDAs & 100% IP Transfer',
+      desc: lang === 'de' ? 'Vollständige Übertragung aller geistigen Eigentumsrechte (IP) mit rechtssicheren bilateralen NDAs.' : 'Full IP ownership legally transferred to your enterprise with ironclad bilateral NDAs.',
+      tag: lang === 'de' ? 'Rechtlich abgesichert' : 'Legally Protected',
       color: 'text-emerald-600 bg-emerald-50 border-emerald-200'
     },
     {
       icon: ShieldCheck,
-      title: 'GDPR & BaFin Compliance',
-      desc: 'Hardened Linux server mesh, OWASP Top 10 mitigation, and German security benchmarks.',
-      tag: 'Audit Ready',
+      title: lang === 'de' ? 'DSGVO- & BaFin-Konformität' : 'GDPR & BaFin Compliance',
+      desc: lang === 'de' ? 'Gehärtete Linux-Serverinfrastruktur, OWASP Top 10 Schutz und deutsche Sicherheitsrichtlinien.' : 'Hardened Linux server mesh, OWASP Top 10 mitigation, and German security benchmarks.',
+      tag: lang === 'de' ? 'Audit-geprüft' : 'Audit Ready',
       color: 'text-sky-600 bg-sky-50 border-sky-200'
     },
     {
       icon: Clock,
-      title: 'Real-Time Timezone Overlap',
-      desc: 'Dedicated communication channels overlapping US Eastern, Pacific, and European hours.',
-      tag: '24/7 SLA Uptime',
+      title: lang === 'de' ? 'Überlappende Zeitzonen' : 'Real-Time Timezone Overlap',
+      desc: lang === 'de' ? 'Dedizierte Kommunikationskanäle abgestimmt auf deutsche, europäische und US-Arbeitszeiten.' : 'Dedicated communication channels overlapping US Eastern, Pacific, and European hours.',
+      tag: lang === 'de' ? '24/7 SLA Uptime' : '24/7 SLA Uptime',
       color: 'text-purple-600 bg-purple-50 border-purple-200'
     }
   ];
@@ -49,19 +52,15 @@ export const GlobalTrustSection: React.FC<GlobalTrustSectionProps> = ({
         <div className="text-center max-w-3xl mx-auto mb-10 space-y-2.5">
           <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
             <ShieldCheck className="w-4 h-4 text-cyan-700" />
-            <span>Global Client Trust & Compliance</span>
+            <span>{t.trustKicker}</span>
           </div>
 
           <h2 className="text-xl sm:text-2xl lg:text-[30px] font-bold text-slate-900 tracking-tight font-['Kufam']">
-            Why International Clients in the{' '}
-            <span className="text-slate-950 underline decoration-[#9cd5e2] decoration-2 underline-offset-4">
-              USA, Germany & UK
-            </span>{' '}
-            Trust Us
+            {t.trustHeading}
           </h2>
 
           <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto font-['Kufam']">
-            We bridge premier computational engineering talent with uncompromising European and American delivery standards. Every engagement is protected by strict NDAs, full IP ownership transfer, and real-time timezone collaboration.
+            {t.trustSubheading}
           </p>
         </div>
 

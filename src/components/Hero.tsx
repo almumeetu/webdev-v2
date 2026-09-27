@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { HeroSlide } from '../types';
 import { initialHeroSlides } from '../data/initialData';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HeroProps {
   slides?: HeroSlide[];
@@ -22,7 +23,9 @@ export const Hero: React.FC<HeroProps> = ({
   onOpenQuote,
   onNavigateProjects,
 }) => {
-  const slides = (customSlides && customSlides.length > 0) ? customSlides : initialHeroSlides;
+  const { localizeHeroSlide } = useLanguage();
+  const rawSlides = (customSlides && customSlides.length > 0) ? customSlides : initialHeroSlides;
+  const slides = rawSlides.map((slide, idx) => localizeHeroSlide(slide, idx));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);

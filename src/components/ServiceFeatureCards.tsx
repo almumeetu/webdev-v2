@@ -8,6 +8,7 @@ import {
   ArrowRight 
 } from 'lucide-react';
 import { useGsapContext, animateStagger } from '../utils/gsapHelper';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ServiceFeatureCardsProps {
   onSelectFeature?: (featureId: string) => void;
@@ -15,6 +16,7 @@ interface ServiceFeatureCardsProps {
 
 export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSelectFeature }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   useGsapContext(containerRef, () => {
     if (!containerRef.current) return;
@@ -25,40 +27,40 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
     {
       id: 'feat-mern',
       icon: Code2,
-      title: 'Full Stack & MERN',
-      desc: 'High-performance React 19 apps with Node, Express & MongoDB/PostgreSQL backends.',
+      title: t.featMernTitle,
+      desc: t.featMernDesc,
       iconBg: 'bg-[#BBE7F1]/50 text-slate-950 group-hover:bg-[#BBE7F1] group-hover:text-slate-950',
       badge: 'Architecture'
     },
     {
       id: 'feat-server',
       icon: Server,
-      title: 'Linux & Cloud Mesh',
-      desc: 'Nginx reverse proxies, Docker orchestration, Hetzner, AWS & automated CI/CD.',
+      title: t.featServerTitle,
+      desc: t.featServerDesc,
       iconBg: 'bg-sky-50 text-sky-600 group-hover:bg-sky-600 group-hover:text-white',
       badge: '99.99% SLA'
     },
     {
       id: 'feat-ecommerce',
       icon: ShoppingCart,
-      title: 'E-Commerce Specialist',
-      desc: 'Headless Shopify Plus & WooCommerce stores engineered for rapid global conversions.',
+      title: t.featEcommerceTitle,
+      desc: t.featEcommerceDesc,
       iconBg: 'bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white',
       badge: 'High Conversion'
     },
     {
       id: 'feat-cms',
       icon: Layers,
-      title: 'Enterprise CMS',
-      desc: 'Custom lightweight WordPress themes, secure REST API plugins, sub-second speed.',
+      title: t.featCmsTitle,
+      desc: t.featCmsDesc,
       iconBg: 'bg-amber-50 text-amber-600 group-hover:bg-amber-600 group-hover:text-white',
       badge: 'Ultra Fast'
     },
     {
       id: 'feat-microservices',
       icon: Globe2,
-      title: 'API & Microservices',
-      desc: 'Resilient REST & GraphQL microservices with 99.9% uptime SLA and real-time monitoring.',
+      title: t.featApiTitle,
+      desc: t.featApiDesc,
       iconBg: 'bg-purple-50 text-purple-600 group-hover:bg-purple-600 group-hover:text-white',
       badge: 'Scalable'
     }

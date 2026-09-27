@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 import { getRoute, getViewFromPathname } from '../utils/routes';
 
 export const Navbar: React.FC = () => {
@@ -34,6 +35,7 @@ export const Navbar: React.FC = () => {
   const router = useRouter();
   const { currentUser, siteSettings, logout, jobs } = useAppContext();
   const { theme, toggleTheme } = useTheme();
+  const { lang, setLang, t } = useLanguage();
   const isDark = theme === 'dark';
 
   // Active jobs count
@@ -172,7 +174,7 @@ export const Navbar: React.FC = () => {
               onClick={() => handleNavClick('home')}
               className={`px-3 py-1.5 rounded-xl text-sm transition-all duration-150 cursor-pointer ${getNavLinkClass('home')}`}
             >
-              Home
+              {t.navHome}
             </button>
 
             <button
@@ -180,7 +182,7 @@ export const Navbar: React.FC = () => {
               onClick={() => handleNavClick('about')}
               className={`px-3 py-1.5 rounded-xl text-sm transition-all duration-150 cursor-pointer ${getNavLinkClass('about')}`}
             >
-              About
+              {t.navAbout}
             </button>
 
             {/* Services Megamenu Trigger & Panel */}
@@ -194,7 +196,7 @@ export const Navbar: React.FC = () => {
                 onClick={() => handleNavClick('services')}
                 className={`flex items-center gap-1 px-3 py-1.5 rounded-xl text-sm transition-all duration-150 cursor-pointer ${getNavLinkClass('services')}`}
               >
-                <span>Services</span>
+                <span>{t.navServices}</span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${
                   servicesDropdownOpen ? 'rotate-180' : ''
                 } ${
@@ -333,7 +335,7 @@ export const Navbar: React.FC = () => {
                 onClick={() => handleNavClick('portfolio')}
                 className={`flex items-center gap-1 px-3 py-1.5 rounded-xl text-sm transition-all duration-150 cursor-pointer ${getNavLinkClass('portfolio')}`}
               >
-                <span>Portfolio</span>
+                <span>{t.navPortfolio}</span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${
                   portfolioDropdownOpen ? 'rotate-180 text-cyan-400' : 'text-slate-400'
                 }`} />
@@ -468,7 +470,7 @@ export const Navbar: React.FC = () => {
               onClick={() => handleNavClick('careers')}
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm transition-all duration-150 cursor-pointer ${getNavLinkClass('careers')}`}
             >
-              <span>Careers</span>
+              <span>{t.navCareers}</span>
               {activeJobsCount > 0 && (
                 <span className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded-full leading-tight border transition-colors ${
                   currentView === 'careers'
@@ -477,7 +479,7 @@ export const Navbar: React.FC = () => {
                       ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
                       : 'bg-cyan-500/15 text-cyan-800 border-cyan-500/30'
                 }`}>
-                  Hiring
+                  {lang === 'de' ? 'Jobs' : 'Hiring'}
                 </span>
               )}
             </button>
@@ -487,7 +489,7 @@ export const Navbar: React.FC = () => {
               onClick={() => handleNavClick('blog')}
               className={`px-3 py-1.5 rounded-xl text-sm transition-all duration-150 cursor-pointer ${getNavLinkClass('blog')}`}
             >
-              Blog
+              {t.navBlog}
             </button>
 
             <button
@@ -495,7 +497,7 @@ export const Navbar: React.FC = () => {
               onClick={() => handleNavClick('contact')}
               className={`px-3 py-1.5 rounded-xl text-sm transition-all duration-150 cursor-pointer ${getNavLinkClass('contact')}`}
             >
-              Contact
+              {t.navContact}
             </button>
           </nav>
 
@@ -615,7 +617,7 @@ export const Navbar: React.FC = () => {
                   }`}
                 >
                   <LogIn className={`w-3.5 h-3.5 ${isScrolled ? 'text-cyan-400' : 'text-cyan-700'}`} />
-                  <span>Sign In</span>
+                  <span>{t.navSignIn}</span>
                 </button>
 
                 {/* Primary Proposal Action CTA Button */}
@@ -624,11 +626,26 @@ export const Navbar: React.FC = () => {
                   onClick={onOpenQuote}
                   className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-bold text-xs sm:text-sm transition-all cursor-pointer border border-[#9cd5e2] shadow-sm hover:shadow-md group"
                 >
-                  <span>Request Proposal</span>
+                  <span>{t.navGetQuote}</span>
                   <ArrowUpRight className="w-3.5 h-3.5 text-slate-950 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </button>
               </div>
             )}
+
+            {/* Language Switcher Button (EN / DE) */}
+            <button
+              onClick={() => setLang(lang === 'en' ? 'de' : 'en')}
+              className={`h-9 px-2.5 rounded-xl flex items-center gap-1.5 border text-xs font-bold transition-all cursor-pointer ${
+                isScrolled
+                  ? 'bg-slate-900 border-slate-800 text-slate-200 hover:bg-slate-800 hover:border-slate-700'
+                  : 'bg-white border-slate-200/90 text-slate-800 hover:text-slate-950 shadow-xs hover:bg-slate-50'
+              }`}
+              title={lang === 'en' ? 'Sprache auf Deutsch wechseln' : 'Switch to English'}
+              aria-label="Toggle language"
+            >
+              <span className="text-[12px]">{lang === 'en' ? '🇩🇪' : '🇬🇧'}</span>
+              <span className="font-mono">{lang === 'en' ? 'DE' : 'EN'}</span>
+            </button>
 
             {/* Dark / Light Theme Toggle */}
             <button
@@ -684,7 +701,7 @@ export const Navbar: React.FC = () => {
                 onClick={() => handleNavClick('home')}
                 className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${getMobileNavLinkClass('home')}`}
               >
-                <span>Home Overview</span>
+                <span>{t.navHome}</span>
                 <ArrowRight className="w-4 h-4 opacity-70" />
               </button>
 
@@ -692,7 +709,7 @@ export const Navbar: React.FC = () => {
                 onClick={() => handleNavClick('about')}
                 className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${getMobileNavLinkClass('about')}`}
               >
-                <span>About Company</span>
+                <span>{t.navAbout}</span>
                 <ArrowRight className="w-4 h-4 opacity-70" />
               </button>
 
@@ -700,9 +717,9 @@ export const Navbar: React.FC = () => {
                 onClick={() => handleNavClick('services')}
                 className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${getMobileNavLinkClass('services')}`}
               >
-                <span>All IT & Server Services</span>
+                <span>{t.navServices}</span>
                 <span className="text-xs font-bold px-2 py-0.5 rounded-md border bg-slate-800 text-slate-300 border-slate-700">
-                  6 Services
+                  {lang === 'de' ? '6 Leistungen' : '6 Services'}
                 </span>
               </button>
 
@@ -710,7 +727,7 @@ export const Navbar: React.FC = () => {
                 onClick={() => handleNavClick('portfolio')}
                 className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${getMobileNavLinkClass('portfolio')}`}
               >
-                <span>Portfolio & Deployments</span>
+                <span>{t.navPortfolio}</span>
                 <ArrowRight className="w-4 h-4 opacity-70" />
               </button>
 
@@ -719,10 +736,10 @@ export const Navbar: React.FC = () => {
                 className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${getMobileNavLinkClass('careers')}`}
               >
                 <div className="flex items-center gap-2">
-                  <span>Careers &amp; Openings</span>
+                  <span>{t.navCareers}</span>
                   {activeJobsCount > 0 && (
                     <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-bold">
-                      Hiring
+                      {lang === 'de' ? 'Jobs' : 'Hiring'}
                     </span>
                   )}
                 </div>
@@ -733,7 +750,7 @@ export const Navbar: React.FC = () => {
                 onClick={() => handleNavClick('blog')}
                 className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${getMobileNavLinkClass('blog')}`}
               >
-                <span>Tech Insights & Case Studies</span>
+                <span>{t.navBlog}</span>
                 <ArrowRight className="w-4 h-4 opacity-70" />
               </button>
 
@@ -744,19 +761,42 @@ export const Navbar: React.FC = () => {
                 }}
                 className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium transition-colors cursor-pointer min-h-[44px] ${getMobileNavLinkClass('contact')}`}
               >
-                <span>Contact & Discovery</span>
+                <span>{t.navContact}</span>
                 <ArrowRight className="w-4 h-4 opacity-70" />
               </button>
             </div>
 
             {/* Mobile Auth Access Bar */}
             <div className="pt-3 pb-1 border-t border-slate-800 space-y-2">
+              {/* Language Switcher Row */}
+              <div className="flex items-center justify-between px-4 py-2 rounded-xl border border-slate-800 bg-slate-900/60 text-sm font-medium text-slate-300">
+                <span className="text-xs font-bold text-slate-400">{lang === 'de' ? 'Sprache' : 'Language'}</span>
+                <div className="inline-flex rounded-lg bg-slate-800 p-0.5 border border-slate-700">
+                  <button
+                    onClick={() => setLang('en')}
+                    className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${
+                      lang === 'en' ? 'bg-[#BBE7F1] text-slate-950 font-black' : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    🇬🇧 EN
+                  </button>
+                  <button
+                    onClick={() => setLang('de')}
+                    className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${
+                      lang === 'de' ? 'bg-[#BBE7F1] text-slate-950 font-black' : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    🇩🇪 DE
+                  </button>
+                </div>
+              </div>
+
               {/* Theme Toggle Row */}
               <button
                 onClick={toggleTheme}
                 className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-900/60 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900 transition-colors cursor-pointer min-h-[44px]"
               >
-                <span>{isDark ? 'Light Mode' : 'Dark Mode'}</span>
+                <span>{isDark ? (lang === 'de' ? 'Hell-Modus' : 'Light Mode') : (lang === 'de' ? 'Dunkel-Modus' : 'Dark Mode')}</span>
                 {isDark ? <Sun className="w-4 h-4 text-[#BBE7F1]" /> : <Moon className="w-4 h-4 text-slate-500" />}
               </button>
               {currentUser ? (
@@ -790,7 +830,7 @@ export const Navbar: React.FC = () => {
                     <button
                       onClick={() => { setMobileMenuOpen(false); logout(); }}
                       className="p-1 text-slate-400 hover:text-rose-400 cursor-pointer"
-                      title="Sign Out"
+                      title={t.navLogout}
                     >
                       <LogOut className="w-4 h-4" />
                     </button>
@@ -803,14 +843,14 @@ export const Navbar: React.FC = () => {
                     className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-slate-800 bg-slate-900 text-white text-xs font-bold cursor-pointer"
                   >
                     <LogIn className="w-3.5 h-3.5 text-cyan-400" />
-                    <span>Sign In</span>
+                    <span>{t.navSignIn}</span>
                   </button>
                   <button
                     onClick={() => { setMobileMenuOpen(false); onOpenSignUp(); }}
                     className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-[#9cd5e2] bg-[#BBE7F1] text-slate-950 text-xs font-bold cursor-pointer"
                   >
                     <UserPlus className="w-3.5 h-3.5 text-slate-950" />
-                    <span>Create Account</span>
+                    <span>{t.navSignUp}</span>
                   </button>
                 </div>
               )}

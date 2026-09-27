@@ -25,7 +25,7 @@ import { initialServices, initialProjects } from '../data/initialData';
 import { useGsapContext } from '../utils/gsapHelper';
 import gsap from 'gsap';
 import { BreadcrumbBar } from './Breadcrumb';
-
+import { useLanguage } from '../context/LanguageContext';
 
 interface ServiceDetailPageProps {
   service: ServiceDetail | null;
@@ -37,7 +37,7 @@ interface ServiceDetailPageProps {
 }
 
 export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
-  service,
+  service: rawService,
   onBack,
   onBackToHome,
   onRequestQuote,
@@ -45,6 +45,9 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   onSelectProject
 }) => {
   const pageRef = useRef<HTMLDivElement>(null);
+  const { lang, t, localizeService, localizeProject } = useLanguage();
+
+  const service = rawService ? localizeService(rawService) : null;
 
   useGsapContext(pageRef, () => {
     if (!pageRef.current) return;
@@ -69,17 +72,19 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
     return (
       <div className="min-h-[70vh] bg-white flex flex-col items-center justify-center p-6 text-center">
         <h2 className="text-2xl font-bold text-slate-900 mb-3 font-['Archivo']">
-          Service Specification Not Found
+          {lang === 'de' ? 'Servicespezifikation nicht gefunden' : 'Service Specification Not Found'}
         </h2>
         <p className="text-slate-600 text-sm mb-6 max-w-md">
-          The requested IT or cloud service practice area is currently unavailable or has been relocated.
+          {lang === 'de'
+            ? 'Der angeforderte IT- oder Cloud-Leistungsbereich ist derzeit nicht verfügbar oder wurde verlegt.'
+            : 'The requested IT or cloud service practice area is currently unavailable or has been relocated.'}
         </p>
         <button
           onClick={onBack}
           className="inline-flex items-center gap-2 bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 text-xs font-bold px-6 py-3 rounded-xl transition-all cursor-pointer border border-[#9cd5e2] shadow-sm"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Return to All Services</span>
+          <span>{lang === 'de' ? 'Zurück zu allen Services' : 'Return to All Services'}</span>
         </button>
       </div>
     );
@@ -97,48 +102,61 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
     }
   };
 
-  // Find other services
-  const otherServices = initialServices.filter((s) => s.id !== service.id);
+  // Find other services and localize them
+  const otherServices = initialServices
+    .filter((s) => s.id !== service.id)
+    .map((s) => localizeService(s));
 
-  // Find relevant projects based on service id / tech
-  const relevantProjects = initialProjects.filter((p) => {
-    const titleLower = service.title.toLowerCase();
-    if (titleLower.includes('mern') || titleLower.includes('full stack')) {
-      return p.category.includes('Full Stack') || p.category.includes('Web Application');
-    }
-    if (titleLower.includes('server') || titleLower.includes('cloud')) {
-      return p.category.includes('Backend & Cloud');
-    }
-    if (titleLower.includes('commerce') || titleLower.includes('shopify')) {
-      return p.category.includes('E-Commerce');
-    }
-    if (titleLower.includes('wordpress') || titleLower.includes('cms')) {
-      return p.category.includes('WordPress');
-    }
-    return p.category.includes('Full Stack');
-  }).slice(0, 2);
+  // Find relevant projects based on service id / tech and localize them
+  const relevantProjects = initialProjects
+    .filter((p) => {
+      const titleLower = service.title.toLowerCase();
+      if (titleLower.includes('mern') || titleLower.includes('full stack')) {
+        return p.category.includes('Full Stack') || p.category.includes('Web Application');
+      }
+      if (titleLower.includes('server') || titleLower.includes('cloud')) {
+        return p.category.includes('Backend & Cloud');
+      }
+      if (titleLower.includes('commerce') || titleLower.includes('shopify')) {
+        return p.category.includes('E-Commerce');
+      }
+      if (titleLower.includes('wordpress') || titleLower.includes('cms')) {
+        return p.category.includes('WordPress');
+      }
+      return p.category.includes('Full Stack');
+    })
+    .slice(0, 2)
+    .map((p) => localizeProject(p));
 
   // Process workflow tailored to enterprise software
   const workflowSteps = [
     {
       step: '01',
-      title: 'Discovery & Architecture Blueprint',
-      desc: 'Deep requirements analysis, technical specification drafting, database ERD design, and API contract specification before writing code.'
+      title: lang === 'de' ? 'Anforderungsanalyse & Architektur-Blueprint' : 'Discovery & Architecture Blueprint',
+      desc: lang === 'de'
+        ? 'Detaillierte Anforderungsanalyse, Ausarbeitung der technischen Spezifikation, Datenbank-ERD-Design und API-Vertragsdefinition vor Codebeginn.'
+        : 'Deep requirements analysis, technical specification drafting, database ERD design, and API contract specification before writing code.'
     },
     {
       step: '02',
-      title: 'Sprint Development & Code Reviews',
-      desc: 'Modular, type-safe TypeScript engineering in 2-week agile sprints with bi-weekly client staging demonstrations and peer code reviews.'
+      title: lang === 'de' ? 'Agile Sprints & Peer Code Reviews' : 'Sprint Development & Code Reviews',
+      desc: lang === 'de'
+        ? 'Modulare, typsichere TypeScript-Entwicklung in 2-Wochen-Sprints mit regelmäßigen Staging-Demos und Peer-Reviews.'
+        : 'Modular, type-safe TypeScript engineering in 2-week agile sprints with bi-weekly client staging demonstrations and peer code reviews.'
     },
     {
       step: '03',
-      title: 'Hardening, QA & Performance Audits',
-      desc: 'Automated end-to-end testing, security penetration sweeps, OWASP compliance verification, and sub-second latency tuning.'
+      title: lang === 'de' ? 'Härtung, QA & Performance-Audits' : 'Hardening, QA & Performance Audits',
+      desc: lang === 'de'
+        ? 'Automatisierte End-to-End-Tests, Security-Scans, OWASP-Prüfungen und Optimierung auf Sub-Sekunden-Ladezeiten.'
+        : 'Automated end-to-end testing, security penetration sweeps, OWASP compliance verification, and sub-second latency tuning.'
     },
     {
       step: '04',
-      title: 'Zero-Downtime Deployment & 24/7 SLA',
-      desc: 'Automated CI/CD release to production cloud clusters with rollback safeguards, full documentation transfer, and ongoing SLA monitoring.'
+      title: lang === 'de' ? 'Zero-Downtime Deployment & 24/7 SLA' : 'Zero-Downtime Deployment & 24/7 SLA',
+      desc: lang === 'de'
+        ? 'Automatisiertes CI/CD-Release in Produktionscluster mit Rollback-Schutz, vollständiger Dokumentation und laufendem Monitoring.'
+        : 'Automated CI/CD release to production cloud clusters with rollback safeguards, full documentation transfer, and ongoing SLA monitoring.'
     }
   ];
 
@@ -149,12 +167,12 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 sm:pt-6 pb-2">
         <BreadcrumbBar
           items={[
-            { label: 'Home', onClick: onBackToHome },
-            { label: 'Practice Areas & Services', onClick: onBack },
+            { label: lang === 'de' ? 'Startseite' : 'Home', onClick: onBackToHome },
+            { label: lang === 'de' ? 'Leistungsbereiche & Services' : 'Practice Areas & Services', onClick: onBack },
             { label: service.title, active: true }
           ]}
           backAction={onBack}
-          backLabel="Back to All Services"
+          backLabel={lang === 'de' ? 'Zurück zu allen Services' : 'Back to All Services'}
         />
       </div>
 
@@ -183,12 +201,12 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               <div className="flex items-center justify-between flex-wrap gap-3">
                 <div className="inline-flex items-center gap-2 text-cyan-300 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
                   <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400" />
-                  <span>Production Grade Service</span>
+                  <span>{lang === 'de' ? 'Produktionsreifer Service' : 'Production Grade Service'}</span>
                 </div>
 
                 <div className="inline-flex items-center gap-2 text-emerald-400 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>German & EU Delivery Active</span>
+                  <span>{lang === 'de' ? 'Deutsche & EU-Lieferung Aktiv' : 'German & EU Delivery Active'}</span>
                 </div>
               </div>
 
@@ -200,7 +218,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                   </div>
                   <div>
                     <span className="text-cyan-300 font-['Kufam'] text-xs font-semibold tracking-wide block mb-0.5">
-                      WebDev Practice Spec
+                      {lang === 'de' ? 'WebDev Praxisbereich' : 'WebDev Practice Spec'}
                     </span>
                     <h1 className="text-lg sm:text-2xl md:text-3xl lg:text-[32px] font-bold font-['Kufam'] tracking-tight leading-snug text-white">
                       {service.title}
@@ -218,34 +236,42 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
           {/* Quick Metrics Strip */}
           <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-slate-800 bg-slate-900/95 border-t border-slate-800 text-white p-4 sm:p-5">
             <div className="p-3 text-center sm:text-left">
-              <div className="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">Reliability SLA</div>
+              <div className="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">
+                {lang === 'de' ? 'Zuverlässigkeits-SLA' : 'Reliability SLA'}
+              </div>
               <div className="text-base sm:text-lg font-bold text-white mt-1 flex items-center justify-center sm:justify-start gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                <span>99.99% Guaranteed</span>
+                <span>{lang === 'de' ? '99,99% Garantiert' : '99.99% Guaranteed'}</span>
               </div>
             </div>
 
             <div className="p-3 text-center sm:text-left">
-              <div className="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">Turnaround Time</div>
+              <div className="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">
+                {lang === 'de' ? 'Lieferzeit' : 'Turnaround Time'}
+              </div>
               <div className="text-base sm:text-lg font-bold text-white mt-1 flex items-center justify-center sm:justify-start gap-1.5">
                 <Clock className="w-4 h-4 text-cyan-400" />
-                <span>2 - 6 Weeks MVP</span>
+                <span>{lang === 'de' ? '2 - 6 Wochen MVP' : '2 - 6 Weeks MVP'}</span>
               </div>
             </div>
 
             <div className="p-3 text-center sm:text-left">
-              <div className="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">Delivery Model</div>
+              <div className="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">
+                {lang === 'de' ? 'Liefermodell' : 'Delivery Model'}
+              </div>
               <div className="text-base sm:text-lg font-bold text-white mt-1 flex items-center justify-center sm:justify-start gap-1.5">
                 <Globe className="w-4 h-4 text-emerald-400" />
-                <span>Agile Sprints & Full IP</span>
+                <span>{lang === 'de' ? 'Agile Sprints & Volle IP' : 'Agile Sprints & Full IP'}</span>
               </div>
             </div>
 
             <div className="p-3 text-center sm:text-left">
-              <div className="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">Code Standard</div>
+              <div className="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">
+                {lang === 'de' ? 'Code-Standard' : 'Code Standard'}
+              </div>
               <div className="text-base sm:text-lg font-bold text-white mt-1 flex items-center justify-center sm:justify-start gap-1.5">
                 <Award className="w-4 h-4 text-amber-400" />
-                <span>TypeScript & Clean Code</span>
+                <span>{lang === 'de' ? 'TypeScript & Sauberer Code' : 'TypeScript & Clean Code'}</span>
               </div>
             </div>
           </div>
@@ -260,11 +286,11 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             {/* Deep-Dive Narrative */}
             <div className="serv-anim-fade bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm space-y-5">
               <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-                <span>Engineering Scope & Architecture</span>
+                <span>{lang === 'de' ? 'Engineering-Umfang & Architektur' : 'Engineering Scope & Architecture'}</span>
               </div>
 
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-['Kufam']">
-                How We Engineer Results for {service.title}
+                {lang === 'de' ? `Wie wir Resultate für ${service.title} erzielen` : `How We Engineer Results for ${service.title}`}
               </h2>
 
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
@@ -274,7 +300,10 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               <div className="p-4 sm:p-5 rounded-2xl bg-[#BBE7F1]/20 border border-[#9cd5e2] flex items-start gap-3.5">
                 <Zap className="w-5 h-5 text-cyan-800 shrink-0 mt-0.5" />
                 <div className="text-xs sm:text-sm text-slate-900 leading-relaxed font-medium">
-                  <strong>Enterprise Assurance:</strong> Every project executed under this practice area includes end-to-end type safety, automated CI/CD pipelines, modular maintainability, and strict IP protection under NDA for German, European, and global businesses.
+                  <strong>{lang === 'de' ? 'Unternehmensgarantie:' : 'Enterprise Assurance:'}</strong>{' '}
+                  {lang === 'de'
+                    ? 'Jedes Projekt in diesem Leistungsbereich beinhaltet durchgehende Typsicherheit, automatisierte CI/CD-Pipelines, modulare Wartbarkeit und strengen IP-Schutz unter NDA für deutsche, europäische und weltweite Unternehmen.'
+                    : 'Every project executed under this practice area includes end-to-end type safety, automated CI/CD pipelines, modular maintainability, and strict IP protection under NDA for German, European, and global businesses.'}
                 </div>
               </div>
             </div>
@@ -284,10 +313,10 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-                    Key Capabilities & Core Strengths
+                    {lang === 'de' ? 'Kernkompetenzen & Stärken' : 'Key Capabilities & Core Strengths'}
                   </div>
                   <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 font-['Kufam'] mt-1">
-                    What Makes Our Approach Distinct
+                    {lang === 'de' ? 'Was unseren Ansatz auszeichnet' : 'What Makes Our Approach Distinct'}
                   </h3>
                 </div>
               </div>
@@ -306,7 +335,9 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                         {feat}
                       </h4>
                       <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                        Engineered with industry-standard patterns, high test coverage, and strict performance metrics.
+                        {lang === 'de'
+                          ? 'Entwickelt nach Industriestandards, hoher Testabdeckung und strengen Performancemetriken.'
+                          : 'Engineered with industry-standard patterns, high test coverage, and strict performance metrics.'}
                       </p>
                     </div>
                   </div>
@@ -321,13 +352,15 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               <div className="relative z-10 space-y-6">
                 <div>
                   <span className="text-cyan-300 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-                    Verifiable Artifacts & Deliverables
+                    {lang === 'de' ? 'Verifizierbare Projektergebnisse & Artefakte' : 'Verifiable Artifacts & Deliverables'}
                   </span>
                   <h3 className="text-xl sm:text-2xl font-bold font-['Kufam'] mt-1">
-                    What You Receive Upon Delivery
+                    {lang === 'de' ? 'Was Sie bei Projektabschluss erhalten' : 'What You Receive Upon Delivery'}
                   </h3>
                   <p className="text-slate-400 text-xs sm:text-sm mt-1">
-                    Transparent, fully documented handovers with zero vendor lock-in.
+                    {lang === 'de'
+                      ? 'Transparente, vollständig dokumentierte Übergabe ohne Abhängigkeiten (Vendor Lock-in).'
+                      : 'Transparent, fully documented handovers with zero vendor lock-in.'}
                   </p>
                 </div>
 
@@ -352,10 +385,10 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             {/* Tech Stack & Tooling Grid */}
             <div className="serv-anim-fade space-y-4">
               <div className="text-xs font-mono font-bold text-cyan-800 uppercase tracking-wider">
-                TECHNOLOGIES & ECOSYSTEM
+                {lang === 'de' ? 'TECHNOLOGIEN & ÖKOSYSTEM' : 'TECHNOLOGIES & ECOSYSTEM'}
               </div>
               <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 font-['Archivo']">
-                Languages, Frameworks & Cloud Services Used
+                {lang === 'de' ? 'Eingesetzte Sprachen, Frameworks & Cloud-Dienste' : 'Languages, Frameworks & Cloud Services Used'}
               </h3>
 
               <div className="flex flex-wrap gap-2.5 pt-2">
@@ -375,10 +408,10 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             <div className="serv-anim-fade space-y-6 pt-4">
               <div>
                 <div className="text-xs font-mono font-bold text-cyan-800 uppercase tracking-wider">
-                  STRUCTURED EXECUTION
+                  {lang === 'de' ? 'STRUKTURIERTE DURCHFÜHRUNG' : 'STRUCTURED EXECUTION'}
                 </div>
                 <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 font-['Archivo'] mt-1">
-                  Our 4-Stage Delivery Process
+                  {lang === 'de' ? 'Unser 4-Phasen-Lieferprozess' : 'Our 4-Stage Delivery Process'}
                 </h3>
               </div>
 
@@ -408,10 +441,10 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-xs font-mono font-bold text-cyan-800 uppercase tracking-wider">
-                      PROVEN DELIVERIES
+                      {lang === 'de' ? 'BEWÄHRTE ERFOLGE' : 'PROVEN DELIVERIES'}
                     </div>
                     <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 font-['Archivo'] mt-1">
-                      Related Case Studies
+                      {lang === 'de' ? 'Verwandte Fallstudien' : 'Related Case Studies'}
                     </h3>
                   </div>
                 </div>
@@ -444,7 +477,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                         </p>
                       </div>
                       <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-cyan-800">
-                        <span>Read Case Study</span>
+                        <span>{lang === 'de' ? 'Fallstudie lesen' : 'Read Case Study'}</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
@@ -464,13 +497,15 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               <div className="space-y-2">
                 <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-slate-950 bg-[#BBE7F1] border border-[#9cd5e2] px-2.5 py-1 rounded-full">
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>CUSTOM ARCHITECTURE PROPOSAL</span>
+                  <span>{lang === 'de' ? 'INDIVIDUELLES ARCHITEKTUR-ANGEBOT' : 'CUSTOM ARCHITECTURE PROPOSAL'}</span>
                 </div>
                 <h3 className="text-xl font-extrabold text-slate-900 font-['Archivo']">
-                  Need {service.title}?
+                  {lang === 'de' ? `Bedarf an ${service.title}?` : `Need ${service.title}?`}
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Connect directly with our solutions architects to discuss your project scope, tech stack, milestones, and fixed-bid or dedicated team proposal.
+                  {lang === 'de'
+                    ? 'Sprechen Sie direkt mit unseren Lösungsarchitekten über Projektumfang, Tech-Stack, Meilensteine und ein verbindliches Festpreis- oder Squad-Angebot.'
+                    : 'Connect directly with our solutions architects to discuss your project scope, tech stack, milestones, and fixed-bid or dedicated team proposal.'}
                 </p>
               </div>
 
@@ -479,41 +514,55 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                 onClick={() => onRequestQuote(service.title)}
                 className="w-full flex items-center justify-center gap-2 bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-bold text-sm py-4 px-6 rounded-2xl transition-all duration-150 cursor-pointer min-h-[48px] border border-[#9cd5e2] shadow-sm"
               >
-                <span>Request Custom Proposal</span>
+                <span>{lang === 'de' ? 'Individuelles Angebot anfordern' : 'Request Custom Proposal'}</span>
                 <Send className="w-4 h-4" />
               </button>
 
               {/* Service Specifications List */}
               <div className="space-y-3 pt-2 border-t border-slate-100 text-xs">
                 <div className="flex items-center justify-between py-1.5 border-b border-slate-100/80">
-                  <span className="text-slate-500 font-medium">Pricing Model</span>
-                  <span className="font-bold text-slate-800">Fixed-Milestone / Retainer</span>
-                </div>
-                <div className="flex items-center justify-between py-1.5 border-b border-slate-100/80">
-                  <span className="text-slate-500 font-medium">NDA & IP Rights</span>
-                  <span className="font-bold text-emerald-600 flex items-center gap-1">
-                    <CheckCircle2 className="w-3.5 h-3.5" /> 100% Client-Owned
+                  <span className="text-slate-500 font-medium">
+                    {lang === 'de' ? 'Preise & Modell' : 'Pricing Model'}
+                  </span>
+                  <span className="font-bold text-slate-800">
+                    {lang === 'de' ? 'Festpreis-Meilensteine / Retainer' : 'Fixed-Milestone / Retainer'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between py-1.5 border-b border-slate-100/80">
-                  <span className="text-slate-500 font-medium">Timezone Overlap</span>
-                  <span className="font-bold text-slate-800">CET, BST & EST Support</span>
+                  <span className="text-slate-500 font-medium">
+                    {lang === 'de' ? 'NDA & IP-Rechte' : 'NDA & IP Rights'}
+                  </span>
+                  <span className="font-bold text-emerald-600 flex items-center gap-1">
+                    <CheckCircle2 className="w-3.5 h-3.5" /> {lang === 'de' ? '100% Kundeneigentum' : '100% Client-Owned'}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between py-1.5 border-b border-slate-100/80">
+                  <span className="text-slate-500 font-medium">
+                    {lang === 'de' ? 'Zeitzonen-Support' : 'Timezone Overlap'}
+                  </span>
+                  <span className="font-bold text-slate-800">
+                    {lang === 'de' ? 'MEZ, BST & EST Support' : 'CET, BST & EST Support'}
+                  </span>
                 </div>
                 <div className="flex items-center justify-between py-1.5">
-                  <span className="text-slate-500 font-medium">Warranty Period</span>
-                  <span className="font-bold text-slate-800">90-Day Post-Launch SLA</span>
+                  <span className="text-slate-500 font-medium">
+                    {lang === 'de' ? 'Garantiezeitraum' : 'Warranty Period'}
+                  </span>
+                  <span className="font-bold text-slate-800">
+                    {lang === 'de' ? '90 Tage Post-Launch SLA' : '90-Day Post-Launch SLA'}
+                  </span>
                 </div>
               </div>
 
               {/* Direct Support Contacts */}
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
                 <div className="text-xs font-mono text-slate-500 uppercase tracking-wider font-semibold">
-                  Direct Engineering Desk
+                  {lang === 'de' ? 'Technischer Direktsupport' : 'Direct Engineering Desk'}
                 </div>
                 <div className="text-xs sm:text-sm text-slate-700 space-y-1">
-                  <div>Germany Hub: <a href="tel:+491729766016" className="font-bold text-emerald-600 hover:underline">+49 172 9766016</a></div>
-                  <div>Global R&D Lab: <a href="tel:+8801722301927" className="font-bold text-cyan-800 hover:underline">+880 1722-301927</a></div>
-                  <div>Direct Email: <a href="mailto:info@webdevsoftwaresolutions.com" className="font-bold text-cyan-800 hover:underline">info@webdevsoftwaresolutions.com</a></div>
+                  <div>{lang === 'de' ? 'Deutschland Zentrale:' : 'Germany Hub:'} <a href="tel:+491729766016" className="font-bold text-emerald-600 hover:underline">+49 172 9766016</a></div>
+                  <div>{lang === 'de' ? 'Globales F&E-Labor:' : 'Global R&D Lab:'} <a href="tel:+8801722301927" className="font-bold text-cyan-800 hover:underline">+880 1722-301927</a></div>
+                  <div>{lang === 'de' ? 'Direkte E-Mail:' : 'Direct Email:'} <a href="mailto:info@webdevsoftwaresolutions.com" className="font-bold text-cyan-800 hover:underline">info@webdevsoftwaresolutions.com</a></div>
                 </div>
               </div>
 
@@ -523,7 +572,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                 className="w-full text-center text-xs font-bold text-slate-600 hover:text-cyan-800 transition-colors flex items-center justify-center gap-1 cursor-pointer py-1"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
-                <span>View All 6 IT Services</span>
+                <span>{lang === 'de' ? 'Alle 6 IT-Services anzeigen' : 'View All 6 IT Services'}</span>
               </button>
 
             </div>
@@ -537,17 +586,17 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
             <div>
               <div className="text-xs font-mono font-bold text-cyan-800 uppercase tracking-wider">
-                PRACTICE OVERVIEW
+                {lang === 'de' ? 'LEISTUNGSÜBERSICHT' : 'PRACTICE OVERVIEW'}
               </div>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-['Archivo'] mt-1">
-                Explore Other Enterprise Services
+                {lang === 'de' ? 'Weitere Enterprise-Services entdecken' : 'Explore Other Enterprise Services'}
               </h3>
             </div>
             <button
               onClick={onBack}
               className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-800 hover:text-cyan-900 cursor-pointer"
             >
-              <span>View All IT Practice Areas</span>
+              <span>{lang === 'de' ? 'Alle Leistungsbereiche ansehen' : 'View All IT Practice Areas'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -575,7 +624,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-cyan-800">
-                  <span>Explore Specification</span>
+                  <span>{lang === 'de' ? 'Spezifikation ansehen' : 'Explore Specification'}</span>
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>

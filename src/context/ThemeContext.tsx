@@ -45,11 +45,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setThemeState(newTheme);
   };
 
-  // Prevent flash of unstyled content
-  if (!mounted) {
-    return <>{children}</>;
-  }
-
+  // Always provide ThemeContext to children so hooks never throw during hydration
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
       {children}
@@ -57,18 +53,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useTheme() {
+export function useTheme(): ThemeContextType {
   const context = useContext(ThemeContext);
-  if (context === undefined) {
-    // During SSR, return a default theme context
-    if (typeof window === 'undefined') {
-      return {
-        theme: 'dark' as Theme,
-        toggleTheme: () => {},
-        setTheme: () => {}
-      };
-    }
-    throw new Error('useTheme must be used within a ThemeProvider');
+  if (!context) {
+    // Safe fallback to prevent crashing during SSR or unexpected tree mounting
+    return {
+      theme: 'dark' as Theme,
+      toggleTheme: () => {},
+      setTheme: () => {}
+    };
   }
   return context;
 }

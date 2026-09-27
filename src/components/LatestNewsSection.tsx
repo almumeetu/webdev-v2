@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Calendar, Clock, ArrowRight, Heart, BookOpen } from 'lucide-react';
 import { BlogPost } from '../types';
 import { useGsapContext, animateStagger } from '../utils/gsapHelper';
+import { useLanguage } from '../context/LanguageContext';
 import gsap from 'gsap';
 
 interface LatestNewsSectionProps {
@@ -15,6 +16,8 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
   onSelectBlog,
   onViewAllBlogs,
 }) => {
+  const { t, localizeBlog } = useLanguage();
+  const localizedBlogs = blogs.map(b => localizeBlog(b));
   const sectionRef = useRef<HTMLElement>(null);
 
   useGsapContext(sectionRef, () => {
@@ -56,21 +59,21 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
         <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14 space-y-3">
           <div className="news-header-anim inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
             <BookOpen className="w-4 h-4 text-cyan-700" />
-            <span>From Our Engineering Journal & Insights</span>
+            <span>{t.blogKicker}</span>
           </div>
 
           <h2 className="news-header-anim text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-950 tracking-tight font-['Kufam']">
-            Latest News and Insights
+            {t.blogHeading}
           </h2>
 
           <p className="news-header-anim text-slate-600 text-xs sm:text-sm leading-relaxed font-['Kufam']">
-            Deep-dive technical perspectives on cloud infrastructure, distributed microservices, Linux server security, and modern web architectures.
+            {t.blogSubheading}
           </p>
         </div>
 
         {/* 3 Blog Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
-          {blogs.slice(0, 3).map((blog) => (
+          {localizedBlogs.slice(0, 3).map((blog) => (
             <article
               key={blog.id}
               onClick={() => onSelectBlog(blog)}
@@ -155,7 +158,7 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
                 {/* Footer Action */}
                 <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between">
                   <span className="text-xs sm:text-sm font-semibold text-slate-950 group-hover:text-cyan-800 inline-flex items-center gap-1.5 uppercase tracking-wider transition-colors cursor-pointer">
-                    <span>READ ARTICLE</span>
+                    <span>{t.blogReadArticle}</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </span>
 
@@ -175,7 +178,7 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
             onClick={onViewAllBlogs}
             className="inline-flex items-center gap-2 bg-white hover:bg-slate-100 text-slate-800 font-semibold text-xs sm:text-sm px-6 py-3 rounded-[6px] border border-slate-300 hover:border-slate-400 transition-all cursor-pointer min-h-[40px]"
           >
-            <span>Read All News & Engineering Articles</span>
+            <span>{t.blogViewAll}</span>
             <ArrowRight className="w-4 h-4 text-slate-950" />
           </button>
         </div>

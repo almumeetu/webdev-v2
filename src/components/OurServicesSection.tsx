@@ -11,6 +11,7 @@ import {
 import { ServiceDetail } from '../types';
 import { initialServices } from '../data/initialData';
 import { useGsapContext, animateStagger } from '../utils/gsapHelper';
+import { useLanguage } from '../context/LanguageContext';
 import gsap from 'gsap';
 
 interface OurServicesSectionProps {
@@ -24,6 +25,8 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
   onSelectService,
   onViewAllServices,
 }) => {
+  const { t, localizeService } = useLanguage();
+  const localizedServices = services.map((s) => localizeService(s));
   const sectionRef = useRef<HTMLElement>(null);
 
   useGsapContext(sectionRef, () => {
@@ -72,21 +75,21 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-14 space-y-3">
           <div className="services-header-anim inline-flex items-center gap-2 text-cyan-700 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-            <span>Our Services & Engineering Solutions</span>
+            <span>{t.servicesKicker}</span>
           </div>
 
           <h2 className="services-header-anim text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-900 tracking-tight font-['Kufam']">
-            We Offer a Wide Variety of IT Services
+            {t.servicesHeading}
           </h2>
 
           <p className="services-header-anim text-slate-600 text-xs sm:text-sm leading-relaxed font-['Kufam']">
-            From modern web application development and cloud server setup to high-converting international e-commerce platforms, we engineer results.
+            {t.servicesSubheading}
           </p>
         </div>
 
         {/* 3x2 Grid of visual cards with clean international standard layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {services.map((service) => (
+          {localizedServices.map((service) => (
             <div
               key={service.id}
               onClick={() => onSelectService(service.id)}
@@ -105,7 +108,7 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
 
                 {/* Top right category tag */}
                 <div className="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-md text-xs font-mono font-semibold text-[#BBE7F1] px-3 py-1 rounded-full border border-slate-700/80 shadow-sm">
-                  Engineering
+                  {t.servicesTag}
                 </div>
               </div>
 
@@ -138,7 +141,7 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
                   </div>
 
                   <span className="text-sm font-bold text-slate-950 group-hover:text-cyan-800 flex items-center gap-1 shrink-0 whitespace-nowrap">
-                    <span className="whitespace-nowrap">Details</span>
+                    <span className="whitespace-nowrap">{t.servicesViewDetails}</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform shrink-0" />
                   </span>
                 </div>
@@ -153,7 +156,7 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
             onClick={onViewAllServices}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 font-bold text-sm sm:text-base border border-slate-200 transition-all cursor-pointer min-h-[44px]"
           >
-            <span>Explore All 6 Enterprise Practice Areas</span>
+            <span>{t.servicesViewAll}</span>
             <ArrowRight className="w-4 h-4 text-slate-900" />
           </button>
         </div>

@@ -18,6 +18,7 @@ import { Inquiry } from '../types';
 import { Breadcrumb } from './Breadcrumb';
 import { useGsapContext } from '../utils/gsapHelper';
 import gsap from 'gsap';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ContactUsPageProps {
   onBackToHome: () => void;
@@ -34,6 +35,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
   initialProjectTitle
 }) => {
   const pageRef = useRef<HTMLDivElement>(null);
+  const { t, lang } = useLanguage();
 
   // Form states
   const [firstName, setFirstName] = useState('');
@@ -176,22 +178,24 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
     <div ref={pageRef} className="min-h-screen bg-slate-50/50 text-slate-900">
       {/* 1. Standard Center-Aligned Dark Breadcrumb & Hero Banner */}
       <Breadcrumb
-        badge="DIRECT CLIENT ENGAGEMENT & ARCHITECTURE ADVISORY"
-        title="Connect With Our Engineering Leadership"
-        subtitle="Zero middle-management. Discuss your custom application, server architecture, or project budget directly with our principal architects."
+        badge={lang === 'de' ? 'DIREKTE KUNDENBETREUUNG & ARCHITEKTUR-BERATUNG' : 'DIRECT CLIENT ENGAGEMENT & ARCHITECTURE ADVISORY'}
+        title={lang === 'de' ? 'Sprechen Sie mit unserer technischen Leitung' : 'Connect With Our Engineering Leadership'}
+        subtitle={
+          lang === 'de'
+            ? 'Ohne Umwege. Besprechen Sie Ihre individuelle Softwareanwendung, Serverarchitektur oder Projektbudgets direkt mit unseren Chef-Architekten.'
+            : 'Zero middle-management. Discuss your custom application, server architecture, or project budget directly with our principal architects.'
+        }
         items={[
-          { label: 'Home', onClick: onBackToHome },
-          { label: 'Contact Us', active: true }
+          { label: t.navHome, onClick: onBackToHome },
+          { label: t.navContact, active: true }
         ]}
         backAction={onBackToHome}
-        backLabel="Back to Home"
+        backLabel={t.backToHome}
         align="left"
         className="contact-anim-item"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12 sm:space-y-16">
-
-
 
         {/* 3. Main Form & Hub Overview Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
@@ -206,23 +210,31 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
                   <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-['Archivo']">
-                    Thank You! Inquiry Received
+                    {lang === 'de' ? 'Vielen Dank! Anfrage erfolgreich übermittelt' : 'Thank You! Inquiry Received'}
                   </h3>
                   <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-                    Hello <span className="font-semibold text-slate-900">{firstName}</span>, your project parameters have been delivered directly to our Lead Architect. We will review your requirements and reach out via <span className="font-semibold text-slate-900">{email}</span> within 12 hours.
+                    {lang === 'de' ? (
+                      <>
+                        Hallo <span className="font-semibold text-slate-900">{firstName}</span>, Ihre Projektparameter wurden direkt an unsere Chef-Architekten übermittelt. Wir prüfen Ihre Anforderungen und melden uns unter <span className="font-semibold text-slate-900">{email}</span> innerhalb von 12 Stunden bei Ihnen.
+                      </>
+                    ) : (
+                      <>
+                        Hello <span className="font-semibold text-slate-900">{firstName}</span>, your project parameters have been delivered directly to our Lead Architect. We will review your requirements and reach out via <span className="font-semibold text-slate-900">{email}</span> within 12 hours.
+                      </>
+                    )}
                   </p>
                   <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
                     <button
                       onClick={() => setIsSubmitted(false)}
                       className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold px-6 py-3 rounded-xl transition-colors cursor-pointer"
                     >
-                      Send Another Message
+                      {lang === 'de' ? 'Weitere Nachricht senden' : 'Send Another Message'}
                     </button>
                     <button
                       onClick={onBackToHome}
                       className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 border border-[#9cd5e2] text-xs sm:text-sm font-bold px-6 py-3 rounded-xl transition-colors cursor-pointer"
                     >
-                      Return to Home
+                      {t.backToHome}
                     </button>
                   </div>
                 </div>
@@ -233,13 +245,15 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   <div className="border-b border-slate-100 pb-4">
                     <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide mb-1">
                       <Sparkles className="w-4 h-4 text-cyan-700" />
-                      <span>Start a Conversation with Us</span>
+                      <span>{lang === 'de' ? 'Starten Sie ein Projekt mit uns' : 'Start a Conversation with Us'}</span>
                     </div>
                     <h2 className="text-lg sm:text-xl font-bold text-slate-900 font-['Kufam']">
-                      Discuss Your Project & Architecture
+                      {lang === 'de' ? 'Besprechen Sie Ihr Projekt & Ihre Software-Architektur' : 'Discuss Your Project & Architecture'}
                     </h2>
                     <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                      Share your vision, budget considerations, or technical timeline. Every inquiry is personally handled by our executive technical team.
+                      {lang === 'de'
+                        ? 'Teilen Sie uns Ihre Vorstellungen, Ihr Budget oder Ihren Zeitplan mit. Jede Anfrage wird direkt von unseren technischen Führungskräften betreut.'
+                        : 'Share your vision, budget considerations, or technical timeline. Every inquiry is personally handled by our executive technical team.'}
                     </p>
                   </div>
 
@@ -247,28 +261,28 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                        First Name *
+                        {lang === 'de' ? 'Vorname *' : 'First Name *'}
                       </label>
                       <input
                         type="text"
                         required
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
-                        placeholder="e.g. Al Mumeetu"
+                        placeholder={lang === 'de' ? 'z. B. Max' : 'e.g. Al Mumeetu'}
                         className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                       />
                     </div>
 
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                        Last Name *
+                        {lang === 'de' ? 'Nachname *' : 'Last Name *'}
                       </label>
                       <input
                         type="text"
                         required
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
-                        placeholder="e.g. Saikat"
+                        placeholder={lang === 'de' ? 'z. B. Mustermann' : 'e.g. Saikat'}
                         className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                       />
                     </div>
@@ -278,7 +292,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                        Business Email *
+                        {lang === 'de' ? 'Geschäftliche E-Mail *' : 'Business Email *'}
                       </label>
                       <input
                         type="email"
@@ -292,13 +306,13 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
 
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                        Phone / WhatsApp
+                        {lang === 'de' ? 'Telefon / WhatsApp' : 'Phone / WhatsApp'}
                       </label>
                       <input
                         type="text"
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
-                        placeholder="+880 17... / +49 1..."
+                        placeholder="+49 1... / +880 17..."
                         className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                       />
                     </div>
@@ -308,32 +322,44 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                        Company or Organization
+                        {lang === 'de' ? 'Unternehmen oder Organisation' : 'Company or Organization'}
                       </label>
                       <input
                         type="text"
                         value={company}
                         onChange={(e) => setCompany(e.target.value)}
-                        placeholder="e.g. Enterprise Corp / Startup"
+                        placeholder={lang === 'de' ? 'z. B. Enterprise GmbH / Startup' : 'e.g. Enterprise Corp / Startup'}
                         className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                       />
                     </div>
 
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                        Service Domain
+                        {lang === 'de' ? 'Fachbereich / Leistungsfeld' : 'Service Domain'}
                       </label>
                       <select
                         value={serviceOfInterest}
                         onChange={(e) => setServiceOfInterest(e.target.value)}
                         className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                       >
-                        <option value="Full Stack & MERN">Full-Stack MERN Development</option>
-                        <option value="Cloud & Linux Servers">Cloud & Linux Server Infrastructure</option>
-                        <option value="E-Commerce & Headless">E-Commerce (Shopify & WooCommerce)</option>
-                        <option value="Enterprise CMS">Enterprise WordPress & Headless CMS</option>
-                        <option value="API & Microservices">API & Microservices Architecture</option>
-                        <option value="General Consultation">Direct Founder Consultation</option>
+                        <option value="Full Stack & MERN">
+                          {lang === 'de' ? 'Full-Stack MERN & Next.js Entwicklung' : 'Full-Stack MERN Development'}
+                        </option>
+                        <option value="Cloud & Linux Servers">
+                          {lang === 'de' ? 'Cloud & Linux Server-Infrastruktur' : 'Cloud & Linux Server Infrastructure'}
+                        </option>
+                        <option value="E-Commerce & Headless">
+                          {lang === 'de' ? 'E-Commerce (Shopify & WooCommerce)' : 'E-Commerce (Shopify & WooCommerce)'}
+                        </option>
+                        <option value="Enterprise CMS">
+                          {lang === 'de' ? 'Enterprise WordPress & Headless CMS' : 'Enterprise WordPress & Headless CMS'}
+                        </option>
+                        <option value="API & Microservices">
+                          {lang === 'de' ? 'API- & Microservices-Architektur' : 'API & Microservices Architecture'}
+                        </option>
+                        <option value="General Consultation">
+                          {lang === 'de' ? 'Direkte Beratung durch Gründer / Lead' : 'Direct Founder Consultation'}
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -341,14 +367,18 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   {/* Message */}
                   <div className="space-y-1.5">
                     <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                      Project Scope & Requirements *
+                      {lang === 'de' ? 'Projektumfang & Anforderungen *' : 'Project Scope & Requirements *'}
                     </label>
                     <textarea
                       required
                       rows={5}
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Tell us about your project vision, target timeline, technical requirements, or questions..."
+                      placeholder={
+                        lang === 'de'
+                          ? 'Beschreiben Sie Ihre Projektvision, geplante Meilensteine, technische Anforderungen oder Fragen...'
+                          : 'Tell us about your project vision, target timeline, technical requirements, or questions...'
+                      }
                       className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                     ></textarea>
                   </div>
@@ -360,18 +390,18 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                     className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] disabled:opacity-60 text-slate-950 font-bold text-xs sm:text-sm py-4 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider"
                   >
                     {isSubmitting ? (
-                      <span>Transmitting Inquiry...</span>
+                      <span>{lang === 'de' ? 'Anfrage wird übertragen...' : 'Transmitting Inquiry...'}</span>
                     ) : (
                       <>
                         <Send className="w-4 h-4 text-slate-950" />
-                        <span>SUBMIT INQUIRY FOR PERSONAL REVIEW</span>
+                        <span>{lang === 'de' ? 'ANFRAGE ZUR PRÜFUNG ABSENDEN' : 'SUBMIT INQUIRY FOR PERSONAL REVIEW'}</span>
                       </>
                     )}
                   </button>
 
                   <div className="flex items-center justify-center gap-2 text-center text-xs text-slate-500 pt-1">
                     <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                    <span>Protected by Bilateral NDA & European GDPR Standards</span>
+                    <span>{lang === 'de' ? 'Geschützt durch bilaterale Vertraulichkeitsvereinbarung & DSGVO-Standards' : 'Protected by Bilateral NDA & European GDPR Standards'}</span>
                   </div>
 
                 </form>
@@ -391,33 +421,41 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                     <Globe className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 text-base font-['Archivo']">Küppersteg, Leverkusen (DE)</h3>
+                    <h3 className="font-bold text-slate-900 text-base font-['Archivo']">
+                      {lang === 'de' ? 'Küppersteg, Leverkusen (Deutschland)' : 'Küppersteg, Leverkusen (DE)'}
+                    </h3>
                     <div className="flex items-center gap-1.5 text-xs font-mono text-emerald-600 font-bold">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                      <span>European Engineering Hub</span>
+                      <span>{lang === 'de' ? 'Europäischer Engineering-Hub' : 'European Engineering Hub'}</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Live Clock */}
                 <div className="text-right">
-                  <div className="text-[10px] uppercase font-mono text-slate-400 font-bold">CET (UTC+1)</div>
+                  <div className="text-[10px] uppercase font-mono text-slate-400 font-bold">
+                    {lang === 'de' ? 'MEZ (UTC+1)' : 'CET (UTC+1)'}
+                  </div>
                   <div className="text-xs font-mono font-extrabold text-slate-900">{deTime || 'Active'}</div>
                 </div>
               </div>
 
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Küppersteg, 51373 Leverkusen, North Rhine-Westphalia, Germany
+                {lang === 'de' 
+                  ? 'Küppersteg, 51373 Leverkusen, Nordrhein-Westfalen, Deutschland'
+                  : 'Küppersteg, 51373 Leverkusen, North Rhine-Westphalia, Germany'}
               </p>
 
               <div className="space-y-2 pt-2 border-t border-slate-100 text-xs sm:text-sm text-slate-700">
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-500">Compliance & Security:</span>
-                  <span className="font-semibold text-slate-900">German GDPR (DSGVO) & ISO 27001</span>
+                  <span className="text-slate-500">{lang === 'de' ? 'Compliance & Sicherheit:' : 'Compliance & Security:'}</span>
+                  <span className="font-semibold text-slate-900">{lang === 'de' ? 'Deutsche DSGVO & ISO 27001' : 'German GDPR (DSGVO) & ISO 27001'}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-500">Working Hours:</span>
-                  <span className="font-semibold text-slate-900">Mon - Fri: 9:00 AM - 6:00 PM CET</span>
+                  <span className="text-slate-500">{lang === 'de' ? 'Öffnungszeiten:' : 'Working Hours:'}</span>
+                  <span className="font-semibold text-slate-900">
+                    {lang === 'de' ? 'Mo - Fr: 9:00 - 18:00 MEZ' : 'Mon - Fri: 9:00 AM - 6:00 PM CET'}
+                  </span>
                 </div>
               </div>
 
@@ -426,7 +464,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   href="tel:+491729766016"
                   className="flex-1 text-center py-2 px-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-xs sm:text-sm transition-colors"
                 >
-                  Call German Office
+                  {lang === 'de' ? 'Büro Leverkusen anrufen' : 'Call German Office'}
                 </a>
                 <button
                   onClick={() => {
@@ -436,7 +474,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors flex items-center gap-1 cursor-pointer"
                 >
                   <MapPin className="w-3.5 h-3.5" />
-                  <span>View Map</span>
+                  <span>{lang === 'de' ? 'Karte' : 'View Map'}</span>
                 </button>
               </div>
             </div>
@@ -449,10 +487,12 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                     <Building2 className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 text-base font-['Archivo']">Joypurhat, Bangladesh</h3>
+                    <h3 className="font-bold text-slate-900 text-base font-['Archivo']">
+                      {lang === 'de' ? 'Joypurhat, Bangladesch' : 'Joypurhat, Bangladesh'}
+                    </h3>
                     <div className="flex items-center gap-1.5 text-[11px] font-mono text-cyan-800 font-bold">
                       <span className="w-1.5 h-1.5 rounded-full bg-cyan-600 animate-pulse"></span>
-                      <span>Dedicated Offshore R&D Center</span>
+                      <span>{lang === 'de' ? 'Dediziertes Offshore R&D-Zentrum' : 'Dedicated Offshore R&D Center'}</span>
                     </div>
                   </div>
                 </div>
@@ -470,12 +510,16 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
 
               <div className="space-y-2 pt-2 border-t border-slate-100 text-xs text-slate-700">
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-500">Engineering Squads:</span>
-                  <span className="font-semibold text-slate-900">30+ Full-Stack Engineers</span>
+                  <span className="text-slate-500">{lang === 'de' ? 'Entwickler-Squads:' : 'Engineering Squads:'}</span>
+                  <span className="font-semibold text-slate-900">
+                    {lang === 'de' ? '30+ Full-Stack Softwareentwickler' : '30+ Full-Stack Engineers'}
+                  </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-500">Working Hours:</span>
-                  <span className="font-semibold text-slate-900">Mon - Sat: 9:00 AM - 8:00 PM BST</span>
+                  <span className="text-slate-500">{lang === 'de' ? 'Öffnungszeiten:' : 'Working Hours:'}</span>
+                  <span className="font-semibold text-slate-900">
+                    {lang === 'de' ? 'Mo - Sa: 9:00 - 20:00 BST' : 'Mon - Sat: 9:00 AM - 8:00 PM BST'}
+                  </span>
                 </div>
               </div>
 
@@ -484,7 +528,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   href="tel:+8801722301927"
                   className="flex-1 text-center py-2 px-3 rounded-xl bg-[#BBE7F1]/40 hover:bg-[#BBE7F1]/70 text-slate-950 border border-[#9cd5e2]/60 font-bold text-xs sm:text-sm transition-colors"
                 >
-                  Call R&D Lab
+                  {lang === 'de' ? 'R&D-Labor anrufen' : 'Call R&D Lab'}
                 </a>
                 <button
                   onClick={() => {
@@ -494,7 +538,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-colors flex items-center gap-1 cursor-pointer"
                 >
                   <MapPin className="w-3.5 h-3.5" />
-                  <span>View Map</span>
+                  <span>{lang === 'de' ? 'Karte' : 'View Map'}</span>
                 </button>
               </div>
             </div>
@@ -503,22 +547,24 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
             <div className="contact-anim-item bg-gradient-to-br from-slate-900 to-slate-950 rounded-3xl p-6 sm:p-7 text-white space-y-3.5 shadow-xl border border-slate-800">
               <div className="flex items-center gap-2 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider">
                 <ShieldCheck className="w-4 h-4" />
-                <span>German & EU SLA Guarantee</span>
+                <span>{lang === 'de' ? 'Deutsche & EU SLA-Garantie' : 'German & EU SLA Guarantee'}</span>
               </div>
               <h4 className="font-extrabold text-lg sm:text-xl text-white font-['Archivo']">
-                Direct Engineering Collaboration
+                {lang === 'de' ? 'Direkte technische Zusammenarbeit' : 'Direct Engineering Collaboration'}
               </h4>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Connect directly with lead architects. We offer strict bilateral NDAs, local European contracts, and sub-12h scoping turnarounds.
+                {lang === 'de'
+                  ? 'Verbinden Sie sich direkt mit unseren Chef-Architekten. Wir bieten bilaterale Vertraulichkeitsvereinbarungen (NDA), europäische Verträge und ein erstes Scoping innerhalb von 12 Stunden.'
+                  : 'Connect directly with lead architects. We offer strict bilateral NDAs, local European contracts, and sub-12h scoping turnarounds.'}
               </p>
               <div className="pt-1 flex items-center gap-4 text-xs font-mono text-slate-400">
                 <span className="flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>100% IP Transfer</span>
+                  <span>{lang === 'de' ? '100% IP-Übertragung' : '100% IP Transfer'}</span>
                 </span>
                 <span className="flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>GDPR Compliant</span>
+                  <span>{lang === 'de' ? 'DSGVO-konform' : 'GDPR Compliant'}</span>
                 </span>
               </div>
             </div>
@@ -534,13 +580,15 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
             <div>
               <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
                 <Navigation className="w-4 h-4 text-cyan-700" />
-                <span>Physical Presence & Engineering Hubs</span>
+                <span>{lang === 'de' ? 'Präsenz vor Ort & Entwicklungszentren' : 'Physical Presence & Engineering Hubs'}</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-bold text-slate-900 font-['Kufam'] mt-1">
-                European Operations & Global Engineering Map
+                {lang === 'de' ? 'Europäische Standorte & Globale Entwicklungszentren' : 'European Operations & Global Engineering Map'}
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 mt-1 font-['Kufam']">
-                Global client consulting and development facilities with direct communication and rapid sprint execution.
+                {lang === 'de'
+                  ? 'Kundenberatung und Entwicklungsressourcen weltweit mit direkter Abstimmung und zügigen Sprints.'
+                  : 'Global client consulting and development facilities with direct communication and rapid sprint execution.'}
               </p>
             </div>
 
@@ -556,7 +604,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                 }`}
               >
                 <Globe className="w-3.5 h-3.5" />
-                <span>Leverkusen Hub (Germany)</span>
+                <span>{lang === 'de' ? 'Leverkusen Hub (Deutschland)' : 'Leverkusen Hub (Germany)'}</span>
               </button>
 
               <button
@@ -569,7 +617,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                 }`}
               >
                 <Building2 className="w-3.5 h-3.5" />
-                <span>Joypurhat Center (Bangladesh)</span>
+                <span>{lang === 'de' ? 'Joypurhat Zentrum (Bangladesch)' : 'Joypurhat Center (Bangladesh)'}</span>
               </button>
             </div>
           </div>
@@ -601,7 +649,9 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                 <span className={`text-xs font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
                   activeMapTab === 'joypurhat' ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2]' : 'bg-emerald-600 text-white'
                 }`}>
-                  {activeMapTab === 'joypurhat' ? 'Global Engineering Lab' : 'European Cloud Branch'}
+                  {activeMapTab === 'joypurhat' 
+                    ? (lang === 'de' ? 'Globales R&D-Labor' : 'Global Engineering Lab')
+                    : (lang === 'de' ? 'Europäische Cloud-Niederlassung' : 'European Cloud Branch')}
                 </span>
                 <span className="text-xs font-mono text-slate-400">
                   {activeMapTab === 'joypurhat' ? '25.1011° N, 89.0270° E' : '51.0435° N, 6.9961° E'}
@@ -611,13 +661,13 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
               <div>
                 <h4 className="font-bold text-sm sm:text-base font-['Archivo'] text-white">
                   {activeMapTab === 'joypurhat' 
-                    ? 'Joypurhat Headquarters' 
-                    : 'Küppersteg, Leverkusen Operations'}
+                    ? (lang === 'de' ? 'Joypurhat Entwicklungszentrum' : 'Joypurhat Headquarters')
+                    : (lang === 'de' ? 'Küppersteg, Leverkusen Niederlassung' : 'Küppersteg, Leverkusen Operations')}
                 </h4>
                 <p className="text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed">
                   {activeMapTab === 'joypurhat'
                     ? 'Housing Estate, Ward No. 07, Joypurhat Sadar, Rajshahi Division, Bangladesh'
-                    : 'Küppersteg, 51373 Leverkusen, North Rhine-Westphalia, Germany'}
+                    : (lang === 'de' ? 'Küppersteg, 51373 Leverkusen, Nordrhein-Westfalen, Deutschland' : 'Küppersteg, 51373 Leverkusen, North Rhine-Westphalia, Germany')}
                 </p>
               </div>
 
@@ -632,13 +682,13 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-[#BBE7F1] hover:text-[#a7dfed] transition-colors"
                 >
-                  <span>Open in Google Maps</span>
+                  <span>{lang === 'de' ? 'In Google Maps öffnen' : 'Open in Google Maps'}</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
 
                 <span className="text-[11px] font-mono text-emerald-400 font-bold flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  Active Now
+                  {lang === 'de' ? 'Jetzt aktiv' : 'Active Now'}
                 </span>
               </div>
             </div>

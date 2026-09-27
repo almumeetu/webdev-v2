@@ -2,25 +2,31 @@
 
 import { useRouter } from 'next/navigation';
 import { useAppContext } from '@/context/AppContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { OurServicesSection } from '@/components/OurServicesSection';
 import { Breadcrumb } from '@/components/Breadcrumb';
 
 export default function ServicesPage() {
   const router = useRouter();
   const { services } = useAppContext();
+  const { lang } = useLanguage();
 
   return (
     <div>
       <Breadcrumb
-        badge="ENTERPRISE CAPABILITIES"
-        title="All IT & Cloud Services"
-        subtitle="Full-stack web engineering, cloud infrastructure, AI integrations & bespoke enterprise software development."
+        badge={lang === 'de' ? 'ENTERPRISE LEISTUNGSSPEKTRUM' : 'ENTERPRISE CAPABILITIES'}
+        title={lang === 'de' ? 'Alle IT- & Cloud-Services' : 'All IT & Cloud Services'}
+        subtitle={
+          lang === 'de'
+            ? 'Full-Stack-Webentwicklung, Cloud-Infrastruktur, KI-Integrationen & maßgeschneiderte Unternehmenssoftware.'
+            : 'Full-stack web engineering, cloud infrastructure, AI integrations & bespoke enterprise software development.'
+        }
         items={[
-          { label: 'Home', onClick: () => router.push('/') },
-          { label: 'All IT & Cloud Services', active: true }
+          { label: lang === 'de' ? 'Startseite' : 'Home', onClick: () => router.push('/') },
+          { label: lang === 'de' ? 'Alle IT- & Cloud-Services' : 'All IT & Cloud Services', active: true }
         ]}
         backAction={() => router.push('/')}
-        backLabel="Back to Home"
+        backLabel={lang === 'de' ? 'Zurück zur Startseite' : 'Back to Home'}
         align="left"
       />
       <div className="py-8">

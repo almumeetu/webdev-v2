@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 const brands = [
   { name: "Agneya Singh", image: "/images/brands/agneyasingh.png" },
@@ -11,6 +12,7 @@ const brands = [
 ];
 
 export const GlobalEcosystemSection: React.FC = () => {
+  const { t, lang } = useLanguage();
   return (
     <section 
       className="py-24 sm:py-32 relative z-10 overflow-hidden bg-[#020617] text-white bg-fixed bg-center bg-cover bg-no-repeat"
@@ -54,15 +56,19 @@ export const GlobalEcosystemSection: React.FC = () => {
           <div className="text-center space-y-5">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide backdrop-blur-sm shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-              <span>Global Ecosystem &amp; Partnerships</span>
+              <span>{t.ecosystemKicker}</span>
             </div>
             
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold text-white tracking-tight font-['Kufam']">
-              Trusted by Industry <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-orange-400">Leaders</span>
+              {lang === 'de' ? (
+                <>Geschätzt von führenden <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-orange-400">Unternehmen</span></>
+              ) : (
+                <>Trusted by Industry <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-orange-400">Leaders</span></>
+              )}
             </h2>
 
             <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed font-['Kufam']">
-              We collaborate with ambitious brands and startups to build the digital infrastructure of tomorrow.
+              {t.ecosystemSubtext}
             </p>
           </div>
         </div>

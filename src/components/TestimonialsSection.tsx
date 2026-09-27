@@ -3,6 +3,7 @@ import { Star, Quote, Globe, ShieldCheck, Sparkles } from 'lucide-react';
 import { Testimonial } from '../types';
 import { initialTestimonials } from '../data/initialData';
 import { useGsapContext, animateStagger } from '../utils/gsapHelper';
+import { useLanguage } from '../context/LanguageContext';
 import gsap from 'gsap';
 
 interface TestimonialsSectionProps {
@@ -10,6 +11,7 @@ interface TestimonialsSectionProps {
 }
 
 export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ testimonials = initialTestimonials }) => {
+  const { t, lang, localizeTestimonial } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const [selectedFilter, setSelectedFilter] = useState<string>('All');
 
@@ -41,9 +43,10 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ testim
     animateStagger('.testimonial-card-item', sectionRef.current, 0.1, 28);
   });
 
-  const filteredTestimonials = selectedFilter === 'All'
+  const rawList = selectedFilter === 'All'
     ? testimonials
-    : testimonials.filter(t => t.country.toLowerCase().includes(selectedFilter.toLowerCase()));
+    : testimonials.filter(item => item.country.toLowerCase().includes(selectedFilter.toLowerCase()));
+  const filteredTestimonials = rawList.map(item => localizeTestimonial(item));
 
   return (
     <section ref={sectionRef} className="py-16 sm:py-20 bg-slate-100/90 text-slate-900 relative overflow-hidden border-b border-slate-300/80">
@@ -52,30 +55,35 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ testim
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 space-y-3">
           <div className="testimonials-header-anim inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-            <span>Verified International Reviews & Feedback</span>
+            <span>{t.testimonialsKicker}</span>
           </div>
 
           <h2 className="testimonials-header-anim text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-950 tracking-tight font-['Kufam']">
-            Trusted by Leaders Across USA, Germany & the UK
+            {t.testimonialsHeading}
           </h2>
 
           <p className="testimonials-header-anim text-slate-600 text-xs sm:text-sm leading-relaxed font-['Kufam']">
-            Real feedback from executive directors, startup founders, and technical architects who trust WebDev Software Solutions with their mission-critical platforms.
+            {t.testimonialsSubheading}
           </p>
 
           {/* Filter Pills */}
           <div className="pt-2 flex flex-wrap items-center justify-center gap-2">
-            {['All', 'USA', 'Germany', 'UK'].map((filter) => (
+            {[
+              { id: 'All', label: lang === 'de' ? 'Alle' : 'All' },
+              { id: 'USA', label: 'USA' },
+              { id: 'Germany', label: lang === 'de' ? 'Deutschland' : 'Germany' },
+              { id: 'UK', label: 'UK' }
+            ].map((f) => (
               <button
-                key={filter}
-                onClick={() => setSelectedFilter(filter)}
+                key={f.id}
+                onClick={() => setSelectedFilter(f.id)}
                 className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-colors cursor-pointer min-h-[36px] ${
-                  selectedFilter === filter
+                  selectedFilter === f.id
                     ? 'bg-[#BBE7F1] text-slate-950 font-bold border border-[#9cd5e2] shadow-xs'
                     : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200'
                 }`}
               >
-                {filter}
+                {f.label}
               </button>
             ))}
           </div>
@@ -135,11 +143,11 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ testim
         <div className="mt-12 pt-8 border-t border-slate-200 flex flex-wrap items-center justify-center gap-6 text-xs sm:text-sm text-slate-500">
           <div className="flex items-center gap-1.5">
             <ShieldCheck className="w-4 h-4 text-cyan-700" />
-            <span>100% Genuine Client Endorsements</span>
+            <span>{lang === 'de' ? '100% echte Kundenempfehlungen' : '100% Genuine Client Endorsements'}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <Globe className="w-4 h-4 text-emerald-600" />
-            <span>SLA-Backed Agreements & Dedicated Global Support</span>
+            <span>{lang === 'de' ? 'SLA-gestützte Verträge & weltweiter Support' : 'SLA-Backed Agreements & Dedicated Global Support'}</span>
           </div>
         </div>
 

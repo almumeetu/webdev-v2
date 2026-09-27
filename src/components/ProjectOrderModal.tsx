@@ -19,6 +19,7 @@ import {
   FileCheck
 } from 'lucide-react';
 import { Project, Inquiry } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ProjectOrderModalProps {
   isOpen: boolean;
@@ -35,6 +36,7 @@ export const ProjectOrderModal: React.FC<ProjectOrderModalProps> = ({
   allProjects = [],
   onSubmitSuccess,
 }) => {
+  const { lang, t, localizeProject } = useLanguage();
   const [selectedProjectId, setSelectedProjectId] = useState<string>(project?.id || '');
   const [packageType, setPackageType] = useState<'turnkey' | 'custom' | 'enterprise'>('turnkey');
   const [fullName, setFullName] = useState('');
@@ -59,7 +61,8 @@ export const ProjectOrderModal: React.FC<ProjectOrderModalProps> = ({
 
   if (!isOpen) return null;
 
-  const activeProject = allProjects.find((p) => p.id === selectedProjectId) || project;
+  const rawActiveProject = allProjects.find((p) => p.id === selectedProjectId) || project;
+  const activeProject = rawActiveProject ? localizeProject(rawActiveProject) : null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -157,14 +160,16 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
 
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#BBE7F1]/20 border border-[#9cd5e2]/40 text-[#BBE7F1] text-xs font-mono font-bold uppercase tracking-wider mb-2">
             <Zap className="w-3.5 h-3.5" />
-            <span>Turnkey Deploy & Custom Order</span>
+            <span>{lang === 'de' ? 'SCHLÜSSELFERTIGER START & INDIVIDUALAUFTRAG' : 'Turnkey Deploy & Custom Order'}</span>
           </div>
 
           <h2 className="text-xl sm:text-2xl font-bold font-['Archivo'] tracking-tight">
-            Order or Customize This Website
+            {lang === 'de' ? 'Diese Website bestellen oder anpassen' : 'Order or Customize This Website'}
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl">
-            Choose your deployment model, set your timeline, and lock in our sprint availability. Receive a detailed architecture scope and fixed estimate within 24 hours.
+            {lang === 'de'
+              ? 'Wählen Sie Ihr Bereitstellungsmodell, legen Sie Ihren Zeitplan fest und sichern Sie sich unsere Sprint-Kapazitäten. Sie erhalten innerhalb von 24 Stunden einen detaillierten Architekturentwurf und ein Festpreisangebot.'
+              : 'Choose your deployment model, set your timeline, and lock in our sprint availability. Receive a detailed architecture scope and fixed estimate within 24 hours.'}
           </p>
         </div>
 
@@ -176,13 +181,17 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                 <CheckCircle2 className="w-9 h-9" />
               </div>
               <h3 className="text-2xl font-extrabold text-slate-900 font-['Archivo']">
-                Order Inquiry Received!
+                {lang === 'de' ? 'Bestellanfrage erfolgreich eingegangen!' : 'Order Inquiry Received!'}
               </h3>
               <p className="text-sm text-slate-600 max-w-md mx-auto">
-                Thank you! Our technical lead in Germany / Bangladesh has received your specification for <strong className="text-slate-900">{activeProject?.title}</strong>. We will review your requirements and reach out within 12 hours.
+                {lang === 'de' ? (
+                  <>Vielen Dank! Unser technischer Lead in Deutschland / Bangladesch hat Ihre Spezifikationen für <strong className="text-slate-900">{activeProject?.title}</strong> erhalten. Wir prüfen Ihre Anforderungen und melden uns innerhalb von 12 Stunden bei Ihnen.</>
+                ) : (
+                  <>Thank you! Our technical lead in Germany / Bangladesh has received your specification for <strong className="text-slate-900">{activeProject?.title}</strong>. We will review your requirements and reach out within 12 hours.</>
+                )}
               </p>
               <div className="pt-2 text-xs font-mono text-cyan-800 font-semibold">
-                Sprint slot reserved • NDA available on request
+                {lang === 'de' ? 'Sprint-Slot reserviert • NDA auf Wunsch vorab verfügbar' : 'Sprint slot reserved • NDA available on request'}
               </div>
             </div>
           ) : (
@@ -203,7 +212,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                           {activeProject.category}
                         </span>
                         <span className="text-xs text-slate-500 font-medium">
-                          Client: {activeProject.clientCountry}
+                          {lang === 'de' ? 'Kunde:' : 'Client:'} {activeProject.clientCountry}
                         </span>
                       </div>
                       <h4 className="text-sm sm:text-base font-bold text-slate-900 font-['Archivo'] truncate mt-0.5">
@@ -211,8 +220,8 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                       </h4>
                       {activeProject.priceRange && (
                         <div className="text-xs text-slate-600 mt-0.5">
-                          Est. Investment: <strong className="text-slate-900">{activeProject.priceRange}</strong>
-                          {activeProject.estimatedDelivery && ` • Turnaround: ${activeProject.estimatedDelivery}`}
+                          {lang === 'de' ? 'Geschätzte Investition:' : 'Est. Investment:'} <strong className="text-slate-900">{activeProject.priceRange}</strong>
+                          {activeProject.estimatedDelivery && ` • ${lang === 'de' ? 'Lieferzeit:' : 'Turnaround:'} ${activeProject.estimatedDelivery}`}
                         </div>
                       )}
                     </div>
@@ -225,11 +234,14 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                         onChange={(e) => setSelectedProjectId(e.target.value)}
                         className="w-full sm:w-48 text-xs font-semibold bg-white border border-slate-300 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2]"
                       >
-                        {allProjects.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.title}
-                          </option>
-                        ))}
+                        {allProjects.map((p) => {
+                          const lp = localizeProject(p);
+                          return (
+                            <option key={lp.id} value={lp.id}>
+                              {lp.title}
+                            </option>
+                          );
+                        })}
                       </select>
                     </div>
                   )}
@@ -239,7 +251,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
               {/* Package Type Selector */}
               <div>
                 <label className="block text-xs font-bold font-mono uppercase tracking-wider text-slate-600 mb-2.5">
-                  1. Select Launch Model
+                  {lang === 'de' ? '1. Bereitstellungsmodell wählen' : '1. Select Launch Model'}
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   
@@ -247,7 +259,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                   <div
                     onClick={() => {
                       setPackageType('turnkey');
-                      setTimeline('Fast Track (7-14 Days)');
+                      setTimeline(lang === 'de' ? 'Schnellstart (7-14 Tage)' : 'Fast Track (7-14 Days)');
                     }}
                     className={`p-3.5 rounded-2xl border-2 cursor-pointer transition-all ${
                       packageType === 'turnkey'
@@ -262,10 +274,12 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                       {packageType === 'turnkey' && <CheckCircle2 className="w-4 h-4 text-cyan-600" />}
                     </div>
                     <div className="text-[11px] text-slate-600 leading-snug">
-                      Fastest path. Rebrand this architecture with your colors, copy, domain & payment flow.
+                      {lang === 'de' 
+                        ? 'Schnellster Weg zum Markt. Übertragen Sie diese Architektur mit Ihren Farben, Texten, Domains und Zahlungsabläufen.'
+                        : 'Fastest path. Rebrand this architecture with your colors, copy, domain & payment flow.'}
                     </div>
                     <div className="mt-2 text-xs font-mono font-bold text-slate-900">
-                      7 - 14 Days • $1.5k - $3k
+                      {lang === 'de' ? '7 - 14 Tage • 1.500 € - 3.000 €' : '7 - 14 Days • $1.5k - $3k'}
                     </div>
                   </div>
 
@@ -273,7 +287,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                   <div
                     onClick={() => {
                       setPackageType('custom');
-                      setTimeline('Standard (2-4 Weeks)');
+                      setTimeline(lang === 'de' ? 'Standard (2-4 Wochen)' : 'Standard (2-4 Weeks)');
                     }}
                     className={`p-3.5 rounded-2xl border-2 cursor-pointer transition-all ${
                       packageType === 'custom'
@@ -283,15 +297,17 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                   >
                     <div className="flex items-center justify-between mb-1.5">
                       <span className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                        <Sparkles className="w-4 h-4 text-amber-500" /> Custom Tailored
+                        <Sparkles className="w-4 h-4 text-amber-500" /> {lang === 'de' ? 'Maßgeschneidert' : 'Custom Tailored'}
                       </span>
                       {packageType === 'custom' && <CheckCircle2 className="w-4 h-4 text-cyan-600" />}
                     </div>
                     <div className="text-[11px] text-slate-600 leading-snug">
-                      Use this codebase as core base, add custom APIs, workflows & distinct UI features.
+                      {lang === 'de'
+                        ? 'Nutzen Sie diese Codebasis als Kern und integrieren Sie benutzerdefinierte APIs, Workflows und exklusive UI-Funktionen.'
+                        : 'Use this codebase as core base, add custom APIs, workflows & distinct UI features.'}
                     </div>
                     <div className="mt-2 text-xs font-mono font-bold text-slate-900">
-                      2 - 4 Weeks • $3k - $6.5k
+                      {lang === 'de' ? '2 - 4 Wochen • 3.000 € - 6.500 €' : '2 - 4 Weeks • $3k - $6.5k'}
                     </div>
                   </div>
 
@@ -299,7 +315,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                   <div
                     onClick={() => {
                       setPackageType('enterprise');
-                      setTimeline('Comprehensive (4-8 Weeks)');
+                      setTimeline(lang === 'de' ? 'Enterprise (4-8 Wochen)' : 'Comprehensive (4-8 Weeks)');
                     }}
                     className={`p-3.5 rounded-2xl border-2 cursor-pointer transition-all ${
                       packageType === 'enterprise'
@@ -309,15 +325,17 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                   >
                     <div className="flex items-center justify-between mb-1.5">
                       <span className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                        <Building2 className="w-4 h-4 text-indigo-600" /> Enterprise Bespoke
+                        <Building2 className="w-4 h-4 text-indigo-600" /> {lang === 'de' ? 'Enterprise Maßanfertigung' : 'Enterprise Bespoke'}
                       </span>
                       {packageType === 'enterprise' && <CheckCircle2 className="w-4 h-4 text-cyan-600" />}
                     </div>
                     <div className="text-[11px] text-slate-600 leading-snug">
-                      End-to-end bespoke solution with dedicated PMP® Scrum Master & senior squad.
+                      {lang === 'de'
+                        ? 'Vollständige Neuentwicklung mit dediziertem PMP® Scrum Master und hochqualifiziertem Senior-Squad.'
+                        : 'End-to-end bespoke solution with dedicated PMP® Scrum Master & senior squad.'}
                     </div>
                     <div className="mt-2 text-xs font-mono font-bold text-slate-900">
-                      4 - 8 Weeks • Custom Quote
+                      {lang === 'de' ? '4 - 8 Wochen • Individuelles Angebot' : '4 - 8 Weeks • Custom Quote'}
                     </div>
                   </div>
 
@@ -327,18 +345,18 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
               {/* Contact Information Fields */}
               <div>
                 <label className="block text-xs font-bold font-mono uppercase tracking-wider text-slate-600 mb-2.5">
-                  2. Your Details & Requirements
+                  {lang === 'de' ? '2. Ihre Kontaktdaten & Anforderungen' : '2. Your Details & Requirements'}
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Full Name <span className="text-rose-500">*</span>
+                      {lang === 'de' ? 'Vollständiger Name' : 'Full Name'} <span className="text-rose-500">*</span>
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="e.g. John Doe / Alexander Schmidt"
+                      placeholder={lang === 'de' ? 'z. B. Alexander Schmidt / Markus Weber' : 'e.g. John Doe / Alexander Schmidt'}
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] text-slate-900"
@@ -347,7 +365,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Work Email <span className="text-rose-500">*</span>
+                      {lang === 'de' ? 'Geschäftliche E-Mail' : 'Work Email'} <span className="text-rose-500">*</span>
                     </label>
                     <input
                       type="email"
@@ -361,12 +379,12 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      WhatsApp / Phone (with country code) <span className="text-rose-500">*</span>
+                      {lang === 'de' ? 'WhatsApp / Telefon (mit Vorwahl)' : 'WhatsApp / Phone (with country code)'} <span className="text-rose-500">*</span>
                     </label>
                     <input
                       type="tel"
                       required
-                      placeholder="+1 (555) 000-0000 or +49 172..."
+                      placeholder="+49 172... oder +880 17..."
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
                       className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] text-slate-900"
@@ -375,11 +393,11 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Company / Organization (Optional)
+                      {lang === 'de' ? 'Unternehmen / Organisation (Optional)' : 'Company / Organization (Optional)'}
                     </label>
                     <input
                       type="text"
-                      placeholder="e.g. Acme Corp / Studio GmbH"
+                      placeholder={lang === 'de' ? 'z. B. Acme GmbH / Studio KG' : 'e.g. Acme Corp / Studio GmbH'}
                       value={company}
                       onChange={(e) => setCompany(e.target.value)}
                       className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] text-slate-900"
@@ -388,33 +406,33 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Target Launch Urgency
+                      {lang === 'de' ? 'Gewünschter Fertigstellungstermin' : 'Target Launch Urgency'}
                     </label>
                     <select
                       value={timeline}
                       onChange={(e) => setTimeline(e.target.value)}
                       className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] text-slate-900 bg-white"
                     >
-                      <option value="Urgent (Under 2 Weeks)">⚡ Urgent (Under 2 Weeks)</option>
-                      <option value="Standard (2-4 Weeks)">Standard (2-4 Weeks)</option>
-                      <option value="Flexible (1-2 Months)">Flexible (1-2 Months)</option>
-                      <option value="Enterprise Sprint Timeline">Enterprise Sprint Timeline</option>
+                      <option value="Urgent (Under 2 Weeks)">{lang === 'de' ? '⚡ Dringend (Unter 2 Wochen)' : '⚡ Urgent (Under 2 Weeks)'}</option>
+                      <option value="Standard (2-4 Weeks)">{lang === 'de' ? 'Standard (2-4 Wochen)' : 'Standard (2-4 Weeks)'}</option>
+                      <option value="Flexible (1-2 Months)">{lang === 'de' ? 'Flexibel (1-2 Monate)' : 'Flexible (1-2 Months)'}</option>
+                      <option value="Enterprise Sprint Timeline">{lang === 'de' ? 'Enterprise Sprint-Zeitplan' : 'Enterprise Sprint Timeline'}</option>
                     </select>
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Target Budget Range
+                      {lang === 'de' ? 'Geplanter Budgetrahmen' : 'Target Budget Range'}
                     </label>
                     <select
                       value={budget}
                       onChange={(e) => setBudget(e.target.value)}
                       className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] text-slate-900 bg-white"
                     >
-                      <option value="$1,500 - $3,000">$1,500 - $3,000 (Turnkey MVP)</option>
-                      <option value="$3,000 - $6,000">$3,000 - $6,000 (Standard Growth)</option>
-                      <option value="$6,000 - $12,000">$6,000 - $12,000 (Enterprise Tier)</option>
-                      <option value="$12,000+">$12,000+ (Multi-Tenant / Complex Cloud)</option>
+                      <option value="$1,500 - $3,000">{lang === 'de' ? '1.500 € - 3.000 € (Turnkey MVP)' : '$1,500 - $3,000 (Turnkey MVP)'}</option>
+                      <option value="$3,000 - $6,000">{lang === 'de' ? '3.000 € - 6.000 € (Standard Wachstum)' : '$3,000 - $6,000 (Standard Growth)'}</option>
+                      <option value="$6,000 - $12,000">{lang === 'de' ? '6.000 € - 12.000 € (Enterprise Stufe)' : '$6,000 - $12,000 (Enterprise Tier)'}</option>
+                      <option value="$12,000+">{lang === 'de' ? '12.000 €+ (Multi-Tenant / Komplexe Cloud)' : '$12,000+ (Multi-Tenant / Complex Cloud)'}</option>
                     </select>
                   </div>
 
@@ -424,11 +442,11 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
               {/* Message / Custom Requirements */}
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Custom Adjustments or Specific Features Needed
+                  {lang === 'de' ? 'Individuelle Anpassungen oder spezifische Funktionen' : 'Custom Adjustments or Specific Features Needed'}
                 </label>
                 <textarea
                   rows={3}
-                  placeholder={`Tell us what branding, payment methods, or custom pages you want to add to ${activeProject?.title || 'this project'}...`}
+                  placeholder={lang === 'de' ? `Beschreiben Sie gewünschtes Branding, Zahlungsmethoden oder spezifische Module für ${activeProject?.title || 'dieses Projekt'}...` : `Tell us what branding, payment methods, or custom pages you want to add to ${activeProject?.title || 'this project'}...`}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] text-slate-900 resize-none"
@@ -445,7 +463,9 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                   className="w-4 h-4 rounded text-cyan-800 focus:ring-[#9cd5e2] border-slate-300"
                 />
                 <label htmlFor="nda-checkbox" className="text-xs text-slate-700 cursor-pointer select-none">
-                  Please execute a Non-Disclosure Agreement (NDA) before detailed blueprint sharing.
+                  {lang === 'de' 
+                    ? 'Bitte vor dem Austausch detaillierter Spezifikationen eine Geheimhaltungsvereinbarung (NDA) abschließen.' 
+                    : 'Please execute a Non-Disclosure Agreement (NDA) before detailed blueprint sharing.'}
                 </label>
               </div>
 
@@ -454,7 +474,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                 
                 {/* Instant WhatsApp buttons */}
                 <div className="flex items-center gap-2 w-full sm:w-auto">
-                  <span className="text-xs text-slate-500 font-medium hidden md:inline">Instant Chat:</span>
+                  <span className="text-xs text-slate-500 font-medium hidden md:inline">{lang === 'de' ? 'Sofort-Chat:' : 'Instant Chat:'}</span>
                   <button
                     type="button"
                     onClick={() => handleWhatsApp('+491729766016')}
@@ -478,10 +498,10 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                   className="w-full sm:w-auto bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-extrabold text-sm px-7 py-3 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                 >
                   {isSubmitting ? (
-                    <span>Registering Order...</span>
+                    <span>{lang === 'de' ? 'Bestellanfrage wird übermittelt...' : 'Registering Order...'}</span>
                   ) : (
                     <>
-                      <span>Lock Sprint Slot & Get Quote</span>
+                      <span>{lang === 'de' ? 'Sprint-Slot sichern & Angebot erhalten' : 'Lock Sprint Slot & Get Quote'}</span>
                       <ArrowRight className="w-4 h-4 text-slate-950" />
                     </>
                   )}
@@ -497,15 +517,15 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
         <div className="bg-slate-50 border-t border-slate-200/80 p-3 sm:px-6 flex items-center justify-between text-[11px] text-slate-500 shrink-0 flex-wrap gap-2">
           <div className="flex items-center gap-1.5">
             <ShieldCheck className="w-4 h-4 text-cyan-700 shrink-0" />
-            <span>100% Full Source Code Ownership</span>
+            <span>{lang === 'de' ? '100% Vollständiges Quellcode-Eigentum' : '100% Full Source Code Ownership'}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>30-Day Free Post-Launch Warranty</span>
+            <span>{lang === 'de' ? '30 Tage kostenlose Garantie nach Go-Live' : '30-Day Free Post-Launch Warranty'}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <FileCheck className="w-4 h-4 text-cyan-700 shrink-0" />
-            <span>German GDPR & High Performance Assured</span>
+            <span>{lang === 'de' ? 'Deutsche DSGVO & Höchste Performance Garantiert' : 'German GDPR & High Performance Assured'}</span>
           </div>
         </div>
 

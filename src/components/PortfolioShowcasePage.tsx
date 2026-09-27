@@ -30,6 +30,7 @@ import { Project } from '../types';
 import { ProjectOrderModal } from './ProjectOrderModal';
 import { ProjectDetailModal } from './ProjectDetailModal';
 import { Breadcrumb } from './Breadcrumb';
+import { useLanguage } from '../context/LanguageContext';
 
 interface PortfolioShowcasePageProps {
   projects: Project[];
@@ -49,6 +50,12 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
   initialOrderId,
 }) => {
   const router = useRouter();
+  const { lang, t, localizeProject } = useLanguage();
+
+  // Localize all projects dynamically based on current language
+  const localizedProjects = useMemo(() => {
+    return projects.map((p) => localizeProject(p));
+  }, [projects, localizeProject]);
 
   // ─── Filter & Search State ──────────────────────────────────────────────────
   const [searchQuery, setSearchQuery] = useState(initialSearch || '');
@@ -61,7 +68,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
   const [orderModalOpen, setOrderModalOpen] = useState(Boolean(initialOrderId));
   const [selectedProjectForOrder, setSelectedProjectForOrder] = useState<Project | null>(() => {
     if (initialOrderId) {
-      return projects.find((p) => p.id === initialOrderId) || projects[0] || null;
+      return localizedProjects.find((p) => p.id === initialOrderId) || localizedProjects[0] || null;
     }
     return null;
   });
@@ -74,16 +81,23 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
   const [estType, setEstType] = useState<'ecommerce' | 'saas' | 'corporate' | 'cloud'>('ecommerce');
   const [estTier, setEstTier] = useState<'turnkey' | 'growth' | 'enterprise'>('turnkey');
 
-  const categories = [
-    { name: 'All', icon: Sparkles },
-    { name: 'Web Application', icon: Laptop },
-    { name: 'Full Stack & MERN', icon: Code2 },
-    { name: 'Backend & Cloud', icon: Server },
-    { name: 'E-Commerce', icon: ShoppingBag },
-    { name: 'WordPress & Shopify', icon: Store },
-  ];
+  const categories = useMemo(() => [
+    { id: 'All', label: lang === 'de' ? 'Alle' : 'All', icon: Sparkles },
+    { id: 'Web Application', label: lang === 'de' ? 'Web-Anwendungen' : 'Web Application', icon: Laptop },
+    { id: 'Full Stack & MERN', label: lang === 'de' ? 'Full-Stack & MERN' : 'Full Stack & MERN', icon: Code2 },
+    { id: 'Backend & Cloud', label: lang === 'de' ? 'Backend & Cloud' : 'Backend & Cloud', icon: Server },
+    { id: 'E-Commerce', label: lang === 'de' ? 'E-Commerce' : 'E-Commerce', icon: ShoppingBag },
+    { id: 'WordPress & Shopify', label: lang === 'de' ? 'WordPress & Shopify' : 'WordPress & Shopify', icon: Store },
+  ], [lang]);
 
-  const countries = ['All', 'Germany', 'USA', 'UK', 'Europe', 'Bangladesh'];
+  const countryOptions = useMemo(() => [
+    { value: 'All', label: lang === 'de' ? '🌐 Alle Länder' : '🌐 All Countries' },
+    { value: 'Germany', label: `🇩🇪 ${lang === 'de' ? 'Deutschland' : 'Germany'}` },
+    { value: 'USA', label: '🇺🇸 USA' },
+    { value: 'UK', label: `🇬🇧 ${lang === 'de' ? 'Großbritannien' : 'UK'}` },
+    { value: 'Europe', label: `🇪🇺 ${lang === 'de' ? 'Europa' : 'Europe'}` },
+    { value: 'Bangladesh', label: `🇧🇩 ${lang === 'de' ? 'Bangladesch' : 'Bangladesh'}` },
+  ], [lang]);
 
   const getCountryFlag = (country: string) => {
     switch (country) {
@@ -104,7 +118,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
 
   // ─── Filtered Projects ──────────────────────────────────────────────────────
   const filteredProjects = useMemo(() => {
-    return projects.filter((project) => {
+    return localizedProjects.filter((project) => {
       if (selectedCategory !== 'All' && project.category !== selectedCategory) {
         return false;
       }
@@ -128,7 +142,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
       }
       return true;
     });
-  }, [projects, selectedCategory, selectedCountry, selectedStatus, searchQuery]);
+  }, [localizedProjects, selectedCategory, selectedCountry, selectedStatus, searchQuery]);
 
   const handleOpenOrder = (project: Project) => {
     setSelectedProjectForOrder(project);
@@ -145,44 +159,108 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
   const estimatorResult = useMemo(() => {
     const data = {
       ecommerce: {
-        turnkey: { time: '7 - 14 Days', price: '$2,500 - $3,500', name: 'Turnkey E-Commerce Storefront', stack: 'Next.js 15 / Shopify Plus API / Stripe' },
-        growth: { time: '2 - 3 Weeks', price: '$3,800 - $6,500', name: 'Custom Headless Commerce Platform', stack: 'Headless Shopify / Algolia Search / Klaviyo' },
-        enterprise: { time: '4 - 6 Weeks', price: '$7,000 - $14,000', name: 'Multi-Vendor / Global Commerce Engine', stack: 'Microservices / Redis / Multi-Currency / ERP Sync' },
+        turnkey: {
+          time: lang === 'de' ? '7 - 14 Tage' : '7 - 14 Days',
+          price: '$2,500 - $3,500',
+          name: lang === 'de' ? 'Schlüsselfertiger E-Commerce Storefront' : 'Turnkey E-Commerce Storefront',
+          stack: 'Next.js 15 / Shopify Plus API / Stripe'
+        },
+        growth: {
+          time: lang === 'de' ? '2 - 3 Wochen' : '2 - 3 Weeks',
+          price: '$3,800 - $6,500',
+          name: lang === 'de' ? 'Individuelle Headless-Commerce-Plattform' : 'Custom Headless Commerce Platform',
+          stack: 'Headless Shopify / Algolia Search / Klaviyo'
+        },
+        enterprise: {
+          time: lang === 'de' ? '4 - 6 Wochen' : '4 - 6 Weeks',
+          price: '$7,000 - $14,000',
+          name: lang === 'de' ? 'Globales Multi-Vendor Handelsnetzwerk' : 'Multi-Vendor / Global Commerce Engine',
+          stack: 'Microservices / Redis / Multi-Currency / ERP Sync'
+        },
       },
       saas: {
-        turnkey: { time: '10 - 15 Days', price: '$3,000 - $4,500', name: 'MVP SaaS Portal & Auth Starter', stack: 'Next.js 15 / PostgreSQL / Prisma / Stripe Subscriptions' },
-        growth: { time: '3 - 4 Weeks', price: '$5,000 - $8,500', name: 'Full-Stack Multi-Tenant SaaS Platform', stack: 'React 19 / Node.js / WebSockets / Role-Based Access' },
-        enterprise: { time: '5 - 8 Weeks', price: '$9,000 - $18,000', name: 'Enterprise Cloud Portal & Microservices', stack: 'Kubernetes / TimescaleDB / Kafka / SOC2 Readiness' },
+        turnkey: {
+          time: lang === 'de' ? '10 - 15 Tage' : '10 - 15 Days',
+          price: '$3,000 - $4,500',
+          name: lang === 'de' ? 'MVP SaaS-Portal & Auth-Starter' : 'MVP SaaS Portal & Auth Starter',
+          stack: 'Next.js 15 / PostgreSQL / Prisma / Stripe Subscriptions'
+        },
+        growth: {
+          time: lang === 'de' ? '3 - 4 Wochen' : '3 - 4 Weeks',
+          price: '$5,000 - $8,500',
+          name: lang === 'de' ? 'Full-Stack Mandantenfähige SaaS-Plattform' : 'Full-Stack Multi-Tenant SaaS Platform',
+          stack: lang === 'de' ? 'React 19 / Node.js / WebSockets / Rollensystem' : 'React 19 / Node.js / WebSockets / Role-Based Access'
+        },
+        enterprise: {
+          time: lang === 'de' ? '5 - 8 Wochen' : '5 - 8 Weeks',
+          price: '$9,000 - $18,000',
+          name: lang === 'de' ? 'Enterprise Cloud-Portal & Microservices' : 'Enterprise Cloud Portal & Microservices',
+          stack: 'Kubernetes / TimescaleDB / Kafka / SOC2 Readiness'
+        },
       },
       corporate: {
-        turnkey: { time: '5 - 10 Days', price: '$1,800 - $2,800', name: 'Ultra-Fast Corporate Brand Experience', stack: 'Next.js 15 / Tailwind / Sanity CMS / 98+ PageSpeed' },
-        growth: { time: '2 - 3 Weeks', price: '$3,200 - $5,000', name: 'Interactive Corporate Hub with Lead CRM', stack: 'Custom GSAP Animations / HubSpot API / Multi-Language' },
-        enterprise: { time: '3 - 5 Weeks', price: '$5,500 - $9,500', name: 'Global Multi-Region Corporate Ecosystem', stack: 'Cloudflare Edge / GDPR Engine / Custom Portals' },
+        turnkey: {
+          time: lang === 'de' ? '5 - 10 Tage' : '5 - 10 Days',
+          price: '$1,800 - $2,800',
+          name: lang === 'de' ? 'Ultraschnelle Corporate Marken-Webseite' : 'Ultra-Fast Corporate Brand Experience',
+          stack: 'Next.js 15 / Tailwind / Sanity CMS / 98+ PageSpeed'
+        },
+        growth: {
+          time: lang === 'de' ? '2 - 3 Wochen' : '2 - 3 Weeks',
+          price: '$3,200 - $5,000',
+          name: lang === 'de' ? 'Interaktiver Corporate Hub mit Lead-CRM' : 'Interactive Corporate Hub with Lead CRM',
+          stack: 'Custom GSAP Animations / HubSpot API / Multi-Language'
+        },
+        enterprise: {
+          time: lang === 'de' ? '3 - 5 Wochen' : '3 - 5 Weeks',
+          price: '$5,500 - $9,500',
+          name: lang === 'de' ? 'Globales Multi-Regionen Unternehmensökosystem' : 'Global Multi-Region Corporate Ecosystem',
+          stack: lang === 'de' ? 'Cloudflare Edge / DSGVO-Engine / Portale' : 'Cloudflare Edge / GDPR Engine / Custom Portals'
+        },
       },
       cloud: {
-        turnkey: { time: '7 - 12 Days', price: '$2,800 - $4,000', name: 'Cloud API & Microservice Ingestion', stack: 'Node.js / Express / Redis / Docker / AWS' },
-        growth: { time: '2 - 4 Weeks', price: '$4,500 - $7,500', name: 'High-Throughput Telemetry & Analytics Grid', stack: 'Fastify / TimescaleDB / Grafana / Prometheus' },
-        enterprise: { time: '4 - 8 Weeks', price: '$8,500 - $16,000', name: 'Multi-Cloud Distributed Enterprise Network', stack: 'AWS & GCP / Multi-Region K8s / Strict TLS 1.3' },
+        turnkey: {
+          time: lang === 'de' ? '7 - 12 Tage' : '7 - 12 Days',
+          price: '$2,800 - $4,000',
+          name: lang === 'de' ? 'Cloud-API & Microservice Datenaufnahme' : 'Cloud API & Microservice Ingestion',
+          stack: 'Node.js / Express / Redis / Docker / AWS'
+        },
+        growth: {
+          time: lang === 'de' ? '2 - 4 Wochen' : '2 - 4 Weeks',
+          price: '$4,500 - $7,500',
+          name: lang === 'de' ? 'Hochdurchsatz-Telemetrie & Analyse-Grid' : 'High-Throughput Telemetry & Analytics Grid',
+          stack: 'Fastify / TimescaleDB / Grafana / Prometheus'
+        },
+        enterprise: {
+          time: lang === 'de' ? '4 - 8 Wochen' : '4 - 8 Weeks',
+          price: '$8,500 - $16,000',
+          name: lang === 'de' ? 'Verteiltes Multi-Cloud Enterprise-Netzwerk' : 'Multi-Cloud Distributed Enterprise Network',
+          stack: 'AWS & GCP / Multi-Region K8s / TLS 1.3'
+        },
       },
     };
 
     return data[estType][estTier];
-  }, [estType, estTier]);
+  }, [estType, estTier, lang]);
 
   return (
     <div className="min-h-screen bg-white text-slate-900">
       
       {/* ─── Top Consistent Breadcrumb & Hero Banner ──────────────────────────── */}
       <Breadcrumb
-        badge="PROVEN DELIVERIES • READY TO ORDER & LAUNCH"
-        title="Enterprise Platforms & Websites Built to Perform"
-        subtitle="Explore our production-grade web applications, headless commerce systems, and SaaS platforms deployed across Germany, the USA, and Europe. Need a similar site? Order an exact turnkey clone or request a custom bespoke build."
+        badge={lang === 'de' ? 'BEWÄHRTE ERFOLGE • DIREKT BESTELLBAR & EINSATZBEREIT' : 'PROVEN DELIVERIES • READY TO ORDER & LAUNCH'}
+        title={lang === 'de' ? 'Enterprise Plattformen & Performante Webanwendungen' : 'Enterprise Platforms & Websites Built to Perform'}
+        subtitle={
+          lang === 'de'
+            ? 'Entdecken Sie unsere produktiven Webanwendungen, Headless-Commerce-Systeme und SaaS-Plattformen in Deutschland, den USA und Europa. Wünschen Sie ein ähnliches System? Bestellen Sie einen schlüsselfertigen Klon oder ein maßgeschneidertes Projekt.'
+            : 'Explore our production-grade web applications, headless commerce systems, and SaaS platforms deployed across Germany, the USA, and Europe. Need a similar site? Order an exact turnkey clone or request a custom bespoke build.'
+        }
         items={[
-          { label: 'Home', onClick: () => router.push('/') },
-          { label: 'Projects & Case Studies', active: true }
+          { label: lang === 'de' ? 'Startseite' : 'Home', onClick: () => router.push('/') },
+          { label: lang === 'de' ? 'Projekte & Fallstudien' : 'Projects & Case Studies', active: true }
         ]}
         backAction={() => router.push('/')}
-        backLabel="Back to Home"
+        backLabel={lang === 'de' ? 'Zurück zur Startseite' : 'Back to Home'}
         align="left"
       >
         {/* Quick Action Buttons */}
@@ -190,12 +268,12 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
           <button
             type="button"
             onClick={() => {
-              setSelectedProjectForOrder(projects[0] || null);
+              setSelectedProjectForOrder(localizedProjects[0] || null);
               setOrderModalOpen(true);
             }}
             className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-extrabold text-xs sm:text-sm px-5 py-2.5 rounded-xl border border-[#9cd5e2] transition-all flex items-center gap-2 cursor-pointer shadow-sm"
           >
-            <span>Order a Website Like These</span>
+            <span>{lang === 'de' ? 'Ähnliche Website bestellen' : 'Order a Website Like These'}</span>
             <ArrowRight className="w-4 h-4 text-slate-950" />
           </button>
 
@@ -205,7 +283,11 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
             className="bg-slate-900/85 hover:bg-slate-800 text-slate-200 hover:text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-slate-700/80 transition-all flex items-center gap-2 cursor-pointer backdrop-blur-md shadow-sm"
           >
             <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
-            <span>{estimatorOpen ? 'Hide Scope Calculator' : 'Interactive Scope & Price Estimator'}</span>
+            <span>
+              {estimatorOpen
+                ? (lang === 'de' ? 'Kalkulator ausblenden' : 'Hide Scope Calculator')
+                : (lang === 'de' ? 'Interaktiver Budget- & Zeitkalkulator' : 'Interactive Scope & Price Estimator')}
+            </span>
             <ChevronDown className={`w-3.5 h-3.5 transition-transform ${estimatorOpen ? 'rotate-180' : ''}`} />
           </button>
         </div>
@@ -218,7 +300,9 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
             <div className="text-2xl sm:text-3xl font-black font-['Archivo'] text-slate-950">
               {projects.length}+
             </div>
-            <div className="text-xs text-slate-500 font-medium">Production Case Studies</div>
+            <div className="text-xs text-slate-500 font-medium">
+              {lang === 'de' ? 'Erfolgreiche Fallstudien' : 'Production Case Studies'}
+            </div>
           </div>
 
           <div className="p-4 sm:p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 space-y-1 shadow-2xs">
@@ -226,21 +310,27 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
               <span>100%</span>
               <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
             </div>
-            <div className="text-xs text-slate-500 font-medium">On-Time Sprint Delivery</div>
+            <div className="text-xs text-slate-500 font-medium">
+              {lang === 'de' ? 'Pünktliche Sprint-Lieferung' : 'On-Time Sprint Delivery'}
+            </div>
           </div>
 
           <div className="p-4 sm:p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 space-y-1 shadow-2xs">
             <div className="text-2xl sm:text-3xl font-black font-['Archivo'] text-cyan-800">
-              7 - 14 Days
+              {lang === 'de' ? '7 - 14 Tage' : '7 - 14 Days'}
             </div>
-            <div className="text-xs text-slate-500 font-medium">Fast-Track Turnkey Launch</div>
+            <div className="text-xs text-slate-500 font-medium">
+              {lang === 'de' ? 'Schneller Turnkey-Launch' : 'Fast-Track Turnkey Launch'}
+            </div>
           </div>
 
           <div className="p-4 sm:p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 space-y-1 shadow-2xs">
             <div className="text-2xl sm:text-3xl font-black font-['Archivo'] text-slate-900">
               PMP® Scrum
             </div>
-            <div className="text-xs text-slate-500 font-medium">European Quality Governance</div>
+            <div className="text-xs text-slate-500 font-medium">
+              {lang === 'de' ? 'Deutsche Qualitätsführung' : 'European Quality Governance'}
+            </div>
           </div>
         </div>
       </div>
@@ -254,13 +344,15 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
               <div>
                 <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-cyan-800 mb-1">
                   <Sparkles className="w-3.5 h-3.5 text-cyan-700" />
-                  <span>Instant Project Estimator</span>
+                  <span>{lang === 'de' ? 'SOFORTIGER PROJEKT-KALKULATOR' : 'Instant Project Estimator'}</span>
                 </div>
                 <h3 className="text-xl sm:text-2xl font-bold text-slate-950 font-['Archivo']">
-                  Configure Your Website Specification
+                  {lang === 'de' ? 'Konfigurieren Sie Ihre Website-Spezifikation' : 'Configure Your Website Specification'}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 mt-1">
-                  Pick your architecture type and target speed to view estimated timelines, stack, and pricing tiers.
+                  {lang === 'de'
+                    ? 'Wählen Sie Ihren Plattformtyp und die gewünschte Bereitstellungsstufe, um Zeitpläne, Tech-Stack und Preiskategorien einzusehen.'
+                    : 'Pick your architecture type and target speed to view estimated timelines, stack, and pricing tiers.'}
                 </p>
               </div>
 
@@ -269,7 +361,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                 onClick={() => setEstimatorOpen(false)}
                 className="text-xs font-bold text-slate-500 hover:text-slate-900 px-3 py-1.5 rounded-lg hover:bg-slate-200/60 transition-colors self-start md:self-center cursor-pointer"
               >
-                Close Calculator ✕
+                {lang === 'de' ? 'Kalkulator schließen ✕' : 'Close Calculator ✕'}
               </button>
             </div>
 
@@ -278,14 +370,14 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
               {/* Step 1: Platform Type */}
               <div className="space-y-3">
                 <label className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500">
-                  1. Choose Platform Type
+                  {lang === 'de' ? '1. Plattformtyp wählen' : '1. Choose Platform Type'}
                 </label>
                 <div className="space-y-2.5">
                   {[
-                    { id: 'ecommerce', label: 'E-Commerce Storefront', desc: 'Shopify / Headless / Multi-Currency' },
-                    { id: 'saas', label: 'SaaS & Web Portal', desc: 'Auth, Subscriptions, Dashboards' },
-                    { id: 'corporate', label: 'Corporate Brand Website', desc: '98+ PageSpeed, CMS, Lead Funnel' },
-                    { id: 'cloud', label: 'Cloud API & Backend Grid', desc: 'Microservices, Telemetry, High Volume' },
+                    { id: 'ecommerce', label: lang === 'de' ? 'E-Commerce Storefront' : 'E-Commerce Storefront', desc: lang === 'de' ? 'Shopify / Headless / Multi-Währung' : 'Shopify / Headless / Multi-Currency' },
+                    { id: 'saas', label: lang === 'de' ? 'SaaS & Web-Portal' : 'SaaS & Web Portal', desc: lang === 'de' ? 'Auth, Abonnements, Dashboards' : 'Auth, Subscriptions, Dashboards' },
+                    { id: 'corporate', label: lang === 'de' ? 'Corporate Marken-Webseite' : 'Corporate Brand Website', desc: lang === 'de' ? '98+ PageSpeed, CMS, Lead-Funnel' : '98+ PageSpeed, CMS, Lead Funnel' },
+                    { id: 'cloud', label: lang === 'de' ? 'Cloud-API & Backend-Grid' : 'Cloud API & Backend Grid', desc: lang === 'de' ? 'Microservices, Telemetrie, High Volume' : 'Microservices, Telemetry, High Volume' },
                   ].map((item) => (
                     <div
                       key={item.id}
@@ -306,13 +398,13 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
               {/* Step 2: Delivery Tier */}
               <div className="space-y-3">
                 <label className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500">
-                  2. Choose Delivery Tier
+                  {lang === 'de' ? '2. Bereitstellungsstufe wählen' : '2. Choose Delivery Tier'}
                 </label>
                 <div className="space-y-2.5">
                   {[
-                    { id: 'turnkey', label: '⚡ Turnkey Fast-Track', desc: 'Fastest 7-14 Days • Rebrand proven architecture' },
-                    { id: 'growth', label: '🛠️ Custom Tailored Build', desc: '2-4 Weeks • Custom APIs, workflows & distinct UI' },
-                    { id: 'enterprise', label: '🚀 Enterprise Bespoke', desc: '4-8 Weeks • Complete ground-up senior squad build' },
+                    { id: 'turnkey', label: lang === 'de' ? '⚡ Schlüsselfertiger Fast-Track' : '⚡ Turnkey Fast-Track', desc: lang === 'de' ? 'Schnellste 7-14 Tage • Bewährte Architektur' : 'Fastest 7-14 Days • Rebrand proven architecture' },
+                    { id: 'growth', label: lang === 'de' ? '🛠️ Maßgeschneiderte Entwicklung' : '🛠️ Custom Tailored Build', desc: lang === 'de' ? '2-4 Wochen • Eigene APIs, Workflows & Design' : '2-4 Weeks • Custom APIs, workflows & distinct UI' },
+                    { id: 'enterprise', label: lang === 'de' ? '🚀 Enterprise Senior Squad' : '🚀 Enterprise Bespoke', desc: lang === 'de' ? '4-8 Wochen • Komplettes Dediziertes Team' : '4-8 Weeks • Complete ground-up senior squad build' },
                   ].map((tier) => (
                     <div
                       key={tier.id}
@@ -334,7 +426,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
               <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-sm flex flex-col justify-between space-y-6">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between text-xs text-cyan-800 font-mono font-bold">
-                    <span>ESTIMATED SPECIFICATION</span>
+                    <span>{lang === 'de' ? 'GESCHÄTZTE SPEZIFIKATION' : 'ESTIMATED SPECIFICATION'}</span>
                     <span className="uppercase px-2 py-0.5 bg-slate-100 rounded-md">{estTier}</span>
                   </div>
 
@@ -344,15 +436,15 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
 
                   <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/60 space-y-2.5 text-xs">
                     <div className="flex items-center justify-between">
-                      <span className="text-slate-500">Delivery Timeline:</span>
+                      <span className="text-slate-500">{lang === 'de' ? 'Lieferzeitraum:' : 'Delivery Timeline:'}</span>
                       <strong className="text-cyan-900 font-bold">{estimatorResult.time}</strong>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-slate-500">Est. Investment:</span>
+                      <span className="text-slate-500">{lang === 'de' ? 'Geschätzte Investition:' : 'Est. Investment:'}</span>
                       <strong className="text-emerald-700 font-bold">{estimatorResult.price}</strong>
                     </div>
                     <div className="pt-2 border-t border-slate-200/60 text-xs text-slate-600">
-                      Tech Stack: <span className="font-mono font-medium text-slate-800">{estimatorResult.stack}</span>
+                      {lang === 'de' ? 'Tech-Stack:' : 'Tech Stack:'} <span className="font-mono font-medium text-slate-800">{estimatorResult.stack}</span>
                     </div>
                   </div>
                 </div>
@@ -360,12 +452,12 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                 <button
                   type="button"
                   onClick={() => {
-                    setSelectedProjectForOrder(projects[0] || null);
+                    setSelectedProjectForOrder(localizedProjects[0] || null);
                     setOrderModalOpen(true);
                   }}
                   className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-extrabold text-sm py-3.5 rounded-xl border border-[#9cd5e2] transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
                 >
-                  <span>Order This Exact Configuration</span>
+                  <span>{lang === 'de' ? 'Diese Konfiguration anfragen' : 'Order This Exact Configuration'}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -388,7 +480,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by keywords, technologies (e.g. Next.js, Stripe, Shopify)..."
+              placeholder={lang === 'de' ? 'Nach Stichworten, Technologien suchen (z. B. Next.js, Stripe, Shopify)...' : 'Search by keywords, technologies (e.g. Next.js, Stripe, Shopify)...'}
               className="w-full pl-11 pr-10 py-3.5 rounded-2xl border border-slate-200/90 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
             />
             {searchQuery && (
@@ -411,9 +503,9 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
               onChange={(e) => setSelectedCountry(e.target.value)}
               className="text-xs font-semibold bg-white border border-slate-200/90 rounded-xl px-3.5 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] cursor-pointer shadow-2xs"
             >
-              {countries.map((c) => (
-                <option key={c} value={c}>
-                  {c === 'All' ? '🌐 All Countries' : `${getCountryFlag(c)} ${c}`}
+              {countryOptions.map((c) => (
+                <option key={c.value} value={c.value}>
+                  {c.label}
                 </option>
               ))}
             </select>
@@ -424,9 +516,9 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
               onChange={(e) => setSelectedStatus(e.target.value)}
               className="text-xs font-semibold bg-white border border-slate-200/90 rounded-xl px-3.5 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] cursor-pointer shadow-2xs"
             >
-              <option value="All">All Statuses</option>
-              <option value="completed">Delivered & Live</option>
-              <option value="ongoing">In Active Sprint</option>
+              <option value="All">{lang === 'de' ? 'Alle Status' : 'All Statuses'}</option>
+              <option value="completed">{lang === 'de' ? 'Abgeschlossen & Live' : 'Delivered & Live'}</option>
+              <option value="ongoing">{lang === 'de' ? 'In aktivem Sprint' : 'In Active Sprint'}</option>
             </select>
 
             {/* View Mode Toggle */}
@@ -465,7 +557,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                 className="text-xs text-rose-600 hover:text-rose-700 font-bold flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-rose-50 transition-colors cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>Reset</span>
+                <span>{lang === 'de' ? 'Zurücksetzen' : 'Reset'}</span>
               </button>
             )}
 
@@ -477,16 +569,16 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 max-w-full touch-pan-x scroll-smooth">
           {categories.map((cat) => {
             const Icon = cat.icon;
-            const isSelected = selectedCategory === cat.name;
-            const count = cat.name === 'All' 
-              ? projects.length 
-              : projects.filter((p) => p.category === cat.name).length;
+            const isSelected = selectedCategory === cat.id;
+            const count = cat.id === 'All' 
+              ? localizedProjects.length 
+              : localizedProjects.filter((p) => p.category === cat.id).length;
 
             return (
               <button
                 type="button"
-                key={cat.name}
-                onClick={() => setSelectedCategory(cat.name)}
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
                 className={`px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 shrink-0 ${
                   isSelected
                     ? 'bg-[#BBE7F1] text-slate-950 font-bold border border-[#9cd5e2] shadow-2xs'
@@ -494,7 +586,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                 }`}
               >
                 <Icon className={`w-3.5 h-3.5 ${isSelected ? 'text-slate-950' : 'text-slate-400'}`} />
-                <span>{cat.name}</span>
+                <span>{cat.label}</span>
                 <span className={`text-[11px] font-mono px-1.5 py-0.2 rounded-full ${
                   isSelected ? 'bg-slate-950 text-white' : 'bg-slate-200/80 text-slate-600'
                 }`}>
@@ -508,16 +600,19 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
         {/* Results Counter and Indicator */}
         <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100">
           <div>
-            Showing <strong className="text-slate-900 font-bold">{filteredProjects.length}</strong> of{' '}
-            <strong className="text-slate-900 font-bold">{projects.length}</strong> verified enterprise case studies
+            {lang === 'de' ? (
+              <>Zeige <strong className="text-slate-900 font-bold">{filteredProjects.length}</strong> von <strong className="text-slate-900 font-bold">{projects.length}</strong> verifizierten Enterprise-Fallstudien</>
+            ) : (
+              <>Showing <strong className="text-slate-900 font-bold">{filteredProjects.length}</strong> of <strong className="text-slate-900 font-bold">{projects.length}</strong> verified enterprise case studies</>
+            )}
           </div>
 
           <div className="hidden sm:flex items-center gap-3">
             <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-500"></span> Live Production
+              <span className="w-2 h-2 rounded-full bg-emerald-500"></span> {lang === 'de' ? 'Live im Betrieb' : 'Live Production'}
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-amber-500"></span> Active Sprint
+              <span className="w-2 h-2 rounded-full bg-amber-500"></span> {lang === 'de' ? 'Aktiver Sprint' : 'Active Sprint'}
             </span>
           </div>
         </div>
@@ -531,17 +626,19 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
           <div className="py-20 text-center rounded-3xl bg-slate-50/70 border border-slate-200/80 space-y-4">
             <HelpCircle className="w-12 h-12 text-slate-400 mx-auto" />
             <h3 className="text-xl font-bold text-slate-900 font-['Archivo']">
-              No matching projects found
+              {lang === 'de' ? 'Keine passenden Projekte gefunden' : 'No matching projects found'}
             </h3>
             <p className="text-sm text-slate-600 max-w-md mx-auto">
-              We couldn't find any projects matching your current filters. Try changing your search query or reset all filters.
+              {lang === 'de'
+                ? 'Wir konnten keine Projekte finden, die Ihren aktuellen Filtern entsprechen. Bitte versuchen Sie einen anderen Suchbegriff oder setzen Sie alle Filter zurück.'
+                : "We couldn't find any projects matching your current filters. Try changing your search query or reset all filters."}
             </p>
             <button
               type="button"
               onClick={handleResetFilters}
               className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-xs px-6 py-3 rounded-xl border border-[#9cd5e2] cursor-pointer"
             >
-              Reset All Filters
+              {lang === 'de' ? 'Alle Filter zurücksetzen' : 'Reset All Filters'}
             </button>
           </div>
         ) : viewMode === 'grid' ? (
@@ -562,8 +659,6 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent pointer-events-none" />
-
-
                 </div>
 
                 {/* Card Content with generous breathing room */}
@@ -604,7 +699,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                       <div className="flex items-center justify-between text-xs text-slate-500 pt-1">
                         <span className="flex items-center gap-1">
                           <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
-                          <span>Est: <strong className="text-slate-900">{project.priceRange}</strong></span>
+                          <span>{lang === 'de' ? 'Geschätzt:' : 'Est:'} <strong className="text-slate-900">{project.priceRange}</strong></span>
                         </span>
                         {project.estimatedDelivery && (
                           <span className="flex items-center gap-1 font-mono text-[11px]">
@@ -642,7 +737,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                       className="flex-1 bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-extrabold text-xs py-3 px-4 rounded-xl border border-[#9cd5e2] transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
                     >
                       <Zap className="w-3.5 h-3.5 text-slate-950" />
-                      <span>Order Similar</span>
+                      <span>{lang === 'de' ? 'Ähnliches bestellen' : 'Order Similar'}</span>
                     </button>
 
                     {project.liveUrl && (
@@ -651,7 +746,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                         target="_blank"
                         rel="noopener noreferrer"
                         className="p-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 hover:text-slate-950 transition-colors flex items-center justify-center cursor-pointer"
-                        title="View Live Production Demo"
+                        title={lang === 'de' ? 'Live-Produktionsdemo ansehen' : 'View Live Production Demo'}
                       >
                         <ExternalLink className="w-4 h-4" />
                       </a>
@@ -661,7 +756,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                       type="button"
                       onClick={() => router.push(`/portfolio/${project.id}`)}
                       className="p-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 hover:text-slate-950 transition-colors flex items-center justify-center cursor-pointer"
-                      title="Read Full Case Study"
+                      title={lang === 'de' ? 'Vollständige Fallstudie lesen' : 'Read Full Case Study'}
                     >
                       <Eye className="w-4 h-4" />
                     </button>
@@ -688,18 +783,17 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                     loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-
                 </div>
 
                 <div className="flex-1 space-y-4">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="text-xs font-mono font-bold text-cyan-800 uppercase">
-                      {project.category} • Client: {project.clientName}
+                      {project.category} • {lang === 'de' ? 'Kunde:' : 'Client:'} {project.clientName}
                     </span>
 
                     {project.priceRange && (
                       <span className="text-xs font-mono font-bold text-slate-900 bg-slate-50 px-3 py-1 rounded-lg border border-slate-200">
-                        Est: {project.priceRange} • {project.estimatedDelivery}
+                        {lang === 'de' ? 'Geschätzt:' : 'Est:'} {project.priceRange} • {project.estimatedDelivery}
                       </span>
                     )}
                   </div>
@@ -744,7 +838,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                         onClick={() => router.push(`/portfolio/${project.id}`)}
                         className="text-xs font-bold text-slate-700 hover:text-slate-950 px-4 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer flex items-center gap-1.5"
                       >
-                        <span>Full Case Study</span>
+                        <span>{lang === 'de' ? 'Vollständige Fallstudie' : 'Full Case Study'}</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </button>
 
@@ -755,7 +849,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                           rel="noopener noreferrer"
                           className="text-xs font-bold text-cyan-800 hover:text-cyan-950 px-4 py-2.5 rounded-xl border border-cyan-200 bg-cyan-50/50 hover:bg-cyan-50 transition-colors flex items-center gap-1.5"
                         >
-                          <span>Visit Production</span>
+                          <span>{lang === 'de' ? 'Live-System besuchen' : 'Visit Production'}</span>
                           <ExternalLink className="w-3.5 h-3.5" />
                         </a>
                       )}
@@ -767,7 +861,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                       className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-extrabold text-xs sm:text-sm px-6 py-2.5 rounded-xl border border-[#9cd5e2] transition-colors flex items-center gap-2 cursor-pointer shadow-2xs"
                     >
                       <Zap className="w-3.5 h-3.5 text-slate-950" />
-                      <span>Order This Architecture</span>
+                      <span>{lang === 'de' ? 'Diese Architektur bestellen' : 'Order This Architecture'}</span>
                     </button>
                   </div>
                 </div>
@@ -786,13 +880,15 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
           <div className="text-center max-w-2xl mx-auto space-y-3">
             <div className="inline-flex items-center gap-1.5 text-cyan-800 text-xs font-mono font-bold uppercase tracking-wider">
               <ShieldCheck className="w-4 h-4 text-cyan-700" />
-              <span>Enterprise Delivery Standards</span>
+              <span>{lang === 'de' ? 'ENTERPRISE-LIEFERSTANDARDS' : 'Enterprise Delivery Standards'}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-950 font-['Archivo']">
-              Why Global Clients Buy Websites From Us
+              {lang === 'de' ? 'Warum weltweite Kunden Websites bei uns beauftragen' : 'Why Global Clients Buy Websites From Us'}
             </h2>
             <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              We combine European project management rigor with fast-paced engineering execution.
+              {lang === 'de'
+                ? 'Wir kombinieren deutsche Projektmanagement-Präzision mit agiler High-Speed-Softwareentwicklung.'
+                : 'We combine European project management rigor with fast-paced engineering execution.'}
             </p>
           </div>
 
@@ -803,10 +899,12 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                 🇩🇪
               </div>
               <h4 className="text-base font-bold text-slate-900 font-['Archivo']">
-                PMP® Scrum Governance
+                {lang === 'de' ? 'PMP® Scrum-Leitung' : 'PMP® Scrum Governance'}
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                Direct oversight from our Leverkusen, Germany delivery lead. Structured Jira sprints, transparent reporting, and zero guesswork.
+                {lang === 'de'
+                  ? 'Direkte Steuerung durch unsere technische Projektleitung in Leverkusen, Deutschland. Strukturierte Jira-Sprints, transparente Berichte und klare Ergebnisse.'
+                  : 'Direct oversight from our Leverkusen, Germany delivery lead. Structured Jira sprints, transparent reporting, and zero guesswork.'}
               </p>
             </div>
 
@@ -815,10 +913,12 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                 ⚡
               </div>
               <h4 className="text-base font-bold text-slate-900 font-['Archivo']">
-                95+ PageSpeed & Clean Code
+                {lang === 'de' ? '95+ PageSpeed & Sauberer Code' : '95+ PageSpeed & Clean Code'}
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                Sub-second initial server response, semantic HTML5, zero bloated templates, and fully accessible responsive UX across all screens.
+                {lang === 'de'
+                  ? 'Server-Antwortzeiten im Sub-Sekunden-Bereich, semantisches HTML5, keine überladenen Vorlagen und barrierefreie responsive UX auf allen Geräten.'
+                  : 'Sub-second initial server response, semantic HTML5, zero bloated templates, and fully accessible responsive UX across all screens.'}
               </p>
             </div>
 
@@ -827,10 +927,12 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                 🔒
               </div>
               <h4 className="text-base font-bold text-slate-900 font-['Archivo']">
-                100% Full IP Ownership
+                {lang === 'de' ? '100% Volle IP- & Code-Eigentümerschaft' : '100% Full IP Ownership'}
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                Full Git repository handed over at completion. No recurring licensing traps, no proprietary lock-in. Your code is 100% yours.
+                {lang === 'de'
+                  ? 'Vollständige Übergabe des Git-Repositories nach Projektabschluss. Keine Lizenzfallen oder Abhängigkeiten. Ihr Code gehört zu 100% Ihnen.'
+                  : 'Full Git repository handed over at completion. No recurring licensing traps, no proprietary lock-in. Your code is 100% yours.'}
               </p>
             </div>
 
@@ -839,10 +941,12 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                 🤝
               </div>
               <h4 className="text-base font-bold text-slate-900 font-['Archivo']">
-                30-Day Free Post-Launch Warranty
+                {lang === 'de' ? '30 Tage Garantie nach Go-Live' : '30-Day Free Post-Launch Warranty'}
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                We provide 30 days of complimentary bug fixing, uptime monitoring, and staff training to ensure your launch goes flawlessly.
+                {lang === 'de'
+                  ? 'Wir bieten 30 Tage kostenfreie Fehlerbehebung, Verfügbarkeitsüberwachung und Team-Einführung für einen reibungslosen Start.'
+                  : 'We provide 30 days of complimentary bug fixing, uptime monitoring, and staff training to ensure your launch goes flawlessly.'}
               </p>
             </div>
 
@@ -856,27 +960,31 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
         <div className="bg-slate-950 text-white rounded-3xl p-8 sm:p-14 md:p-16 text-center relative overflow-hidden space-y-6 shadow-xl">
           
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#BBE7F1]/20 border border-[#9cd5e2]/40 text-[#BBE7F1] text-xs font-mono font-bold tracking-wider uppercase">
-            <span>READY TO LAUNCH YOUR PLATFORM?</span>
+            <span>{lang === 'de' ? 'BEREIT FÜR DEN LAUNCH IHRER PLATTFORM?' : 'READY TO LAUNCH YOUR PLATFORM?'}</span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-black font-['Archivo'] max-w-2xl mx-auto tracking-tight">
-            Need a Website Tailored to Your Specific Business Goals?
+            {lang === 'de'
+              ? 'Benötigen Sie eine Website, die exakt auf Ihre Geschäftsziele abgestimmt ist?'
+              : 'Need a Website Tailored to Your Specific Business Goals?'}
           </h2>
 
           <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto leading-relaxed">
-            Send us your requirements or choose any project above. We will analyze your specifications and provide an exact fixed-price proposal and sprint roadmap within 24 hours.
+            {lang === 'de'
+              ? 'Senden Sie uns Ihre Anforderungen oder wählen Sie eines der obigen Projekte aus. Wir analysieren Ihre Spezifikation und erstellen innerhalb von 24 Stunden ein verbindliches Festpreisangebot mit Sprint-Roadmap.'
+              : 'Send us your requirements or choose any project above. We will analyze your specifications and provide an exact fixed-price proposal and sprint roadmap within 24 hours.'}
           </p>
 
           <div className="pt-3 flex flex-wrap items-center justify-center gap-4">
             <button
               type="button"
               onClick={() => {
-                setSelectedProjectForOrder(projects[0] || null);
+                setSelectedProjectForOrder(localizedProjects[0] || null);
                 setOrderModalOpen(true);
               }}
               className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-extrabold text-sm px-8 py-4 rounded-xl border border-[#9cd5e2] transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
             >
-              <span>Order / Inquire About Any Project</span>
+              <span>{lang === 'de' ? 'Projekt anfragen / bestellen' : 'Order / Inquire About Any Project'}</span>
               <ArrowRight className="w-4 h-4 text-slate-950" />
             </button>
 
@@ -885,7 +993,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
               onClick={() => router.push('/contact')}
               className="bg-white/10 hover:bg-white/15 text-white font-bold text-sm px-7 py-4 rounded-xl border border-white/20 transition-colors cursor-pointer"
             >
-              <span>Submit Custom Requirements</span>
+              <span>{lang === 'de' ? 'Individuelle Anforderungen einreichen' : 'Submit Custom Requirements'}</span>
             </button>
           </div>
 

@@ -1,12 +1,14 @@
 import React, { useRef } from 'react';
 import { Check, ArrowUpRight, ShieldCheck, Award, Server } from 'lucide-react';
 import { gsap, useGsapContext, animateCounter } from '../utils/gsapHelper';
+import { useLanguage } from '../context/LanguageContext';
 
 interface WhoWeBringProps {
   onAboutClick: () => void;
 }
 
 export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const counterRef = useRef<HTMLDivElement>(null);
 
@@ -73,17 +75,17 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
             
             {/* Section Eyebrow - Clean Modern */}
             <div className="who-content-item inline-flex items-center gap-2 text-cyan-700 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-              <span>Who We Bring & Our Pedigree</span>
+              <span>{t.whoKicker}</span>
             </div>
 
             {/* Bold Headline */}
             <h2 className="who-content-item text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-900 tracking-tight leading-[1.22] font-['Kufam']">
-              World-Class Engineering for High-Growth Global Businesses
+              {t.whoHeading}
             </h2>
 
             {/* Subtext */}
             <p className="who-content-item text-xs sm:text-sm text-slate-600 leading-relaxed font-['Kufam']">
-              With over 10+ years of collective experience delivering software for enterprise clients in the USA, Germany, United Kingdom, and across Europe, we build mission-critical digital systems engineered to perform under heavy production loads.
+              {t.whoSubtext}
             </p>
 
             {/* 4 Feature Checklist */}
@@ -92,34 +94,34 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
                 <div className="w-5 h-5 rounded-full bg-[#BBE7F1]/50 border border-[#9cd5e2] flex items-center justify-center text-slate-900 shrink-0">
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
                 </div>
-                <span>Strict Bilateral NDA & 100% IP Transfer</span>
+                <span>{t.whoBullet1}</span>
               </div>
 
               <div className="flex items-center gap-2.5 text-slate-800 font-medium text-sm">
                 <div className="w-5 h-5 rounded-full bg-[#BBE7F1]/50 border border-[#9cd5e2] flex items-center justify-center text-slate-900 shrink-0">
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
                 </div>
-                <span>Hardened Cloud & Server DevOps (99.99% SLA)</span>
+                <span>{t.whoBullet2}</span>
               </div>
 
               <div className="flex items-center gap-2.5 text-slate-800 font-medium text-sm">
                 <div className="w-5 h-5 rounded-full bg-[#BBE7F1]/50 border border-[#9cd5e2] flex items-center justify-center text-slate-900 shrink-0">
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
                 </div>
-                <span>Full-Stack MERN & Next.js Core Engineering</span>
+                <span>{t.whoBullet3}</span>
               </div>
 
               <div className="flex items-center gap-2.5 text-slate-800 font-medium text-sm">
                 <div className="w-5 h-5 rounded-full bg-[#BBE7F1]/50 border border-[#9cd5e2] flex items-center justify-center text-slate-900 shrink-0">
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
                 </div>
-                <span>US, UK & German Overlapping Timezone Sync</span>
+                <span>{t.whoBullet4}</span>
               </div>
             </div>
 
             {/* Secondary Paragraph */}
             <p className="who-content-item text-sm text-slate-500 italic leading-relaxed pt-1">
-              "Our engineering teams harness the power of scalable cloud servers, full-stack MERN architecture, and modern headless frameworks to optimize operations and drive sustainable revenue for global enterprises."
+              {t.whoQuote}
             </p>
 
             {/* Action button & Founder Signature */}
@@ -129,7 +131,7 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
                 onClick={onAboutClick}
                 className="w-full sm:w-auto justify-center bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-sm px-6 py-3.5 rounded-xl border border-[#9cd5e2] transition-all flex items-center gap-2 group cursor-pointer min-h-[44px] shadow-xs"
               >
-                <span>MORE ABOUT US</span>
+                <span>{t.whoMoreBtn}</span>
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-slate-950" />
               </button>
 
