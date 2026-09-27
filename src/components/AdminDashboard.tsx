@@ -47,11 +47,13 @@ import {
   Sparkles,
   Layers,
   Code,
-  User
+  User,
+  UserCheck
 } from 'lucide-react';
-import { Project, TeamMember, BlogPost, Inquiry, ProjectStatus, ServiceDetail, SiteSettings, Testimonial, HeroSlide } from '../types';
+import { Project, TeamMember, BlogPost, Inquiry, ProjectStatus, ServiceDetail, SiteSettings, Testimonial, HeroSlide, JobPosting, JobApplication } from '../types';
 import { initialHeroSlides } from '../data/initialData';
 import ImageDropZone from './ImageDropZone';
+import { AdminCareersManager } from './AdminCareersManager';
 
 interface AdminDashboardProps {
   projects: Project[];
@@ -79,12 +81,21 @@ interface AdminDashboardProps {
   onAddTestimonial?: (t: Partial<Testimonial>) => void;
   onUpdateTestimonial?: (id: string, t: Partial<Testimonial>) => void;
   onDeleteTestimonial?: (id: string) => void;
+  jobs?: JobPosting[];
+  applications?: JobApplication[];
+  onAddJob?: (job: Partial<JobPosting>) => void;
+  onUpdateJob?: (id: string, job: Partial<JobPosting>) => void;
+  onToggleJobActive?: (id: string) => void;
+  onDeleteJob?: (id: string) => void;
+  onUpdateApplicationStatus?: (id: string, status: JobApplication['status']) => void;
+  onUpdateApplicationNotes?: (id: string, notes: string, rating?: number) => void;
+  onDeleteApplication?: (id: string) => void;
   onUpdateSiteSettings?: (settings: SiteSettings) => void;
   onResetDefaults?: () => void;
   onClose: () => void;
 }
 
-type TabType = 'overview' | 'projects' | 'inquiries' | 'team' | 'blogs' | 'services' | 'testimonials' | 'hero' | 'settings';
+type TabType = 'overview' | 'projects' | 'inquiries' | 'team' | 'blogs' | 'services' | 'testimonials' | 'hero' | 'settings' | 'careers' | 'applications';
 
 export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   projects,
@@ -112,6 +123,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   onAddTestimonial,
   onUpdateTestimonial,
   onDeleteTestimonial,
+  jobs = [],
+  applications = [],
+  onAddJob,
+  onUpdateJob,
+  onToggleJobActive,
+  onDeleteJob,
+  onUpdateApplicationStatus,
+  onUpdateApplicationNotes,
+  onDeleteApplication,
   onUpdateSiteSettings,
   onResetDefaults,
   onClose
@@ -244,6 +264,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     companyName: 'WebDev Software Solutions',
     tagline: 'Enterprise-Grade Web Engineering · Germany & Bangladesh',
     logoUrl: '/images/logo/webdev-logo.png',
+    darkLogoUrl: '/images/logo/dark-logo-webdevss.png',
     heroSlides: initialHeroSlides,
     email: 'info@webdevsoftwaresolutions.com',
     phone_bd: '+880 1722-301927',
@@ -630,7 +651,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     totalBlogs: blogs.length,
     totalServices: services.length,
     germanyProjects: projects.filter(p => p.clientCountry === 'Germany').length,
-    internationalProjects: projects.filter(p => p.clientCountry !== 'Germany').length
+    internationalProjects: projects.filter(p => p.clientCountry !== 'Germany').length,
+    totalJobs: jobs.length,
+    activeJobs: jobs.filter(j => j.isActive).length,
+    totalApplications: applications.length,
+    newApplications: applications.filter(a => a.status === 'new').length
   };
 
   return (
@@ -736,6 +761,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               >
                 <Users className="w-4 h-4 text-sky-400" />
                 <span>New Team Member</span>
+              </button>
+              <button
+                onClick={() => {
+                  setCreateMenuOpen(false);
+                  setActiveTab('careers');
+                }}
+                className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-zinc-200 hover:bg-white/[0.06] rounded-md transition-colors text-left cursor-pointer"
+              >
+                <Briefcase className="w-4 h-4 text-emerald-400" />
+                <span>New Job Requisition</span>
               </button>
             </div>
           )}
@@ -869,6 +904,26 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   label="Team Members"
                   badge={stats.totalTeam}
                 />
+                <SidebarItem
+                  active={activeTab === 'careers'}
+                  onClick={() => {
+                    setActiveTab('careers');
+                    setSidebarOpen(false);
+                  }}
+                  icon={<Briefcase className="w-4 h-4" />}
+                  label="Job Openings"
+                  badge={stats.activeJobs}
+                />
+                <SidebarItem
+                  active={activeTab === 'applications'}
+                  onClick={() => {
+                    setActiveTab('applications');
+                    setSidebarOpen(false);
+                  }}
+                  icon={<UserCheck className="w-4 h-4" />}
+                  label="Applications"
+                  badge={stats.newApplications > 0 ? stats.newApplications : stats.totalApplications}
+                />
               </div>
             )}
           </div>
@@ -973,6 +1028,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   {activeTab === 'testimonials' && 'Testimonials Management'}
                   {activeTab === 'hero' && 'Hero Slider Management'}
                   {activeTab === 'settings' && 'Site Settings'}
+                  {activeTab === 'careers' && 'Careers & Job Openings'}
+                  {activeTab === 'applications' && 'Candidate Applications'}
                 </h2>
                 <p className="text-xs text-zinc-400 mt-0.5">
                   {activeTab === 'overview' && 'Dashboard with key metrics and insights'}
@@ -984,6 +1041,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   {activeTab === 'testimonials' && 'Manage client testimonials and reviews'}
                   {activeTab === 'hero' && 'Customize background images, content, and buttons for the 3 homepage hero slides'}
                   {activeTab === 'settings' && 'Logo, social links, legal pages, company info'}
+                  {activeTab === 'careers' && 'Manage job listings, specifications, and recruitment status'}
+                  {activeTab === 'applications' && 'Review candidate CVs, interview notes, and recruitment stages'}
                 </p>
               </div>
 
@@ -1764,6 +1823,24 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             </div>
           )}
 
+          {/* CAREERS & APPLICATIONS TAB */}
+          {(activeTab === 'careers' || activeTab === 'applications') && (
+            <div className="animate-fadeIn">
+              <AdminCareersManager
+                jobs={jobs}
+                applications={applications}
+                initialTab={activeTab === 'applications' ? 'applications' : 'jobs'}
+                onAddJob={onAddJob || (() => {})}
+                onUpdateJob={onUpdateJob || (() => {})}
+                onToggleJobActive={onToggleJobActive || (() => {})}
+                onDeleteJob={onDeleteJob || (() => {})}
+                onUpdateApplicationStatus={onUpdateApplicationStatus || (() => {})}
+                onUpdateApplicationNotes={onUpdateApplicationNotes || (() => {})}
+                onDeleteApplication={onDeleteApplication || (() => {})}
+              />
+            </div>
+          )}
+
           {/* TEAM TAB */}
           {activeTab === 'team' && (
             <div className="space-y-6 animate-fadeIn">
@@ -2290,11 +2367,20 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     </div>
                     <div className="sm:col-span-2">
                       <ImageDropZone
-                        label="Company Logo"
+                        label="Company Logo (Light Header)"
                         value={settingsForm.logoUrl}
                         onChange={(url) => setSettingsForm({...settingsForm, logoUrl: url})}
                         placeholder="/images/logo/webdev-logo.png"
-                        helperText="Upload transparent PNG, SVG or WebP logo. Supports drag and drop."
+                        helperText="Upload transparent PNG, SVG or WebP logo for light background."
+                      />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <ImageDropZone
+                        label="Dark Theme Logo (Sticky Header & Footer)"
+                        value={settingsForm.darkLogoUrl || '/images/logo/dark-logo-webdevss.png'}
+                        onChange={(url) => setSettingsForm({...settingsForm, darkLogoUrl: url})}
+                        placeholder="/images/logo/dark-logo-webdevss.png"
+                        helperText="Used in sticky navigation header and dark footer."
                       />
                     </div>
                     <div className="sm:col-span-2">

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { TeamMember } from '../types';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
-import { ArrowUpRight, Phone, Mail, Sparkles, ShieldCheck, Crown, User } from 'lucide-react';
+import { ArrowUpRight, Phone, Mail, User } from 'lucide-react';
 import { gsap, useGsapContext } from '../utils/gsapHelper';
 
 interface MeetOurTeamSectionProps {
@@ -100,8 +100,7 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
       <div className="space-y-1.5 w-full">
         {isFeatured ? (
           <div className="flex items-center justify-center gap-1.5 flex-wrap">
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-500/15 via-amber-600/15 to-[#BBE7F1]/40 border border-amber-500/40 text-amber-900 text-[10px] font-extrabold font-mono uppercase tracking-wider shadow-2xs">
-              <Sparkles className="w-3 h-3 text-amber-600" />
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-500/15 via-amber-600/15 to-[#BBE7F1]/40 border border-amber-500/40 text-amber-900 text-[10px] font-extrabold font-mono uppercase tracking-wider shadow-2xs">
               <span>Executive Leadership</span>
             </span>
             <span className="text-[10px] sm:text-[11px] font-bold text-slate-500 font-mono">
@@ -117,7 +116,6 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
         )}
 
         <div className="flex items-center justify-center gap-1.5 pt-0.5">
-          {isFeatured && <Crown className="w-4 h-4 text-amber-500 shrink-0" />}
           <h3
             onClick={() => onSelectMember(member)}
             className={`font-extrabold tracking-tight font-['Archivo'] hover:text-cyan-800 transition-colors cursor-pointer ${
@@ -252,13 +250,11 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
       {/* Top badges for Featured / Founder */}
       {isFeatured && (
         <>
-          <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-amber-500 via-amber-600 to-cyan-700 text-white text-[10px] font-extrabold uppercase tracking-wider shadow-lg shadow-amber-500/25 border border-amber-300/40">
-            <Sparkles className="w-3.5 h-3.5 text-amber-200" />
+          <div className="absolute top-3 left-3 z-10 flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-amber-500 via-amber-600 to-cyan-700 text-white text-[10px] font-extrabold uppercase tracking-wider shadow-lg shadow-amber-500/25 border border-amber-300/40">
             <span>Founder & CEO</span>
           </div>
 
-          <div className="absolute top-3 right-3 z-10 flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-950/80 backdrop-blur-md border border-emerald-500/40 text-emerald-400 text-[10px] font-mono font-bold shadow-md">
-            <ShieldCheck className="w-3 h-3" />
+          <div className="absolute top-3 right-3 z-10 flex items-center px-2.5 py-0.5 rounded-full bg-slate-950/80 backdrop-blur-md border border-emerald-500/40 text-emerald-400 text-[10px] font-mono font-bold shadow-md">
             <span>PMP® Certified</span>
           </div>
         </>
@@ -271,8 +267,7 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
           : 'bg-slate-900/80 border border-white/20'
       }`}>
         <div>
-          <div className="text-xs font-bold font-['Archivo'] flex items-center gap-1.5">
-            {isFeatured && <Crown className="w-3.5 h-3.5 text-amber-400 shrink-0" />}
+          <div className="text-xs font-bold font-['Archivo']">
             <span>{member.name}</span>
           </div>
           <div className="text-[10px] text-slate-300 font-mono mt-0.5">
@@ -301,18 +296,17 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
       ref={sectionRef}
       className="py-20 sm:py-28 bg-slate-100 text-slate-900 relative overflow-hidden"
     >
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
         <div className="team-ref-header text-center mb-12 sm:mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
-            <Sparkles className="w-4 h-4 text-amber-500" />
+          <div className="inline-flex items-center text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
             <span>Executive Leadership & Engineering</span>
           </div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-950 tracking-tight font-['Archivo']">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-950 tracking-tight font-['Kufam']">
             Meet Our Leadership & Team
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto font-['Instrument_Sans'] italic">
+          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto font-['Kufam']">
             Guided by PMP® certified technical leadership and senior solutions architects, delivering enterprise-grade digital products and high-performance cloud platforms worldwide.
           </p>
         </div>
@@ -330,11 +324,11 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
             {/* Row 1 Col 3 (Desktop) / Order 5 (Mobile) — Image: Saikat (Al-Mumeetu) */}
             <div className="order-5 md:order-5 lg:order-3 border-t md:border-t lg:border-t-0 border-slate-200/80">{renderImageCard(saikat, false)}</div>
 
-            {/* Row 2 Col 1 (Desktop) / Order 3 (Mobile) — Content: Al-Muheetu (Details first in 2nd row 1st column) */}
-            <div className="order-3 md:order-3 lg:order-4 border-t lg:border-r border-slate-200/80">{renderContentCard(muheetu, false)}</div>
+            {/* Row 2 Col 1 (Desktop) / Order 4 (Mobile) — Content: Al-Muheetu */}
+            <div className="order-4 md:order-4 lg:order-4 border-t lg:border-r border-slate-200/80">{renderContentCard(muheetu, false)}</div>
 
-            {/* Row 2 Col 2 (Desktop) / Order 4 (Mobile) — Image: Al-Muheetu (Image then shown in 2nd row 2nd column) */}
-            <div className="order-4 md:order-4 lg:order-5 border-t lg:border-r border-slate-200/80">{renderImageCard(muheetu, false)}</div>
+            {/* Row 2 Col 2 (Desktop) / Order 3 (Mobile) — Image: Al-Muheetu */}
+            <div className="order-3 md:order-3 lg:order-5 border-t lg:border-r border-slate-200/80">{renderImageCard(muheetu, false)}</div>
 
             {/* Row 2 Col 3 (Desktop) / Order 6 (Mobile) — Content: Saikat (Directly at the bottom of Saikat's image) */}
             <div className="order-6 md:order-6 lg:order-6 border-t border-slate-200/80">{renderContentCard(saikat, false)}</div>
@@ -344,7 +338,7 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
 
         {/* Bottom attribution */}
         <div className="text-center mt-12 sm:mt-16 space-y-4">
-          <p className="text-base sm:text-lg font-['Playfair_Display'] italic font-medium text-slate-500">
+          <p className="text-xs sm:text-sm font-['Kufam'] font-medium text-slate-500">
             Leadership & Engineering ·{' '}
             <span className="text-slate-900 font-bold underline decoration-[#9cd5e2] underline-offset-4">WebDev Software Solutions</span>
           </p>

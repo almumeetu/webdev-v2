@@ -67,19 +67,19 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
 
   return (
     <section ref={sectionRef} className="py-16 sm:py-20 lg:py-24 bg-white text-slate-900 relative border-b border-slate-200/80">
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-14 space-y-3">
-          <div className="services-header-anim inline-flex items-center gap-2 text-cyan-700 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+          <div className="services-header-anim inline-flex items-center gap-2 text-cyan-700 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
             <span>Our Services & Engineering Solutions</span>
           </div>
 
-          <h2 className="services-header-anim text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-900 tracking-tight font-['Archivo']">
+          <h2 className="services-header-anim text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-900 tracking-tight font-['Kufam']">
             We Offer a Wide Variety of IT Services
           </h2>
 
-          <p className="services-header-anim text-slate-600 text-sm sm:text-base leading-relaxed font-['Instrument_Sans']">
+          <p className="services-header-anim text-slate-600 text-xs sm:text-sm leading-relaxed font-['Kufam']">
             From modern web application development and cloud server setup to high-converting international e-commerce platforms, we engineer results.
           </p>
         </div>

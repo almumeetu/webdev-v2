@@ -63,16 +63,16 @@ export const TechStackSection: React.FC = () => {
       <div className="absolute inset-y-0 left-0 w-24 md:w-48 bg-gradient-to-r from-slate-50 via-slate-50/80 to-transparent z-20 pointer-events-none"></div>
       <div className="absolute inset-y-0 right-0 w-24 md:w-48 bg-gradient-to-l from-slate-50 via-slate-50/80 to-transparent z-20 pointer-events-none"></div>
 
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 mb-16 text-center">
-        <div className="inline-flex items-center gap-2 text-primary-600 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 text-center">
+        <div className="inline-flex items-center gap-2 text-cyan-700 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
           <span>The Engine Room & Tech Arsenal</span>
         </div>
-        <h2 className="mt-4 text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold tracking-tight">
+        <h2 className="mt-3 text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold tracking-tight font-['Kufam']">
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-primary-600 to-violet-600">
             Powering World-Class Solutions
           </span>
         </h2>
-        <p className="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto font-medium font-['Instrument_Sans']">
+        <p className="mt-3 text-xs sm:text-sm text-slate-600 max-w-2xl mx-auto font-normal font-['Kufam']">
           Built with cutting-edge technologies trusted by industry leaders worldwide
         </p>
       </div>

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef } from 'react';
 import { 
   ArrowLeft, 
@@ -20,11 +22,19 @@ import {
   Server,
   Cpu,
   Globe2,
-  Clock,
-  Check
+  Check,
+  Zap,
+  X,
+  Star,
+  FileCheck,
+  Headphones,
+  Moon,
+  Sun
 } from 'lucide-react';
 import { UserProfile } from '../types';
 import { useGsapContext } from '../utils/gsapHelper';
+import { useAppContext } from '../context/AppContext';
+import { useTheme } from '../context/ThemeContext';
 import gsap from 'gsap';
 
 interface AuthPageProps {
@@ -39,6 +49,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
   initialMode = 'signin'
 }) => {
   const pageRef = useRef<HTMLDivElement>(null);
+  const { siteSettings } = useAppContext();
+  const { theme, toggleTheme } = useTheme();
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>(initialMode);
 
   // ─── Sign In State ───────────────────────────────────────────────────────────
@@ -58,11 +70,22 @@ export const AuthPage: React.FC<AuthPageProps> = ({
   const [signUpPhone, setSignUpPhone] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(true);
 
+  // ─── UI Helpers ───────────────────────────────────────────────────────
+  const [capsLockActive, setCapsLockActive] = useState(false);
+  const [demoNotice, setDemoNotice] = useState<string | null>(null);
+
+  // ─── Forgot Password Modal State ─────────────────────────────────────────────
+  const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
+  const [forgotPasswordSent, setForgotPasswordSent] = useState(false);
+
   // ─── Shared UI State ─────────────────────────────────────────────────────────
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('Verifying Credentials...');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
+  // GSAP animation for smooth entrance
   useGsapContext(pageRef, () => {
     if (!pageRef.current) return;
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
@@ -81,6 +104,98 @@ export const AuthPage: React.FC<AuthPageProps> = ({
     );
   });
 
+  // CapsLock listener
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.getModifierState) {
+      setCapsLockActive(e.getModifierState('CapsLock'));
+    }
+  };
+
+  // Password strength calculation
+  const getPasswordStrength = (pass: string) => {
+    if (!pass) return { score: 0, label: '', color: 'bg-slate-200 dark:bg-slate-700' };
+    let score = 0;
+    if (pass.length >= 6) score += 1;
+    if (pass.length >= 10) score += 1;
+    if (/[A-Z]/.test(pass) && /[a-z]/.test(pass)) score += 1;
+    if (/[0-9]/.test(pass)) score += 1;
+    if (/[^A-Za-z0-9]/.test(pass)) score += 1;
+
+    if (score <= 1) return { score: 1, label: 'Weak', color: 'bg-rose-500' };
+    if (score <= 2) return { score: 2, label: 'Fair', color: 'bg-amber-500' };
+    if (score <= 3) return { score: 3, label: 'Good', color: 'bg-cyan-500' };
+    return { score: 4, label: 'Strong', color: 'bg-emerald-500' };
+  };
+
+  const passwordStrength = getPasswordStrength(signUpPassword);
+  const passwordsMatch = signUpConfirmPassword.length > 0 && signUpPassword === signUpConfirmPassword;
+
+  // ─── Quick Fill Demo Credentials ─────────────────────────────────────────────
+  const handleQuickFill = (type: 'client' | 'admin') => {
+    setAuthMode('signin');
+    setErrorMessage(null);
+    setSuccessMessage(null);
+
+    if (type === 'client') {
+      setSignInEmail('client@enterprise.com');
+      setSignInPassword('client123');
+      setDemoNotice('Demo Client credentials filled');
+    } else {
+      setSignInEmail('admin@webdevsoftware.com');
+      setSignInPassword('admin123');
+      setDemoNotice('Demo Admin credentials filled');
+    }
+
+    setTimeout(() => setDemoNotice(null), 4000);
+  };
+
+  // ─── Single Sign-On (SSO) Simulation ─────────────────────────────────────────
+  const handleSSO = async (provider: 'Google' | 'GitHub') => {
+    setErrorMessage(null);
+    setSuccessMessage(null);
+    setIsLoading(true);
+    setLoadingMessage(`Connecting to ${provider}...`);
+
+    try {
+      await new Promise(r => setTimeout(r, 700));
+
+      const ssoUser: UserProfile = {
+        id: `user-sso-${Date.now()}`,
+        name: provider === 'Google' ? 'Alexander Bergmann' : 'David Chen',
+        email: provider === 'Google' ? 'a.bergmann@global-enterprise.de' : 'chen.david@github.com',
+        avatar: provider === 'Google' 
+          ? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'
+          : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+        role: 'client',
+        country: 'Germany',
+        company: provider === 'Google' ? 'Bergmann Digital GmbH' : 'OpenSource Labs',
+        phone: '+49 172 8899123',
+        savedProjects: ['proj-1', 'proj-2'],
+        inquiries: []
+      };
+
+      if (typeof window !== 'undefined') {
+        try {
+          const localAccounts = JSON.parse(localStorage.getItem('webdev_registered_users') || '[]');
+          const filtered = localAccounts.filter((a: any) => a.email.toLowerCase() !== ssoUser.email.toLowerCase());
+          filtered.push(ssoUser);
+          localStorage.setItem('webdev_registered_users', JSON.stringify(filtered));
+        } catch {
+          // ignore
+        }
+      }
+
+      setSuccessMessage(`${provider} SSO verified. Launching workspace...`);
+      setTimeout(() => {
+        onLoginSuccess(ssoUser);
+      }, 500);
+    } catch {
+      setErrorMessage(`Failed to complete ${provider} SSO. Please try again.`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // ─── Handle Sign In ───────────────────────────────────────────────────────────
   const handleSignInSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,14 +203,14 @@ export const AuthPage: React.FC<AuthPageProps> = ({
     setSuccessMessage(null);
 
     if (!signInEmail.trim() || !signInPassword) {
-      setErrorMessage('Please enter both your corporate email and password.');
+      setErrorMessage('Please enter both email and password.');
       return;
     }
 
     setIsLoading(true);
+    setLoadingMessage('Verifying Credentials...');
 
     try {
-      // 1. Call backend authentication route handler
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -108,14 +223,13 @@ export const AuthPage: React.FC<AuthPageProps> = ({
       const data = await res.json();
 
       if (res.ok && data.success && data.user) {
-        setSuccessMessage('Authentication verified. Loading your portal...');
+        setSuccessMessage('Authentication verified. Loading portal...');
         setTimeout(() => {
           onLoginSuccess(data.user);
         }, 500);
         return;
       }
 
-      // 2. Check local client accounts in localStorage if server returned 401
       if (typeof window !== 'undefined') {
         try {
           const localAccounts = JSON.parse(localStorage.getItem('webdev_registered_users') || '[]');
@@ -127,7 +241,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
 
           if (matched) {
             const { password: _, ...cleanProfile } = matched;
-            setSuccessMessage('Credentials authenticated. Initializing session...');
+            setSuccessMessage('Credentials authenticated. Initializing...');
             setTimeout(() => {
               onLoginSuccess(cleanProfile);
             }, 500);
@@ -138,9 +252,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         }
       }
 
-      setErrorMessage(data.message || 'Invalid email or password. Please verify your credentials.');
+      setErrorMessage(data.message || 'Invalid email or password.');
     } catch {
-      setErrorMessage('Unable to reach authentication server. Please check your internet connection.');
+      setErrorMessage('Unable to reach server. Please check your connection.');
     } finally {
       setIsLoading(false);
     }
@@ -158,29 +272,29 @@ export const AuthPage: React.FC<AuthPageProps> = ({
     }
 
     if (!signUpEmail.trim() || !signUpEmail.includes('@')) {
-      setErrorMessage('Please enter a valid corporate or business email.');
+      setErrorMessage('Please enter a valid email.');
       return;
     }
 
     if (signUpPassword.length < 6) {
-      setErrorMessage('Password must be at least 6 characters in length.');
+      setErrorMessage('Password must be at least 6 characters.');
       return;
     }
 
     if (signUpPassword !== signUpConfirmPassword) {
-      setErrorMessage('Passwords do not match. Please re-enter your password.');
+      setErrorMessage('Passwords do not match.');
       return;
     }
 
     if (!agreedToTerms) {
-      setErrorMessage('Please accept the Terms of Service & Privacy Policy to continue.');
+      setErrorMessage('Please accept the Terms of Service.');
       return;
     }
 
     setIsLoading(true);
+    setLoadingMessage('Creating Account...');
 
     try {
-      // 1. Call backend registration route handler (strictly registers as client)
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -196,13 +310,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({
       });
 
       const data = await res.json();
-
       let createdUser: UserProfile;
 
       if (res.ok && data.success && data.user) {
         createdUser = data.user;
       } else {
-        // Local client account creation fallback
         createdUser = {
           id: `user-${Date.now()}`,
           name: signUpName.trim(),
@@ -211,89 +323,157 @@ export const AuthPage: React.FC<AuthPageProps> = ({
           role: 'client',
           country: signUpCountry,
           company: signUpCompany.trim() || 'Partner Enterprise',
-          phone: signUpPhone.trim() || (signUpCountry === 'Bangladesh' ? '+880 1700-000000' : '+49 171 000000'),
+          phone: signUpPhone.trim() || '+49 171 000000',
           savedProjects: ['proj-1'],
           inquiries: []
         };
       }
 
-      // Persist client account locally for offline resilience
       if (typeof window !== 'undefined') {
         try {
           const localAccounts = JSON.parse(localStorage.getItem('webdev_registered_users') || '[]');
           const filtered = localAccounts.filter((a: any) => a.email.toLowerCase() !== createdUser.email.toLowerCase());
-          filtered.push({
-            ...createdUser,
-            password: signUpPassword
-          });
+          filtered.push({ ...createdUser, password: signUpPassword });
           localStorage.setItem('webdev_registered_users', JSON.stringify(filtered));
         } catch (e) {
-          console.error('Failed to save to local registry', e);
+          console.error('Failed to save locally', e);
         }
       }
 
-      setSuccessMessage('Enterprise account registered successfully! Initializing session...');
+      setSuccessMessage('Account created successfully!');
       setTimeout(() => {
         onLoginSuccess(createdUser);
       }, 600);
     } catch {
-      setErrorMessage('Registration server currently unavailable. Please try again in a few moments.');
+      setErrorMessage('Registration failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
+  const isDark = theme === 'dark';
+
   return (
     <div 
       ref={pageRef} 
-      className="min-h-[calc(100vh-80px)] bg-gradient-to-b from-[#edf7fa]/50 via-[#f8fafc] to-white text-slate-900 flex flex-col justify-between relative overflow-hidden font-['Instrument_Sans'] selection:bg-[#BBE7F1] selection:text-slate-950"
+      className={`min-h-screen flex flex-col justify-between relative overflow-hidden font-['Instrument_Sans'] transition-colors duration-300 ${
+        isDark 
+          ? 'bg-[#0b0f17] text-slate-100' 
+          : 'bg-slate-50 text-slate-900'
+      }`}
     >
-      {/* Background Soft Glow Accents */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-80 bg-gradient-to-b from-[#BBE7F1]/35 via-cyan-100/20 to-transparent blur-3xl pointer-events-none" />
-      <div className="absolute -top-10 -right-20 w-80 h-80 bg-[#BBE7F1]/25 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 -left-20 w-80 h-80 bg-cyan-100/30 rounded-full blur-3xl pointer-events-none" />
+      {/* Background Effects */}
+      <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] blur-[120px] pointer-events-none transition-opacity duration-300 ${
+        isDark 
+          ? 'bg-gradient-to-b from-[#BBE7F1]/10 via-cyan-900/10 to-transparent' 
+          : 'bg-gradient-to-b from-cyan-200/30 via-blue-200/20 to-transparent'
+      }`} />
+      
+      {isDark && (
+        <>
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute bottom-10 -left-20 w-96 h-96 bg-blue-600/10 rounded-full blur-[110px] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:28px_28px] opacity-25 pointer-events-none" />
+        </>
+      )}
 
-      {/* ─── 1. TOP COMPACT ACTION BAR (NO BREADCRUMB) ───────────────────── */}
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2 flex items-center justify-between">
+      {/* Header */}
+      <header className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2 flex items-center justify-between">
         <button
           onClick={onBack}
-          className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-950 bg-white/80 hover:bg-white border border-slate-200/90 hover:border-slate-300 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer shadow-xs group"
+          className={`inline-flex items-center gap-2 text-xs sm:text-sm font-semibold px-3.5 py-2 rounded-xl transition-all cursor-pointer shadow-sm group backdrop-blur-md ${
+            isDark
+              ? 'text-slate-300 hover:text-white bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700'
+              : 'text-slate-700 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300'
+          }`}
         >
-          <ArrowLeft className="w-3.5 h-3.5 text-cyan-700 transition-transform group-hover:-translate-x-1" />
-          <span>Back to Home</span>
+          <ArrowLeft className={`w-3.5 h-3.5 transition-transform group-hover:-translate-x-1 ${
+            isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'
+          }`} />
+          <span>Back to Website</span>
         </button>
 
-        <div className="inline-flex items-center gap-1.5 text-xs text-slate-500 bg-white/80 border border-slate-200/80 px-3 py-1 rounded-full shadow-2xs">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-          <span>256-Bit SSL Encrypted Portal</span>
-        </div>
-      </div>
+        <div className="flex items-center gap-3">
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className={`p-2.5 rounded-xl transition-all cursor-pointer ${
+              isDark
+                ? 'bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-[#BBE7F1]'
+                : 'bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 text-slate-700'
+            }`}
+            title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+          >
+            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
 
-      {/* ─── 2. MAIN LIGHT-THEME AUTH WORKSPACE ─────────────────────────── */}
-      <main className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 my-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+          {siteSettings.darkLogoUrl && (
+            <img 
+              src={siteSettings.darkLogoUrl} 
+              alt={siteSettings.companyName} 
+              className="h-10 sm:h-11 w-auto object-contain hidden sm:block" 
+            />
+          )}
+
+          <div className={`inline-flex items-center gap-1.5 text-[11px] sm:text-xs px-3 py-1 rounded-full shadow-inner backdrop-blur-md ${
+            isDark
+              ? 'text-slate-300 bg-slate-900/90 border border-slate-800'
+              : 'text-slate-700 bg-white border border-slate-200'
+          }`}>
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className={`font-mono ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>TLS 1.3</span>
+            <span className={isDark ? 'text-slate-600' : 'text-slate-300'}>|</span>
+            <span className="font-semibold text-emerald-400">256-Bit SSL</span>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 my-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
           
-          {/* LEFT: Premium White Card (7 cols on lg) */}
-          <div className="lg:col-span-7 bg-white/95 backdrop-blur-xl rounded-3xl border border-slate-200/90 p-6 sm:p-10 shadow-[0_20px_50px_rgba(15,23,42,0.05)] space-y-6 auth-fade-item">
+          {/* Left Panel - Auth Form */}
+          <div className={`lg:col-span-7 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6 auth-fade-item transition-colors duration-300 ${
+            isDark
+              ? 'bg-slate-900/90 text-slate-100 border border-slate-800/90'
+              : 'bg-white text-slate-900 border border-slate-200'
+          }`}>
             
-            {/* Header / Title */}
+            {/* Header */}
             <div className="space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#BBE7F1]/40 border border-[#9cd5e2]/60 text-cyan-950 text-[11px] font-bold tracking-wide uppercase font-['Archivo']">
-                <Sparkles className="w-3.5 h-3.5 text-cyan-800" />
-                <span>Enterprise Identity Gateway</span>
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-wide uppercase font-['Archivo'] ${
+                  isDark
+                    ? 'bg-[#BBE7F1]/10 border border-[#9cd5e2]/20 text-[#BBE7F1]'
+                    : 'bg-cyan-50 border border-cyan-200 text-cyan-900'
+                }`}>
+                  <Sparkles className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
+                  <span>Enterprise Portal</span>
+                </div>
+
+                <div className={`text-[11px] font-mono font-medium ${isDark ? 'text-slate-500' : 'text-slate-600'}`}>
+                  Gateway v2.4
+                </div>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold font-['Archivo'] text-slate-950 tracking-tight">
-                {authMode === 'signin' ? 'Sign In to Your Portal' : 'Create Enterprise Account'}
+
+              <h1 className={`text-2xl sm:text-3xl font-extrabold font-['Archivo'] tracking-tight ${
+                isDark ? 'text-white' : 'text-slate-950'
+              }`}>
+                {authMode === 'signin' ? 'Sign In to Portal' : 'Create Account'}
               </h1>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <p className={`text-xs sm:text-sm leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 {authMode === 'signin' 
-                  ? 'Sign in to access real-time sprint milestones, architectural dossiers, and billing summaries.'
-                  : 'Register your organization to collaborate directly with our European & Bangladesh engineering squads.'}
+                  ? 'Access your projects, milestones, and dedicated support.'
+                  : 'Join our platform to manage your projects and collaborate with our team.'}
               </p>
             </div>
 
-            {/* Seamless Light Tab Switcher */}
-            <div className="grid grid-cols-2 gap-1.5 p-1 rounded-2xl bg-slate-100 border border-slate-200/80">
+            {/* Mode Switcher */}
+            <div className={`grid grid-cols-2 gap-1.5 p-1 rounded-2xl ${
+              isDark 
+                ? 'bg-slate-950/80 border border-slate-800' 
+                : 'bg-slate-100 border border-slate-200'
+            }`}>
               <button
                 type="button"
                 onClick={() => {
@@ -303,11 +483,15 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 }}
                 className={`py-2.5 px-3 text-xs sm:text-sm font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-2 font-['Archivo'] ${
                   authMode === 'signin'
-                    ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs scale-[1.01]'
-                    : 'text-slate-600 hover:text-slate-950'
+                    ? isDark
+                      ? 'bg-slate-800 text-white shadow-sm'
+                      : 'bg-white text-slate-900 shadow-sm'
+                    : isDark
+                      ? 'text-slate-400 hover:text-slate-200'
+                      : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                <LogIn className="w-4 h-4 text-slate-900" />
+                <LogIn className={`w-4 h-4 ${authMode === 'signin' ? (isDark ? 'text-[#BBE7F1]' : 'text-cyan-600') : ''}`} />
                 <span>Sign In</span>
               </button>
               
@@ -320,66 +504,197 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 }}
                 className={`py-2.5 px-3 text-xs sm:text-sm font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-2 font-['Archivo'] ${
                   authMode === 'signup'
-                    ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs scale-[1.01]'
-                    : 'text-slate-600 hover:text-slate-950'
+                    ? isDark
+                      ? 'bg-slate-800 text-white shadow-sm'
+                      : 'bg-white text-slate-900 shadow-sm'
+                    : isDark
+                      ? 'text-slate-400 hover:text-slate-200'
+                      : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                <UserPlus className="w-4 h-4 text-slate-900" />
-                <span>Register</span>
+                <UserPlus className={`w-4 h-4 ${authMode === 'signup' ? (isDark ? 'text-[#BBE7F1]' : 'text-cyan-600') : ''}`} />
+                <span>Sign Up</span>
               </button>
+            </div>
+
+            {/* Quick Fill Demo */}
+            <div className={`rounded-2xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 ${
+              isDark
+                ? 'bg-[#BBE7F1]/5 border border-[#BBE7F1]/20'
+                : 'bg-cyan-50 border border-cyan-200'
+            }`}>
+              <div className={`flex items-center gap-2 text-xs font-semibold ${
+                isDark ? 'text-[#BBE7F1]' : 'text-cyan-900'
+              }`}>
+                <Zap className={`w-3.5 h-3.5 shrink-0 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
+                <span>Quick Demo:</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleQuickFill('client')}
+                  className={`px-2.5 py-1 text-xs font-bold font-['Archivo'] rounded-lg transition-colors cursor-pointer shadow-sm ${
+                    isDark
+                      ? 'bg-slate-800 hover:bg-slate-700 text-[#BBE7F1] border border-slate-700'
+                      : 'bg-white hover:bg-slate-50 text-cyan-900 border border-cyan-200'
+                  }`}
+                >
+                  Client
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleQuickFill('admin')}
+                  className={`px-2.5 py-1 text-xs font-bold font-['Archivo'] rounded-lg transition-colors cursor-pointer shadow-sm ${
+                    isDark
+                      ? 'bg-slate-800 hover:bg-slate-700 text-[#BBE7F1] border border-slate-700'
+                      : 'bg-white hover:bg-slate-50 text-cyan-900 border border-cyan-200'
+                  }`}
+                >
+                  Admin
+                </button>
+              </div>
+            </div>
+
+            {/* Demo Notice */}
+            {demoNotice && (
+              <div className={`text-xs px-3 py-1.5 rounded-lg flex items-center gap-2 animate-fadeIn ${
+                isDark
+                  ? 'text-emerald-300 bg-emerald-500/10 border border-emerald-500/20'
+                  : 'text-emerald-800 bg-emerald-50 border border-emerald-200'
+              }`}>
+                <Check className="w-3.5 h-3.5" />
+                <span>{demoNotice}</span>
+              </div>
+            )}
+
+            {/* SSO Buttons */}
+            <div className="space-y-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <button
+                  type="button"
+                  disabled={isLoading}
+                  onClick={() => handleSSO('Google')}
+                  className={`flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer shadow-sm disabled:opacity-60 ${
+                    isDark
+                      ? 'border border-slate-800 hover:border-slate-700 bg-slate-900/80 hover:bg-slate-800 text-slate-300'
+                      : 'border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-slate-800'
+                  }`}
+                >
+                  <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.665-5.17 3.665-9.12z" />
+                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.13C3.26 21.36 7.33 24 12 24z" />
+                    <path fill="#FBBC05" d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.13z" />
+                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.13c.95-2.83 3.6-4.96 6.72-4.96z" />
+                  </svg>
+                  <span>Google</span>
+                </button>
+
+                <button
+                  type="button"
+                  disabled={isLoading}
+                  onClick={() => handleSSO('GitHub')}
+                  className={`flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer shadow-sm disabled:opacity-60 ${
+                    isDark
+                      ? 'border border-slate-800 hover:border-slate-700 bg-slate-900/80 hover:bg-slate-800 text-slate-300'
+                      : 'border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-slate-800'
+                  }`}
+                >
+                  <svg className="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                  </svg>
+                  <span>GitHub</span>
+                </button>
+              </div>
+
+              {/* Divider */}
+              <div className="relative flex items-center justify-center py-2">
+                <div className={`border-t w-full ${isDark ? 'border-slate-800' : 'border-slate-200'}`} />
+                <span className={`px-3 text-[11px] font-semibold uppercase tracking-wider font-['Archivo'] shrink-0 ${
+                  isDark ? 'bg-slate-900/90 text-slate-500' : 'bg-white text-slate-600'
+                }`}>
+                  or email
+                </span>
+                <div className={`border-t w-full ${isDark ? 'border-slate-800' : 'border-slate-200'}`} />
+              </div>
             </div>
 
             {/* Error Banner */}
             {errorMessage && (
-              <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs sm:text-sm flex items-start gap-2.5 animate-fadeIn">
-                <AlertCircle className="w-4 h-4 shrink-0 text-rose-600 mt-0.5" />
+              <div className={`p-3.5 rounded-2xl text-xs sm:text-sm flex items-start gap-2.5 animate-fadeIn ${
+                isDark
+                  ? 'bg-rose-500/10 border border-rose-500/20 text-rose-300'
+                  : 'bg-rose-50 border border-rose-200 text-rose-800'
+              }`}>
+                <AlertCircle className={`w-4 h-4 shrink-0 mt-0.5 ${isDark ? 'text-rose-400' : 'text-rose-600'}`} />
                 <span className="leading-snug">{errorMessage}</span>
               </div>
             )}
 
             {/* Success Banner */}
             {successMessage && (
-              <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm flex items-start gap-2.5 animate-fadeIn">
-                <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600 mt-0.5" />
+              <div className={`p-3.5 rounded-2xl text-xs sm:text-sm flex items-start gap-2.5 animate-fadeIn ${
+                isDark
+                  ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-300'
+                  : 'bg-emerald-50 border border-emerald-200 text-emerald-800'
+              }`}>
+                <CheckCircle2 className={`w-4 h-4 shrink-0 mt-0.5 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`} />
                 <span className="leading-snug">{successMessage}</span>
               </div>
             )}
 
-            {/* ═══════════════════════════════════════════════════════════════════ */}
-            {/* SIGN IN FORM (LIGHT THEME) */}
-            {/* ═══════════════════════════════════════════════════════════════════ */}
+            {/* SIGN IN FORM */}
             {authMode === 'signin' && (
               <form onSubmit={handleSignInSubmit} className="space-y-4">
                 
-                {/* Email Address */}
+                {/* Email */}
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-slate-800 uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5">
-                    <Mail className="w-3.5 h-3.5 text-cyan-700" />
-                    <span>Corporate Email Address</span>
+                  <label className={`text-[11px] font-bold uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5 ${
+                    isDark ? 'text-slate-300' : 'text-slate-800'
+                  }`}>
+                    <Mail className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
+                    <span>Email Address</span>
                   </label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="name@company.com"
-                    value={signInEmail}
-                    onChange={(e) => setSignInEmail(e.target.value)}
-                    className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-white focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-[#BBE7F1]/50 outline-none text-slate-900 transition-all placeholder:text-slate-400"
-                  />
+                  <div className="relative">
+                    <input
+                      type="email"
+                      required
+                      placeholder="name@company.com"
+                      value={signInEmail}
+                      onChange={(e) => setSignInEmail(e.target.value)}
+                      className={`w-full text-xs sm:text-sm p-3.5 pl-10 rounded-xl outline-none transition-all placeholder:text-slate-400 ${
+                        isDark
+                          ? 'border border-slate-800 bg-slate-950/50 hover:bg-slate-950 focus:bg-slate-950 focus:border-[#BBE7F1] focus:ring-4 focus:ring-[#BBE7F1]/20 text-slate-100'
+                          : 'border border-slate-200 bg-slate-50/70 hover:bg-white focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-cyan-100 text-slate-900'
+                      }`}
+                    />
+                    <Mail className={`w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${
+                      isDark ? 'text-slate-500' : 'text-slate-400'
+                    }`} />
+                  </div>
                 </div>
 
                 {/* Password */}
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between">
-                    <label className="text-[11px] font-bold text-slate-800 uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5">
-                      <Lock className="w-3.5 h-3.5 text-cyan-700" />
+                    <label className={`text-[11px] font-bold uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5 ${
+                      isDark ? 'text-slate-300' : 'text-slate-800'
+                    }`}>
+                      <Lock className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
                       <span>Password</span>
                     </label>
-                    <a
-                      href="mailto:support@webdevsoftwaresolutions.com?subject=Password%20Reset%20Inquiry"
-                      className="text-[11px] font-semibold text-cyan-800 hover:text-cyan-950 underline transition-colors"
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setForgotPasswordOpen(true);
+                        setForgotPasswordSent(false);
+                        setForgotPasswordEmail(signInEmail || '');
+                      }}
+                      className={`text-[11px] font-semibold underline transition-colors cursor-pointer ${
+                        isDark ? 'text-[#BBE7F1] hover:text-cyan-300' : 'text-cyan-800 hover:text-cyan-950'
+                      }`}
                     >
                       Forgot password?
-                    </a>
+                    </button>
                   </div>
                   
                   <div className="relative">
@@ -388,49 +703,90 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       required
                       placeholder="••••••••••••"
                       value={signInPassword}
+                      onKeyDown={handleKeyDown}
+                      onKeyUp={handleKeyDown}
                       onChange={(e) => setSignInPassword(e.target.value)}
-                      className="w-full text-xs sm:text-sm p-3.5 pr-11 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-white focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-[#BBE7F1]/50 outline-none text-slate-900 transition-all placeholder:text-slate-400"
+                      className={`w-full text-xs sm:text-sm p-3.5 pl-10 pr-11 rounded-xl outline-none transition-all placeholder:text-slate-400 font-mono ${
+                        isDark
+                          ? 'border border-slate-800 bg-slate-950/50 hover:bg-slate-950 focus:bg-slate-950 focus:border-[#BBE7F1] focus:ring-4 focus:ring-[#BBE7F1]/20 text-slate-100'
+                          : 'border border-slate-200 bg-slate-50/70 hover:bg-white focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-cyan-100 text-slate-900'
+                      }`}
                     />
+                    <Lock className={`w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${
+                      isDark ? 'text-slate-500' : 'text-slate-400'
+                    }`} />
+                    
                     <button
                       type="button"
                       onClick={() => setShowSignInPassword(!showSignInPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1 cursor-pointer transition-colors"
-                      title={showSignInPassword ? 'Hide password' : 'Show password'}
+                      className={`absolute right-3 top-1/2 -translate-y-1/2 p-1 cursor-pointer transition-colors ${
+                        isDark ? 'text-slate-500 hover:text-slate-300' : 'text-slate-400 hover:text-slate-700'
+                      }`}
                     >
                       {showSignInPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
+
+                  {capsLockActive && (
+                    <div className={`text-[11px] px-2.5 py-1 rounded-lg flex items-center gap-1.5 animate-fadeIn ${
+                      isDark
+                        ? 'text-amber-300 bg-amber-500/10 border border-amber-500/20'
+                        : 'text-amber-700 bg-amber-50 border border-amber-200'
+                    }`}>
+                      <AlertCircle className="w-3 h-3" />
+                      <span>Caps Lock is ON</span>
+                    </div>
+                  )}
                 </div>
 
-                {/* Remember Me & Security Status */}
-                <div className="flex items-center justify-between text-xs text-slate-600 pt-1">
+                {/* Remember Me */}
+                <div className={`flex items-center justify-between text-xs pt-1 ${
+                  isDark ? 'text-slate-400' : 'text-slate-600'
+                }`}>
                   <label className="flex items-center gap-2 cursor-pointer select-none">
                     <input
                       type="checkbox"
                       checked={signInRemember}
                       onChange={(e) => setSignInRemember(e.target.checked)}
-                      className="w-4 h-4 rounded text-slate-900 focus:ring-[#9cd5e2] border-slate-300 cursor-pointer accent-cyan-600"
+                      className={`w-4 h-4 rounded cursor-pointer ${
+                        isDark 
+                          ? 'accent-[#BBE7F1] border-slate-700' 
+                          : 'accent-cyan-600 border-slate-300'
+                      }`}
                     />
-                    <span>Remember this session</span>
+                    <span className={isDark ? 'text-slate-300' : 'text-slate-700'}>Remember me</span>
                   </label>
-                  <span className="text-[11px] text-slate-500 flex items-center gap-1">
-                    <Shield className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>256-Bit SSL</span>
+                  <span className={`text-[11px] flex items-center gap-1 ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
+                    <Shield className="w-3.5 h-3.5 text-emerald-500" />
+                    <span>Encrypted</span>
                   </span>
                 </div>
 
-                {/* Submit button */}
+                {/* Submit */}
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-slate-950 hover:bg-slate-800 active:bg-slate-900 text-white font-bold text-xs sm:text-sm py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md hover:shadow-lg disabled:opacity-60 mt-3 font-['Archivo'] group"
+                  className={`w-full font-bold text-xs sm:text-sm py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md hover:shadow-lg disabled:opacity-60 mt-3 font-['Archivo'] group ${
+                    isDark
+                      ? 'bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950'
+                      : 'bg-slate-950 hover:bg-slate-800 text-white'
+                  }`}
                 >
                   {isLoading ? (
-                    <span>Verifying Credentials...</span>
+                    <div className="flex items-center gap-2">
+                      <div className={`w-4 h-4 border-2 rounded-full animate-spin ${
+                        isDark 
+                          ? 'border-slate-950/20 border-t-slate-950' 
+                          : 'border-white/20 border-t-white'
+                      }`} />
+                      <span>{loadingMessage}</span>
+                    </div>
                   ) : (
                     <>
-                      <span>Sign In to Portal</span>
-                      <ArrowRight className="w-4 h-4 text-[#BBE7F1] group-hover:translate-x-1 transition-transform" />
+                      <span>Sign In</span>
+                      <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${
+                        isDark ? 'text-slate-950' : 'text-[#BBE7F1]'
+                      }`} />
                     </>
                   )}
                 </button>
@@ -438,99 +794,148 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               </form>
             )}
 
-            {/* ═══════════════════════════════════════════════════════════════════ */}
-            {/* SIGN UP / REGISTRATION FORM (LIGHT THEME) */}
-            {/* ═══════════════════════════════════════════════════════════════════ */}
+            {/* SIGN UP FORM */}
             {authMode === 'signup' && (
               <form onSubmit={handleSignUpSubmit} className="space-y-4">
                 
-                {/* Full Name */}
+                {/* Name */}
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-slate-800 uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5">
-                    <User className="w-3.5 h-3.5 text-cyan-700" />
+                  <label className={`text-[11px] font-bold uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5 ${
+                    isDark ? 'text-slate-300' : 'text-slate-800'
+                  }`}>
+                    <User className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
                     <span>Full Name *</span>
                   </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Lukas Schneider or Sarah Chowdhury"
-                    value={signUpName}
-                    onChange={(e) => setSignUpName(e.target.value)}
-                    className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-white focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-[#BBE7F1]/50 outline-none text-slate-900 transition-all placeholder:text-slate-400"
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      required
+                      placeholder="John Doe"
+                      value={signUpName}
+                      onChange={(e) => setSignUpName(e.target.value)}
+                      className={`w-full text-xs sm:text-sm p-3 pl-10 rounded-xl outline-none transition-all placeholder:text-slate-400 ${
+                        isDark
+                          ? 'border border-slate-800 bg-slate-950/50 hover:bg-slate-950 focus:bg-slate-950 focus:border-[#BBE7F1] focus:ring-4 focus:ring-[#BBE7F1]/20 text-slate-100'
+                          : 'border border-slate-200 bg-slate-50/70 hover:bg-white focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-cyan-100 text-slate-900'
+                      }`}
+                    />
+                    <User className={`w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${
+                      isDark ? 'text-slate-500' : 'text-slate-400'
+                    }`} />
+                  </div>
                 </div>
 
-                {/* Email Address */}
+                {/* Email */}
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-slate-800 uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5">
-                    <Mail className="w-3.5 h-3.5 text-cyan-700" />
-                    <span>Corporate / Business Email *</span>
+                  <label className={`text-[11px] font-bold uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5 ${
+                    isDark ? 'text-slate-300' : 'text-slate-800'
+                  }`}>
+                    <Mail className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
+                    <span>Email *</span>
                   </label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="name@company.com"
-                    value={signUpEmail}
-                    onChange={(e) => setSignUpEmail(e.target.value)}
-                    className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-white focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-[#BBE7F1]/50 outline-none text-slate-900 transition-all placeholder:text-slate-400"
-                  />
+                  <div className="relative">
+                    <input
+                      type="email"
+                      required
+                      placeholder="name@company.com"
+                      value={signUpEmail}
+                      onChange={(e) => setSignUpEmail(e.target.value)}
+                      className={`w-full text-xs sm:text-sm p-3 pl-10 rounded-xl outline-none transition-all placeholder:text-slate-400 ${
+                        isDark
+                          ? 'border border-slate-800 bg-slate-950/50 hover:bg-slate-950 focus:bg-slate-950 focus:border-[#BBE7F1] focus:ring-4 focus:ring-[#BBE7F1]/20 text-slate-100'
+                          : 'border border-slate-200 bg-slate-50/70 hover:bg-white focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-cyan-100 text-slate-900'
+                      }`}
+                    />
+                    <Mail className={`w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${
+                      isDark ? 'text-slate-500' : 'text-slate-400'
+                    }`} />
+                  </div>
                 </div>
 
-                {/* Branch Region Selector */}
+                {/* Country */}
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-slate-800 uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5">
-                    <Globe2 className="w-3.5 h-3.5 text-cyan-700" />
-                    <span>Primary Regional Hub</span>
+                  <label className={`text-[11px] font-bold uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5 ${
+                    isDark ? 'text-slate-300' : 'text-slate-800'
+                  }`}>
+                    <Globe2 className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
+                    <span>Region</span>
                   </label>
                   <select
                     value={signUpCountry}
                     onChange={(e) => setSignUpCountry(e.target.value as any)}
-                    className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-white focus:border-cyan-600 focus:ring-4 focus:ring-[#BBE7F1]/50 outline-none text-slate-900 cursor-pointer"
+                    className={`w-full text-xs sm:text-sm p-3 rounded-xl outline-none cursor-pointer font-medium transition-all ${
+                      isDark
+                        ? 'border border-slate-800 bg-slate-950/50 hover:bg-slate-950 focus:bg-slate-950 focus:border-[#BBE7F1] focus:ring-4 focus:ring-[#BBE7F1]/20 text-slate-100'
+                        : 'border border-slate-200 bg-white focus:border-cyan-600 focus:ring-4 focus:ring-cyan-100 text-slate-900'
+                    }`}
                   >
-                    <option value="Germany">Germany / Europe (DACH Region)</option>
-                    <option value="Bangladesh">Bangladesh (Joypurhat Engineering HQ)</option>
-                    <option value="International">International (Global Enterprise)</option>
+                    <option value="Germany">🇩🇪 Germany / Europe</option>
+                    <option value="Bangladesh">🇧🇩 Bangladesh</option>
+                    <option value="International">🌐 International</option>
                   </select>
                 </div>
 
                 {/* Company & Phone */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-slate-800 uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5">
-                      <Building className="w-3.5 h-3.5 text-cyan-700" />
-                      <span>Company (Optional)</span>
+                    <label className={`text-[11px] font-bold uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5 ${
+                      isDark ? 'text-slate-300' : 'text-slate-800'
+                    }`}>
+                      <Building className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
+                      <span>Company</span>
                     </label>
                     <input
                       type="text"
-                      placeholder="e.g. Bavarian Tech GmbH"
+                      placeholder="Company Name"
                       value={signUpCompany}
                       onChange={(e) => setSignUpCompany(e.target.value)}
-                      className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-white focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-[#BBE7F1]/50 outline-none text-slate-900 placeholder:text-slate-400"
+                      className={`w-full text-xs sm:text-sm p-3 rounded-xl outline-none transition-all placeholder:text-slate-400 ${
+                        isDark
+                          ? 'border border-slate-800 bg-slate-950/50 hover:bg-slate-950 focus:bg-slate-950 focus:border-[#BBE7F1] focus:ring-4 focus:ring-[#BBE7F1]/20 text-slate-100'
+                          : 'border border-slate-200 bg-slate-50/70 hover:bg-white focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-cyan-100 text-slate-900'
+                      }`}
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-slate-800 uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5">
-                      <Phone className="w-3.5 h-3.5 text-cyan-700" />
-                      <span>Phone (Optional)</span>
+                    <label className={`text-[11px] font-bold uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5 ${
+                      isDark ? 'text-slate-300' : 'text-slate-800'
+                    }`}>
+                      <Phone className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
+                      <span>Phone</span>
                     </label>
                     <input
                       type="tel"
-                      placeholder="+49 ... or +880 ..."
+                      placeholder="+49 ..."
                       value={signUpPhone}
                       onChange={(e) => setSignUpPhone(e.target.value)}
-                      className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-white focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-[#BBE7F1]/50 outline-none text-slate-900 placeholder:text-slate-400"
+                      className={`w-full text-xs sm:text-sm p-3 rounded-xl outline-none transition-all placeholder:text-slate-400 font-mono ${
+                        isDark
+                          ? 'border border-slate-800 bg-slate-950/50 hover:bg-slate-950 focus:bg-slate-950 focus:border-[#BBE7F1] focus:ring-4 focus:ring-[#BBE7F1]/20 text-slate-100'
+                          : 'border border-slate-200 bg-slate-50/70 hover:bg-white focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-cyan-100 text-slate-900'
+                      }`}
                     />
                   </div>
                 </div>
 
-                {/* Password & Confirm Password */}
+                {/* Passwords */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-slate-800 uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5">
-                      <Lock className="w-3.5 h-3.5 text-cyan-700" />
-                      <span>Password *</span>
-                    </label>
+                    <div className="flex items-center justify-between">
+                      <label className={`text-[11px] font-bold uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5 ${
+                        isDark ? 'text-slate-300' : 'text-slate-800'
+                      }`}>
+                        <Lock className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
+                        <span>Password *</span>
+                      </label>
+                      {signUpPassword && (
+                        <span className={`text-[10px] font-bold ${
+                          passwordStrength.score >= 3 ? 'text-emerald-500' : 'text-amber-500'
+                        }`}>
+                          {passwordStrength.label}
+                        </span>
+                      )}
+                    </div>
                     <div className="relative">
                       <input
                         type={showSignUpPassword ? 'text' : 'password'}
@@ -539,62 +944,118 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                         placeholder="Min 6 characters"
                         value={signUpPassword}
                         onChange={(e) => setSignUpPassword(e.target.value)}
-                        className="w-full text-xs sm:text-sm p-3 pr-10 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-white focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-[#BBE7F1]/50 outline-none text-slate-900 placeholder:text-slate-400"
+                        className={`w-full text-xs sm:text-sm p-3 pr-10 rounded-xl outline-none transition-all placeholder:text-slate-400 font-mono ${
+                          isDark
+                            ? 'border border-slate-800 bg-slate-950/50 hover:bg-slate-950 focus:bg-slate-950 focus:border-[#BBE7F1] focus:ring-4 focus:ring-[#BBE7F1]/20 text-slate-100'
+                            : 'border border-slate-200 bg-slate-50/70 hover:bg-white focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-cyan-100 text-slate-900'
+                        }`}
                       />
                       <button
                         type="button"
                         onClick={() => setShowSignUpPassword(!showSignUpPassword)}
-                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1 cursor-pointer transition-colors"
+                        className={`absolute right-2.5 top-1/2 -translate-y-1/2 p-1 cursor-pointer transition-colors ${
+                          isDark ? 'text-slate-500 hover:text-slate-300' : 'text-slate-400 hover:text-slate-700'
+                        }`}
                       >
                         {showSignUpPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
+
+                    {/* Password Strength */}
+                    {signUpPassword.length > 0 && (
+                      <div className="grid grid-cols-4 gap-1 pt-1">
+                        {[1, 2, 3, 4].map((level) => (
+                          <div 
+                            key={level}
+                            className={`h-1 rounded-full transition-colors ${
+                              passwordStrength.score >= level 
+                                ? passwordStrength.color 
+                                : isDark ? 'bg-slate-800' : 'bg-slate-200'
+                            }`} 
+                          />
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-slate-800 uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5">
-                      <KeyRound className="w-3.5 h-3.5 text-cyan-700" />
-                      <span>Confirm Password *</span>
-                    </label>
+                    <div className="flex items-center justify-between">
+                      <label className={`text-[11px] font-bold uppercase tracking-wider font-['Archivo'] flex items-center gap-1.5 ${
+                        isDark ? 'text-slate-300' : 'text-slate-800'
+                      }`}>
+                        <KeyRound className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
+                        <span>Confirm *</span>
+                      </label>
+                      {passwordsMatch && (
+                        <span className="text-[10px] text-emerald-500 font-bold flex items-center gap-1">
+                          <Check className="w-3 h-3" /> Match
+                        </span>
+                      )}
+                    </div>
                     <input
                       type={showSignUpPassword ? 'text' : 'password'}
                       required
                       minLength={6}
-                      placeholder="Confirm password"
+                      placeholder="Re-enter password"
                       value={signUpConfirmPassword}
                       onChange={(e) => setSignUpConfirmPassword(e.target.value)}
-                      className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-white focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-[#BBE7F1]/50 outline-none text-slate-900 placeholder:text-slate-400"
+                      className={`w-full text-xs sm:text-sm p-3 rounded-xl outline-none transition-all placeholder:text-slate-400 font-mono ${
+                        signUpConfirmPassword.length > 0 && !passwordsMatch
+                          ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-100'
+                          : isDark
+                            ? 'border border-slate-800 bg-slate-950/50 hover:bg-slate-950 focus:bg-slate-950 focus:border-[#BBE7F1] focus:ring-4 focus:ring-[#BBE7F1]/20 text-slate-100'
+                            : 'border border-slate-200 bg-slate-50/70 hover:bg-white focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-cyan-100 text-slate-900'
+                      }`}
                     />
                   </div>
                 </div>
 
-                {/* Terms Agreement */}
+                {/* Terms */}
                 <div className="pt-1">
-                  <label className="flex items-start gap-2.5 text-xs text-slate-600 cursor-pointer select-none">
+                  <label className={`flex items-start gap-2.5 text-xs cursor-pointer select-none ${
+                    isDark ? 'text-slate-400' : 'text-slate-600'
+                  }`}>
                     <input
                       type="checkbox"
                       checked={agreedToTerms}
                       onChange={(e) => setAgreedToTerms(e.target.checked)}
-                      className="w-4 h-4 mt-0.5 rounded text-slate-900 focus:ring-[#9cd5e2] border-slate-300 shrink-0 accent-cyan-600"
+                      className={`w-4 h-4 mt-0.5 rounded shrink-0 ${
+                        isDark 
+                          ? 'accent-[#BBE7F1] border-slate-700' 
+                          : 'accent-cyan-600 border-slate-300'
+                      }`}
                     />
                     <span className="leading-snug text-[11px]">
-                      I accept the <a href="/terms" className="text-cyan-900 font-semibold underline">Terms of Service</a> and acknowledge GDPR data confidentiality.
+                      I accept the <a href="/terms" className={`font-semibold underline ${
+                        isDark ? 'text-[#BBE7F1]' : 'text-cyan-900'
+                      }`}>Terms of Service</a> and Privacy Policy.
                     </span>
                   </label>
                 </div>
 
-                {/* Submit button */}
+                {/* Submit */}
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-bold text-xs sm:text-sm py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow-md disabled:opacity-60 mt-3 font-['Archivo'] group border border-[#9cd5e2]"
+                  className={`w-full font-bold text-xs sm:text-sm py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md hover:shadow-lg disabled:opacity-60 mt-3 font-['Archivo'] group ${
+                    isDark
+                      ? 'bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950'
+                      : 'bg-slate-950 hover:bg-slate-800 text-white'
+                  }`}
                 >
                   {isLoading ? (
-                    <span>Provisioning Account...</span>
+                    <div className="flex items-center gap-2">
+                      <div className={`w-4 h-4 border-2 rounded-full animate-spin ${
+                        isDark 
+                          ? 'border-slate-950/20 border-t-slate-950' 
+                          : 'border-white/20 border-t-white'
+                      }`} />
+                      <span>{loadingMessage}</span>
+                    </div>
                   ) : (
                     <>
-                      <Sparkles className="w-4 h-4 text-slate-900" />
-                      <span>Register Enterprise Account</span>
+                      <Sparkles className="w-4 h-4" />
+                      <span>Create Account</span>
                     </>
                   )}
                 </button>
@@ -602,92 +1063,190 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               </form>
             )}
 
-            {/* Security Guarantee Note */}
-            <div className="text-[11px] text-slate-500 text-center flex items-center justify-center gap-1.5 pt-3 border-t border-slate-100">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              <span>TLS 256-bit encrypted protocol • Zero third-party tracker storage</span>
+            {/* Security Note */}
+            <div className={`text-[11px] text-center flex items-center justify-center gap-2 pt-3 border-t ${
+              isDark ? 'text-slate-500 border-slate-800' : 'text-slate-600 border-slate-100'
+            }`}>
+              <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
+              <span>TLS 1.3 End-to-End Encryption</span>
             </div>
 
           </div>
 
-          {/* RIGHT: Architecture & Trust Showcase Panel (5 cols on lg - LIGHT THEME) */}
-          <div className="lg:col-span-5 space-y-5 auth-fade-item">
+          {/* Right Panel - Info */}
+          <div className="lg:col-span-5 flex flex-col justify-between space-y-6 auth-fade-item">
             
-            {/* Enterprise Security Card */}
-            <div className="bg-gradient-to-br from-white via-slate-50 to-[#edf7fa]/60 rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-[0_10px_30px_rgba(15,23,42,0.03)] space-y-6">
+            {/* Main Info Card */}
+            <div className={`backdrop-blur-xl rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative overflow-hidden ${
+              isDark
+                ? 'bg-slate-950/90 border border-slate-800/90'
+                : 'bg-white border border-slate-200'
+            }`}>
+              <div className={`absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl pointer-events-none ${
+                isDark ? 'bg-cyan-500/10' : 'bg-cyan-200/30'
+              }`} />
               
-              <div className="flex items-center gap-3.5">
-                <div className="w-11 h-11 rounded-2xl bg-[#BBE7F1] border border-[#9cd5e2] flex items-center justify-center shadow-xs">
-                  <ShieldCheck className="w-6 h-6 text-slate-950" />
+              <div className="flex items-center justify-between">
+                <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium ${
+                  isDark
+                    ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'
+                    : 'bg-emerald-50 border border-emerald-200 text-emerald-700'
+                }`}>
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                  <span>99.98% Uptime</span>
                 </div>
-                <div>
-                  <h3 className="text-base font-bold font-['Archivo'] text-slate-950">
-                    European Quality Standards
-                  </h3>
-                  <p className="text-xs text-slate-600">
-                    Agile Delivery & Strict RBAC Protection
-                  </p>
-                </div>
+                <span className={`text-[11px] font-mono ${isDark ? 'text-slate-500' : 'text-slate-600'}`}>
+                  SOC2 Type II
+                </span>
               </div>
 
-              <div className="space-y-4 text-xs text-slate-700">
-                <div className="flex items-start gap-3">
-                  <div className="p-1 rounded-lg bg-emerald-50 border border-emerald-200 shrink-0 mt-0.5">
-                    <Check className="w-3.5 h-3.5 text-emerald-600" />
-                  </div>
-                  <div>
-                    <strong className="text-slate-950 block font-semibold">Dual-Hub Transparency</strong>
-                    Direct sync with Bangladesh core development sprints and Leverkusen client milestones.
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="p-1 rounded-lg bg-cyan-50 border border-cyan-200 shrink-0 mt-0.5">
-                    <Server className="w-3.5 h-3.5 text-cyan-700" />
-                  </div>
-                  <div>
-                    <strong className="text-slate-950 block font-semibold">Role-Based Access Control</strong>
-                    Client partners view deliverables and invoices, while admin staff access the full CMS suite.
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="p-1 rounded-lg bg-purple-50 border border-purple-200 shrink-0 mt-0.5">
-                    <Cpu className="w-3.5 h-3.5 text-purple-700" />
-                  </div>
-                  <div>
-                    <strong className="text-slate-950 block font-semibold">High-Velocity Engineering</strong>
-                    Production deployments backed by Next.js, PostgreSQL, and continuous CI/CD pipelines.
-                  </div>
-                </div>
-              </div>
-
-              {/* Direct Engineering Hotline */}
-              <div className="pt-4 border-t border-slate-200/80 space-y-2 text-xs">
-                <p className="text-[11px] uppercase tracking-wider text-slate-500 font-bold font-['Archivo']">
-                  Direct Engineering Support:
+              <div className="space-y-1.5">
+                <h3 className={`text-xl font-bold font-['Archivo'] tracking-tight flex items-center gap-2 ${
+                  isDark ? 'text-white' : 'text-slate-950'
+                }`}>
+                  <span>Enterprise Client Portal</span>
+                  <Sparkles className={`w-4 h-4 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
+                </h3>
+                <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                  Direct access to your projects, milestones, and dedicated technical support.
                 </p>
-                <div className="flex items-center justify-between text-slate-700 bg-white p-2.5 rounded-xl border border-slate-200/80 shadow-2xs">
-                  <span className="text-slate-500">Joypurhat HQ (BD):</span>
-                  <span className="font-mono text-cyan-900 font-semibold">+880 1722-301927</span>
+              </div>
+
+              <div className="space-y-3.5 text-xs">
+                
+                <div className={`flex items-start gap-3 p-3 rounded-2xl transition-colors ${
+                  isDark
+                    ? 'bg-slate-900/60 border border-slate-800/60 hover:border-slate-700/80'
+                    : 'bg-slate-50 border border-slate-100 hover:border-slate-200'
+                }`}>
+                  <div className={`p-2 rounded-xl shrink-0 mt-0.5 ${
+                    isDark
+                      ? 'bg-[#BBE7F1]/10 border border-[#9cd5e2]/20 text-[#BBE7F1]'
+                      : 'bg-cyan-50 border border-cyan-200 text-cyan-600'
+                  }`}>
+                    <Server className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className={`font-bold font-['Archivo'] ${isDark ? 'text-white' : 'text-slate-950'}`}>
+                      Dual-Hub Engineering
+                    </h4>
+                    <p className={`text-[11px] mt-0.5 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                      Germany and Bangladesh teams for maximum delivery speed.
+                    </p>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between text-slate-700 bg-white p-2.5 rounded-xl border border-slate-200/80 shadow-2xs">
-                  <span className="text-slate-500">Leverkusen Hub (DE):</span>
-                  <span className="font-mono text-cyan-900 font-semibold">+49 172 9766016</span>
+
+                <div className={`flex items-start gap-3 p-3 rounded-2xl transition-colors ${
+                  isDark
+                    ? 'bg-slate-900/60 border border-slate-800/60 hover:border-slate-700/80'
+                    : 'bg-slate-50 border border-slate-100 hover:border-slate-200'
+                }`}>
+                  <div className={`p-2 rounded-xl shrink-0 mt-0.5 ${
+                    isDark
+                      ? 'bg-purple-500/10 border border-purple-500/20 text-purple-400'
+                      : 'bg-purple-50 border border-purple-200 text-purple-600'
+                  }`}>
+                    <Cpu className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className={`font-bold font-['Archivo'] ${isDark ? 'text-white' : 'text-slate-950'}`}>
+                      RBAC Governance
+                    </h4>
+                    <p className={`text-[11px] mt-0.5 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                      Role-based encryption for secure project management.
+                    </p>
+                  </div>
+                </div>
+
+                <div className={`flex items-start gap-3 p-3 rounded-2xl transition-colors ${
+                  isDark
+                    ? 'bg-slate-900/60 border border-slate-800/60 hover:border-slate-700/80'
+                    : 'bg-slate-50 border border-slate-100 hover:border-slate-200'
+                }`}>
+                  <div className={`p-2 rounded-xl shrink-0 mt-0.5 ${
+                    isDark
+                      ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'
+                      : 'bg-emerald-50 border border-emerald-200 text-emerald-600'
+                  }`}>
+                    <FileCheck className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className={`font-bold font-['Archivo'] ${isDark ? 'text-white' : 'text-slate-950'}`}>
+                      CI/CD Auditing
+                    </h4>
+                    <p className={`text-[11px] mt-0.5 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                      Automated testing and production-ready deployments.
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Testimonial */}
+              <div className={`pt-4 border-t ${isDark ? 'border-slate-800/80' : 'border-slate-100'}`}>
+                <div className="flex items-center gap-1 mb-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                  ))}
+                  <span className={`text-[11px] font-mono ml-1.5 ${isDark ? 'text-slate-500' : 'text-slate-600'}`}>
+                    5.0
+                  </span>
+                </div>
+                <p className={`text-xs italic leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                  &ldquo;Delivered our platform 3 weeks ahead of schedule with zero technical debt.&rdquo;
+                </p>
+                <div className={`mt-2.5 flex items-center justify-between text-[11px] ${
+                  isDark ? 'text-slate-400' : 'text-slate-600'
+                }`}>
+                  <span className={`font-semibold font-['Archivo'] ${isDark ? 'text-white' : 'text-slate-950'}`}>
+                    Head of Digital
+                  </span>
+                  <span>EMEA Partner</span>
                 </div>
               </div>
 
             </div>
 
-            {/* Quick Consultation Highlight Card */}
-            <div className="bg-gradient-to-br from-[#BBE7F1]/30 via-white to-cyan-50/50 rounded-3xl p-5 border border-[#9cd5e2]/60 text-xs text-slate-800 space-y-2 shadow-xs">
-              <div className="flex items-center gap-2 font-bold font-['Archivo'] text-slate-950">
-                <Sparkles className="w-4 h-4 text-cyan-800" />
-                <span>Enterprise Client Dashboard</span>
+            {/* Contact Card */}
+            <div className={`backdrop-blur-md rounded-2xl p-4 space-y-3 ${
+              isDark
+                ? 'bg-slate-900/80 border border-slate-800/80'
+                : 'bg-white border border-slate-200'
+            }`}>
+              <div className={`flex items-center justify-between text-xs font-semibold font-['Archivo'] ${
+                isDark ? 'text-slate-300' : 'text-slate-700'
+              }`}>
+                <span className={`flex items-center gap-1.5 ${isDark ? 'text-white' : 'text-slate-950'}`}>
+                  <Headphones className={`w-3.5 h-3.5 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
+                  <span>Direct Hotlines</span>
+                </span>
+                <span className="text-[10px] text-emerald-400 font-mono">Live</span>
               </div>
-              <p className="text-slate-600 leading-relaxed text-[11px]">
-                Sign in to monitor real-time sprint velocity, download confidential NDA project dossiers, and communicate directly with your dedicated lead engineer.
-              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <a 
+                  href={`tel:${siteSettings.phone_de.replace(/\s+/g, '')}`} 
+                  className={`p-2.5 rounded-xl transition-colors flex items-center justify-between ${
+                    isDark
+                      ? 'bg-slate-950/80 hover:bg-slate-950 border border-slate-800 text-slate-300 hover:text-white'
+                      : 'bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900'
+                  }`}
+                >
+                  <span className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>🇩🇪 Germany:</span>
+                  <span className="font-mono text-cyan-400 font-semibold text-[11px]">{siteSettings.phone_de}</span>
+                </a>
+                <a 
+                  href={`tel:${siteSettings.phone_bd.replace(/\s+/g, '')}`} 
+                  className={`p-2.5 rounded-xl transition-colors flex items-center justify-between ${
+                    isDark
+                      ? 'bg-slate-950/80 hover:bg-slate-950 border border-slate-800 text-slate-300 hover:text-white'
+                      : 'bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900'
+                  }`}
+                >
+                  <span className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>🇧🇩 Bangladesh:</span>
+                  <span className="font-mono text-emerald-400 font-semibold text-[11px]">{siteSettings.phone_bd}</span>
+                </a>
+              </div>
             </div>
 
           </div>
@@ -695,13 +1254,142 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         </div>
       </main>
 
-      {/* ─── 3. MINIMAL LIGHT FOOTER ────────────────────────────────────── */}
-      <footer className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 py-5 text-center text-xs text-slate-500 border-t border-slate-200/60">
-        <span>&copy; {new Date().getFullYear()} WebDev Software Solutions. ISO 27001 & GDPR Compliant.</span>
+      {/* Footer */}
+      <footer className={`relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 text-center text-xs flex flex-col sm:flex-row items-center justify-between gap-3 border-t ${
+        isDark 
+          ? 'text-slate-500 border-slate-900' 
+          : 'text-slate-600 border-slate-200'
+      }`}>
+        <span>&copy; {new Date().getFullYear()} {siteSettings.companyName}. All rights reserved.</span>
+        <div className={`flex items-center gap-4 text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+          <a href="/privacy" className={`transition-colors ${isDark ? 'hover:text-white' : 'hover:text-slate-900'}`}>
+            Privacy
+          </a>
+          <span>•</span>
+          <a href="/terms" className={`transition-colors ${isDark ? 'hover:text-white' : 'hover:text-slate-900'}`}>
+            Terms
+          </a>
+          <span>•</span>
+          <span>GDPR Compliant</span>
+        </div>
       </footer>
+
+      {/* Forgot Password Modal */}
+      {forgotPasswordOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fadeIn">
+          <div className={`rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative space-y-4 ${
+            isDark
+              ? 'bg-slate-900 text-slate-100 border border-slate-800'
+              : 'bg-white text-slate-900 border border-slate-200'
+          }`}>
+            
+            <button
+              type="button"
+              onClick={() => setForgotPasswordOpen(false)}
+              className={`absolute right-4 top-4 p-1.5 rounded-xl transition-colors ${
+                isDark
+                  ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                  : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'
+              }`}
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${
+              isDark
+                ? 'bg-[#BBE7F1]/10 border border-[#9cd5e2]/20 text-[#BBE7F1]'
+                : 'bg-cyan-50 border border-cyan-200 text-cyan-900'
+            }`}>
+              <KeyRound className="w-6 h-6" />
+            </div>
+
+            <div>
+              <h3 className={`text-xl font-bold font-['Archivo'] ${
+                isDark ? 'text-white' : 'text-slate-950'
+              }`}>
+                Reset Password
+              </h3>
+              <p className={`text-xs mt-1 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                Enter your email and we'll send you a recovery link.
+              </p>
+            </div>
+
+            {forgotPasswordSent ? (
+              <div className={`p-4 rounded-2xl text-xs space-y-2 ${
+                isDark
+                  ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-300'
+                  : 'bg-emerald-50 border border-emerald-200 text-emerald-800'
+              }`}>
+                <div className={`flex items-center gap-2 font-bold ${isDark ? 'text-emerald-300' : 'text-emerald-900'}`}>
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Recovery Email Sent</span>
+                </div>
+                <p className="leading-relaxed">
+                  Check <strong>{forgotPasswordEmail}</strong> for instructions.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setForgotPasswordOpen(false)}
+                  className={`w-full mt-3 font-bold py-2.5 rounded-xl text-xs ${
+                    isDark
+                      ? 'bg-slate-800 text-white hover:bg-slate-700'
+                      : 'bg-slate-950 text-white hover:bg-slate-800'
+                  }`}
+                >
+                  Back to Sign In
+                </button>
+              </div>
+            ) : (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (forgotPasswordEmail.trim()) {
+                    setForgotPasswordSent(true);
+                  }
+                }}
+                className="space-y-3 pt-2"
+              >
+                <div className="space-y-1">
+                  <label className={`text-[11px] font-bold uppercase tracking-wider font-['Archivo'] ${
+                    isDark ? 'text-slate-300' : 'text-slate-800'
+                  }`}>
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="name@company.com"
+                    value={forgotPasswordEmail}
+                    onChange={(e) => setForgotPasswordEmail(e.target.value)}
+                    className={`w-full text-xs sm:text-sm p-3 rounded-xl outline-none transition-all ${
+                      isDark
+                        ? 'border border-slate-800 bg-slate-950 focus:bg-slate-950 focus:border-[#BBE7F1] focus:ring-4 focus:ring-[#BBE7F1]/20 text-slate-100'
+                        : 'border border-slate-200 bg-slate-50 focus:bg-white focus:border-cyan-600 focus:ring-4 focus:ring-cyan-100 text-slate-900'
+                    }`}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className={`w-full font-bold text-xs sm:text-sm py-3 rounded-xl transition-all cursor-pointer shadow-md font-['Archivo'] ${
+                    isDark
+                      ? 'bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950'
+                      : 'bg-slate-950 hover:bg-slate-800 text-white'
+                  }`}
+                >
+                  Send Recovery Link
+                </button>
+
+                <p className={`text-[10px] text-center pt-1 ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
+                  Protected by 256-bit encryption.
+                </p>
+              </form>
+            )}
+
+          </div>
+        </div>
+      )}
 
     </div>
   );
 };
-
-

@@ -82,22 +82,21 @@ export const CallToActionBanner: React.FC<CallToActionBannerProps> = ({ onContac
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-[#BBE7F1]/15 rounded-full blur-[90px] pointer-events-none" />
 
       {/* ── Content ── */}
-      <div className="relative z-10 max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center space-y-4 sm:space-y-5">
 
-          {/* Eyebrow label - Stylish Italic (No Background) */}
-          <div className="cta-banner-item inline-flex items-center gap-2 text-cyan-300 font-['Playfair_Display'] italic text-base sm:text-lg font-semibold tracking-wide">
-            <Sparkles className="w-4 h-4 text-cyan-400" />
+          {/* Eyebrow label - Clean, no icon, 400 font weight */}
+          <div className="cta-banner-item text-cyan-300 font-['Kufam'] text-[11px] sm:text-xs font-normal font-[400] tracking-wider uppercase">
             <span>Start Your Digital Transformation Today</span>
           </div>
 
           {/* Headline */}
-          <h2 className="cta-banner-item text-base xs:text-lg sm:text-xl md:text-2xl lg:text-[28px] font-bold text-white tracking-tight leading-[1.25] font-['Archivo'] max-w-2xl mx-auto">
+          <h2 className="cta-banner-item text-base xs:text-lg sm:text-xl md:text-2xl lg:text-[28px] font-bold text-white tracking-tight leading-[1.25] font-['Kufam'] max-w-2xl mx-auto">
             Ready to gain competitive advantage by modernising your software architecture?
           </h2>
 
-          {/* Sub-copy */}
-          <p className="cta-banner-item text-xs sm:text-sm md:text-base text-slate-300/90 max-w-xl mx-auto leading-relaxed font-normal font-['Instrument_Sans']">
+          {/* Sub-copy - Smaller font size, 400 weight */}
+          <p className="cta-banner-item text-xs sm:text-[13px] text-slate-300/90 max-w-xl mx-auto leading-relaxed font-normal font-[400] font-['Kufam']">
             Partner with dedicated full-stack engineers and cloud architects delivering German enterprise quality at agile development speed.
           </p>
 

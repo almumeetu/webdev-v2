@@ -65,7 +65,7 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
         className="about-anim-fade"
       />
 
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-16 sm:space-y-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-16 sm:space-y-20">
         
         {/* Core Narrative */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
@@ -117,13 +117,13 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
         {/* Operating Hubs Detailed */}
         <div className="space-y-8">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <div className="inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg font-semibold tracking-wide">
+            <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
               <span>Physical Presence & Operating Hubs</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 font-['Archivo']">
+            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 font-['Kufam']">
               Physical Presence & Global Engineering Facilities
             </h3>
-            <p className="text-slate-600 text-sm sm:text-base font-['Instrument_Sans']">
+            <p className="text-slate-600 text-xs sm:text-sm font-['Kufam']">
               Direct international client collaboration backed by dedicated high-velocity engineering squads.
             </p>
           </div>

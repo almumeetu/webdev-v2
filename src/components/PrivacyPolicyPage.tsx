@@ -9,7 +9,7 @@ interface PrivacyPolicyPageProps {
 export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = ({ content, onBack }) => {
   return (
     <div className="min-h-screen bg-slate-50 py-12 sm:py-16">
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
         
         {/* Header */}

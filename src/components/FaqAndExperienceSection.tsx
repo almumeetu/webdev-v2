@@ -83,7 +83,7 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
 
   return (
     <section ref={sectionRef} className="py-16 sm:py-20 lg:py-28 bg-white text-slate-900 relative">
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           
           {/* Left Column: Visual with Experience Badge */}
@@ -120,17 +120,17 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
           {/* Right Column: FAQs Accordion */}
           <div className="lg:col-span-6 space-y-5 sm:space-y-6">
             
-            {/* Eyebrow Subheading - Stylish Italic (No Background) */}
-            <div className="faq-text-content inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+            {/* Eyebrow Subheading - Clean Modern */}
+            <div className="faq-text-content inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
               <span>Frequently Asked Questions & Answers</span>
             </div>
 
             {/* Headline */}
-            <h2 className="faq-text-content text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-950 tracking-tight leading-[1.22] font-['Archivo']">
+            <h2 className="faq-text-content text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-950 tracking-tight leading-[1.22] font-['Kufam']">
               Have any Question to our team?
             </h2>
 
-            <p className="faq-text-content text-sm sm:text-base text-slate-600 leading-relaxed font-['Instrument_Sans']">
+            <p className="faq-text-content text-xs sm:text-sm text-slate-600 leading-relaxed font-['Kufam']">
               Everything you need to know about our international delivery process, pricing transparency, and technology stack.
             </p>
 

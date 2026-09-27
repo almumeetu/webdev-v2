@@ -50,20 +50,20 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
       ref={sectionRef}
       className="py-16 sm:py-20 lg:py-24 bg-slate-50/70 text-slate-900 relative border-t border-b border-slate-200/80"
     >
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14 space-y-3">
-          <div className="news-header-anim inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+          <div className="news-header-anim inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
             <BookOpen className="w-4 h-4 text-cyan-700" />
             <span>From Our Engineering Journal & Insights</span>
           </div>
 
-          <h2 className="news-header-anim text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-950 tracking-tight font-['Archivo']">
+          <h2 className="news-header-anim text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-950 tracking-tight font-['Kufam']">
             Latest News and Insights
           </h2>
 
-          <p className="news-header-anim text-slate-600 text-xs sm:text-sm md:text-base leading-relaxed font-['Instrument_Sans']">
+          <p className="news-header-anim text-slate-600 text-xs sm:text-sm leading-relaxed font-['Kufam']">
             Deep-dive technical perspectives on cloud infrastructure, distributed microservices, Linux server security, and modern web architectures.
           </p>
         </div>

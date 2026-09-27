@@ -54,37 +54,20 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
     return [...items, ...items];
   }, [filteredProjects]);
 
-  const getCountryFlag = (country: string) => {
-    switch (country) {
-      case 'Germany':
-        return '🇩🇪';
-      case 'Bangladesh':
-        return '🇧🇩';
-      case 'USA':
-        return '🇺🇸';
-      case 'UK':
-        return '🇬🇧';
-      case 'Europe':
-        return '🇪🇺';
-      default:
-        return '🌐';
-    }
-  };
-
   return (
     <section 
       id="portfolio-section"
       className="py-16 sm:py-20 bg-white text-slate-900 relative overflow-hidden border-b border-slate-200/80"
     >
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Compact Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-9">
           <div>
-            <div className="inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide mb-2.5">
+            <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide mb-2">
               <span>Recent & Ongoing Projects</span>
             </div>
-            <h2 className="text-xl sm:text-2xl lg:text-[30px] font-bold text-slate-900 tracking-tight font-['Archivo']">
+            <h2 className="text-xl sm:text-2xl lg:text-[30px] font-bold text-slate-900 tracking-tight font-['Kufam']">
               Check our{' '}
               <span className="text-slate-950 underline decoration-[#9cd5e2] decoration-2 underline-offset-4">
                 recent and ongoing work
@@ -147,22 +130,7 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
                   ) : null}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
 
-                  {/* Top Status & Country Badges */}
-                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10 gap-2">
-                    <span className={`text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-xs flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
-                      project.status === 'completed'
-                        ? 'bg-emerald-600 sm:bg-emerald-600/90 sm:backdrop-blur-md text-white'
-                        : 'bg-amber-600 sm:bg-amber-600/90 sm:backdrop-blur-md text-white'
-                    }`}>
-                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shrink-0" />
-                      <span className="whitespace-nowrap">{project.status === 'completed' ? 'Delivered' : 'In Sprint'}</span>
-                    </span>
 
-                    <span className="text-xs bg-slate-900 sm:bg-slate-950/80 sm:backdrop-blur-md text-white px-2.5 py-1 rounded-full border border-white/20 shadow-xs flex items-center gap-1.5 font-medium shrink-0 whitespace-nowrap">
-                      <span className="shrink-0">{getCountryFlag(project.clientCountry)}</span>
-                      <span className="text-xs font-semibold whitespace-nowrap">{project.clientCountry}</span>
-                    </span>
-                  </div>
 
                   {/* Performance Metric Strip (Bottom of Image) */}
                   {project.metrics && (
@@ -225,7 +193,7 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
             onClick={onViewAllProjects}
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-800 font-bold text-sm sm:text-base border border-slate-200 transition-all cursor-pointer min-h-[44px]"
           >
-            <span>Explore All 12+ Worldwide Case Studies</span>
+            <span>Explore All 13+ Worldwide Case Studies & Live Demos</span>
             <ArrowRight className="w-4 h-4 text-slate-950" />
           </button>
         </div>

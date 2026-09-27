@@ -57,11 +57,11 @@ export const TeamDetailModal: React.FC<TeamDetailModalProps> = ({
                 </span>
               </div>
 
-              <h3 className="text-2xl sm:text-3xl font-extrabold font-['Archivo'] text-white">
+              <h3 className="text-2xl sm:text-3xl font-extrabold font-['Kufam'] text-white">
                 {member.name}
               </h3>
               
-              <p className="text-sm font-semibold text-cyan-300 font-['Playfair_Display'] italic">
+              <p className="text-xs sm:text-sm font-semibold text-cyan-300 font-['Kufam']">
                 {member.role}
               </p>
 

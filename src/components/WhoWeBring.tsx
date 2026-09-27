@@ -65,24 +65,24 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
       {/* Background subtle watermark & tech circuit */}
       <div className="absolute inset-0 bg-tech-circuit-light opacity-40 pointer-events-none"></div>
 
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           
           {/* Left Column: Content */}
           <div className="lg:col-span-6 space-y-5 sm:space-y-6">
             
-            {/* Section Eyebrow - Stylish Italic (No Background) */}
-            <div className="who-content-item inline-flex items-center gap-2 text-cyan-700 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+            {/* Section Eyebrow - Clean Modern */}
+            <div className="who-content-item inline-flex items-center gap-2 text-cyan-700 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
               <span>Who We Bring & Our Pedigree</span>
             </div>
 
             {/* Bold Headline */}
-            <h2 className="who-content-item text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-900 tracking-tight leading-[1.22] font-['Archivo']">
+            <h2 className="who-content-item text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-900 tracking-tight leading-[1.22] font-['Kufam']">
               World-Class Engineering for High-Growth Global Businesses
             </h2>
 
             {/* Subtext */}
-            <p className="who-content-item text-sm sm:text-base text-slate-600 leading-relaxed font-['Instrument_Sans']">
+            <p className="who-content-item text-xs sm:text-sm text-slate-600 leading-relaxed font-['Kufam']">
               With over 10+ years of collective experience delivering software for enterprise clients in the USA, Germany, United Kingdom, and across Europe, we build mission-critical digital systems engineered to perform under heavy production loads.
             </p>
 

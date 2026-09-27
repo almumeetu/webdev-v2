@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { 
   CheckCircle2, 
   Clock, 
@@ -10,13 +10,17 @@ import {
   TrendingUp, 
   ArrowLeft,
   ArrowRight,
-  Sparkles
+  Sparkles,
+  Zap,
+  DollarSign,
+  PhoneCall,
+  MessageSquare
 } from 'lucide-react';
 import { Project } from '../types';
 import { useGsapContext } from '../utils/gsapHelper';
 import gsap from 'gsap';
 import { BreadcrumbBar } from './Breadcrumb';
-
+import { ProjectOrderModal } from './ProjectOrderModal';
 
 interface ProjectDetailPageProps {
   project: Project | null;
@@ -32,6 +36,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
   onGetQuoteForSimilar,
 }) => {
   const pageRef = useRef<HTMLDivElement>(null);
+  const [orderModalOpen, setOrderModalOpen] = useState(false);
 
   useGsapContext(pageRef, () => {
     if (!pageRef.current) return;
@@ -55,7 +60,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
   if (!project) {
     return (
       <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center">
-        <h2 className="text-2xl font-bold text-slate-900 mb-3 font-['Archivo']">
+        <h2 className="text-2xl font-bold text-slate-900 mb-3 font-['Kufam']">
           Project Case Study Not Found
         </h2>
         <button
@@ -71,7 +76,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
   return (
     <div ref={pageRef} className="min-h-screen bg-white text-slate-900">
       {/* Top Breadcrumb Navigation */}
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 pt-5 sm:pt-6 pb-2">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 sm:pt-6 pb-2">
         <BreadcrumbBar
           items={[
             { label: 'Home', onClick: onBackToHome },
@@ -83,7 +88,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
         />
       </div>
 
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-6 sm:py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-6 sm:py-8">
 
         {/* Project Hero Banner */}
         <div className="proj-anim-fade relative h-72 sm:h-96 rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
@@ -112,7 +117,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
               )}
             </div>
 
-            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-bold font-['Archivo'] tracking-tight leading-snug">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-bold font-['Kufam'] tracking-tight leading-snug">
               {project.title}
             </h1>
           </div>
@@ -219,6 +224,41 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
             </div>
           </div>
 
+          {/* Turnkey Order & Deployment Callout Banner */}
+          <div className="p-6 rounded-3xl bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white border border-slate-800 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="space-y-1.5 max-w-xl">
+              <div className="inline-flex items-center gap-1.5 text-[#BBE7F1] text-xs font-mono font-bold uppercase tracking-wider">
+                <Zap className="w-3.5 h-3.5" />
+                <span>Turnkey Deployment & Custom Order Available</span>
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold font-['Archivo']">
+                Want a Platform Like {project.title} for Your Business?
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300">
+                We can re-brand and deploy this battle-tested architecture for your enterprise, or customize the features, APIs, and workflows to match your exact business model.
+              </p>
+              {project.priceRange && (
+                <div className="pt-1 flex items-center gap-3 text-xs">
+                  <span className="text-slate-400">Est. Investment: <strong className="text-emerald-400">{project.priceRange}</strong></span>
+                  {project.estimatedDelivery && (
+                    <span className="text-slate-400">• Turnaround: <strong className="text-cyan-300">{project.estimatedDelivery}</strong></span>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
+              <button
+                type="button"
+                onClick={() => setOrderModalOpen(true)}
+                className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-extrabold text-xs sm:text-sm px-6 py-3.5 rounded-xl border border-[#9cd5e2] transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
+              >
+                <Zap className="w-4 h-4 text-slate-950" />
+                <span>Order This Website Now</span>
+              </button>
+            </div>
+          </div>
+
           {/* Bottom Action */}
           <div className="pt-6 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
             <button
@@ -228,18 +268,34 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
               ← Back to Portfolio
             </button>
 
-            <button
-              onClick={() => onGetQuoteForSimilar(project.title)}
-              className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-xs sm:text-sm px-7 py-3.5 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center gap-2 cursor-pointer"
-            >
-              <span>Request Similar Architecture</span>
-              <ArrowRight className="w-4 h-4 text-slate-950" />
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setOrderModalOpen(true)}
+                className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <span>Order Architecture</span>
+                <Zap className="w-4 h-4 text-slate-950" />
+              </button>
+
+              <button
+                onClick={() => onGetQuoteForSimilar(project.title)}
+                className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl border border-slate-700 shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <span>Request Custom Quote</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
         </div>
 
       </div>
+
+      <ProjectOrderModal
+        isOpen={orderModalOpen}
+        onClose={() => setOrderModalOpen(false)}
+        project={project}
+      />
     </div>
   );
 };

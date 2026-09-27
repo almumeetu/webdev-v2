@@ -1,4 +1,4 @@
-import { Project, TeamMember, BlogPost, Inquiry, ServiceDetail, SiteSettings, Testimonial, HeroSlide } from '../types';
+import { Project, TeamMember, BlogPost, Inquiry, ServiceDetail, SiteSettings, Testimonial, HeroSlide, JobPosting, JobApplication } from '../types';
 
 export const initialProjects: Project[] = [
   {
@@ -14,7 +14,12 @@ export const initialProjects: Project[] = [
     techStack: ['React 19', 'Node.js', 'Express', 'MongoDB Atlas', 'Redis', 'Docker', 'AWS'],
     liveUrl: 'https://demo-fintech.webdevsoftware.com',
     features: ['Multi-currency IBAN handling', 'Two-Factor biometric authentication', 'Automated German BaFin compliance audit logs', 'Sub-millisecond Redis caching'],
-    metrics: 'Processed €14M+ transactions with 99.99% uptime'
+    metrics: 'Processed €14M+ transactions with 99.99% uptime',
+    priceRange: '$5,500 - $11,000',
+    estimatedDelivery: '3 - 5 Weeks',
+    readyToOrder: true,
+    rating: 4.9,
+    highlight: 'German BaFin Compliant • €14M+ Handled'
   },
   {
     id: 'proj-2',
@@ -29,7 +34,12 @@ export const initialProjects: Project[] = [
     techStack: ['Next.js 15', 'Shopify Plus API', 'Tailwind CSS', 'Stripe US', 'Algolia Search'],
     liveUrl: 'https://allstringsnylon.com',
     features: ['Acoustic sound sample waveform player', 'High-res 360 zoom gallery', 'Instant US domestic & international checkout', 'Real-time multi-warehouse inventory'],
-    metrics: '+38% increase in average US order value (AOV)'
+    metrics: '+38% increase in average US order value (AOV)',
+    priceRange: '$3,800 - $6,500',
+    estimatedDelivery: '2 - 3 Weeks',
+    readyToOrder: true,
+    rating: 5.0,
+    highlight: '+38% US AOV Surge • Algolia & Stripe'
   },
   {
     id: 'proj-3',
@@ -44,7 +54,12 @@ export const initialProjects: Project[] = [
     techStack: ['React 19', 'TypeScript', 'Node.js', 'PostgreSQL', 'AWS Lambda', 'Tailwind CSS'],
     liveUrl: 'https://gilmore-demo.webdevsoftware.com',
     features: ['Real-time electrical crew dispatching', 'Automated OSHA safety compliance logs', 'Blueprint PDF viewer & annotation tool', 'Multi-tenant client billing engine'],
-    metrics: 'Managed 350+ commercial engineering contracts'
+    metrics: 'Managed 350+ commercial engineering contracts',
+    priceRange: '$4,200 - $8,000',
+    estimatedDelivery: '3 - 4 Weeks',
+    readyToOrder: true,
+    rating: 4.9,
+    highlight: 'Managed 350+ Contracts • Real-Time Dispatch'
   },
   {
     id: 'proj-4',
@@ -59,7 +74,12 @@ export const initialProjects: Project[] = [
     techStack: ['Node.js', 'TimescaleDB', 'Docker / K8s', 'Nginx', 'Prometheus', 'Grafana'],
     liveUrl: 'https://startcampus-demo.webdevsoftware.com',
     features: ['Live PUE (Power Usage Effectiveness) analytics', 'Automated anomaly detection alerts', 'European EU ETS carbon emission tracker', 'Strict TLS 1.3 encrypted telemetry'],
-    metrics: 'Real-time telemetry across 495MW campus capacity'
+    metrics: 'Real-time telemetry across 495MW campus capacity',
+    priceRange: '$6,000 - $12,500',
+    estimatedDelivery: '4 - 6 Weeks',
+    readyToOrder: true,
+    rating: 5.0,
+    highlight: '495MW Campus Telemetry • TimescaleDB & Grafana'
   },
   {
     id: 'proj-5',
@@ -74,7 +94,12 @@ export const initialProjects: Project[] = [
     techStack: ['Shopify Storefront API', 'Next.js / React', 'Tailwind CSS', 'Klarna / SEPA', 'Klaviyo'],
     liveUrl: 'https://oekowohnen-demo.webdevsoftware.com',
     features: ['Instant headless checkout with Klarna & SEPA', 'German GDPR / Cookie consent engine', 'Bespoke 3D product visualizer', 'Automated DHL Express label printing'],
-    metrics: '+43% mobile conversion rate boost'
+    metrics: '+43% mobile conversion rate boost',
+    priceRange: '$3,200 - $5,800',
+    estimatedDelivery: '2 - 3 Weeks',
+    readyToOrder: true,
+    rating: 4.9,
+    highlight: '98+ PageSpeed • Klarna & SEPA Instant Checkout'
   },
   {
     id: 'proj-6',
@@ -89,7 +114,12 @@ export const initialProjects: Project[] = [
     techStack: ['MERN Stack', 'Socket.io', 'Tailwind CSS', 'PostgreSQL', 'Leaflet / GIS', 'Nginx'],
     liveUrl: 'https://cargo-tracker.webdevsoftware.com',
     features: ['Real-time truck dispatch tracking', 'Automated challan & invoice generation in BDT', 'Offline-first PWA for field drivers', 'SMS notification gateway integration'],
-    metrics: 'Over 4,500 daily active shipments managed'
+    metrics: 'Over 4,500 daily active shipments managed',
+    priceRange: '$2,800 - $5,500',
+    estimatedDelivery: '2 - 4 Weeks',
+    readyToOrder: true,
+    rating: 4.8,
+    highlight: '4,500+ Shipments/Day • Offline PWA & GPS GIS'
   },
   {
     id: 'proj-7',
@@ -104,7 +134,132 @@ export const initialProjects: Project[] = [
     techStack: ['WooCommerce Enterprise', 'Redis Cache', 'Stripe UK', 'Elasticsearch', 'Cloudflare Enterprise'],
     liveUrl: 'https://apex-demo.webdevsoftware.com',
     features: ['Sub-second faceted product search', 'Automated UK VAT calculation', 'Warehouse sync across London & Manchester', 'Mobile PWA shopping experience'],
-    metrics: 'Sprint 3 in progress • 0.38s average server response'
+    metrics: 'Sprint 3 in progress • 0.38s average server response',
+    priceRange: '$3,500 - $7,000',
+    estimatedDelivery: '3 - 4 Weeks',
+    readyToOrder: true,
+    rating: 4.9,
+    highlight: '0.38s Server Response • Multi-Currency Ledger'
+  },
+  {
+    id: 'proj-8',
+    title: 'MedConnect Telehealth & Patient Care Portal',
+    category: 'Web Application',
+    status: 'completed',
+    description: 'Next-generation telemedicine platform offering encrypted WebRTC video consultations, automated electronic prescriptions, SEPA billing, and strict German GDPR patient record security.',
+    clientName: 'AuraHealth Kliniken GmbH',
+    clientCountry: 'Germany',
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1000&q=80',
+    completionDate: 'March 2026',
+    techStack: ['Next.js 15', 'WebRTC', 'Tailwind CSS', 'PostgreSQL', 'Prisma', 'Stripe EU', 'Docker'],
+    liveUrl: 'https://aurahealth-demo.webdevsoftware.com',
+    features: ['End-to-end encrypted video doctor appointments', 'German e-Prescription (E-Rezept) sync', 'Automated doctor schedule booking', 'Stripe & SEPA Direct Debit gateway'],
+    metrics: 'Reduced patient wait times by 65% across 14 clinical locations',
+    priceRange: '$4,500 - $8,500',
+    estimatedDelivery: '3 - 4 Weeks',
+    readyToOrder: true,
+    rating: 5.0,
+    highlight: 'GDPR Encrypted WebRTC • 14 Clinics Powered'
+  },
+  {
+    id: 'proj-9',
+    title: 'Luxury Estates & PropTech Booking Hub',
+    category: 'Full Stack & MERN',
+    status: 'completed',
+    description: 'Premium architectural real estate brokerage portal featuring interactive Mapbox geolocation, virtual 3D tour embeds, mortgage calculator, and high-net-worth lead qualification CRM.',
+    clientName: 'Vanguard Realty Group',
+    clientCountry: 'USA',
+    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=80',
+    completionDate: 'February 2026',
+    techStack: ['React 19', 'Node.js', 'Express', 'MongoDB Atlas', 'Mapbox GL', 'AWS S3', 'Tailwind CSS'],
+    liveUrl: 'https://vanguard-estates.webdevsoftware.com',
+    features: ['Interactive Mapbox GIS parcel lookup', 'Virtual 3D Matterport tour embeds', 'Lead capture funnel with automated SMS & Email', 'MLS / IDX automated property feed'],
+    metrics: '$28M+ property inquiries generated in first 6 months',
+    priceRange: '$3,800 - $7,200',
+    estimatedDelivery: '2 - 3 Weeks',
+    readyToOrder: true,
+    rating: 4.9,
+    highlight: '$28M+ Inquiries Generated • 3D Virtual Tours'
+  },
+  {
+    id: 'proj-10',
+    title: 'OmniFlow AI Customer Support & Automation Suite',
+    category: 'Backend & Cloud',
+    status: 'completed',
+    description: 'High-throughput enterprise customer engagement engine integrating multi-channel WhatsApp, email, and live website chat with autonomous LLM routing, analytics dashboard, and CRM connectors.',
+    clientName: 'Synthetix Global',
+    clientCountry: 'UK',
+    image: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1000&q=80',
+    completionDate: 'January 2026',
+    techStack: ['Node.js', 'TypeScript', 'Fastify', 'Redis', 'PostgreSQL', 'Docker', 'OpenAI API', 'Kubernetes'],
+    liveUrl: 'https://omniflow-demo.webdevsoftware.com',
+    features: ['Multi-agent AI conversational routing', 'Real-time WebSocket agent desk', 'WhatsApp Business Cloud API integration', 'Enterprise audit logging and SOC2 readiness'],
+    metrics: 'Automated 72% of incoming level-1 support queries',
+    priceRange: '$5,000 - $10,000',
+    estimatedDelivery: '3 - 5 Weeks',
+    readyToOrder: true,
+    rating: 5.0,
+    highlight: '72% Support Automated • WhatsApp AI Routing'
+  },
+  {
+    id: 'proj-11',
+    title: 'Artisan Roast Coffee & Subscription Club',
+    category: 'E-Commerce',
+    status: 'completed',
+    description: 'Bespoke direct-to-consumer (D2C) coffee subscription and single-origin marketplace with customized grind selector, recurring Stripe billing, and localized tax engines for Europe and USA.',
+    clientName: 'KaffeeCraft Hamburg',
+    clientCountry: 'Germany',
+    image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1000&q=80',
+    completionDate: 'December 2025',
+    techStack: ['Shopify Plus', 'Hydrogen / Remix', 'Tailwind CSS', 'Stripe Billing', 'Klaviyo', 'Sanity CMS'],
+    liveUrl: 'https://kaffeecraft-demo.webdevsoftware.com',
+    features: ['Custom recurring delivery schedule engine', 'Interactive taste quiz & grind matcher', 'Sub-second page loads across DACH & EU', 'Automated German packaging slip generation'],
+    metrics: '180% growth in monthly recurring subscription revenue',
+    priceRange: '$3,200 - $5,800',
+    estimatedDelivery: '2 - 3 Weeks',
+    readyToOrder: true,
+    rating: 4.9,
+    highlight: '+180% Recurring Revenue • Recurring Stripe Subscriptions'
+  },
+  {
+    id: 'proj-12',
+    title: 'SkillMatrix LMS & Interactive Bootcamp Portal',
+    category: 'Web Application',
+    status: 'completed',
+    description: 'Cloud-native corporate training and developer learning platform with video streaming, coding sandboxes, milestone certifications, and B2B team licensing management.',
+    clientName: 'NexusTech Academy',
+    clientCountry: 'International',
+    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80',
+    completionDate: 'March 2026',
+    techStack: ['Next.js 15', 'TypeScript', 'Prisma', 'PostgreSQL', 'AWS CloudFront', 'Tailwind CSS', 'Stripe'],
+    liveUrl: 'https://skillmatrix-demo.webdevsoftware.com',
+    features: ['HLS DRM-protected video streaming', 'Interactive code exercise validator', 'Automated verifiable PDF graduation certificates', 'B2B enterprise seat management portal'],
+    metrics: '12,000+ active learners across 28 countries',
+    priceRange: '$4,000 - $7,500',
+    estimatedDelivery: '3 - 4 Weeks',
+    readyToOrder: true,
+    rating: 4.9,
+    highlight: '12,000+ Active Students • HLS Video & Code Editor'
+  },
+  {
+    id: 'proj-13',
+    title: 'ChowBazaar Food Delivery & Multi-Branch PWA',
+    category: 'WordPress & Shopify',
+    status: 'completed',
+    description: 'Lightning-fast Progressive Web App for multi-branch gourmet burger chain featuring live kitchen display system (KDS), GPS driver tracking, and instant bKash / Nagad / Card checkout.',
+    clientName: 'FlameBurger Co.',
+    clientCountry: 'Bangladesh',
+    image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1000&q=80',
+    completionDate: 'January 2026',
+    techStack: ['WooCommerce REST API', 'React PWA', 'Socket.io', 'Tailwind CSS', 'bKash API', 'Nginx'],
+    liveUrl: 'https://flameburger-demo.webdevsoftware.com',
+    features: ['Instant 1-tap checkout with bKash & Nagad', 'Live kitchen dispatch & driver assignment', 'Offline-capable PWA home-screen install', 'Geo-fenced branch order routing'],
+    metrics: 'Over 2,200 orders processed weekly with zero downtime',
+    priceRange: '$2,500 - $4,800',
+    estimatedDelivery: '2 - 3 Weeks',
+    readyToOrder: true,
+    rating: 4.8,
+    highlight: '2,200+ Weekly Orders • Instant Mobile Checkout'
   }
 ];
 
@@ -651,7 +806,7 @@ export const initialBlogPosts = initialBlogs;
 export const initialHeroSlides: HeroSlide[] = [
   {
     id: 'slide-1',
-    badge: '✦ GERMANY & BANGLADESH ENGINEERING',
+    badge: 'GERMANY & BANGLADESH ENGINEERING',
     title: 'Modern Full-Stack & Cloud Solutions',
     highlightText: 'Built to Scale',
     subtitle: 'We craft high-performance web applications, enterprise software, and scalable digital architectures with European precision.',
@@ -664,7 +819,7 @@ export const initialHeroSlides: HeroSlide[] = [
   },
   {
     id: 'slide-2',
-    badge: '✦ NEXT.JS & ENTERPRISE PERFORMANCE',
+    badge: 'NEXT.JS & ENTERPRISE PERFORMANCE',
     title: 'Transforming Ideas into Digital Realities',
     highlightText: 'Fast & Secure',
     subtitle: 'Specialized in MERN stack, Next.js, and cloud ecosystems engineered for high availability, security, and peak performance.',
@@ -677,7 +832,7 @@ export const initialHeroSlides: HeroSlide[] = [
   },
   {
     id: 'slide-3',
-    badge: '✦ TAILORED SOFTWARE DEVELOPMENT',
+    badge: 'TAILORED SOFTWARE DEVELOPMENT',
     title: 'End-to-End Engineering for Visionary Brands',
     highlightText: 'Worldwide Impact',
     subtitle: 'Empowering ambitious businesses worldwide with scalable architecture, robust code, and dedicated technical partnership.',
@@ -694,6 +849,7 @@ export const initialSiteSettings: SiteSettings = {
   companyName: 'WebDev Software Solutions',
   tagline: 'Enterprise Software Engineering & Modern Cloud Architecture',
   logoUrl: '/images/logo/webdev-logo.png',
+  darkLogoUrl: '/images/logo/dark-logo-webdevss.png',
   heroSlides: initialHeroSlides,
   email: 'info@webdevsoftwaresolutions.com',
   phone_bd: '+880 1722-301927',
@@ -833,3 +989,8 @@ export const initialTestimonialsData: Testimonial[] = [
     verified: true
   }
 ];
+
+export const initialJobPostings: JobPosting[] = [];
+
+export const initialJobApplications: JobApplication[] = [];
+

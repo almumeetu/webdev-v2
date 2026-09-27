@@ -35,6 +35,7 @@ export function getRoute(view: string, subParam?: string): string {
     portfolio: '/portfolio',
     projects: '/portfolio',
     team: '/team',
+    careers: '/careers',
     blog: '/blog',
     contact: '/contact',
     auth: '/auth',
@@ -56,6 +57,7 @@ export function getViewFromPathname(pathname: string): string {
   if (pathname === '/about') return 'about';
   if (pathname.startsWith('/services')) return 'services';
   if (pathname.startsWith('/portfolio')) return 'portfolio';
+  if (pathname.startsWith('/careers')) return 'careers';
   if (pathname.startsWith('/team')) return 'team';
   if (pathname.startsWith('/blog')) return 'blog';
   if (pathname === '/contact') return 'contact';

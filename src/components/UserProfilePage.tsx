@@ -75,7 +75,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
         align="left"
       />
 
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-12 sm:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-12 sm:py-16">
 
         {/* User Card */}
         <div className="profile-fade-item bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-md flex flex-col sm:flex-row items-center sm:items-start gap-6">

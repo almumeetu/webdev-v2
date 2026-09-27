@@ -86,7 +86,7 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
   return (
     <div ref={pageRef} className="min-h-screen bg-slate-50/50 text-slate-900 relative">
       {/* Top Breadcrumb Navigation */}
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 pt-5 sm:pt-6 pb-2">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 sm:pt-6 pb-2">
         <BreadcrumbBar
           items={[
             { label: 'Home', onClick: onBackToHome },
@@ -98,7 +98,7 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
         />
       </div>
 
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10 sm:space-y-12 pb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10 sm:space-y-12 pb-16">
 
         {/* Hero Section: Executive Portrait & Core Identification */}
         <div className="profile-anim-item bg-white rounded-3xl border border-slate-200/90 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.06)] p-6 sm:p-10 relative overflow-hidden">
@@ -140,11 +140,11 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
             {/* Core Info Column */}
             <div className="lg:col-span-8 space-y-5">
               <div className="space-y-2">
-                <div className="text-base sm:text-lg font-['Playfair_Display'] italic font-semibold text-cyan-800 tracking-wide">
+                <div className="text-xs sm:text-sm font-['Kufam'] font-semibold text-cyan-800 tracking-wide">
                   {member.role}
                 </div>
                 
-                <h1 className="text-2xl sm:text-3xl lg:text-[34px] font-bold text-slate-950 tracking-tight font-['Archivo']">
+                <h1 className="text-2xl sm:text-3xl lg:text-[34px] font-bold text-slate-950 tracking-tight font-['Kufam']">
                   {member.name}
                 </h1>
 
@@ -490,10 +490,10 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
 
             {/* Direct Consultation Box */}
             <div className="profile-anim-item bg-[#090d18] text-white rounded-3xl p-6 sm:p-7 space-y-4">
-              <div className="text-base font-['Playfair_Display'] italic font-semibold text-cyan-300 tracking-wide">
+              <div className="text-xs sm:text-sm font-['Kufam'] font-semibold text-cyan-300 tracking-wide">
                 Direct Client Advisory
               </div>
-              <h3 className="text-lg font-bold font-['Archivo']">
+              <h3 className="text-lg font-bold font-['Kufam']">
                 Engage With {member.name} Directly
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed">

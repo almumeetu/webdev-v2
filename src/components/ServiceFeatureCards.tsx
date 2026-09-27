@@ -66,7 +66,7 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
 
   return (
     <section ref={containerRef} className="bg-white py-12 sm:py-16 border-b border-slate-200/80 text-slate-900 relative z-20">
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Responsive Grid: 1 col on mobile, 2 col on sm, 3 col on md, 5 col on lg */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">

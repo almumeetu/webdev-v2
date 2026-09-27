@@ -8,8 +8,7 @@ import {
   ArrowUp,
   ArrowUpRight,
   ShieldCheck,
-  Lock,
-  Clock
+  Lock
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon, TwitterIcon, WhatsAppIcon } from './SocialIcons';
 import { useLanguage } from '../context/LanguageContext';
@@ -18,7 +17,8 @@ import { getRoute } from '../utils/routes';
 
 export const Footer: React.FC = () => {
   const router = useRouter();
-  const { siteSettings } = useAppContext();
+  const { siteSettings, jobs } = useAppContext();
+  const activeJobsCount = (jobs || []).filter((j) => j.isActive).length;
 
   // Local navigation wrappers — preserve the same variable names used throughout JSX
   const onNavigate = (view: string, subParam?: string) => router.push(getRoute(view, subParam));
@@ -36,7 +36,7 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="relative bg-slate-950 text-slate-300 border-t border-slate-800/80">
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-10 sm:pb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-10 sm:pb-12">
 
         {/* ── Pre-Footer Conversation Invitation ── */}
         <div className="pb-10 sm:pb-12 mb-10 sm:mb-12 border-b border-slate-800/70">
@@ -45,9 +45,6 @@ export const Footer: React.FC = () => {
               <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight font-['Archivo']">
                 Ready to engineer your next software solution?
               </h3>
-              <p className="mt-2 text-sm text-slate-400 font-['Instrument_Sans'] leading-relaxed">
-                Partner with our engineering teams in Germany and Bangladesh for high-performance web systems, cloud architectures, and dedicated product delivery.
-              </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-3 shrink-0">
@@ -75,13 +72,13 @@ export const Footer: React.FC = () => {
 
           {/* Column 1: Brand & Enterprise Credentials (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="flex items-center gap-3">
-              {siteSettings.logoUrl && siteSettings.logoUrl.trim() !== '' ? (
-                <div className="bg-white px-2.5 py-1 rounded-lg inline-flex items-center justify-center">
+            <div className="flex items-center">
+              {(siteSettings.darkLogoUrl || siteSettings.logoUrl) ? (
+                <div className="inline-flex items-center justify-center rounded-lg overflow-hidden shrink-0">
                   <img
-                    src={siteSettings.logoUrl}
+                    src={siteSettings.darkLogoUrl || '/images/logo/dark-logo-webdevss.png'}
                     alt={`${siteSettings.companyName} Logo`}
-                    className="h-7 w-auto object-contain"
+                    className="h-11 sm:h-12 w-auto object-contain rounded-lg"
                   />
                 </div>
               ) : (
@@ -89,30 +86,24 @@ export const Footer: React.FC = () => {
                   {siteSettings.companyName?.slice(0, 2).toUpperCase() || 'WD'}
                 </div>
               )}
-              <div>
-                <span className="text-base font-bold text-white tracking-tight leading-none block font-['Archivo']">
-                  {siteSettings.companyName}
-                </span>
-                <span className="text-[11px] font-medium text-slate-400 tracking-wider uppercase block mt-1 font-['Instrument_Sans']">
-                  Software Solutions &amp; Cloud Engineering
-                </span>
-              </div>
             </div>
 
-            <p className="text-sm text-slate-400 leading-relaxed font-['Instrument_Sans']">
-              {t.footerAboutText || siteSettings.footerAboutText}
+            {/* Company Real Description */}
+            <p className="text-sm text-slate-400 leading-relaxed font-['Instrument_Sans'] max-w-sm">
+              {siteSettings.footerAboutText || 
+                'WebDev Software Solutions is a full-cycle software engineering consultancy engineering high-performance web platforms, enterprise cloud infrastructures, and bespoke digital products for global businesses.'}
             </p>
 
-            {/* Formal Compliance & Assurance Badges */}
-            <div className="pt-1 flex flex-col gap-2 text-xs text-slate-400 font-['Instrument_Sans']">
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>EU GDPR / DSGVO Compliant Protocols</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Lock className="w-4 h-4 text-cyan-400 shrink-0" />
-                <span>100% Client IP &amp; Source Code Ownership</span>
-              </div>
+            {/* Trust & Presence Badges */}
+            <div className="flex flex-wrap items-center gap-2 pt-1 text-xs text-slate-400 font-['Instrument_Sans']">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-slate-300">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                Leverkusen, DE &amp; Joypurhat, BD
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-slate-300">
+                <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
+                GDPR &amp; Enterprise Grade
+              </span>
             </div>
 
             {/* Social Communications Links */}
@@ -215,7 +206,17 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <button onClick={() => onNavigate('team')} className="text-slate-400 hover:text-white transition-colors text-left cursor-pointer font-normal block">
-                  Leadership &amp; Engineers
+                  Our Team &amp; Leadership
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('careers')} className="text-slate-400 hover:text-cyan-300 transition-colors text-left cursor-pointer font-normal inline-flex items-center gap-1.5">
+                  <span>Careers</span>
+                  {activeJobsCount > 0 && (
+                    <span className="px-1.5 py-0.5 text-[10px] font-mono font-semibold rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                      Hiring
+                    </span>
+                  )}
                 </button>
               </li>
               <li>
@@ -256,9 +257,6 @@ export const Footer: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-semibold text-white font-['Archivo']">Leverkusen, Germany</span>
-                  <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-[#BBE7F1]/10 text-cyan-300 border border-[#9cd5e2]/30 font-semibold">
-                    European HQ
-                  </span>
                 </div>
                 <a
                   href="https://www.google.com/maps/search/?api=1&query=Küppersteg,+51373+Leverkusen,+Germany"
@@ -284,11 +282,6 @@ export const Footer: React.FC = () => {
                   <Phone className="w-3 h-3 text-cyan-400" />
                   <span>{siteSettings.phone_de}</span>
                 </a>
-                <span className="text-slate-700 hidden sm:inline">·</span>
-                <span className="text-slate-400 inline-flex items-center gap-1">
-                  <Clock className="w-3 h-3 text-slate-500" />
-                  <span>Mon–Fri 09:00–18:00 CET</span>
-                </span>
               </div>
             </div>
 
@@ -297,9 +290,6 @@ export const Footer: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-semibold text-white font-['Archivo']">Joypurhat, Bangladesh</span>
-                  <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold">
-                    R&amp;D Center
-                  </span>
                 </div>
                 <a
                   href="https://www.google.com/maps/search/?api=1&query=Housing+Estate,+Ward+07,+Joypurhat-5900,+Bangladesh"
@@ -325,11 +315,6 @@ export const Footer: React.FC = () => {
                   <Phone className="w-3 h-3 text-emerald-400" />
                   <span>{siteSettings.phone_bd}</span>
                 </a>
-                <span className="text-slate-700 hidden sm:inline">·</span>
-                <span className="text-slate-400 inline-flex items-center gap-1">
-                  <Clock className="w-3 h-3 text-slate-500" />
-                  <span>Sun–Thu 10:00–19:00 BST</span>
-                </span>
               </div>
             </div>
 
@@ -343,10 +328,7 @@ export const Footer: React.FC = () => {
             <span>
               © {currentYear} <strong className="text-slate-200 font-medium">{siteSettings.companyName}</strong>. All rights reserved.
             </span>
-            <span className="hidden sm:inline text-slate-700">|</span>
-            <span className="text-slate-400">
-              Dual-Registered in Germany &amp; Bangladesh · GDPR (DSGVO) Compliant
-            </span>
+
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5 font-medium">

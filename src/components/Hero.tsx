@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { ArrowRight, ChevronLeft, ChevronRight, Sparkles, Shield, Clock, Globe } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { HeroSlide } from '../types';
 import { initialHeroSlides } from '../data/initialData';
 
@@ -137,21 +137,20 @@ export const Hero: React.FC<HeroProps> = ({
       })}
 
       {/* Hero Content Container - Centered with balanced vertical clearance */}
-      <div className="relative z-10 max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-14 w-full">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-14 w-full">
         <div className="max-w-3xl">
           {/* Animated Slide Content Box with smooth cross-fade */}
           <div className={`transition-all duration-500 ease-out ${
             isTransitioning ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'
           }`}>
-            {/* Eyebrow / Stylish Italic Subheading (No Background) */}
-            <div className="inline-flex items-center gap-2 text-cyan-300 font-['Playfair_Display'] italic text-base sm:text-lg font-semibold tracking-wide mb-3 sm:mb-3.5">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span>{currentSlide.badge}</span>
+            {/* Eyebrow / Clean Modern Subheading (Smaller size, no border, no icon, 400 font weight) */}
+            <div className="inline-flex items-center text-cyan-300 font-['Kufam'] text-[11px] sm:text-xs font-normal font-[400] tracking-wider mb-2 sm:mb-2.5">
+              <span>{currentSlide.badge?.replace(/^[✦•·\-\*]\s*/, '')}</span>
             </div>
 
             {/* Headline with reserved height for zero layout shift across slides */}
             <div className="min-h-[64px] xs:min-h-[72px] sm:min-h-[84px] md:min-h-[96px] lg:min-h-[112px] flex items-center">
-              <h1 className="text-2xl xs:text-3xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold text-white tracking-tight leading-[1.18] font-['Archivo']">
+              <h1 className="text-2xl xs:text-3xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold text-white tracking-tight leading-[1.18] font-['Kufam']">
                 {currentSlide.title}{' '}
                 {currentSlide.highlightText && (
                   <span className="bg-gradient-to-r from-[#BBE7F1] via-teal-200 to-sky-300 bg-clip-text text-transparent">
@@ -161,10 +160,10 @@ export const Hero: React.FC<HeroProps> = ({
               </h1>
             </div>
 
-            {/* Subtitle / Description with reserved height for identical slide dimensions */}
-            <div className="min-h-[48px] sm:min-h-[44px] lg:min-h-[48px] flex items-start mt-2.5 sm:mt-3">
-              <p className="text-xs xs:text-sm sm:text-base md:text-lg text-slate-200 font-normal leading-relaxed max-w-2xl font-['Instrument_Sans'] tracking-wide">
-                {currentSlide.subtitle}
+            {/* Subtitle / Description with smaller font size, 400 font weight and no bullet points */}
+            <div className="min-h-[42px] sm:min-h-[44px] flex items-start mt-2 sm:mt-2.5">
+              <p className="text-xs sm:text-[13px] md:text-sm text-slate-300 font-normal font-[400] leading-relaxed max-w-2xl font-['Kufam']">
+                {currentSlide.subtitle?.replace(/^[✦•·\-\*]\s*/, '')}
               </p>
             </div>
 
@@ -189,38 +188,6 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
           </div>
 
-          {/* Micro Trust Indicators - Locked position for rock-solid stability */}
-          <div className="mt-6 sm:mt-8 pt-4 sm:pt-5 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4 text-xs sm:text-sm text-slate-300">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-cyan-400">
-                <Globe className="w-4 h-4" />
-              </div>
-              <div>
-                <span className="font-semibold text-white block text-xs sm:text-sm">Global Delivery</span>
-                <span className="text-slate-400 text-[11px] sm:text-xs">Serving US & EU Clients</span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-[#BBE7F1]">
-                <Shield className="w-4 h-4" />
-              </div>
-              <div>
-                <span className="font-semibold text-white block text-xs sm:text-sm">Enterprise Security</span>
-                <span className="text-slate-400 text-[11px] sm:text-xs">100% IP & NDA Protected</span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-emerald-400">
-                <Clock className="w-4 h-4" />
-              </div>
-              <div>
-                <span className="font-semibold text-white block text-xs sm:text-sm">Rapid Delivery</span>
-                <span className="text-slate-400 text-[11px] sm:text-xs">Agile Sprints & 24/7 CI/CD</span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 

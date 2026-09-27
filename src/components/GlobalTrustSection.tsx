@@ -43,16 +43,16 @@ export const GlobalTrustSection: React.FC<GlobalTrustSectionProps> = ({
 
   return (
     <section className="py-14 sm:py-18 bg-slate-100/90 border-b border-slate-300/80 text-slate-900 relative">
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Compact Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 space-y-2.5">
-          <div className="inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+          <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
             <ShieldCheck className="w-4 h-4 text-cyan-700" />
             <span>Global Client Trust & Compliance</span>
           </div>
 
-          <h2 className="text-xl sm:text-2xl lg:text-[30px] font-bold text-slate-900 tracking-tight font-['Archivo']">
+          <h2 className="text-xl sm:text-2xl lg:text-[30px] font-bold text-slate-900 tracking-tight font-['Kufam']">
             Why International Clients in the{' '}
             <span className="text-slate-950 underline decoration-[#9cd5e2] decoration-2 underline-offset-4">
               USA, Germany & UK
@@ -60,7 +60,7 @@ export const GlobalTrustSection: React.FC<GlobalTrustSectionProps> = ({
             Trust Us
           </h2>
 
-          <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto font-['Instrument_Sans']">
+          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto font-['Kufam']">
             We bridge premier computational engineering talent with uncompromising European and American delivery standards. Every engagement is protected by strict NDAs, full IP ownership transfer, and real-time timezone collaboration.
           </p>
         </div>

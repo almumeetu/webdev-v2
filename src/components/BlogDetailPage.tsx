@@ -94,7 +94,7 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
   return (
     <div ref={pageRef} className="min-h-screen bg-white text-slate-900">
       {/* Top Back Action & Minimal Navigation */}
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 flex items-center justify-between">
         <button
           onClick={onBack}
           className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-cyan-800 transition-colors cursor-pointer group py-1.5 px-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200"
@@ -112,7 +112,7 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
         )}
       </div>
 
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <div className="max-w-4xl mx-auto space-y-10">
 
         {/* Article Header */}

@@ -71,11 +71,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <X className="w-4 h-4" />
           </button>
 
-          <div className="bg-white px-3 py-1.5 rounded-xl shadow-xs inline-flex items-center justify-center mx-auto mb-3">
+          <div className="bg-white px-4 py-2 rounded-xl shadow-xs inline-flex items-center justify-center mx-auto mb-3">
             <img 
               src="/images/logo/webdev-logo.png" 
               alt="WebDev Software Solutions" 
-              className="h-8 w-auto object-contain"
+              className="h-10 w-auto object-contain"
             />
           </div>
 

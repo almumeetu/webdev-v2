@@ -63,19 +63,19 @@ export const WorkingProcessSection: React.FC = () => {
 
   return (
     <section ref={sectionRef} className="py-16 sm:py-20 lg:py-28 bg-slate-950 text-white relative overflow-hidden border-t border-b border-slate-800">
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-16 space-y-3">
-          <div className="process-header-anim inline-flex items-center gap-2 text-cyan-300 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+          <div className="process-header-anim inline-flex items-center gap-2 text-cyan-300 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
             <span>Our Working Process & Methodology</span>
           </div>
 
-          <h2 className="process-header-anim text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-white tracking-tight font-['Archivo']">
+          <h2 className="process-header-anim text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-white tracking-tight font-['Kufam']">
             Get your IT solutions in 3 easy steps
           </h2>
 
-          <p className="process-header-anim text-slate-400 text-sm sm:text-base leading-relaxed">
+          <p className="process-header-anim text-slate-400 text-xs sm:text-sm leading-relaxed font-['Kufam']">
             Transparent milestones, rapid sprints, and zero communication friction between client hubs and engineering teams.
           </p>
         </div>

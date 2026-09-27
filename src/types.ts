@@ -22,6 +22,12 @@ export interface Project {
   liveUrl?: string;
   features: string[];
   metrics?: string;
+  priceRange?: string;
+  estimatedDelivery?: string;
+  readyToOrder?: boolean;
+  demoUrl?: string;
+  rating?: number;
+  highlight?: string;
 }
 
 export interface ExperienceItem {
@@ -146,6 +152,7 @@ export interface SiteSettings {
   companyName: string;
   tagline: string;
   logoUrl: string;
+  darkLogoUrl?: string;
   email: string;
   phone_bd: string;
   phone_de: string;
@@ -163,5 +170,65 @@ export interface SiteSettings {
   footerAboutText: string;
   gdprBadgeText: string;
   heroSlides?: HeroSlide[];
+}
+
+export type JobDepartment = 
+  | 'Engineering' 
+  | 'DevOps & Cloud' 
+  | 'Design & UI/UX' 
+  | 'Product & QA' 
+  | 'Technical Writing & Support';
+
+export type JobType = 'Full-time' | 'Part-time' | 'Contract' | 'Internship';
+
+export type JobExperienceLevel = 'Junior' | 'Mid-Level' | 'Senior' | 'Lead' | 'Intern';
+
+export type JobWorkplace = 'Remote' | 'On-site' | 'Hybrid';
+
+export type ApplicationStatus = 'new' | 'reviewed' | 'shortlisted' | 'interviewed' | 'rejected' | 'hired';
+
+export interface JobPosting {
+  id: string;
+  title: string;
+  department: JobDepartment;
+  type: JobType;
+  experienceLevel: JobExperienceLevel;
+  workplace: JobWorkplace;
+  location: string;
+  salaryRange: string;
+  description: string;
+  responsibilities: string[];
+  requirements: string[];
+  niceToHave?: string[];
+  benefits: string[];
+  techStack: string[];
+  isActive: boolean;
+  featured?: boolean;
+  postedDate: string;
+  deadline?: string;
+  applicantsCount?: number;
+}
+
+export interface JobApplication {
+  id: string;
+  jobId: string;
+  jobTitle: string;
+  applicantName: string;
+  email: string;
+  phoneNumber: string;
+  location: string;
+  portfolioUrl?: string;
+  linkedinUrl?: string;
+  githubUrl?: string;
+  resumeUrl?: string;
+  resumeFileName?: string;
+  experienceYears: number;
+  expectedSalary?: string;
+  earliestStartDate?: string;
+  coverLetter?: string;
+  status: ApplicationStatus;
+  rating?: number;
+  notes?: string;
+  appliedAt: string;
 }
 

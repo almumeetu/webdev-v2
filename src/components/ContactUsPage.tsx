@@ -189,7 +189,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
         className="contact-anim-item"
       />
 
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12 sm:space-y-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12 sm:space-y-16">
 
 
 
@@ -231,11 +231,11 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   
                   {/* Form Header */}
                   <div className="border-b border-slate-100 pb-4">
-                    <div className="inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg font-semibold tracking-wide mb-1">
+                    <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide mb-1">
                       <Sparkles className="w-4 h-4 text-cyan-700" />
                       <span>Start a Conversation with Us</span>
                     </div>
-                    <h2 className="text-lg sm:text-xl font-bold text-slate-900 font-['Archivo']">
+                    <h2 className="text-lg sm:text-xl font-bold text-slate-900 font-['Kufam']">
                       Discuss Your Project & Architecture
                     </h2>
                     <p className="text-xs sm:text-sm text-slate-500 mt-1">
@@ -532,14 +532,14 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
           
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg font-semibold tracking-wide">
+              <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
                 <Navigation className="w-4 h-4 text-cyan-700" />
                 <span>Physical Presence & Engineering Hubs</span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 font-['Archivo'] mt-1">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 font-['Kufam'] mt-1">
                 European Operations & Global Engineering Map
               </h2>
-              <p className="text-xs sm:text-sm text-slate-600 mt-1 font-['Instrument_Sans']">
+              <p className="text-xs sm:text-sm text-slate-600 mt-1 font-['Kufam']">
                 Global client consulting and development facilities with direct communication and rapid sprint execution.
               </p>
             </div>

@@ -94,26 +94,26 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
         <div className="absolute inset-0 bg-tech-circuit opacity-30" />
       </div>
 
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
           {/* Left Column: Mission, Vision & Engineering Value (7 cols) */}
           <div className="lg:col-span-7 space-y-6 sm:space-y-8">
             
-            <div className="inline-flex items-center gap-2 text-cyan-300 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+            <div className="inline-flex items-center gap-2 text-cyan-300 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
               <Sparkles className="w-4 h-4 text-cyan-400" />
               <span>The WebDev Cross-Border Advantage</span>
             </div>
 
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-white font-['Archivo'] tracking-tight leading-[1.2]">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-white font-['Kufam'] tracking-tight leading-[1.2]">
               Industrial Rigor Meets <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-[#BBE7F1] to-sky-200">
                 Computational Agility
               </span>
             </h2>
 
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl font-normal">
+            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl font-normal font-['Kufam']">
               Most offshore development fails due to communication gaps, poor code stewardship, and zero architectural governance. We eliminated that by embedding German engineering precision directly into our Bangladesh full-stack squad culture.
             </p>
 

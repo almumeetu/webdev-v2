@@ -88,7 +88,7 @@ export default function AdminPage() {
         <div className="absolute bottom-0 right-0 w-[500px] h-[300px] bg-cyan-900/10 blur-3xl pointer-events-none" />
 
         {/* Minimal Top Header */}
-        <header className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 flex items-center justify-between">
+        <header className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 flex items-center justify-between">
           <button
             onClick={() => router.push('/')}
             className="inline-flex items-center gap-2 text-xs text-slate-400 hover:text-white transition-colors cursor-pointer bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-xl border border-white/10"
@@ -267,6 +267,8 @@ export default function AdminPage() {
         services={ctx.services}
         testimonials={ctx.testimonials}
         siteSettings={ctx.siteSettings}
+        jobs={ctx.jobs}
+        applications={ctx.applications}
         onAddProject={ctx.addProject}
         onUpdateProject={ctx.updateProject}
         onUpdateProjectStatus={ctx.updateProjectStatus}
@@ -285,6 +287,13 @@ export default function AdminPage() {
         onAddTestimonial={ctx.addTestimonial}
         onUpdateTestimonial={ctx.updateTestimonial}
         onDeleteTestimonial={ctx.deleteTestimonial}
+        onAddJob={ctx.addJob}
+        onUpdateJob={ctx.updateJob}
+        onToggleJobActive={ctx.toggleJobActive}
+        onDeleteJob={ctx.deleteJob}
+        onUpdateApplicationStatus={ctx.updateApplicationStatus}
+        onUpdateApplicationNotes={ctx.updateApplicationNotes}
+        onDeleteApplication={ctx.deleteApplication}
         onUpdateSiteSettings={ctx.updateSiteSettings}
         onResetDefaults={ctx.resetToDefaultData}
         onClose={() => router.push('/')}

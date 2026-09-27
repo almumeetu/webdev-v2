@@ -146,7 +146,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
     <div ref={pageRef} className="min-h-screen bg-white text-slate-900 pb-20">
       
       {/* Top Breadcrumb Navigation */}
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 pt-5 sm:pt-6 pb-2">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 sm:pt-6 pb-2">
         <BreadcrumbBar
           items={[
             { label: 'Home', onClick: onBackToHome },
@@ -158,7 +158,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
         />
       </div>
 
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
 
         {/* 2. Hero Visual Card with Gradient Overlay & Status Bar */}
         <div className="serv-anim-fade relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/90 bg-slate-950">
@@ -181,12 +181,12 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               
               {/* Badges row - Floating stylish cursive indicators (No background) */}
               <div className="flex items-center justify-between flex-wrap gap-3">
-                <div className="inline-flex items-center gap-2 text-cyan-300 font-['Playfair_Display'] italic text-xs sm:text-sm font-semibold tracking-wide">
+                <div className="inline-flex items-center gap-2 text-cyan-300 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
                   <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400" />
                   <span>Production Grade Service</span>
                 </div>
 
-                <div className="inline-flex items-center gap-2 text-emerald-400 font-['Playfair_Display'] italic text-xs sm:text-sm font-semibold tracking-wide">
+                <div className="inline-flex items-center gap-2 text-emerald-400 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                   <span>German & EU Delivery Active</span>
                 </div>
@@ -199,10 +199,10 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                     {getIcon(service.iconName, "w-5 h-5 sm:w-6 sm:h-6 text-slate-950")}
                   </div>
                   <div>
-                    <span className="text-cyan-300 font-['Playfair_Display'] italic text-xs sm:text-sm font-semibold tracking-wide block mb-0.5">
+                    <span className="text-cyan-300 font-['Kufam'] text-xs font-semibold tracking-wide block mb-0.5">
                       WebDev Practice Spec
                     </span>
-                    <h1 className="text-lg sm:text-2xl md:text-3xl lg:text-[32px] font-bold font-['Archivo'] tracking-tight leading-snug text-white">
+                    <h1 className="text-lg sm:text-2xl md:text-3xl lg:text-[32px] font-bold font-['Kufam'] tracking-tight leading-snug text-white">
                       {service.title}
                     </h1>
                   </div>
@@ -259,11 +259,11 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             
             {/* Deep-Dive Narrative */}
             <div className="serv-anim-fade bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm space-y-5">
-              <div className="inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg font-semibold tracking-wide">
+              <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
                 <span>Engineering Scope & Architecture</span>
               </div>
 
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-['Archivo']">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-['Kufam']">
                 How We Engineer Results for {service.title}
               </h2>
 
@@ -283,10 +283,10 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             <div className="serv-anim-fade space-y-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg font-semibold tracking-wide">
+                  <div className="text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
                     Key Capabilities & Core Strengths
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 font-['Archivo'] mt-1">
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 font-['Kufam'] mt-1">
                     What Makes Our Approach Distinct
                   </h3>
                 </div>
@@ -320,10 +320,10 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               
               <div className="relative z-10 space-y-6">
                 <div>
-                  <span className="text-cyan-300 font-['Playfair_Display'] italic text-base sm:text-lg font-semibold tracking-wide">
+                  <span className="text-cyan-300 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
                     Verifiable Artifacts & Deliverables
                   </span>
-                  <h3 className="text-xl sm:text-2xl font-bold font-['Archivo'] mt-1">
+                  <h3 className="text-xl sm:text-2xl font-bold font-['Kufam'] mt-1">
                     What You Receive Upon Delivery
                   </h3>
                   <p className="text-slate-400 text-xs sm:text-sm mt-1">

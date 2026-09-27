@@ -12,7 +12,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
 
   return (
     <div className="bg-slate-950 text-slate-400 text-[11px] sm:text-xs py-1 sm:py-1.5 border-b border-slate-800/80">
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
         
         {/* Left side: Contact Email */}
         <div className="flex items-center gap-1.5 text-slate-300">

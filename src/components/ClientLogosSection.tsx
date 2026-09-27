@@ -33,15 +33,15 @@ export const ClientLogosSection: React.FC = () => {
 
   return (
     <section ref={sectionRef} className="py-12 sm:py-14 bg-slate-100/90 border-b border-slate-300/80 text-slate-900 relative overflow-hidden">
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Eyebrow Header */}
         <div className="text-center mb-6 sm:mb-8 space-y-1.5">
-          <div className="inline-flex items-center gap-2 text-cyan-800 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+          <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
             <Globe className="w-4 h-4 text-cyan-700" />
             <span>International Enterprise Clients & Partners</span>
           </div>
-          <h3 className="text-lg sm:text-xl font-bold tracking-tight text-slate-900 font-['Archivo']">
+          <h3 className="text-lg sm:text-xl font-bold tracking-tight text-slate-900 font-['Kufam']">
             Trusted by High-Growth Brands Across USA, Germany, UK & Europe
           </h3>
         </div>

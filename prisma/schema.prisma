@@ -181,3 +181,57 @@ model SiteSetting {
   gdprBadgeText   String   @default("ISO 27001 & GDPR Compliant")
   updatedAt       DateTime @updatedAt
 }
+
+// ─── 9. CAREERS & JOB POSTINGS ───────────────────────────────────────────────
+model JobPosting {
+  id               String           @id @default(cuid())
+  title            String
+  department       String
+  type             String
+  experienceLevel  String
+  workplace        String           @default("Remote")
+  location         String
+  salaryRange      String
+  description      String           @db.Text
+  responsibilities String[]
+  requirements     String[]
+  niceToHave       String[]
+  benefits         String[]
+  techStack        String[]
+  isActive         Boolean          @default(true)
+  featured         Boolean          @default(false)
+  postedDate       String
+  deadline         String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  applications     JobApplication[]
+}
+
+// ─── 10. JOB APPLICATIONS ───────────────────────────────────────────────────
+model JobApplication {
+  id                String            @id @default(cuid())
+  jobId             String
+  jobTitle          String
+  applicantName     String
+  email             String
+  phoneNumber       String
+  location          String?
+  portfolioUrl      String?
+  linkedinUrl       String?
+  githubUrl         String?
+  resumeUrl         String?
+  resumeFileName    String?
+  experienceYears   Int               @default(1)
+  expectedSalary    String?
+  earliestStartDate String?
+  coverLetter       String?           @db.Text
+  status            String            @default("new")
+  rating            Int?              @default(0)
+  notes             String?           @db.Text
+  appliedAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  job               JobPosting        @relation(fields: [jobId], references: [id], onDelete: Cascade)
+}
+

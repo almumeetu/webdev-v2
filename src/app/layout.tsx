@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { AppProvider } from "@/context/AppContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import { AppShell } from "@/components/AppShell";
 
 export const viewport: Viewport = {
@@ -69,18 +70,20 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@1,500;1,600;1,700&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Kufam:ital,wght@0,400..900;1,400..900&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap"
           rel="stylesheet"
         />
       </head>
       <body className="min-h-screen bg-[#0b0f19] text-slate-100 antialiased selection:bg-[#BBE7F1] selection:text-slate-950">
-        <LanguageProvider>
-          <AppProvider>
-            <AppShell>
-              {children}
-            </AppShell>
-          </AppProvider>
-        </LanguageProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <AppProvider>
+              <AppShell>
+                {children}
+              </AppShell>
+            </AppProvider>
+          </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -80,7 +80,7 @@ export const TechnologyIndexSection: React.FC = () => {
 
   return (
     <section ref={sectionRef} className="py-16 sm:py-20 lg:py-28 bg-white text-slate-900 relative overflow-hidden">
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           
           {/* Left Column: Team at work image */}
@@ -112,13 +112,13 @@ export const TechnologyIndexSection: React.FC = () => {
           {/* Right Column: Content & Skill Bars matching Frame 00:05 */}
           <div className="lg:col-span-6 space-y-5 sm:space-y-6">
             
-            {/* Section Eyebrow - Stylish Italic (No Background) */}
-            <div className="tech-index-text inline-flex items-center gap-2 text-cyan-700 font-['Playfair_Display'] italic text-base sm:text-lg lg:text-xl font-semibold tracking-wide">
+            {/* Section Eyebrow - Clean Modern */}
+            <div className="tech-index-text inline-flex items-center gap-2 text-cyan-700 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
               <span>Technology Index & Competencies</span>
             </div>
 
             {/* Bold Headline matching reference */}
-            <h2 className="tech-index-text text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-900 tracking-tight leading-[1.22] font-['Archivo']">
+            <h2 className="tech-index-text text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-900 tracking-tight leading-[1.22] font-['Kufam']">
               We Are Always Best For Technology Solution
             </h2>
 
