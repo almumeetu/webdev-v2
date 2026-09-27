@@ -16,16 +16,19 @@ echo -e "${CYAN}======================================================${NC}"
 echo -e "${CYAN}🚀 Deploying WebDev Software Solutions (webdevss.tech)${NC}"
 echo -e "${CYAN}======================================================${NC}"
 
-# 1. Pull latest code
-echo -e "\n${YELLOW}[1/5] Pulling latest updates from Git...${NC}"
-git pull
+# 1. Pull latest code from dev branch
+echo -e "\n${YELLOW}[1/5] Pulling latest updates from Git (dev branch)...${NC}"
+git fetch origin dev
+git checkout dev
+git pull origin dev
 
 # 2. Install dependencies
 echo -e "\n${YELLOW}[2/5] Installing dependencies via pnpm...${NC}"
 pnpm install
 
-# 3. Apply database migrations
-echo -e "\n${YELLOW}[3/5] Syncing database schema with Prisma...${NC}"
+# 3. Apply database migrations & generate client
+echo -e "\n${YELLOW}[3/5] Generating Prisma client & syncing schema...${NC}"
+npx prisma generate
 npx prisma db push
 
 # 4. Build Next.js Production Bundle
@@ -35,7 +38,7 @@ pnpm build
 # 5. Reload PM2 process
 echo -e "\n${YELLOW}[5/5] Reloading application in PM2...${NC}"
 if pm2 list | grep -q "webdev-v2"; then
-  pm2 reload webdev-v2
+  pm2 reload webdev-v2 --update-env
   echo -e "${GREEN}✓ PM2 process reloaded with zero downtime.${NC}"
 else
   pm2 start pnpm --name "webdev-v2" -- start -- -p 3000
