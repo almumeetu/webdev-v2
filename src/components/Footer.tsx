@@ -94,17 +94,7 @@ export const Footer: React.FC = () => {
                 'WebDev Software Solutions is a full-cycle software engineering consultancy engineering high-performance web platforms, enterprise cloud infrastructures, and bespoke digital products for global businesses.')}
             </p>
 
-            {/* Trust & Presence Badges */}
-            <div className="flex flex-wrap items-center gap-2 pt-1 text-xs text-slate-400 font-['Instrument_Sans']">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-slate-300">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                Leverkusen, DE &amp; Joypurhat, BD
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-slate-300">
-                <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
-                {lang === 'de' ? 'DSGVO & Enterprise-konform' : 'GDPR & Enterprise Grade'}
-              </span>
-            </div>
+
 
             {/* Social Communications Links */}
             <div className="flex items-center gap-2 pt-2">

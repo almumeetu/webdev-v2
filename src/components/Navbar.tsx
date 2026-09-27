@@ -21,12 +21,9 @@ import {
   LogIn,
   UserPlus,
   LogOut,
-  Zap,
-  Sun,
-  Moon
+  Zap
 } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
-import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { getRoute, getViewFromPathname } from '../utils/routes';
 
@@ -34,9 +31,7 @@ export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { currentUser, siteSettings, logout, jobs } = useAppContext();
-  const { theme, toggleTheme } = useTheme();
-  const { lang, setLang, t } = useLanguage();
-  const isDark = theme === 'dark';
+  const { lang, t } = useLanguage();
 
   // Active jobs count
   const activeJobsCount = useMemo(() => (jobs || []).filter((j) => j.isActive).length, [jobs]);
@@ -632,34 +627,7 @@ export const Navbar: React.FC = () => {
               </div>
             )}
 
-            {/* Language Switcher Button (EN / DE) */}
-            <button
-              onClick={() => setLang(lang === 'en' ? 'de' : 'en')}
-              className={`h-9 px-2.5 rounded-xl flex items-center gap-1.5 border text-xs font-bold transition-all cursor-pointer ${
-                isScrolled
-                  ? 'bg-slate-900 border-slate-800 text-slate-200 hover:bg-slate-800 hover:border-slate-700'
-                  : 'bg-white border-slate-200/90 text-slate-800 hover:text-slate-950 shadow-xs hover:bg-slate-50'
-              }`}
-              title={lang === 'en' ? 'Sprache auf Deutsch wechseln' : 'Switch to English'}
-              aria-label="Toggle language"
-            >
-              <span className="text-[12px]">{lang === 'en' ? '🇩🇪' : '🇬🇧'}</span>
-              <span className="font-mono">{lang === 'en' ? 'DE' : 'EN'}</span>
-            </button>
 
-            {/* Dark / Light Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className={`w-9 h-9 rounded-xl flex items-center justify-center border transition-all cursor-pointer ${
-                isScrolled
-                  ? 'bg-slate-900 border-slate-800 text-[#BBE7F1] hover:bg-slate-800 hover:border-slate-700'
-                  : 'bg-white border-slate-200/90 text-slate-700 hover:text-slate-950 shadow-xs hover:bg-slate-50'
-              }`}
-              title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-              aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-            >
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </button>
 
             {/* Mobile Hamburger Drawer Toggle */}
             <button
@@ -768,37 +736,7 @@ export const Navbar: React.FC = () => {
 
             {/* Mobile Auth Access Bar */}
             <div className="pt-3 pb-1 border-t border-slate-800 space-y-2">
-              {/* Language Switcher Row */}
-              <div className="flex items-center justify-between px-4 py-2 rounded-xl border border-slate-800 bg-slate-900/60 text-sm font-medium text-slate-300">
-                <span className="text-xs font-bold text-slate-400">{lang === 'de' ? 'Sprache' : 'Language'}</span>
-                <div className="inline-flex rounded-lg bg-slate-800 p-0.5 border border-slate-700">
-                  <button
-                    onClick={() => setLang('en')}
-                    className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${
-                      lang === 'en' ? 'bg-[#BBE7F1] text-slate-950 font-black' : 'text-slate-400 hover:text-white'
-                    }`}
-                  >
-                    🇬🇧 EN
-                  </button>
-                  <button
-                    onClick={() => setLang('de')}
-                    className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${
-                      lang === 'de' ? 'bg-[#BBE7F1] text-slate-950 font-black' : 'text-slate-400 hover:text-white'
-                    }`}
-                  >
-                    🇩🇪 DE
-                  </button>
-                </div>
-              </div>
 
-              {/* Theme Toggle Row */}
-              <button
-                onClick={toggleTheme}
-                className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-900/60 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900 transition-colors cursor-pointer min-h-[44px]"
-              >
-                <span>{isDark ? (lang === 'de' ? 'Hell-Modus' : 'Light Mode') : (lang === 'de' ? 'Dunkel-Modus' : 'Dark Mode')}</span>
-                {isDark ? <Sun className="w-4 h-4 text-[#BBE7F1]" /> : <Moon className="w-4 h-4 text-slate-500" />}
-              </button>
               {currentUser ? (
                 <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-900 border border-slate-800">
                   <div className="flex items-center gap-2.5">
