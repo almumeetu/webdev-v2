@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import {
   Project,
   TeamMember,
@@ -37,31 +37,31 @@ interface AppContextType {
   currentUser: UserProfile | null;
 
   // ─── Project CRUD ─────────────────────────────────────────────────────────────
-  addProject: (data: Partial<Project>) => void;
-  updateProject: (id: string, data: Partial<Project>) => void;
-  updateProjectStatus: (id: string, status: Project['status']) => void;
-  deleteProject: (id: string) => void;
+  addProject: (data: Partial<Project>) => Promise<void>;
+  updateProject: (id: string, data: Partial<Project>) => Promise<void>;
+  updateProjectStatus: (id: string, status: Project['status']) => Promise<void>;
+  deleteProject: (id: string) => Promise<void>;
 
   // ─── Team CRUD ────────────────────────────────────────────────────────────────
-  addTeamMember: (data: Partial<TeamMember>) => void;
-  updateTeamMember: (id: string, data: Partial<TeamMember>) => void;
-  deleteTeamMember: (id: string) => void;
+  addTeamMember: (data: Partial<TeamMember>) => Promise<void>;
+  updateTeamMember: (id: string, data: Partial<TeamMember>) => Promise<void>;
+  deleteTeamMember: (id: string) => Promise<void>;
 
   // ─── Blog CRUD ────────────────────────────────────────────────────────────────
-  addBlog: (data: Partial<BlogPost>) => void;
-  updateBlog: (id: string, data: Partial<BlogPost>) => void;
-  deleteBlog: (id: string) => void;
+  addBlog: (data: Partial<BlogPost>) => Promise<void>;
+  updateBlog: (id: string, data: Partial<BlogPost>) => Promise<void>;
+  deleteBlog: (id: string) => Promise<void>;
   likeBlog: (id: string) => void;
 
   // ─── Service CRUD ─────────────────────────────────────────────────────────────
-  addService: (data: Partial<ServiceDetail>) => void;
-  updateService: (id: string, data: Partial<ServiceDetail>) => void;
-  deleteService: (id: string) => void;
+  addService: (data: Partial<ServiceDetail>) => Promise<void>;
+  updateService: (id: string, data: Partial<ServiceDetail>) => Promise<void>;
+  deleteService: (id: string) => Promise<void>;
 
   // ─── Testimonial CRUD ─────────────────────────────────────────────────────────
-  addTestimonial: (data: Partial<Testimonial>) => void;
-  updateTestimonial: (id: string, data: Partial<Testimonial>) => void;
-  deleteTestimonial: (id: string) => void;
+  addTestimonial: (data: Partial<Testimonial>) => Promise<void>;
+  updateTestimonial: (id: string, data: Partial<Testimonial>) => Promise<void>;
+  deleteTestimonial: (id: string) => Promise<void>;
 
   // ─── Inquiry ──────────────────────────────────────────────────────────────────
   addInquiry: (inquiry: Inquiry) => void;
@@ -100,6 +100,18 @@ export function useAppContext() {
   return ctx;
 }
 
+// ─── Helper: fetch with fallback ───────────────────────────────────────────────
+async function apiFetch<T>(url: string, options?: RequestInit): Promise<T | null> {
+  try {
+    const res = await fetch(url, options);
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.success ? json.data : null;
+  } catch {
+    return null;
+  }
+}
+
 export function AppProvider({ children }: { children: React.ReactNode }) {
   // ─── Core Data State ──────────────────────────────────────────────────────────
   const [projects, setProjects]         = useState<Project[]>(initialProjects);
@@ -109,138 +121,130 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [services, setServices]         = useState<ServiceDetail[]>(initialServices);
   const [testimonials, setTestimonials] = useState<Testimonial[]>(initialTestimonialsData);
   const [siteSettings, setSiteSettings] = useState<SiteSettings>(initialSiteSettings);
-  const [jobs, setJobs]                 = useState<JobPosting[]>(initialJobPostings);
-  const [applications, setApplications] = useState<JobApplication[]>(initialJobApplications);
+  const [jobs, setJobs]                 = useState<JobPosting[]>([]);
+  const [applications, setApplications] = useState<JobApplication[]>([]);
+  const [currentUser, setCurrentUser]   = useState<UserProfile | null>(null);
+  const [isHydrated, setIsHydrated]     = useState(false);
 
-  // ─── Auth ─────────────────────────────────────────────────────────────────────
-  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
-
-  // ─── Hydrate all collections from localStorage on mount ─────────────────────────
-  const [isHydrated, setIsHydrated] = useState(false);
-
-  useEffect(() => {
-    try {
-      const savedSettings = localStorage.getItem('webdev_site_settings');
-      if (savedSettings) {
-        const parsed = JSON.parse(savedSettings);
-        setSiteSettings({
-          ...initialSiteSettings,
-          ...parsed,
-          darkLogoUrl: parsed.darkLogoUrl || initialSiteSettings.darkLogoUrl,
-        });
-      }
-
-      const savedUser = localStorage.getItem('webdev_auth_user');
-      if (savedUser) setCurrentUser(JSON.parse(savedUser));
-
-      const savedProjects = localStorage.getItem('webdev_projects');
-      if (savedProjects) {
-        try {
-          const parsed: Project[] = JSON.parse(savedProjects);
-          const initialMap = new Map(initialProjects.map((p) => [p.id, p]));
-          const merged = parsed.map((p) => {
-            const init = initialMap.get(p.id);
-            return init
-              ? {
-                  ...init,
-                  ...p,
-                  priceRange: p.priceRange || init.priceRange,
-                  estimatedDelivery: p.estimatedDelivery || init.estimatedDelivery,
-                  readyToOrder: p.readyToOrder ?? init.readyToOrder,
-                  highlight: p.highlight || init.highlight,
-                  rating: p.rating || init.rating,
-                }
-              : p;
-          });
-          const existingIds = new Set(parsed.map((p) => p.id));
-          for (const init of initialProjects) {
-            if (!existingIds.has(init.id)) {
-              merged.push(init);
-            }
-          }
-          setProjects(merged);
-        } catch {
-          setProjects(initialProjects);
-        }
-      }
-
-      const savedTeam = localStorage.getItem('webdev_team_members');
-      if (savedTeam) setTeamMembers(JSON.parse(savedTeam));
-
-      const savedBlogs = localStorage.getItem('webdev_blogs');
-      if (savedBlogs) setBlogs(JSON.parse(savedBlogs));
-
-      const savedInquiries = localStorage.getItem('webdev_inquiries');
-      if (savedInquiries) setInquiries(JSON.parse(savedInquiries));
-
-      const savedServices = localStorage.getItem('webdev_services');
-      if (savedServices) setServices(JSON.parse(savedServices));
-
-      const savedTestimonials = localStorage.getItem('webdev_testimonials');
-      if (savedTestimonials) setTestimonials(JSON.parse(savedTestimonials));
-
-      const savedJobs = localStorage.getItem('webdev_job_postings');
-      if (savedJobs) {
-        try {
-          const parsed: JobPosting[] = JSON.parse(savedJobs);
-          const cleaned = parsed.filter((j) => !['job-1', 'job-2', 'job-3', 'job-4', 'job-5'].includes(j.id));
-          setJobs(cleaned);
-        } catch {
-          setJobs([]);
-        }
-      } else {
-        setJobs([]);
-      }
-
-      const savedApps = localStorage.getItem('webdev_job_applications');
-      if (savedApps) {
-        try {
-          const parsed: JobApplication[] = JSON.parse(savedApps);
-          const cleaned = parsed.filter((a) => !['app-1', 'app-2', 'app-3'].includes(a.id));
-          setApplications(cleaned);
-        } catch {
-          setApplications([]);
-        }
-      } else {
-        setApplications([]);
-      }
-    } catch (e) {
-      console.error('Failed to parse saved state from localStorage', e);
-    } finally {
-      setIsHydrated(true);
+  // ─── Load data: try DB first, fall back to localStorage, then initialData ────
+  const loadAllData = useCallback(async () => {
+    // Projects
+    const dbProjects = await apiFetch<Project[]>('/api/projects');
+    if (dbProjects && dbProjects.length > 0) {
+      setProjects(dbProjects);
+    } else {
+      try {
+        const saved = localStorage.getItem('webdev_projects');
+        if (saved) setProjects(JSON.parse(saved));
+      } catch {}
     }
+
+    // Team
+    const dbTeam = await apiFetch<TeamMember[]>('/api/team');
+    if (dbTeam && dbTeam.length > 0) {
+      setTeamMembers(dbTeam);
+    } else {
+      try {
+        const saved = localStorage.getItem('webdev_team_members');
+        if (saved) setTeamMembers(JSON.parse(saved));
+      } catch {}
+    }
+
+    // Blogs
+    const dbBlogs = await apiFetch<BlogPost[]>('/api/blogs');
+    if (dbBlogs && dbBlogs.length > 0) {
+      setBlogs(dbBlogs);
+    } else {
+      try {
+        const saved = localStorage.getItem('webdev_blogs');
+        if (saved) setBlogs(JSON.parse(saved));
+      } catch {}
+    }
+
+    // Services
+    const dbServices = await apiFetch<ServiceDetail[]>('/api/services');
+    if (dbServices && dbServices.length > 0) {
+      setServices(dbServices);
+    } else {
+      try {
+        const saved = localStorage.getItem('webdev_services');
+        if (saved) setServices(JSON.parse(saved));
+      } catch {}
+    }
+
+    // Testimonials
+    const dbTestimonials = await apiFetch<Testimonial[]>('/api/testimonials');
+    if (dbTestimonials && dbTestimonials.length > 0) {
+      setTestimonials(dbTestimonials);
+    } else {
+      try {
+        const saved = localStorage.getItem('webdev_testimonials');
+        if (saved) setTestimonials(JSON.parse(saved));
+      } catch {}
+    }
+
+    // Inquiries (localStorage only — internal admin data)
+    try {
+      const saved = localStorage.getItem('webdev_inquiries');
+      if (saved) setInquiries(JSON.parse(saved));
+    } catch {}
+
+    // Site settings
+    try {
+      const saved = localStorage.getItem('webdev_site_settings');
+      if (saved) setSiteSettings({ ...initialSiteSettings, ...JSON.parse(saved) });
+    } catch {}
+
+    // Auth user
+    try {
+      const saved = localStorage.getItem('webdev_auth_user');
+      if (saved) setCurrentUser(JSON.parse(saved));
+    } catch {}
+
+    // Jobs (localStorage only)
+    try {
+      const saved = localStorage.getItem('webdev_job_postings');
+      if (saved) {
+        const parsed: JobPosting[] = JSON.parse(saved);
+        setJobs(parsed.filter((j) => !['job-1', 'job-2', 'job-3', 'job-4', 'job-5'].includes(j.id)));
+      }
+    } catch {}
+
+    // Applications (localStorage only)
+    try {
+      const saved = localStorage.getItem('webdev_job_applications');
+      if (saved) {
+        const parsed: JobApplication[] = JSON.parse(saved);
+        setApplications(parsed.filter((a) => !['app-1', 'app-2', 'app-3'].includes(a.id)));
+      }
+    } catch {}
+
+    setIsHydrated(true);
   }, []);
 
-  // ─── Bidirectional Sync: Persist whenever modified (after hydration) ───────────
   useEffect(() => {
-    if (!isHydrated) return;
-    try { localStorage.setItem('webdev_projects', JSON.stringify(projects)); } catch {}
-  }, [projects, isHydrated]);
+    loadAllData();
+  }, [loadAllData]);
 
+  // ─── Cross-tab sync for localStorage-backed data ──────────────────────────────
   useEffect(() => {
-    if (!isHydrated) return;
-    try { localStorage.setItem('webdev_team_members', JSON.stringify(teamMembers)); } catch {}
-  }, [teamMembers, isHydrated]);
+    const handleStorageChange = (e: StorageEvent) => {
+      try {
+        if (e.key === 'webdev_inquiries' && e.newValue) setInquiries(JSON.parse(e.newValue));
+        if (e.key === 'webdev_site_settings' && e.newValue) setSiteSettings(JSON.parse(e.newValue));
+        if (e.key === 'webdev_job_postings' && e.newValue) setJobs(JSON.parse(e.newValue));
+        if (e.key === 'webdev_job_applications' && e.newValue) setApplications(JSON.parse(e.newValue));
+      } catch {}
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
-  useEffect(() => {
-    if (!isHydrated) return;
-    try { localStorage.setItem('webdev_blogs', JSON.stringify(blogs)); } catch {}
-  }, [blogs, isHydrated]);
-
+  // ─── Persist localStorage-backed data ────────────────────────────────────────
   useEffect(() => {
     if (!isHydrated) return;
     try { localStorage.setItem('webdev_inquiries', JSON.stringify(inquiries)); } catch {}
   }, [inquiries, isHydrated]);
-
-  useEffect(() => {
-    if (!isHydrated) return;
-    try { localStorage.setItem('webdev_services', JSON.stringify(services)); } catch {}
-  }, [services, isHydrated]);
-
-  useEffect(() => {
-    if (!isHydrated) return;
-    try { localStorage.setItem('webdev_testimonials', JSON.stringify(testimonials)); } catch {}
-  }, [testimonials, isHydrated]);
 
   useEffect(() => {
     if (!isHydrated) return;
@@ -257,8 +261,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     try { localStorage.setItem('webdev_job_applications', JSON.stringify(applications)); } catch {}
   }, [applications, isHydrated]);
 
-  // ─── Projects CRUD ────────────────────────────────────────────────────────────
-  const addProject = (data: Partial<Project>) => {
+  // ─── Projects CRUD (DB-backed) ────────────────────────────────────────────────
+  const addProject = async (data: Partial<Project>) => {
     const newProject: Project = {
       id: `proj-${Date.now()}`,
       title: data.title || 'Enterprise Solution',
@@ -268,36 +272,63 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       clientName: data.clientName || 'Partner Client',
       completionDate: data.completionDate || '2026',
       image: data.image || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80',
-      description: data.description || 'Full-stack application engineered by WebDev Software Solutions.',
-      techStack: data.techStack || ['React 19', 'Node.js', 'Express', 'MongoDB'],
-      features: data.features || ['Modular microservices', 'GDPR compliance', 'Fast loading'],
+      description: data.description || '',
+      techStack: data.techStack || ['React 19', 'Node.js'],
+      features: data.features || [],
       liveUrl: data.liveUrl,
       metrics: data.metrics,
     };
+
+    // Optimistic UI update
     setProjects((prev) => [newProject, ...prev]);
+
+    // Persist to DB
+    const saved = await apiFetch<Project>('/api/projects', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newProject),
+    });
+
+    // If DB returned a record with a server-generated id, sync it
+    if (saved && saved.id !== newProject.id) {
+      setProjects((prev) => prev.map((p) => p.id === newProject.id ? { ...p, id: saved.id } : p));
+    }
   };
 
-  const updateProject = (id: string, data: Partial<Project>) => {
+  const updateProject = async (id: string, data: Partial<Project>) => {
     setProjects((prev) => prev.map((p) => (p.id === id ? { ...p, ...data } : p)));
+    await apiFetch(`/api/projects/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, id }),
+    });
   };
 
-  const updateProjectStatus = (id: string, status: Project['status']) => {
+  const updateProjectStatus = async (id: string, status: Project['status']) => {
     setProjects((prev) => prev.map((p) => (p.id === id ? { ...p, status } : p)));
+    await apiFetch(`/api/projects/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status }),
+    });
   };
 
-  const deleteProject = (id: string) => setProjects((prev) => prev.filter((p) => p.id !== id));
+  const deleteProject = async (id: string) => {
+    setProjects((prev) => prev.filter((p) => p.id !== id));
+    await apiFetch(`/api/projects/${id}`, { method: 'DELETE' });
+  };
 
-  // ─── Team CRUD ────────────────────────────────────────────────────────────────
-  const addTeamMember = (data: Partial<TeamMember>) => {
+  // ─── Team CRUD (DB-backed) ────────────────────────────────────────────────────
+  const addTeamMember = async (data: Partial<TeamMember>) => {
     const newMember: TeamMember = {
       id: `team-${Date.now()}`,
       name: data.name || 'New Engineer',
       role: data.role || 'Senior Full-Stack Developer',
       branch: data.branch || 'Joypurhat, Bangladesh',
       image: data.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
-      bio: data.bio || 'Experienced software engineer at WebDev Software Solutions.',
-      skills: data.skills || ['Full-Stack MERN', 'TypeScript', 'Node.js'],
-      email: data.email || 'engineer@webdevsoftware.com',
+      bio: data.bio || '',
+      skills: data.skills || [],
+      email: data.email || '',
       experienceYears: data.experienceYears || 5,
       headline: data.headline,
       location: data.location,
@@ -310,75 +341,114 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       languages: data.languages,
     };
     setTeamMembers((prev) => [...prev, newMember]);
+    await apiFetch('/api/team', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newMember),
+    });
   };
 
-  const updateTeamMember = (id: string, data: Partial<TeamMember>) => {
+  const updateTeamMember = async (id: string, data: Partial<TeamMember>) => {
     setTeamMembers((prev) => prev.map((m) => (m.id === id ? { ...m, ...data } : m)));
+    await apiFetch(`/api/team/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, id }),
+    });
   };
 
-  const deleteTeamMember = (id: string) => setTeamMembers((prev) => prev.filter((m) => m.id !== id));
+  const deleteTeamMember = async (id: string) => {
+    setTeamMembers((prev) => prev.filter((m) => m.id !== id));
+    await apiFetch(`/api/team/${id}`, { method: 'DELETE' });
+  };
 
-  // ─── Blog CRUD ────────────────────────────────────────────────────────────────
-  const addBlog = (data: Partial<BlogPost>) => {
+  // ─── Blog CRUD (DB-backed) ────────────────────────────────────────────────────
+  const addBlog = async (data: Partial<BlogPost>) => {
     const newBlog: BlogPost = {
       id: `blog-${Date.now()}`,
-      title: data.title || 'New Engineering Article',
-      slug: (data.title || 'engineering-article').toLowerCase().replace(/\s+/g, '-'),
-      excerpt: data.excerpt || 'Technical breakdown from WebDev Software Solutions engineering team.',
-      content: data.content || 'Content coming soon.',
+      title: data.title || 'New Article',
+      slug: (data.title || 'new-article').toLowerCase().replace(/\s+/g, '-'),
+      excerpt: data.excerpt || '',
+      content: data.content || '',
       author: data.author || 'Engineering Team',
       authorRole: data.authorRole || 'Senior Architect',
-      authorImage: data.authorImage || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+      authorImage: data.authorImage || '',
       date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
       readTime: data.readTime || '5 min read',
       category: data.category || 'Engineering',
-      tags: data.tags || ['Next.js', 'React', 'Cloud'],
-      image: data.image || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80',
+      tags: data.tags || [],
+      image: data.image || '',
       likes: 0,
     };
     setBlogs((prev) => [newBlog, ...prev]);
+    await apiFetch('/api/blogs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newBlog),
+    });
   };
 
-  const updateBlog = (id: string, data: Partial<BlogPost>) => {
+  const updateBlog = async (id: string, data: Partial<BlogPost>) => {
     setBlogs((prev) => prev.map((b) => (b.id === id ? { ...b, ...data } : b)));
+    await apiFetch(`/api/blogs/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, id }),
+    });
   };
 
-  const deleteBlog = (id: string) => setBlogs((prev) => prev.filter((b) => b.id !== id));
+  const deleteBlog = async (id: string) => {
+    setBlogs((prev) => prev.filter((b) => b.id !== id));
+    await apiFetch(`/api/blogs/${id}`, { method: 'DELETE' });
+  };
 
   const likeBlog = (id: string) => {
     setBlogs((prev) => prev.map((b) => (b.id === id ? { ...b, likes: b.likes + 1 } : b)));
   };
 
-  // ─── Services CRUD ────────────────────────────────────────────────────────────
-  const addService = (data: Partial<ServiceDetail>) => {
+  // ─── Services CRUD (DB-backed) ────────────────────────────────────────────────
+  const addService = async (data: Partial<ServiceDetail>) => {
     const newService: ServiceDetail = {
       id: `serv-${Date.now()}`,
       title: data.title || 'New Service',
       shortDesc: data.shortDesc || '',
       fullDesc: data.fullDesc || '',
       iconName: data.iconName || 'Code2',
-      image: data.image || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
+      image: data.image || '',
       techs: data.techs || [],
       features: data.features || [],
       deliverables: data.deliverables || [],
     };
     setServices((prev) => [...prev, newService]);
+    await apiFetch('/api/services', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newService),
+    });
   };
 
-  const updateService = (id: string, data: Partial<ServiceDetail>) => {
+  const updateService = async (id: string, data: Partial<ServiceDetail>) => {
     setServices((prev) => prev.map((s) => (s.id === id ? { ...s, ...data } : s)));
+    await apiFetch(`/api/services/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, id }),
+    });
   };
 
-  const deleteService = (id: string) => setServices((prev) => prev.filter((s) => s.id !== id));
+  const deleteService = async (id: string) => {
+    setServices((prev) => prev.filter((s) => s.id !== id));
+    await apiFetch(`/api/services/${id}`, { method: 'DELETE' });
+  };
 
-  // ─── Testimonials CRUD ────────────────────────────────────────────────────────
-  const addTestimonial = (data: Partial<Testimonial>) => {
+  // ─── Testimonials CRUD (DB-backed) ───────────────────────────────────────────
+  const addTestimonial = async (data: Partial<Testimonial>) => {
     const newT: Testimonial = {
       id: data.id || `test-${Date.now()}`,
       name: data.name || '',
       role: data.role || '',
       company: data.company || '',
-      avatar: data.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+      avatar: data.avatar || '',
       country: data.country || 'International',
       flag: data.flag || '🌐',
       quote: data.quote || '',
@@ -386,15 +456,28 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       verified: data.verified ?? true,
     };
     setTestimonials((prev) => [newT, ...prev]);
+    await apiFetch('/api/testimonials', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newT),
+    });
   };
 
-  const updateTestimonial = (id: string, data: Partial<Testimonial>) => {
+  const updateTestimonial = async (id: string, data: Partial<Testimonial>) => {
     setTestimonials((prev) => prev.map((t) => (t.id === id ? { ...t, ...data } : t)));
+    await apiFetch(`/api/testimonials/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, id }),
+    });
   };
 
-  const deleteTestimonial = (id: string) => setTestimonials((prev) => prev.filter((t) => t.id !== id));
+  const deleteTestimonial = async (id: string) => {
+    setTestimonials((prev) => prev.filter((t) => t.id !== id));
+    await apiFetch(`/api/testimonials/${id}`, { method: 'DELETE' });
+  };
 
-  // ─── Inquiry ──────────────────────────────────────────────────────────────────
+  // ─── Inquiry (localStorage only) ─────────────────────────────────────────────
   const addInquiry = (newInquiry: Inquiry) => {
     setInquiries((prev) => [newInquiry, ...prev]);
     if (currentUser) {
@@ -411,47 +494,23 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   // ─── Auth ─────────────────────────────────────────────────────────────────────
   const login = (user: UserProfile) => {
     setCurrentUser(user);
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.setItem('webdev_auth_user', JSON.stringify(user));
-      } catch (e) {
-        console.error('Failed to persist user session', e);
-      }
-    }
+    try { localStorage.setItem('webdev_auth_user', JSON.stringify(user)); } catch {}
   };
 
   const logout = () => {
     setCurrentUser(null);
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.removeItem('webdev_auth_user');
-      } catch (e) {
-        console.error('Failed to clear user session', e);
-      }
-    }
+    try { localStorage.removeItem('webdev_auth_user'); } catch {}
   };
 
   const updateProfile = (updated: UserProfile) => {
     setCurrentUser(updated);
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.setItem('webdev_auth_user', JSON.stringify(updated));
-      } catch (e) {
-        console.error('Failed to update user session', e);
-      }
-    }
+    try { localStorage.setItem('webdev_auth_user', JSON.stringify(updated)); } catch {}
   };
 
   // ─── Site Settings ────────────────────────────────────────────────────────────
   const updateSiteSettings = (settings: SiteSettings) => {
     setSiteSettings(settings);
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.setItem('webdev_site_settings', JSON.stringify(settings));
-      } catch (e) {
-        console.error('Failed to persist siteSettings', e);
-      }
-    }
+    try { localStorage.setItem('webdev_site_settings', JSON.stringify(settings)); } catch {}
   };
 
   const resetToDefaultData = () => {
@@ -462,22 +521,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setServices(initialServices);
     setTestimonials(initialTestimonialsData);
     setSiteSettings(initialSiteSettings);
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.removeItem('webdev_projects');
-        localStorage.removeItem('webdev_team_members');
-        localStorage.removeItem('webdev_blogs');
-        localStorage.removeItem('webdev_inquiries');
-        localStorage.removeItem('webdev_services');
-        localStorage.removeItem('webdev_testimonials');
-        localStorage.removeItem('webdev_site_settings');
-        localStorage.removeItem('webdev_job_postings');
-        localStorage.removeItem('webdev_job_applications');
-      } catch {}
-    }
+    try {
+      ['webdev_projects','webdev_team_members','webdev_blogs','webdev_inquiries',
+       'webdev_services','webdev_testimonials','webdev_site_settings',
+       'webdev_job_postings','webdev_job_applications'].forEach(k => localStorage.removeItem(k));
+    } catch {}
   };
 
-  // ─── Careers & Jobs CRUD Implementation ───────────────────────────────────────
+  // ─── Careers & Jobs CRUD (localStorage) ──────────────────────────────────────
   const addJob = (data: Partial<JobPosting>) => {
     const newJob: JobPosting = {
       id: `job-${Date.now()}`,
@@ -488,17 +539,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       workplace: data.workplace || 'Remote',
       location: data.location || 'Remote (Worldwide)',
       salaryRange: data.salaryRange || 'Competitive',
-      description: data.description || 'Join our global engineering team at WebDev Software Solutions.',
-      responsibilities: data.responsibilities && data.responsibilities.length > 0 ? data.responsibilities : ['Architect and build high-performance web systems.'],
-      requirements: data.requirements && data.requirements.length > 0 ? data.requirements : ['Experience with modern web frameworks and clean code practices.'],
+      description: data.description || '',
+      responsibilities: data.responsibilities?.length ? data.responsibilities : ['Architect and build high-performance web systems.'],
+      requirements: data.requirements?.length ? data.requirements : ['Experience with modern web frameworks.'],
       niceToHave: data.niceToHave || [],
-      benefits: data.benefits && data.benefits.length > 0 ? data.benefits : ['Flexible work arrangements', 'Equipment & learning stipend'],
-      techStack: data.techStack && data.techStack.length > 0 ? data.techStack : ['React 19', 'Next.js 15', 'TypeScript'],
+      benefits: data.benefits?.length ? data.benefits : ['Flexible work arrangements'],
+      techStack: data.techStack?.length ? data.techStack : ['React 19', 'Next.js 15', 'TypeScript'],
       isActive: data.isActive ?? true,
       featured: data.featured ?? false,
       postedDate: data.postedDate || new Date().toISOString().split('T')[0],
       deadline: data.deadline,
-      applicantsCount: 0
+      applicantsCount: 0,
     };
     setJobs((prev) => [newJob, ...prev]);
   };
@@ -511,9 +562,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setJobs((prev) => prev.map((j) => (j.id === id ? { ...j, isActive: !j.isActive } : j)));
   };
 
-  const deleteJob = (id: string) => {
-    setJobs((prev) => prev.filter((j) => j.id !== id));
-  };
+  const deleteJob = (id: string) => setJobs((prev) => prev.filter((j) => j.id !== id));
 
   const addApplication = async (data: Partial<JobApplication>): Promise<{ success: boolean; id: string }> => {
     const newAppId = `app-${Date.now()}`;
@@ -521,8 +570,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     const newApp: JobApplication = {
       id: newAppId,
       jobId: data.jobId || 'general',
-      jobTitle: data.jobTitle || targetJob?.title || 'General Engineering Application',
-      applicantName: data.applicantName || 'Anonymous Candidate',
+      jobTitle: data.jobTitle || targetJob?.title || 'General Application',
+      applicantName: data.applicantName || 'Anonymous',
       email: data.email || '',
       phoneNumber: data.phoneNumber || '',
       location: data.location || 'Remote',
@@ -538,27 +587,19 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       status: 'new',
       rating: 0,
       notes: '',
-      appliedAt: new Date().toISOString()
+      appliedAt: new Date().toISOString(),
     };
-
     setApplications((prev) => [newApp, ...prev]);
-
-    // Bump applicantsCount for the relevant job
     if (data.jobId && data.jobId !== 'general') {
-      setJobs((prev) => prev.map((j) => (j.id === data.jobId ? { ...j, applicantsCount: (j.applicantsCount || 0) + 1 } : j)));
+      setJobs((prev) => prev.map((j) => j.id === data.jobId ? { ...j, applicantsCount: (j.applicantsCount || 0) + 1 } : j));
     }
-
-    // Try posting to API in background (with graceful fallback)
     try {
       await fetch('/api/careers/applications', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newApp)
+        body: JSON.stringify(newApp),
       });
-    } catch (e) {
-      console.warn('API call failed, local state preserved:', e);
-    }
-
+    } catch {}
     return { success: true, id: newAppId };
   };
 
@@ -570,9 +611,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setApplications((prev) => prev.map((a) => (a.id === id ? { ...a, notes, ...(rating !== undefined ? { rating } : {}) } : a)));
   };
 
-  const deleteApplication = (id: string) => {
-    setApplications((prev) => prev.filter((a) => a.id !== id));
-  };
+  const deleteApplication = (id: string) => setApplications((prev) => prev.filter((a) => a.id !== id));
 
   // ─── Context Value ────────────────────────────────────────────────────────────
   const value: AppContextType = {
