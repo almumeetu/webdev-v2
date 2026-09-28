@@ -24,13 +24,15 @@ import {
   List, 
   DollarSign, 
   HelpCircle,
-  ChevronDown
+  ChevronDown,
+  Tag
 } from 'lucide-react';
 import { Project } from '../types';
 import { ProjectOrderModal } from './ProjectOrderModal';
 import { ProjectDetailModal } from './ProjectDetailModal';
 import { Breadcrumb } from './Breadcrumb';
 import { useLanguage } from '../context/LanguageContext';
+import { useAppContext } from '../context/AppContext';
 
 interface PortfolioShowcasePageProps {
   projects: Project[];
@@ -81,14 +83,46 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
   const [estType, setEstType] = useState<'ecommerce' | 'saas' | 'corporate' | 'cloud'>('ecommerce');
   const [estTier, setEstTier] = useState<'turnkey' | 'growth' | 'enterprise'>('turnkey');
 
-  const categories = useMemo(() => [
-    { id: 'All', label: lang === 'de' ? 'Alle' : 'All', icon: Sparkles },
-    { id: 'Web Application', label: lang === 'de' ? 'Web-Anwendungen' : 'Web Application', icon: Laptop },
-    { id: 'Full Stack & MERN', label: lang === 'de' ? 'Full-Stack & MERN' : 'Full Stack & MERN', icon: Code2 },
-    { id: 'Backend & Cloud', label: lang === 'de' ? 'Backend & Cloud' : 'Backend & Cloud', icon: Server },
-    { id: 'E-Commerce', label: lang === 'de' ? 'E-Commerce' : 'E-Commerce', icon: ShoppingBag },
-    { id: 'WordPress & Shopify', label: lang === 'de' ? 'WordPress & Shopify' : 'WordPress & Shopify', icon: Store },
-  ], [lang]);
+  const { projectCategories } = useAppContext();
+
+  const categories = useMemo(() => {
+    const knownIcons: Record<string, any> = {
+      'Web Application': Laptop,
+      'Full Stack & MERN': Code2,
+      'Backend & Cloud': Server,
+      'E-Commerce': ShoppingBag,
+      'WordPress & Shopify': Store,
+    };
+
+    const baseList = [
+      { id: 'All', label: lang === 'de' ? 'Alle' : 'All', icon: Sparkles },
+      { id: 'Web Application', label: lang === 'de' ? 'Web-Anwendungen' : 'Web Application', icon: Laptop },
+      { id: 'Full Stack & MERN', label: lang === 'de' ? 'Full-Stack & MERN' : 'Full Stack & MERN', icon: Code2 },
+      { id: 'Backend & Cloud', label: lang === 'de' ? 'Backend & Cloud' : 'Backend & Cloud', icon: Server },
+      { id: 'E-Commerce', label: lang === 'de' ? 'E-Commerce' : 'E-Commerce', icon: ShoppingBag },
+      { id: 'WordPress & Shopify', label: lang === 'de' ? 'WordPress & Shopify' : 'WordPress & Shopify', icon: Store },
+    ];
+
+    const addedIds = new Set(baseList.map((c) => c.id));
+    const extraCategories: { id: string; label: string; icon: any }[] = [];
+
+    const allCatNames = new Set<string>();
+    if (projectCategories) projectCategories.forEach((c) => allCatNames.add(c));
+    projects.forEach((p) => { if (p.category) allCatNames.add(p.category); });
+
+    allCatNames.forEach((catName) => {
+      if (!addedIds.has(catName)) {
+        extraCategories.push({
+          id: catName,
+          label: catName,
+          icon: knownIcons[catName] || Tag,
+        });
+        addedIds.add(catName);
+      }
+    });
+
+    return [...baseList, ...extraCategories];
+  }, [lang, projectCategories, projects]);
 
   const countryOptions = useMemo(() => [
     { value: 'All', label: lang === 'de' ? '🌐 Alle Länder' : '🌐 All Countries' },

@@ -261,6 +261,7 @@ export default function AdminPage() {
 
       <AdminDashboard
         projects={ctx.projects}
+        projectCategories={ctx.projectCategories}
         teamMembers={ctx.teamMembers}
         blogs={ctx.blogs}
         inquiries={ctx.inquiries}
@@ -273,6 +274,10 @@ export default function AdminPage() {
         onUpdateProject={ctx.updateProject}
         onUpdateProjectStatus={ctx.updateProjectStatus}
         onDeleteProject={ctx.deleteProject}
+        onAddProjectCategory={ctx.addProjectCategory}
+        onUpdateProjectCategory={ctx.updateProjectCategory}
+        onDeleteProjectCategory={ctx.deleteProjectCategory}
+        onResetProjectCategories={ctx.resetProjectCategories}
         onAddTeamMember={ctx.addTeamMember}
         onUpdateTeamMember={ctx.updateTeamMember}
         onDeleteTeamMember={ctx.deleteTeamMember}

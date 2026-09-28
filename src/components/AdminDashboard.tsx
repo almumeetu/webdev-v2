@@ -50,13 +50,27 @@ import {
   User,
   UserCheck
 } from 'lucide-react';
-import { Project, TeamMember, BlogPost, Inquiry, ProjectStatus, ServiceDetail, SiteSettings, Testimonial, HeroSlide, JobPosting, JobApplication } from '../types';
+import { 
+  Project, 
+  TeamMember, 
+  BlogPost, 
+  Inquiry, 
+  ProjectStatus, 
+  ServiceDetail, 
+  SiteSettings, 
+  Testimonial, 
+  HeroSlide, 
+  JobPosting, 
+  JobApplication,
+  DEFAULT_PROJECT_CATEGORIES,
+} from '../types';
 import { initialHeroSlides } from '../data/initialData';
 import ImageDropZone from './ImageDropZone';
 import { AdminCareersManager } from './AdminCareersManager';
 
 interface AdminDashboardProps {
   projects: Project[];
+  projectCategories?: string[];
   teamMembers: TeamMember[];
   blogs: BlogPost[];
   inquiries: Inquiry[];
@@ -67,6 +81,10 @@ interface AdminDashboardProps {
   onUpdateProject?: (id: string, project: Partial<Project>) => void;
   onUpdateProjectStatus: (id: string, status: ProjectStatus) => void;
   onDeleteProject: (id: string) => void;
+  onAddProjectCategory?: (name: string) => boolean;
+  onUpdateProjectCategory?: (oldName: string, newName: string) => void;
+  onDeleteProjectCategory?: (name: string, fallback?: string) => void;
+  onResetProjectCategories?: () => void;
   onAddTeamMember: (member: Partial<TeamMember>) => void;
   onUpdateTeamMember?: (id: string, member: Partial<TeamMember>) => void;
   onDeleteTeamMember: (id: string) => void;
@@ -123,6 +141,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   onAddTestimonial,
   onUpdateTestimonial,
   onDeleteTestimonial,
+  projectCategories = [],
+  onAddProjectCategory,
+  onUpdateProjectCategory,
+  onDeleteProjectCategory,
+  onResetProjectCategories,
   jobs = [],
   applications = [],
   onAddJob,
@@ -147,6 +170,103 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   const toggleSection = (section: string) => {
     setCollapsedSections(prev => ({ ...prev, [section]: !prev[section] }));
+  };
+
+  // ─── Project Categories Computed & State ─────────────────────────────────────
+  const allCategories = useMemo(() => {
+    const set = new Set<string>();
+    (projectCategories && projectCategories.length > 0 ? projectCategories : DEFAULT_PROJECT_CATEGORIES).forEach(c => set.add(c));
+    projects.forEach(p => {
+      if (p.category) set.add(p.category);
+    });
+    return Array.from(set);
+  }, [projectCategories, projects]);
+
+  const [showCategoryManagerModal, setShowCategoryManagerModal] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const [editingCategory, setEditingCategory] = useState<{ oldName: string; newName: string } | null>(null);
+  const [deletingCategory, setDeletingCategory] = useState<string | null>(null);
+  const [deleteFallbackCategory, setDeleteFallbackCategory] = useState<string>('');
+  const [categoryFeedback, setCategoryFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+  // Quick inline add category state in Project Modal
+  const [showInlineAddCategory, setShowInlineAddCategory] = useState(false);
+  const [inlineNewCategory, setInlineNewCategory] = useState('');
+
+  const handleAddCategorySubmit = (nameToAdd?: string) => {
+    const target = (nameToAdd || newCategoryName).trim();
+    if (!target) {
+      setCategoryFeedback({ type: 'error', message: 'Category name cannot be empty.' });
+      return false;
+    }
+    if (allCategories.some(c => c.toLowerCase() === target.toLowerCase())) {
+      setCategoryFeedback({ type: 'error', message: `Category "${target}" already exists.` });
+      return false;
+    }
+    const success = onAddProjectCategory ? onAddProjectCategory(target) : true;
+    if (success) {
+      setNewCategoryName('');
+      setCategoryFeedback({ type: 'success', message: `Category "${target}" created successfully!` });
+      setTimeout(() => setCategoryFeedback(null), 3000);
+      return true;
+    }
+    return false;
+  };
+
+  const handleInlineQuickAdd = () => {
+    const trimmed = inlineNewCategory.trim();
+    if (!trimmed) return;
+    const added = handleAddCategorySubmit(trimmed);
+    if (added) {
+      setProjectForm(prev => ({ ...prev, category: trimmed }));
+      setInlineNewCategory('');
+      setShowInlineAddCategory(false);
+    }
+  };
+
+  const handleRenameCategorySubmit = async () => {
+    if (!editingCategory) return;
+    const { oldName, newName } = editingCategory;
+    const trimmedNew = newName.trim();
+    if (!trimmedNew) {
+      setCategoryFeedback({ type: 'error', message: 'Category name cannot be empty.' });
+      return;
+    }
+    if (trimmedNew.toLowerCase() !== oldName.toLowerCase() && allCategories.some(c => c.toLowerCase() === trimmedNew.toLowerCase())) {
+      setCategoryFeedback({ type: 'error', message: `Category "${trimmedNew}" already exists.` });
+      return;
+    }
+    onUpdateProjectCategory?.(oldName, trimmedNew);
+    if (projectForm.category === oldName) {
+      setProjectForm(prev => ({ ...prev, category: trimmedNew }));
+    }
+    if (filterCategory === oldName) {
+      setFilterCategory(trimmedNew);
+    }
+    setEditingCategory(null);
+    setCategoryFeedback({ type: 'success', message: `Category renamed to "${trimmedNew}". All linked projects updated!` });
+    setTimeout(() => setCategoryFeedback(null), 3000);
+  };
+
+  const handleDeleteCategoryConfirm = () => {
+    if (!deletingCategory) return;
+    const catToDelete = deletingCategory;
+    const remaining = allCategories.filter(c => c !== catToDelete);
+    const fallback = deleteFallbackCategory || remaining[0] || 'Web Application';
+    
+    onDeleteProjectCategory?.(catToDelete, fallback);
+
+    if (projectForm.category === catToDelete) {
+      setProjectForm(prev => ({ ...prev, category: fallback }));
+    }
+    if (filterCategory === catToDelete) {
+      setFilterCategory('all');
+    }
+
+    setDeletingCategory(null);
+    setDeleteFallbackCategory('');
+    setCategoryFeedback({ type: 'success', message: `Category "${catToDelete}" deleted. Associated projects moved to "${fallback}".` });
+    setTimeout(() => setCategoryFeedback(null), 3000);
   };
 
   // Modal states
@@ -322,7 +442,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const resetProjectForm = () => {
     setProjectForm({
       title: '',
-      category: 'Full Stack & MERN',
+      category: (allCategories[0] || 'Full Stack & MERN') as Project['category'],
       status: 'ongoing',
       clientCountry: 'Germany',
       clientName: '',
@@ -334,6 +454,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       metrics: '',
       completionDate: new Date().toISOString().split('T')[0]
     });
+    setShowInlineAddCategory(false);
+    setInlineNewCategory('');
     setEditingItem(null);
   };
 
@@ -1058,16 +1180,25 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   </button>
                 )}
                 {activeTab === 'projects' && (
-                  <button
-                    onClick={() => {
-                      resetProjectForm();
-                      setShowProjectModal(true);
-                    }}
-                    className="bg-white hover:bg-zinc-200 text-zinc-950 font-bold px-4 py-2 rounded-md flex items-center gap-1.5 text-xs transition-all cursor-pointer hover:scale-[1.02]"
-                  >
-                    <Plus className="w-4 h-4 stroke-[2.5]" />
-                    <span>Add Project</span>
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setShowCategoryManagerModal(true)}
+                      className="bg-white/[0.06] hover:bg-white/[0.1] text-zinc-200 border border-white/10 font-semibold px-3.5 py-2 rounded-md flex items-center gap-1.5 text-xs transition-all cursor-pointer hover:border-cyan-400/40"
+                    >
+                      <Tag className="w-3.5 h-3.5 text-cyan-400" />
+                      <span>Manage Categories ({allCategories.length})</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        resetProjectForm();
+                        setShowProjectModal(true);
+                      }}
+                      className="bg-white hover:bg-zinc-200 text-zinc-950 font-bold px-4 py-2 rounded-md flex items-center gap-1.5 text-xs transition-all cursor-pointer hover:scale-[1.02]"
+                    >
+                      <Plus className="w-4 h-4 stroke-[2.5]" />
+                      <span>Add Project</span>
+                    </button>
+                  </div>
                 )}
                 {activeTab === 'team' && (
                   <button
@@ -1171,11 +1302,20 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     Project Distribution by Category
                   </h3>
                   <div className="space-y-3.5">
-                    <ProgressBar label="Full Stack & MERN" value={projects.filter(p => p.category === 'Full Stack & MERN').length} max={stats.totalProjects} color="cyan" />
-                    <ProgressBar label="Web Application" value={projects.filter(p => p.category === 'Web Application').length} max={stats.totalProjects} color="purple" />
-                    <ProgressBar label="Backend & Cloud" value={projects.filter(p => p.category === 'Backend & Cloud').length} max={stats.totalProjects} color="blue" />
-                    <ProgressBar label="E-Commerce" value={projects.filter(p => p.category === 'E-Commerce').length} max={stats.totalProjects} color="emerald" />
-                    <ProgressBar label="WordPress & Shopify" value={projects.filter(p => p.category === 'WordPress & Shopify').length} max={stats.totalProjects} color="amber" />
+                    {allCategories.map((cat, idx) => {
+                      const count = projects.filter((p) => p.category === cat).length;
+                      const colors = ['cyan', 'purple', 'blue', 'emerald', 'amber', 'rose'] as const;
+                      const color = colors[idx % colors.length];
+                      return (
+                        <ProgressBar
+                          key={cat}
+                          label={cat}
+                          value={count}
+                          max={Math.max(stats.totalProjects, 1)}
+                          color={color}
+                        />
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -1303,25 +1443,38 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 {/* Horizontal Scrolling Pill Filters */}
                 <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0 custom-scrollbar">
                   {[
-                    { label: 'All Projects', value: 'all' },
-                    { label: 'Full Stack & MERN', value: 'Full Stack & MERN' },
-                    { label: 'Web Application', value: 'Web Application' },
-                    { label: 'Backend & Cloud', value: 'Backend & Cloud' },
-                    { label: 'E-Commerce', value: 'E-Commerce' },
-                    { label: 'WordPress & Shopify', value: 'WordPress & Shopify' }
+                    { label: 'All Projects', value: 'all', count: projects.length },
+                    ...allCategories.map((c) => ({
+                      label: c,
+                      value: c,
+                      count: projects.filter((p) => p.category === c).length,
+                    })),
                   ].map((cat) => (
                     <button
                       key={cat.value}
                       onClick={() => setFilterCategory(cat.value)}
-                      className={`text-xs px-3.5 py-1.5 rounded-full font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                      className={`text-xs px-3.5 py-1.5 rounded-full font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 ${
                         filterCategory === cat.value
                           ? 'bg-white text-zinc-950 shadow-md shadow-white/10'
                           : 'bg-white/[0.04] text-zinc-400 hover:text-white hover:bg-white/[0.08] border border-white/[0.05]'
                       }`}
                     >
-                      {cat.label}
+                      <span>{cat.label}</span>
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
+                        filterCategory === cat.value ? 'bg-zinc-900 text-white font-bold' : 'bg-white/10 text-zinc-400'
+                      }`}>
+                        {cat.count}
+                      </span>
                     </button>
                   ))}
+                  <button
+                    onClick={() => setShowCategoryManagerModal(true)}
+                    className="text-xs px-2.5 py-1.5 rounded-full font-medium text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 border border-cyan-500/20 whitespace-nowrap transition-all cursor-pointer flex items-center gap-1"
+                    title="Manage or add categories"
+                  >
+                    <Plus className="w-3 h-3" />
+                    <span>Category</span>
+                  </button>
                 </div>
 
                 {/* Status Pills */}
@@ -2869,6 +3022,262 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         </main>
       </div>
 
+      {/* PROJECT CATEGORY MANAGER MODAL */}
+      {showCategoryManagerModal && (
+        <Modal
+          title="Project Categories Manager"
+          onClose={() => {
+            setShowCategoryManagerModal(false);
+            setEditingCategory(null);
+            setDeletingCategory(null);
+            setCategoryFeedback(null);
+          }}
+          size="normal"
+        >
+          <div className="space-y-6">
+            <p className="text-xs text-zinc-400 leading-relaxed">
+              Add custom categories for projects, rename existing ones (which will dynamically update all associated projects), or delete unused categories.
+            </p>
+
+            {/* Feedback notification */}
+            {categoryFeedback && (
+              <div
+                className={`p-3 rounded-lg text-xs flex items-center gap-2 animate-fadeIn ${
+                  categoryFeedback.type === 'success'
+                    ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
+                    : 'bg-rose-500/10 text-rose-300 border border-rose-500/20'
+                }`}
+              >
+                {categoryFeedback.type === 'success' ? (
+                  <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
+                ) : (
+                  <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+                )}
+                <span>{categoryFeedback.message}</span>
+              </div>
+            )}
+
+            {/* Add New Category Box */}
+            <div className="bg-[#0c0d12] border border-white/10 rounded-lg p-3.5 space-y-2">
+              <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-1.5">
+                <Plus className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Add New Category</span>
+              </label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  placeholder="e.g. AI & Machine Learning, Mobile Apps, DevOps..."
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleAddCategorySubmit();
+                    }
+                  }}
+                  className="flex-1 px-3.5 py-2.5 bg-black/40 border border-white/10 rounded-md text-xs text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2]"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleAddCategorySubmit()}
+                  className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold px-4 py-2.5 rounded-md text-xs transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap shadow-md"
+                >
+                  <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+                  <span>Add Category</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Delete Confirmation Box (if a category is being deleted) */}
+            {deletingCategory && (
+              <div className="p-4 bg-rose-950/30 border border-rose-500/30 rounded-lg space-y-3 animate-fadeIn">
+                <div className="flex items-start gap-2.5">
+                  <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                  <div className="space-y-1">
+                    <p className="text-xs font-bold text-rose-200">
+                      Delete &quot;{deletingCategory}&quot;?
+                    </p>
+                    {(() => {
+                      const count = projects.filter((p) => p.category === deletingCategory).length;
+                      if (count > 0) {
+                        return (
+                          <div className="space-y-2 text-xs text-rose-300/80">
+                            <p>
+                              There are currently <strong className="text-white">{count} projects</strong> assigned to this category.
+                              Choose a category to reassign them to:
+                            </p>
+                            <select
+                              value={deleteFallbackCategory || allCategories.filter((c) => c !== deletingCategory)[0] || 'Web Application'}
+                              onChange={(e) => setDeleteFallbackCategory(e.target.value)}
+                              className="w-full px-3 py-2 bg-[#0c0d12] border border-rose-500/30 rounded text-xs text-white focus:outline-none focus:ring-1 focus:ring-rose-400"
+                            >
+                              {allCategories
+                                .filter((c) => c !== deletingCategory)
+                                .map((c) => (
+                                  <option key={c} value={c} className="bg-[#12141c]">
+                                    Move to {c}
+                                  </option>
+                                ))}
+                            </select>
+                          </div>
+                        );
+                      }
+                      return (
+                        <p className="text-xs text-zinc-400">
+                          No projects are currently assigned to this category. It will be safely removed.
+                        </p>
+                      );
+                    })()}
+                  </div>
+                </div>
+                <div className="flex items-center justify-end gap-2 pt-2 border-t border-rose-500/20">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setDeletingCategory(null);
+                      setDeleteFallbackCategory('');
+                    }}
+                    className="px-3 py-1.5 text-xs text-zinc-400 hover:text-white rounded transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleDeleteCategoryConfirm}
+                    className="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded transition-all flex items-center gap-1.5 shadow-md shadow-rose-900/30"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Confirm Delete</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Categories List */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-xs text-zinc-400 font-semibold px-1">
+                <span>CATEGORIES ({allCategories.length})</span>
+                <span>PROJECTS</span>
+              </div>
+              <div className="space-y-2 max-h-72 overflow-y-auto pr-1 custom-scrollbar">
+                {allCategories.map((cat) => {
+                  const count = projects.filter((p) => p.category === cat).length;
+                  const isEditingThis = editingCategory?.oldName === cat;
+
+                  if (isEditingThis) {
+                    return (
+                      <div
+                        key={cat}
+                        className="flex items-center gap-2 p-2.5 bg-cyan-950/20 border border-cyan-500/40 rounded-lg animate-fadeIn"
+                      >
+                        <input
+                          type="text"
+                          value={editingCategory.newName}
+                          onChange={(e) =>
+                            setEditingCategory({ ...editingCategory, newName: e.target.value })
+                          }
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              e.preventDefault();
+                              handleRenameCategorySubmit();
+                            } else if (e.key === 'Escape') {
+                              setEditingCategory(null);
+                            }
+                          }}
+                          className="flex-1 px-3 py-1.5 bg-[#0c0d12] border border-cyan-500/30 rounded text-xs text-white focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                          autoFocus
+                        />
+                        <button
+                          type="button"
+                          onClick={handleRenameCategorySubmit}
+                          className="px-3 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded transition-all flex items-center gap-1 cursor-pointer"
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <span>Save</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setEditingCategory(null)}
+                          className="px-2.5 py-1.5 text-zinc-400 hover:text-white text-xs rounded transition-colors cursor-pointer"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div
+                      key={cat}
+                      className="flex items-center justify-between p-3 bg-[#0c0d12] hover:bg-[#161822] border border-white/[0.06] rounded-lg transition-colors group"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Tag className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                        <span className="text-xs font-semibold text-white">{cat}</span>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-white/[0.06] text-zinc-300 border border-white/[0.04]">
+                          {count} {count === 1 ? 'project' : 'projects'}
+                        </span>
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setEditingCategory({ oldName: cat, newName: cat });
+                              setDeletingCategory(null);
+                            }}
+                            className="p-1.5 text-zinc-400 hover:text-cyan-300 hover:bg-cyan-500/10 rounded transition-all cursor-pointer"
+                            title="Edit / Rename Category"
+                          >
+                            <Edit3 className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setDeletingCategory(cat);
+                              setEditingCategory(null);
+                              const rem = allCategories.filter((c) => c !== cat);
+                              setDeleteFallbackCategory(rem[0] || 'Web Application');
+                            }}
+                            className="p-1.5 text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10 rounded transition-all cursor-pointer"
+                            title="Delete Category"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Restore defaults */}
+            <div className="pt-3 border-t border-white/[0.06] flex items-center justify-between">
+              <span className="text-[11px] text-zinc-500">
+                Default: 5 core software agency categories
+              </span>
+              {onResetProjectCategories && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (confirm('Reset categories to default 5 categories? Existing custom categories will be replaced with defaults.')) {
+                      onResetProjectCategories();
+                      setCategoryFeedback({ type: 'success', message: 'Categories restored to defaults.' });
+                      setTimeout(() => setCategoryFeedback(null), 3000);
+                    }
+                  }}
+                  className="text-[11px] text-zinc-400 hover:text-white transition-colors cursor-pointer underline"
+                >
+                  Restore Defaults
+                </button>
+              )}
+            </div>
+          </div>
+        </Modal>
+      )}
+
       {/* PROJECT MODAL */}
       {showProjectModal && (
         <Modal
@@ -2892,18 +3301,91 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-2">Category *</label>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-1.5">
+                    <Tag className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>Category *</span>
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setShowInlineAddCategory(!showInlineAddCategory)}
+                      className="text-[11px] text-cyan-400 hover:text-cyan-300 font-semibold flex items-center gap-1 transition-colors cursor-pointer"
+                    >
+                      <Plus className="w-3 h-3" />
+                      <span>{showInlineAddCategory ? 'Close' : 'Quick Add'}</span>
+                    </button>
+                    <span className="text-zinc-600">•</span>
+                    <button
+                      type="button"
+                      onClick={() => setShowCategoryManagerModal(true)}
+                      className="text-[11px] text-zinc-400 hover:text-zinc-200 font-medium flex items-center gap-1 transition-colors cursor-pointer"
+                    >
+                      <Settings className="w-3 h-3" />
+                      <span>Manage</span>
+                    </button>
+                  </div>
+                </div>
+
+                {showInlineAddCategory && (
+                  <div className="p-2.5 bg-[#12141c] border border-cyan-500/30 rounded-md animate-fadeIn space-y-2">
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        placeholder="Enter category name (e.g. AI & ML)..."
+                        value={inlineNewCategory}
+                        onChange={(e) => setInlineNewCategory(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handleInlineQuickAdd();
+                          }
+                        }}
+                        className="flex-1 px-3 py-1.5 bg-[#0c0d12] border border-white/10 rounded text-xs text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                        autoFocus
+                      />
+                      <button
+                        type="button"
+                        onClick={handleInlineQuickAdd}
+                        className="px-3 py-1.5 bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-xs rounded transition-all cursor-pointer whitespace-nowrap"
+                      >
+                        Add &amp; Select
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 <select
                   value={projectForm.category}
-                  onChange={(e) => setProjectForm({...projectForm, category: e.target.value as Project['category']})}
+                  onChange={(e) => {
+                    if (e.target.value === '__ADD_NEW__') {
+                      setShowInlineAddCategory(true);
+                    } else if (e.target.value === '__MANAGE__') {
+                      setShowCategoryManagerModal(true);
+                    } else {
+                      setProjectForm({ ...projectForm, category: e.target.value });
+                    }
+                  }}
                   className="w-full px-4 py-3 bg-[#0c0d12] border border-white/10 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] cursor-pointer transition-all text-sm"
                 >
-                  <option value="Full Stack & MERN" className="bg-[#12141c]">Full Stack & MERN</option>
-                  <option value="Web Application" className="bg-[#12141c]">Web Application</option>
-                  <option value="Backend & Cloud" className="bg-[#12141c]">Backend & Cloud</option>
-                  <option value="E-Commerce" className="bg-[#12141c]">E-Commerce</option>
-                  <option value="WordPress & Shopify" className="bg-[#12141c]">WordPress & Shopify</option>
+                  {allCategories.map((cat) => (
+                    <option key={cat} value={cat} className="bg-[#12141c]">
+                      {cat}
+                    </option>
+                  ))}
+                  {projectForm.category && !allCategories.includes(projectForm.category) && (
+                    <option value={projectForm.category} className="bg-[#12141c]">
+                      {projectForm.category}
+                    </option>
+                  )}
+                  <option disabled className="bg-[#12141c] text-zinc-600">──────────</option>
+                  <option value="__ADD_NEW__" className="bg-[#12141c] text-cyan-400 font-semibold">
+                    + Add Custom Category...
+                  </option>
+                  <option value="__MANAGE__" className="bg-[#12141c] text-zinc-400">
+                    ⚙️ Manage All Categories...
+                  </option>
                 </select>
               </div>
 

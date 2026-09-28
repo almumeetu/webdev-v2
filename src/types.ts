@@ -1,4 +1,4 @@
-export type ProjectCategory = 
+export type DefaultProjectCategory = 
   | 'All' 
   | 'Web Application' 
   | 'Full Stack & MERN' 
@@ -6,12 +6,22 @@ export type ProjectCategory =
   | 'E-Commerce' 
   | 'WordPress & Shopify';
 
+export type ProjectCategory = DefaultProjectCategory | (string & {});
+
+export const DEFAULT_PROJECT_CATEGORIES: string[] = [
+  'Full Stack & MERN',
+  'Web Application',
+  'Backend & Cloud',
+  'E-Commerce',
+  'WordPress & Shopify',
+];
+
 export type ProjectStatus = 'completed' | 'ongoing';
 
 export interface Project {
   id: string;
   title: string;
-  category: 'Web Application' | 'Full Stack & MERN' | 'Backend & Cloud' | 'E-Commerce' | 'WordPress & Shopify';
+  category: string;
   status: ProjectStatus;
   description: string;
   clientName: string;

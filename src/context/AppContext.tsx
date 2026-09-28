@@ -12,6 +12,7 @@ import {
   Testimonial,
   JobPosting,
   JobApplication,
+  DEFAULT_PROJECT_CATEGORIES,
 } from '../types';
 import {
   initialProjects,
@@ -28,6 +29,7 @@ import {
 interface AppContextType {
   // ─── Data ─────────────────────────────────────────────────────────────────────
   projects: Project[];
+  projectCategories: string[];
   teamMembers: TeamMember[];
   blogs: BlogPost[];
   inquiries: Inquiry[];
@@ -41,6 +43,12 @@ interface AppContextType {
   updateProject: (id: string, data: Partial<Project>) => Promise<void>;
   updateProjectStatus: (id: string, status: Project['status']) => Promise<void>;
   deleteProject: (id: string) => Promise<void>;
+
+  // ─── Project Categories Management ───────────────────────────────────────────
+  addProjectCategory: (name: string) => boolean;
+  updateProjectCategory: (oldName: string, newName: string) => Promise<void>;
+  deleteProjectCategory: (name: string, fallbackCategory?: string) => Promise<{ success: boolean; affectedProjects: number }>;
+  resetProjectCategories: () => void;
 
   // ─── Team CRUD ────────────────────────────────────────────────────────────────
   addTeamMember: (data: Partial<TeamMember>) => Promise<void>;
@@ -114,30 +122,52 @@ async function apiFetch<T>(url: string, options?: RequestInit): Promise<T | null
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   // ─── Core Data State ──────────────────────────────────────────────────────────
-  const [projects, setProjects]         = useState<Project[]>(initialProjects);
-  const [teamMembers, setTeamMembers]   = useState<TeamMember[]>(initialTeamMembers);
-  const [blogs, setBlogs]               = useState<BlogPost[]>(initialBlogPosts);
-  const [inquiries, setInquiries]       = useState<Inquiry[]>(initialInquiries);
-  const [services, setServices]         = useState<ServiceDetail[]>(initialServices);
-  const [testimonials, setTestimonials] = useState<Testimonial[]>(initialTestimonialsData);
-  const [siteSettings, setSiteSettings] = useState<SiteSettings>(initialSiteSettings);
-  const [jobs, setJobs]                 = useState<JobPosting[]>([]);
-  const [applications, setApplications] = useState<JobApplication[]>([]);
-  const [currentUser, setCurrentUser]   = useState<UserProfile | null>(null);
-  const [isHydrated, setIsHydrated]     = useState(false);
+  const [projects, setProjects]                 = useState<Project[]>(initialProjects);
+  const [projectCategories, setProjectCategories] = useState<string[]>(DEFAULT_PROJECT_CATEGORIES);
+  const [teamMembers, setTeamMembers]           = useState<TeamMember[]>(initialTeamMembers);
+  const [blogs, setBlogs]                       = useState<BlogPost[]>(initialBlogPosts);
+  const [inquiries, setInquiries]               = useState<Inquiry[]>(initialInquiries);
+  const [services, setServices]                 = useState<ServiceDetail[]>(initialServices);
+  const [testimonials, setTestimonials]         = useState<Testimonial[]>(initialTestimonialsData);
+  const [siteSettings, setSiteSettings]         = useState<SiteSettings>(initialSiteSettings);
+  const [jobs, setJobs]                         = useState<JobPosting[]>([]);
+  const [applications, setApplications]         = useState<JobApplication[]>([]);
+  const [currentUser, setCurrentUser]           = useState<UserProfile | null>(null);
+  const [isHydrated, setIsHydrated]             = useState(false);
 
   // ─── Load data: try DB first, fall back to localStorage, then initialData ────
   const loadAllData = useCallback(async () => {
     // Projects
+    let currentProjects: Project[] = initialProjects;
     const dbProjects = await apiFetch<Project[]>('/api/projects');
     if (dbProjects && dbProjects.length > 0) {
+      currentProjects = dbProjects;
       setProjects(dbProjects);
     } else {
       try {
         const saved = localStorage.getItem('webdev_projects');
-        if (saved) setProjects(JSON.parse(saved));
+        if (saved) {
+          currentProjects = JSON.parse(saved);
+          setProjects(currentProjects);
+        }
       } catch {}
     }
+
+    // Project Categories
+    const dbCats = await apiFetch<string[]>('/api/projects/categories');
+    let loadedCats: string[] = DEFAULT_PROJECT_CATEGORIES;
+    try {
+      const savedCats = localStorage.getItem('webdev_project_categories');
+      if (savedCats) {
+        loadedCats = JSON.parse(savedCats);
+      } else if (dbCats && Array.isArray(dbCats) && dbCats.length > 0) {
+        loadedCats = dbCats;
+      }
+    } catch {}
+
+    const projectCats = currentProjects.map((p) => p.category).filter(Boolean);
+    const finalCats = Array.from(new Set([...loadedCats, ...projectCats]));
+    setProjectCategories(finalCats);
 
     // Team
     const dbTeam = await apiFetch<TeamMember[]>('/api/team');
@@ -230,6 +260,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
       try {
+        if (e.key === 'webdev_projects' && e.newValue) setProjects(JSON.parse(e.newValue));
+        if (e.key === 'webdev_project_categories' && e.newValue) setProjectCategories(JSON.parse(e.newValue));
         if (e.key === 'webdev_inquiries' && e.newValue) setInquiries(JSON.parse(e.newValue));
         if (e.key === 'webdev_site_settings' && e.newValue) setSiteSettings(JSON.parse(e.newValue));
         if (e.key === 'webdev_job_postings' && e.newValue) setJobs(JSON.parse(e.newValue));
@@ -241,6 +273,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   // ─── Persist localStorage-backed data ────────────────────────────────────────
+  useEffect(() => {
+    if (!isHydrated) return;
+    try { localStorage.setItem('webdev_projects', JSON.stringify(projects)); } catch {}
+  }, [projects, isHydrated]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    try { localStorage.setItem('webdev_project_categories', JSON.stringify(projectCategories)); } catch {}
+  }, [projectCategories, isHydrated]);
+
   useEffect(() => {
     if (!isHydrated) return;
     try { localStorage.setItem('webdev_inquiries', JSON.stringify(inquiries)); } catch {}
@@ -314,9 +356,115 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   const deleteProject = async (id: string) => {
-    setProjects((prev) => prev.filter((p) => p.id !== id));
+    setProjects((prev) => {
+      const next = prev.filter((p) => p.id !== id);
+      try { localStorage.setItem('webdev_projects', JSON.stringify(next)); } catch {}
+      return next;
+    });
     await apiFetch(`/api/projects/${id}`, { method: 'DELETE' });
   };
+
+  // ─── Project Categories Management ───────────────────────────────────────────
+  const addProjectCategory = useCallback((name: string): boolean => {
+    const trimmed = name.trim();
+    if (!trimmed) return false;
+    if (projectCategories.some((c) => c.toLowerCase() === trimmed.toLowerCase())) {
+      return false;
+    }
+    const updated = [...projectCategories, trimmed];
+    setProjectCategories(updated);
+    try {
+      localStorage.setItem('webdev_project_categories', JSON.stringify(updated));
+    } catch {}
+    apiFetch('/api/projects/categories', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: trimmed }),
+    });
+    return true;
+  }, [projectCategories]);
+
+  const updateProjectCategory = useCallback(async (oldName: string, newName: string) => {
+    const trimmedOld = oldName.trim();
+    const trimmedNew = newName.trim();
+    if (!trimmedNew || trimmedOld.toLowerCase() === trimmedNew.toLowerCase()) return;
+
+    // 1. Update categories list
+    setProjectCategories((prev) => {
+      const updated = prev.map((c) => (c === trimmedOld ? trimmedNew : c));
+      try { localStorage.setItem('webdev_project_categories', JSON.stringify(updated)); } catch {}
+      return updated;
+    });
+
+    // 2. Update projects matching old category
+    let affected: Project[] = [];
+    setProjects((prev) => {
+      affected = prev.filter((p) => p.category === trimmedOld);
+      const updated = prev.map((p) => (p.category === trimmedOld ? { ...p, category: trimmedNew } : p));
+      try { localStorage.setItem('webdev_projects', JSON.stringify(updated)); } catch {}
+      return updated;
+    });
+
+    // 3. Persist to API
+    await apiFetch('/api/projects/categories', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ oldName: trimmedOld, newName: trimmedNew }),
+    });
+
+    // Also update affected projects in DB if reachable
+    for (const proj of affected) {
+      apiFetch(`/api/projects/${proj.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...proj, category: trimmedNew }),
+      });
+    }
+  }, []);
+
+  const deleteProjectCategory = useCallback(async (name: string, fallbackCategory?: string) => {
+    const trimmedName = name.trim();
+    const remaining = projectCategories.filter((c) => c !== trimmedName);
+    const fallback = fallbackCategory || remaining[0] || 'Web Application';
+
+    // 1. Update categories list
+    setProjectCategories(remaining);
+    try { localStorage.setItem('webdev_project_categories', JSON.stringify(remaining)); } catch {}
+
+    // 2. Reassign projects
+    let affectedCount = 0;
+    let affectedProjects: Project[] = [];
+    setProjects((prev) => {
+      affectedProjects = prev.filter((p) => p.category === trimmedName);
+      affectedCount = affectedProjects.length;
+      const updated = prev.map((p) => (p.category === trimmedName ? { ...p, category: fallback } : p));
+      try { localStorage.setItem('webdev_projects', JSON.stringify(updated)); } catch {}
+      return updated;
+    });
+
+    // 3. Persist to API
+    await apiFetch(`/api/projects/categories?name=${encodeURIComponent(trimmedName)}&fallback=${encodeURIComponent(fallback)}`, {
+      method: 'DELETE',
+    });
+
+    // Also update affected projects in DB
+    for (const proj of affectedProjects) {
+      apiFetch(`/api/projects/${proj.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...proj, category: fallback }),
+      });
+    }
+
+    return { success: true, affectedProjects: affectedCount };
+  }, [projectCategories]);
+
+  const resetProjectCategories = useCallback(() => {
+    setProjectCategories(DEFAULT_PROJECT_CATEGORIES);
+    try {
+      localStorage.setItem('webdev_project_categories', JSON.stringify(DEFAULT_PROJECT_CATEGORIES));
+    } catch {}
+  }, []);
 
   // ─── Team CRUD (DB-backed) ────────────────────────────────────────────────────
   const addTeamMember = async (data: Partial<TeamMember>) => {
@@ -515,6 +663,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const resetToDefaultData = () => {
     setProjects(initialProjects);
+    setProjectCategories(DEFAULT_PROJECT_CATEGORIES);
     setTeamMembers(initialTeamMembers);
     setBlogs(initialBlogPosts);
     setInquiries(initialInquiries);
@@ -522,7 +671,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setTestimonials(initialTestimonialsData);
     setSiteSettings(initialSiteSettings);
     try {
-      ['webdev_projects','webdev_team_members','webdev_blogs','webdev_inquiries',
+      ['webdev_projects','webdev_project_categories','webdev_team_members','webdev_blogs','webdev_inquiries',
        'webdev_services','webdev_testimonials','webdev_site_settings',
        'webdev_job_postings','webdev_job_applications'].forEach(k => localStorage.removeItem(k));
     } catch {}
@@ -615,9 +764,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   // ─── Context Value ────────────────────────────────────────────────────────────
   const value: AppContextType = {
-    projects, teamMembers, blogs, inquiries, services, testimonials, siteSettings, currentUser,
+    projects, projectCategories, teamMembers, blogs, inquiries, services, testimonials, siteSettings, currentUser,
     jobs, applications,
     addProject, updateProject, updateProjectStatus, deleteProject,
+    addProjectCategory, updateProjectCategory, deleteProjectCategory, resetProjectCategories,
     addTeamMember, updateTeamMember, deleteTeamMember,
     addBlog, updateBlog, deleteBlog, likeBlog,
     addService, updateService, deleteService,

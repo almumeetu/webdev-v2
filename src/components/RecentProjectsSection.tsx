@@ -10,10 +10,12 @@ import {
   Laptop,
   ArrowRight,
   TrendingUp,
-  Building2
+  Building2,
+  Tag
 } from 'lucide-react';
 import { Project } from '../types';
 import { useLanguage } from '../context/LanguageContext';
+import { useAppContext } from '../context/AppContext';
 
 interface RecentProjectsSectionProps {
   projects: Project[];
@@ -27,19 +29,50 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
   onViewAllProjects
 }) => {
   const { t, lang, localizeProject } = useLanguage();
+  const { projectCategories } = useAppContext();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const localizedProjects = useMemo(() => projects.map(p => localizeProject(p)), [projects, localizeProject]);
 
-  const categories = [
-    { name: 'All', label: t.portfolioAllCategory, icon: Sparkles },
-    { name: 'Web Application', label: lang === 'de' ? 'Web-Anwendungen' : 'Web Application', icon: Laptop },
-    { name: 'Full Stack & MERN', label: 'Full Stack & MERN', icon: Code2 },
-    { name: 'Backend & Cloud', label: lang === 'de' ? 'Backend & Cloud' : 'Backend & Cloud', icon: Server },
-    { name: 'E-Commerce', label: 'E-Commerce', icon: ShoppingBag },
-    { name: 'WordPress & Shopify', label: 'WordPress & Shopify', icon: Store }
-  ];
+  const categories = useMemo(() => {
+    const knownIcons: Record<string, any> = {
+      'Web Application': Laptop,
+      'Full Stack & MERN': Code2,
+      'Backend & Cloud': Server,
+      'E-Commerce': ShoppingBag,
+      'WordPress & Shopify': Store,
+    };
+
+    const base = [
+      { name: 'All', label: t.portfolioAllCategory, icon: Sparkles },
+      { name: 'Web Application', label: lang === 'de' ? 'Web-Anwendungen' : 'Web Application', icon: Laptop },
+      { name: 'Full Stack & MERN', label: 'Full Stack & MERN', icon: Code2 },
+      { name: 'Backend & Cloud', label: lang === 'de' ? 'Backend & Cloud' : 'Backend & Cloud', icon: Server },
+      { name: 'E-Commerce', label: 'E-Commerce', icon: ShoppingBag },
+      { name: 'WordPress & Shopify', label: 'WordPress & Shopify', icon: Store }
+    ];
+
+    const seen = new Set(base.map((b) => b.name));
+    const extras: { name: string; label: string; icon: any }[] = [];
+
+    const allCatNames = new Set<string>();
+    if (projectCategories) projectCategories.forEach((c) => allCatNames.add(c));
+    projects.forEach((p) => { if (p.category) allCatNames.add(p.category); });
+
+    allCatNames.forEach((cat) => {
+      if (!seen.has(cat)) {
+        extras.push({
+          name: cat,
+          label: cat,
+          icon: knownIcons[cat] || Tag,
+        });
+        seen.add(cat);
+      }
+    });
+
+    return [...base, ...extras];
+  }, [t.portfolioAllCategory, lang, projectCategories, projects]);
 
   // Filtering based on single-line category tabs
   const filteredProjects = useMemo(() => {
