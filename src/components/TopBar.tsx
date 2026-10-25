@@ -11,15 +11,15 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
   const { lang, setLang } = useLanguage();
 
   return (
-    <div className="bg-slate-950 text-slate-400 text-[11px] sm:text-xs py-1 sm:py-1.5 border-b border-slate-800/80">
+    <div className="bg-slate-50 text-slate-600 text-[11px] sm:text-xs py-1 sm:py-1.5 border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
         
         {/* Left side: Contact Email */}
-        <div className="flex items-center gap-1.5 text-slate-300">
-          <Mail className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+        <div className="flex items-center gap-1.5 text-slate-600">
+          <Mail className="w-3.5 h-3.5 text-sky-600 shrink-0" />
           <a 
             href="mailto:info@webdevsoftwaresolutions.com" 
-            className="text-[11px] sm:text-xs hover:text-white transition-colors font-medium"
+            className="text-[11px] sm:text-xs hover:text-slate-950 transition-colors font-medium"
           >
             info@webdevsoftwaresolutions.com
           </a>
@@ -28,13 +28,13 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
         {/* Right side: Language Switcher & Socials */}
         <div className="flex items-center gap-2.5 sm:gap-3">
           {/* German & English Language Switcher */}
-          <div className="inline-flex items-center rounded-full bg-slate-900 border border-slate-700/80 p-0.5">
+          <div className="inline-flex items-center rounded-full bg-white border border-slate-200/90 p-0.5 shadow-2xs">
             <button
               onClick={() => setLang('en')}
-              className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold transition-all cursor-pointer ${
+              className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-medium transition-all cursor-pointer ${
                 lang === 'en'
-                  ? 'bg-[#BBE7F1] text-slate-950 font-bold'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-[#BBE7F1] text-slate-950 font-semibold'
+                  : 'text-slate-500 hover:text-slate-900'
               }`}
               title="Switch language to English"
               aria-label="Switch to English"
@@ -44,10 +44,10 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
             </button>
             <button
               onClick={() => setLang('de')}
-              className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold transition-all cursor-pointer ${
+              className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-medium transition-all cursor-pointer ${
                 lang === 'de'
-                  ? 'bg-[#BBE7F1] text-slate-950 font-bold'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-[#BBE7F1] text-slate-950 font-semibold'
+                  : 'text-slate-500 hover:text-slate-900'
               }`}
               title="Sprache auf Deutsch umstellen"
               aria-label="Auf Deutsch umstellen"
@@ -58,12 +58,12 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
           </div>
 
           {/* Clean Socials */}
-          <div className="flex items-center space-x-2 text-slate-400 border-l border-slate-800 pl-3">
+          <div className="flex items-center space-x-2 text-slate-500 border-l border-slate-200 pl-3">
             <a 
               href="https://github.com/almumeetusaikat" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="hover:text-white transition-colors p-1" 
+              className="hover:text-slate-950 transition-colors p-1" 
               title="GitHub"
               aria-label="GitHub"
             >
@@ -73,7 +73,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
               href="https://twitter.com" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="hover:text-white transition-colors p-1" 
+              className="hover:text-slate-950 transition-colors p-1" 
               title="Twitter / X"
               aria-label="Twitter / X"
             >
@@ -83,7 +83,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
               href="https://linkedin.com" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="hover:text-white transition-colors p-1" 
+              className="hover:text-slate-950 transition-colors p-1" 
               title="LinkedIn"
               aria-label="LinkedIn"
             >

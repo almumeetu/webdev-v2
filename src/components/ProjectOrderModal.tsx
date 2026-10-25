@@ -158,12 +158,12 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
             <X className="w-5 h-5" />
           </button>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#BBE7F1]/20 border border-[#9cd5e2]/40 text-[#BBE7F1] text-xs font-mono font-bold uppercase tracking-wider mb-2">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#BBE7F1]/20 border border-[#9cd5e2]/40 text-[#BBE7F1] text-xs font-mono font-medium uppercase tracking-wider mb-2">
             <Zap className="w-3.5 h-3.5" />
             <span>{lang === 'de' ? 'SCHLÜSSELFERTIGER START & INDIVIDUALAUFTRAG' : 'Turnkey Deploy & Custom Order'}</span>
           </div>
 
-          <h2 className="text-xl sm:text-2xl font-bold font-['Archivo'] tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-semibold font-['Archivo'] tracking-tight">
             {lang === 'de' ? 'Diese Website bestellen oder anpassen' : 'Order or Customize This Website'}
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl">
@@ -180,7 +180,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
               <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
                 <CheckCircle2 className="w-9 h-9" />
               </div>
-              <h3 className="text-2xl font-extrabold text-slate-900 font-['Archivo']">
+              <h3 className="text-2xl font-semibold text-slate-900 font-['Archivo']">
                 {lang === 'de' ? 'Bestellanfrage erfolgreich eingegangen!' : 'Order Inquiry Received!'}
               </h3>
               <p className="text-sm text-slate-600 max-w-md mx-auto">
@@ -208,14 +208,14 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                     />
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-[11px] font-mono font-bold text-cyan-800 bg-[#BBE7F1]/40 px-2 py-0.5 rounded border border-[#9cd5e2]/60">
+                        <span className="text-[11px] font-mono font-medium text-cyan-800 bg-[#BBE7F1]/40 px-2 py-0.5 rounded border border-[#9cd5e2]/60">
                           {activeProject.category}
                         </span>
                         <span className="text-xs text-slate-500 font-medium">
                           {lang === 'de' ? 'Kunde:' : 'Client:'} {activeProject.clientCountry}
                         </span>
                       </div>
-                      <h4 className="text-sm sm:text-base font-bold text-slate-900 font-['Archivo'] truncate mt-0.5">
+                      <h4 className="text-sm sm:text-base font-semibold text-slate-900 font-['Archivo'] truncate mt-0.5">
                         {activeProject.title}
                       </h4>
                       {activeProject.priceRange && (
@@ -250,7 +250,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
 
               {/* Package Type Selector */}
               <div>
-                <label className="block text-xs font-bold font-mono uppercase tracking-wider text-slate-600 mb-2.5">
+                <label className="block text-xs font-medium font-mono uppercase tracking-wider text-slate-600 mb-2.5">
                   {lang === 'de' ? '1. Bereitstellungsmodell wählen' : '1. Select Launch Model'}
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -268,7 +268,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-xs font-bold text-cyan-900 flex items-center gap-1.5">
+                      <span className="text-xs font-medium text-cyan-900 flex items-center gap-1.5">
                         <Zap className="w-4 h-4 text-cyan-600" /> Turnkey Clone
                       </span>
                       {packageType === 'turnkey' && <CheckCircle2 className="w-4 h-4 text-cyan-600" />}
@@ -278,7 +278,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                         ? 'Schnellster Weg zum Markt. Übertragen Sie diese Architektur mit Ihren Farben, Texten, Domains und Zahlungsabläufen.'
                         : 'Fastest path. Rebrand this architecture with your colors, copy, domain & payment flow.'}
                     </div>
-                    <div className="mt-2 text-xs font-mono font-bold text-slate-900">
+                    <div className="mt-2 text-xs font-mono font-medium text-slate-900">
                       {lang === 'de' ? '7 - 14 Tage • 1.500 € - 3.000 €' : '7 - 14 Days • $1.5k - $3k'}
                     </div>
                   </div>
@@ -296,7 +296,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                      <span className="text-xs font-medium text-slate-900 flex items-center gap-1.5">
                         <Sparkles className="w-4 h-4 text-amber-500" /> {lang === 'de' ? 'Maßgeschneidert' : 'Custom Tailored'}
                       </span>
                       {packageType === 'custom' && <CheckCircle2 className="w-4 h-4 text-cyan-600" />}
@@ -306,7 +306,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                         ? 'Nutzen Sie diese Codebasis als Kern und integrieren Sie benutzerdefinierte APIs, Workflows und exklusive UI-Funktionen.'
                         : 'Use this codebase as core base, add custom APIs, workflows & distinct UI features.'}
                     </div>
-                    <div className="mt-2 text-xs font-mono font-bold text-slate-900">
+                    <div className="mt-2 text-xs font-mono font-medium text-slate-900">
                       {lang === 'de' ? '2 - 4 Wochen • 3.000 € - 6.500 €' : '2 - 4 Weeks • $3k - $6.5k'}
                     </div>
                   </div>
@@ -324,7 +324,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                      <span className="text-xs font-medium text-slate-900 flex items-center gap-1.5">
                         <Building2 className="w-4 h-4 text-indigo-600" /> {lang === 'de' ? 'Enterprise Maßanfertigung' : 'Enterprise Bespoke'}
                       </span>
                       {packageType === 'enterprise' && <CheckCircle2 className="w-4 h-4 text-cyan-600" />}
@@ -334,7 +334,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                         ? 'Vollständige Neuentwicklung mit dediziertem PMP® Scrum Master und hochqualifiziertem Senior-Squad.'
                         : 'End-to-end bespoke solution with dedicated PMP® Scrum Master & senior squad.'}
                     </div>
-                    <div className="mt-2 text-xs font-mono font-bold text-slate-900">
+                    <div className="mt-2 text-xs font-mono font-medium text-slate-900">
                       {lang === 'de' ? '4 - 8 Wochen • Individuelles Angebot' : '4 - 8 Weeks • Custom Quote'}
                     </div>
                   </div>
@@ -344,13 +344,13 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
 
               {/* Contact Information Fields */}
               <div>
-                <label className="block text-xs font-bold font-mono uppercase tracking-wider text-slate-600 mb-2.5">
+                <label className="block text-xs font-medium font-mono uppercase tracking-wider text-slate-600 mb-2.5">
                   {lang === 'de' ? '2. Ihre Kontaktdaten & Anforderungen' : '2. Your Details & Requirements'}
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-medium text-slate-700 mb-1">
                       {lang === 'de' ? 'Vollständiger Name' : 'Full Name'} <span className="text-rose-500">*</span>
                     </label>
                     <input
@@ -364,7 +364,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-medium text-slate-700 mb-1">
                       {lang === 'de' ? 'Geschäftliche E-Mail' : 'Work Email'} <span className="text-rose-500">*</span>
                     </label>
                     <input
@@ -378,7 +378,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-medium text-slate-700 mb-1">
                       {lang === 'de' ? 'WhatsApp / Telefon (mit Vorwahl)' : 'WhatsApp / Phone (with country code)'} <span className="text-rose-500">*</span>
                     </label>
                     <input
@@ -392,7 +392,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-medium text-slate-700 mb-1">
                       {lang === 'de' ? 'Unternehmen / Organisation (Optional)' : 'Company / Organization (Optional)'}
                     </label>
                     <input
@@ -405,7 +405,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-medium text-slate-700 mb-1">
                       {lang === 'de' ? 'Gewünschter Fertigstellungstermin' : 'Target Launch Urgency'}
                     </label>
                     <select
@@ -415,13 +415,13 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                     >
                       <option value="Urgent (Under 2 Weeks)">{lang === 'de' ? '⚡ Dringend (Unter 2 Wochen)' : '⚡ Urgent (Under 2 Weeks)'}</option>
                       <option value="Standard (2-4 Weeks)">{lang === 'de' ? 'Standard (2-4 Wochen)' : 'Standard (2-4 Weeks)'}</option>
-                      <option value="Flexible (1-2 Months)">{lang === 'de' ? 'Flexibel (1-2 Monate)' : 'Flexible (1-2 Months)'}</option>
+                      <option value="Flexible (1-2 Monate)">{lang === 'de' ? 'Flexibel (1-2 Monate)' : 'Flexible (1-2 Months)'}</option>
                       <option value="Enterprise Sprint Timeline">{lang === 'de' ? 'Enterprise Sprint-Zeitplan' : 'Enterprise Sprint Timeline'}</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-medium text-slate-700 mb-1">
                       {lang === 'de' ? 'Geplanter Budgetrahmen' : 'Target Budget Range'}
                     </label>
                     <select
@@ -441,7 +441,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
 
               {/* Message / Custom Requirements */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-medium text-slate-700 mb-1">
                   {lang === 'de' ? 'Individuelle Anpassungen oder spezifische Funktionen' : 'Custom Adjustments or Specific Features Needed'}
                 </label>
                 <textarea
@@ -478,14 +478,14 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                   <button
                     type="button"
                     onClick={() => handleWhatsApp('+491729766016')}
-                    className="flex-1 sm:flex-none text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-2 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                    className="flex-1 sm:flex-none text-xs font-medium text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-2 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
                   >
                     <span>🇩🇪 WhatsApp DE</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => handleWhatsApp('+8801719321749')}
-                    className="flex-1 sm:flex-none text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-2 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                    className="flex-1 sm:flex-none text-xs font-medium text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-2 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
                   >
                     <span>🇧🇩 WhatsApp BD</span>
                   </button>
@@ -495,7 +495,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full sm:w-auto bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-extrabold text-sm px-7 py-3 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  className="w-full sm:w-auto bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-medium text-sm px-7 py-3 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <span>{lang === 'de' ? 'Bestellanfrage wird übermittelt...' : 'Registering Order...'}</span>
@@ -513,21 +513,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
           )}
         </div>
 
-        {/* Modal Footer Guarantees */}
-        <div className="bg-slate-50 border-t border-slate-200/80 p-3 sm:px-6 flex items-center justify-between text-[11px] text-slate-500 shrink-0 flex-wrap gap-2">
-          <div className="flex items-center gap-1.5">
-            <ShieldCheck className="w-4 h-4 text-cyan-700 shrink-0" />
-            <span>{lang === 'de' ? '100% Vollständiges Quellcode-Eigentum' : '100% Full Source Code Ownership'}</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>{lang === 'de' ? '30 Tage kostenlose Garantie nach Go-Live' : '30-Day Free Post-Launch Warranty'}</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <FileCheck className="w-4 h-4 text-cyan-700 shrink-0" />
-            <span>{lang === 'de' ? 'Deutsche DSGVO & Höchste Performance Garantiert' : 'German GDPR & High Performance Assured'}</span>
-          </div>
-        </div>
+
 
       </div>
     </div>

@@ -10,7 +10,7 @@ export async function GET() {
         select: { category: true },
         distinct: ['category'],
       });
-      const dbCategories = distinctCats.map((c) => c.category).filter(Boolean);
+      const dbCategories = distinctCats.map((c: { category: string }) => c.category).filter(Boolean);
       const combined = Array.from(new Set([...DEFAULT_PROJECT_CATEGORIES, ...dbCategories]));
       return NextResponse.json({ success: true, data: combined });
     }

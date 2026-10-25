@@ -423,7 +423,6 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               ? 'text-slate-300 bg-slate-900/90 border border-slate-800'
               : 'text-slate-700 bg-white border border-slate-200'
           }`}>
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span className={`font-mono ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>TLS 1.3</span>
             <span className={isDark ? 'text-slate-600' : 'text-slate-300'}>|</span>
             <span className="font-semibold text-emerald-400">256-Bit SSL</span>
@@ -1104,7 +1103,6 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                     ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'
                     : 'bg-emerald-50 border border-emerald-200 text-emerald-700'
                 }`}>
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
                   <span>99.98% Uptime</span>
                 </div>
                 <span className={`text-[11px] font-mono ${isDark ? 'text-slate-500' : 'text-slate-600'}`}>

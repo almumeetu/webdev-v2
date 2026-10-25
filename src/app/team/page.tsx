@@ -33,7 +33,6 @@ export default function TeamPage() {
         <MeetOurTeamSection
           teamMembers={teamMembers}
           onSelectMember={(member) => router.push(`/team/${member.id}`)}
-          onViewAllTeam={() => {}}
         />
       </div>
     </div>

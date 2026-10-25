@@ -8,6 +8,9 @@
   --font-kufam: "Kufam", sans-serif;
   --font-archivo: "Kufam", sans-serif;
   --font-instrument: "Kufam", sans-serif;
+  --font-weight-bold: 550;
+  --font-weight-extrabold: 600;
+  --font-weight-black: 600;
   --color-primary-50: #f0f9ff;
   --color-primary-100: #e0f2fe;
   --color-primary-200: #bae6fd;
@@ -32,7 +35,6 @@
   html {
     font-family: "Kufam", sans-serif;
     font-weight: 400;
-    scroll-behavior: smooth;
     overflow-x: clip;
     max-width: 100%;
     -webkit-text-size-adjust: 100%;
@@ -52,14 +54,18 @@
   
   h1, h2 {
     font-family: "Kufam", sans-serif;
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: -0.02em;
   }
 
   h3, h4, h5, h6 {
     font-family: "Kufam", sans-serif;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: -0.01em;
+  }
+
+  b, strong {
+    font-weight: 550;
   }
 
   /* Clean modern font for all subheadings, section subtitles, and descriptive kickers */
@@ -70,7 +76,7 @@
   .cursive-subheading {
     font-family: "Kufam", sans-serif !important;
     font-style: normal !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     letter-spacing: 0.01em;
     background: transparent !important;
     background-color: transparent !important;
@@ -84,6 +90,19 @@
   [role="button"] {
     box-shadow: none !important;
   }
+}
+
+/* Global utility rules to soften heavy bold across the full website */
+.font-bold {
+  font-weight: 550 !important;
+}
+
+.font-extrabold {
+  font-weight: 600 !important;
+}
+
+.font-black {
+  font-weight: 600 !important;
 }
 
 /* Universal font mappings for Kufam across full site */
@@ -158,6 +177,92 @@
 
 .animate-float-slow {
   animation: floatSlow 4s ease-in-out infinite;
+}
+
+/* Ultra-Smooth, Serene Character Flow — Calm, Elegant & Harmonic */
+@keyframes sereneCharFlow {
+  0%, 75%, 100% {
+    transform: translateY(0);
+    color: #0f172a;
+    opacity: 0.92;
+  }
+  25% {
+    transform: translateY(-2.5px);
+    color: #0284c7;
+    opacity: 1;
+  }
+}
+
+.hero-char-animate {
+  display: inline-block;
+  animation: sereneCharFlow 6s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  will-change: transform, color, opacity;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+}
+
+.hero-char-animate:hover {
+  transform: translateY(-4px) scale(1.1) !important;
+  color: #0284c7 !important;
+}
+
+@keyframes sereneHighlightFlow {
+  0%, 75%, 100% {
+    transform: translateY(0);
+    color: #0369a1;
+    opacity: 0.95;
+  }
+  25% {
+    transform: translateY(-2.5px);
+    color: #0284c7;
+    opacity: 1;
+  }
+}
+
+.hero-char-highlight {
+  display: inline-block;
+  color: #0369a1;
+  animation: sereneHighlightFlow 6s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  will-change: transform, color, opacity;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+}
+
+.hero-char-highlight:hover {
+  transform: translateY(-4px) scale(1.1) !important;
+  color: #0ea5e9 !important;
+}
+
+@keyframes liquidShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-liquid-shimmer {
+  background-size: 200% auto;
+  animation: liquidShimmer 7s ease-in-out infinite;
+}
+
+@keyframes shimmerGradientText {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-shimmer-text {
+  background-size: 200% auto;
+  animation: shimmerGradientText 4.5s ease-in-out infinite;
 }
 
 /* Premium Hero — subtle dot grid background */
@@ -293,7 +398,6 @@
 /* Prevent accidental horizontal overflow without breaking position: sticky */
 html, body {
   overflow-x: clip;
-  scroll-behavior: smooth;
 }
 
 /* Enhanced sticky sidebar utility */

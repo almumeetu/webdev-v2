@@ -9,13 +9,13 @@ import { OurServicesSection } from '@/components/OurServicesSection';
 import { MeetOurTeamSection } from '@/components/MeetOurTeamSection';
 import { GlobalTrustSection } from '@/components/GlobalTrustSection';
 import { RecentProjectsSection } from '@/components/RecentProjectsSection';
-import { TestimonialsSection } from '@/components/TestimonialsSection';
+import { DeliveryApproachSection } from '@/components/DeliveryApproachSection';
 import { GlobalEcosystemSection } from '@/components/GlobalEcosystemSection';
 import { LatestNewsSection } from '@/components/LatestNewsSection';
 
 export default function HomePage() {
   const router = useRouter();
-  const { projects, teamMembers, blogs, services, testimonials, siteSettings } = useAppContext();
+  const { projects, teamMembers, blogs, services, siteSettings } = useAppContext();
 
   return (
     <>
@@ -53,6 +53,7 @@ export default function HomePage() {
         teamMembers={teamMembers}
         onSelectMember={(member) => router.push(`/team/${member.id}`)}
         onViewAllTeam={() => router.push('/team')}
+        featuredOnly
       />
 
       <GlobalTrustSection
@@ -66,7 +67,7 @@ export default function HomePage() {
         onViewAllProjects={() => router.push('/portfolio')}
       />
 
-      <TestimonialsSection testimonials={testimonials} />
+      <DeliveryApproachSection />
 
       <GlobalEcosystemSection />
 

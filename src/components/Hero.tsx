@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { HeroSlide } from '../types';
 import { initialHeroSlides } from '../data/initialData';
 import { useLanguage } from '../context/LanguageContext';
+import { SignatureShapeDivider } from './SignatureShapeDivider';
 
 interface HeroProps {
   slides?: HeroSlide[];
@@ -23,22 +24,23 @@ export const Hero: React.FC<HeroProps> = ({
   onOpenQuote,
   onNavigateProjects,
 }) => {
-  const { localizeHeroSlide } = useLanguage();
+  const { lang, localizeHeroSlide } = useLanguage();
+  const isDe = lang === 'de';
+
   const rawSlides = (customSlides && customSlides.length > 0) ? customSlides : initialHeroSlides;
   const slides = rawSlides.map((slide, idx) => localizeHeroSlide(slide, idx));
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Auto-slide duration in milliseconds
-  const AUTO_PLAY_INTERVAL = 6000;
+  // Auto-slide duration in milliseconds (continuous auto-play)
+  const AUTO_PLAY_INTERVAL = 5500;
 
   const goToSlide = useCallback((index: number) => {
     if (isTransitioning) return;
     setIsTransitioning(true);
     setCurrentIndex(index);
-    setTimeout(() => setIsTransitioning(false), 600);
+    setTimeout(() => setIsTransitioning(false), 300);
   }, [isTransitioning]);
 
   const handleNext = useCallback(() => {
@@ -51,9 +53,9 @@ export const Hero: React.FC<HeroProps> = ({
     goToSlide(prevIndex);
   }, [currentIndex, slides.length, goToSlide]);
 
-  // Auto advance timer
+  // Continuous Auto advance timer — always auto-plays smoothly
   useEffect(() => {
-    if (isPaused || slides.length <= 1) return;
+    if (slides.length <= 1) return;
 
     timerRef.current = setInterval(() => {
       handleNext();
@@ -62,7 +64,7 @@ export const Hero: React.FC<HeroProps> = ({
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [currentIndex, isPaused, slides.length, handleNext]);
+  }, [currentIndex, slides.length, handleNext]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -101,149 +103,217 @@ export const Hero: React.FC<HeroProps> = ({
 
   const currentSlide = slides[currentIndex] || slides[0];
 
+  // Short, punchy title definitions focused on Leverkusen & German Engineering
+  const shortTitleData = isDe ? [
+    {
+      title: 'Enterprise Web-Engineering.',
+      highlight: 'Präzise & Skalierbar.',
+      subtitle: 'Wir entwickeln performante Webplattformen, Cloud-Infrastrukturen und maßgeschneiderte Unternehmenssoftware mit deutscher Ingenieurspräzision.'
+    },
+    {
+      title: 'Moderne Cloud-Architektur.',
+      highlight: 'Ausfallsicher & Schnell.',
+      subtitle: 'Gehärtete Linux-Systeme, Next.js und Kubernetes-Infrastrukturen mit 99,99% garantierter Verfügbarkeit und voller DSGVO-Konformität.'
+    },
+    {
+      title: 'Maßgeschneiderte Software.',
+      highlight: '100% IP-Übertragung.',
+      subtitle: 'Individuelle Webanwendungen und SaaS-Lösungen direkt aus Leverkusen – mit transparenten 14-Tage-Sprints und verbindlichen Festpreisen.'
+    }
+  ] : [
+    {
+      title: 'Enterprise Web Engineering.',
+      highlight: 'Built for Scale.',
+      subtitle: 'High-performance web platforms, resilient cloud architectures, and bespoke enterprise software engineered in Leverkusen, Germany.'
+    },
+    {
+      title: 'Modern Cloud Architecture.',
+      highlight: 'Fast & Resilient.',
+      subtitle: 'Hardened cloud infrastructure, Next.js 15, and automated DevOps delivering 99.99% availability with complete GDPR compliance.'
+    },
+    {
+      title: 'Tailored Software Solutions.',
+      highlight: '100% IP Ownership.',
+      subtitle: 'Bespoke digital applications built to rigorous German engineering standards – bilateral NDAs, rapid sprints, and direct technical leadership.'
+    }
+  ];
+
+  const activeContent = shortTitleData[currentIndex] || shortTitleData[0];
+
+  // Character-by-character serene kinetic wave typography renderer
+  const renderAnimatedCharacters = (
+    text: string,
+    startCharIndex: number,
+    isHighlight = false
+  ) => {
+    let charCounter = startCharIndex;
+    const words = text.split(' ');
+
+    const elements = words.map((word, wordIdx) => {
+      const letters = Array.from(word);
+      return (
+        <span key={`slide-${currentIndex}-w-${wordIdx}`} className="inline-block whitespace-nowrap">
+          {letters.map((char, letterIdx) => {
+            const delay = `${charCounter * 0.065}s`;
+            charCounter++;
+            return (
+              <span
+                key={`slide-${currentIndex}-c-${wordIdx}-${letterIdx}-${char}`}
+                className={isHighlight ? 'hero-char-highlight' : 'hero-char-animate'}
+                style={{ animationDelay: delay }}
+              >
+                {char}
+              </span>
+            );
+          })}
+          {wordIdx < words.length - 1 && (
+            <span
+              key={`slide-${currentIndex}-space-${wordIdx}`}
+              className={isHighlight ? 'hero-char-highlight' : 'hero-char-animate'}
+              style={{ animationDelay: `${charCounter++ * 0.065}s` }}
+            >
+              &nbsp;
+            </span>
+          )}
+        </span>
+      );
+    });
+
+    return { elements, nextCharIndex: charCounter };
+  };
+
+  const titleResult = renderAnimatedCharacters(activeContent.title, 0, false);
+  const highlightResult = renderAnimatedCharacters(activeContent.highlight, titleResult.nextCharIndex, true);
+
   return (
     <section
-      className="relative min-h-[520px] sm:min-h-[560px] md:min-h-[580px] lg:min-h-[620px] w-full flex items-center overflow-hidden bg-slate-950 select-none"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      className="relative w-full overflow-hidden bg-gradient-to-b from-[#f0f7f9] via-[#f7fafc] to-[#ffffff] pt-16 pb-20 sm:pt-20 sm:pb-28 lg:pt-24 lg:pb-32 select-none"
       aria-label="Hero Showcase"
     >
-      {/* Background Image Slides */}
-      {slides.map((slide, idx) => {
-        const isActive = idx === currentIndex;
-        return (
-          <div
-            key={slide.id || `slide-${idx}`}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-out pointer-events-none ${
-              isActive ? 'opacity-100 z-0' : 'opacity-0 z-[-1]'
-            }`}
-          >
-            {/* Background Image with subtle Ken Burns motion */}
-            {slide.backgroundImage && slide.backgroundImage.trim() !== '' ? (
-              <img
-                suppressHydrationWarning
-                src={slide.backgroundImage}
-                alt={slide.title}
-                className={`w-full h-full object-cover object-center transition-transform duration-[7000ms] ease-out ${
-                  isActive ? 'scale-105' : 'scale-100'
-                }`}
-              />
-            ) : null}
-
-            {/* Lightened & Refined Cinematic Gradient Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/55 to-slate-950/30" />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/35" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_40%,_rgba(79,70,229,0.12),_transparent_60%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_60%,_rgba(6,182,212,0.10),_transparent_60%)]" />
-          </div>
-        );
-      })}
-
-      {/* Hero Content Container - Centered with balanced vertical clearance */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-14 w-full">
-        <div className="max-w-3xl">
-          {/* Animated Slide Content Box with smooth cross-fade */}
-          <div className={`transition-all duration-500 ease-out ${
-            isTransitioning ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'
-          }`}>
-            {/* Eyebrow / Clean Modern Subheading (Smaller size, no border, no icon, 400 font weight) */}
-            <div className="inline-flex items-center text-cyan-300 font-['Kufam'] text-[11px] sm:text-xs font-normal font-[400] tracking-wider mb-2 sm:mb-2.5">
-              <span>{currentSlide.badge?.replace(/^[✦•·\-\*]\s*/, '')}</span>
-            </div>
-
-            {/* Headline with reserved height for zero layout shift across slides */}
-            <div className="min-h-[64px] xs:min-h-[72px] sm:min-h-[84px] md:min-h-[96px] lg:min-h-[112px] flex items-center">
-              <h1 className="text-2xl xs:text-3xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold text-white tracking-tight leading-[1.18] font-['Kufam']">
-                {currentSlide.title}{' '}
-                {currentSlide.highlightText && (
-                  <span className="bg-gradient-to-r from-[#BBE7F1] via-teal-200 to-sky-300 bg-clip-text text-transparent">
-                    {currentSlide.highlightText}
-                  </span>
-                )}
-              </h1>
-            </div>
-
-            {/* Subtitle / Description with smaller font size, 400 font weight and no bullet points */}
-            <div className="min-h-[42px] sm:min-h-[44px] flex items-start mt-2 sm:mt-2.5">
-              <p className="text-xs sm:text-[13px] md:text-sm text-slate-300 font-normal font-[400] leading-relaxed max-w-2xl font-['Kufam']">
-                {currentSlide.subtitle?.replace(/^[✦•·\-\*]\s*/, '')}
-              </p>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="mt-5 sm:mt-6 min-h-[48px] flex flex-wrap items-center gap-3 sm:gap-4">
-              <button
-                onClick={() => executeAction(currentSlide.primaryBtnAction || 'quote')}
-                className="inline-flex items-center gap-2.5 px-6 sm:px-7 py-3 rounded-xl bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-bold text-sm sm:text-base border border-[#9cd5e2] transition-all duration-150 active:scale-[0.98] cursor-pointer shadow-xs"
-              >
-                <span>{currentSlide.primaryBtnText || 'Request Consultation'}</span>
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 text-slate-950" />
-              </button>
-
-              {currentSlide.secondaryBtnText && (
-                <button
-                  onClick={() => executeAction(currentSlide.secondaryBtnAction || 'services')}
-                  className="inline-flex items-center gap-2 px-5 sm:px-6 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 hover:border-white/30 text-white font-medium text-sm sm:text-base backdrop-blur-md transition-all duration-200 active:scale-[0.98] cursor-pointer"
-                >
-                  <span>{currentSlide.secondaryBtnText}</span>
-                </button>
-              )}
-            </div>
-          </div>
-
-        </div>
+      {/* ── 1. Tech Blueprint Matrix Grid with Precision Crosshairs ── */}
+      <div className="pointer-events-none absolute inset-0 opacity-[0.55]">
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="hero-tech-grid" width="48" height="48" patternUnits="userSpaceOnUse">
+              <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(148, 163, 184, 0.16)" strokeWidth="0.8" />
+              <path d="M -3 0 L 3 0 M 0 -3 L 0 3" stroke="rgba(2, 132, 199, 0.28)" strokeWidth="0.8" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#hero-tech-grid)" />
+        </svg>
       </div>
 
-      {/* Slider Navigation Controls */}
-      <div className="absolute right-4 sm:right-8 bottom-6 sm:bottom-8 z-20 flex items-center gap-3">
-        {/* Previous Button */}
-        <button
-          onClick={handlePrev}
-          aria-label="Previous slide"
-          className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 border border-white/15 backdrop-blur-md flex items-center justify-center text-white transition-all hover:border-white/30 cursor-pointer"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
+      {/* ── 2. Subtle Tech Circuit Traces & Network Nodes (Left Flank) ── */}
+      <svg 
+        className="pointer-events-none absolute left-0 top-12 w-64 sm:w-72 h-[380px] opacity-35 hidden md:block" 
+        viewBox="0 0 260 380" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M0 60 H70 L110 100 V180 L150 220 H250" stroke="#0284c7" strokeWidth="1.2" strokeOpacity="0.3" strokeDasharray="3 3" />
+        <path d="M0 140 H50 L90 180 H170 L210 220 V320" stroke="#9cd5e2" strokeWidth="1.2" strokeOpacity="0.4" />
+        <path d="M0 240 H80 L120 280 H200" stroke="#0284c7" strokeWidth="1" strokeOpacity="0.25" />
+        <circle cx="110" cy="100" r="3" fill="#0284c7" fillOpacity="0.4" />
+        <circle cx="150" cy="220" r="3.5" fill="#9cd5e2" fillOpacity="0.6" />
+        <circle cx="90" cy="180" r="2.5" fill="#0284c7" fillOpacity="0.35" />
+        <circle cx="170" cy="180" r="3" fill="#9cd5e2" fillOpacity="0.5" />
+        <circle cx="120" cy="280" r="2.5" fill="#0284c7" fillOpacity="0.4" />
+        <text x="14" y="52" fill="#0284c7" fillOpacity="0.45" fontSize="9" fontFamily="monospace" letterSpacing="1">SYS // DE-NRW · 51373</text>
+      </svg>
 
-        {/* Slide Counter & Indicators */}
-        <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-xs font-mono text-slate-300">
-          {slides.map((_, i) => (
-            <button
-              key={`dot-${i}`}
-              onClick={() => goToSlide(i)}
-              aria-label={`Go to slide ${i + 1}`}
-              className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                i === currentIndex
-                  ? 'w-6 bg-cyan-400'
-                  : 'w-2 bg-white/30 hover:bg-white/50'
-              }`}
-            />
-          ))}
-          <span className="ml-1 text-slate-400 font-sans text-xs">
-            0{currentIndex + 1} / 0{slides.length}
+      {/* ── 3. Subtle Tech Circuit Traces & Cloud Topology (Right Flank) ── */}
+      <svg 
+        className="pointer-events-none absolute right-0 top-8 w-64 sm:w-72 h-[380px] opacity-35 hidden md:block" 
+        viewBox="0 0 260 380" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M260 80 H180 L140 120 V200 L100 240 H0" stroke="#0284c7" strokeWidth="1.2" strokeOpacity="0.3" strokeDasharray="4 2" />
+        <path d="M260 160 H200 L160 200 H80 L40 240 V340" stroke="#9cd5e2" strokeWidth="1.2" strokeOpacity="0.4" />
+        <path d="M260 260 H170 L130 300 H50" stroke="#0284c7" strokeWidth="1" strokeOpacity="0.25" />
+        <circle cx="140" cy="120" r="3" fill="#0284c7" fillOpacity="0.4" />
+        <circle cx="100" cy="240" r="3.5" fill="#9cd5e2" fillOpacity="0.6" />
+        <circle cx="160" cy="200" r="2.5" fill="#0284c7" fillOpacity="0.35" />
+        <circle cx="80" cy="200" r="3" fill="#9cd5e2" fillOpacity="0.5" />
+        <text x="135" y="72" fill="#0284c7" fillOpacity="0.45" fontSize="9" fontFamily="monospace" letterSpacing="1">K8S · CLOUD // 99.99%</text>
+      </svg>
+
+      {/* ── 4. Soft Ambient Glow Aura ── */}
+      <div className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 w-[680px] sm:w-[900px] h-[340px] rounded-full bg-gradient-to-b from-[#BBE7F1]/50 via-[#9cd5e2]/25 to-transparent blur-3xl opacity-75" />
+
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        
+        {/* ── 5. Frosted Pill Badge (Leverkusen HQ) ── */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#9cd5e2]/80 text-slate-800 text-xs font-mono font-medium shadow-2xs mb-5 sm:mb-6 transition-all hover:border-[#9cd5e2] hover:bg-white">
+          <span className="tracking-wide">
+            {isDe ? '🇩🇪 SOFTWARE-ENGINEERING · LEVERKUSEN, DEUTSCHLAND' : '🇩🇪 SOFTWARE ENGINEERING · LEVERKUSEN, GERMANY'}
           </span>
         </div>
 
-        {/* Next Button */}
-        <button
-          onClick={handleNext}
-          aria-label="Next slide"
-          className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 border border-white/15 backdrop-blur-md flex items-center justify-center text-white transition-all hover:border-white/30 cursor-pointer"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
+        {/* ── 6. Headline: Refined Non-Bold Scale with Ultra-Smooth Serene Flow ── */}
+        <div className={`transition-all duration-700 ease-out ${
+          isTransitioning ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'
+        }`}>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-normal sm:font-medium text-slate-900 tracking-tight leading-[1.28] font-['Kufam'] max-w-3xl mx-auto">
+            {titleResult.elements}
+            <span className="inline-block">&nbsp;</span>
+            <span className="inline-block underline decoration-[#9cd5e2] decoration-2 underline-offset-8">
+              {highlightResult.elements}
+            </span>
+          </h1>
+
+          {/* ── 7. Concise, High-Legibility Subtitle ── */}
+          <p className="mt-4 text-sm sm:text-base md:text-[17px] text-slate-600 max-w-2xl mx-auto leading-relaxed font-normal font-['Kufam']">
+            {activeContent.subtitle}
+          </p>
+        </div>
+
+        {/* ── 4. High-Impact Action Buttons ── */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5 sm:gap-4">
+          <button
+            onClick={() => executeAction(currentSlide.primaryBtnAction || 'quote')}
+            className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-semibold text-sm sm:text-base border border-[#9cd5e2] transition-all duration-200 shadow-xs hover:shadow-md hover:shadow-[#BBE7F1]/30 hover:-translate-y-0.5 active:scale-[0.98] cursor-pointer"
+          >
+            <span>{currentSlide.primaryBtnText || (isDe ? 'Beratung anfragen' : 'Request Consultation')}</span>
+            <ArrowRight className="w-4 h-4 text-slate-950" />
+          </button>
+
+          <button
+            onClick={() => executeAction(currentSlide.secondaryBtnAction || 'services')}
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/90 hover:bg-white border border-slate-200/90 hover:border-[#9cd5e2] text-slate-800 font-semibold text-sm sm:text-base backdrop-blur-md shadow-2xs hover:shadow-xs hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 cursor-pointer"
+          >
+            <span>{currentSlide.secondaryBtnText || (isDe ? 'Leistungen entdecken' : 'Explore Services')}</span>
+          </button>
+        </div>
+
+        {/* ── 5. Minimal Slide Dots with Smooth Active Indicator ── */}
+        {slides.length > 1 && (
+          <div className="mt-8 sm:mt-10 flex items-center justify-center gap-2">
+            {slides.map((_, i) => (
+              <button
+                key={`dot-${i}`}
+                onClick={() => goToSlide(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                  i === currentIndex
+                    ? 'w-7 bg-sky-600'
+                    : 'w-2 bg-slate-300 hover:bg-slate-400'
+                }`}
+              />
+            ))}
+          </div>
+        )}
+
       </div>
 
-      {/* Autoplay Progress Bar */}
-      {!isPaused && (
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10 z-20 overflow-hidden">
-          <div
-            key={currentIndex}
-            className="h-full bg-gradient-to-r from-cyan-400 via-[#BBE7F1] to-cyan-300 animate-slideProgress"
-            style={{ animationDuration: `${AUTO_PLAY_INTERVAL}ms` }}
-          />
-        </div>
-      )}
+      {/* ── 6. Signature Architectural Shape Divider at the Bottom (Subtle, Static, Non-Wavy) ── */}
+      <SignatureShapeDivider
+        position="bottom"
+        fillColor="text-white"
+        heightClass="h-4 sm:h-5 md:h-6"
+      />
     </section>
   );
 };
+
+export default Hero;

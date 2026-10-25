@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { TopBar } from './TopBar';
 import { Navbar } from './Navbar';
@@ -14,6 +14,15 @@ import { Footer } from './Footer';
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname === '/admin';
+
+  // Ensure every route transition starts at the very top of the page
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+  }, [pathname]);
 
   // Admin dashboard has its own dedicated full-screen layout
   if (isAdmin) {

@@ -239,9 +239,9 @@ export const translations: Record<Language, Translations> = {
     portfolioViewAll: 'View All Projects',
     portfolioDeliveryTime: 'Delivery Time',
 
-    testimonialsKicker: 'CLIENT TESTIMONIALS',
-    testimonialsHeading: 'Trusted by Technical Leaders Worldwide',
-    testimonialsSubheading: 'Hear directly from CTOs, product directors, and founders who rely on our engineering teams for mission-critical software.',
+    testimonialsKicker: 'HOW WE WORK',
+    testimonialsHeading: 'A clear path from idea to launch',
+    testimonialsSubheading: 'A practical delivery process keeps decisions, progress, and handover clear at every stage.',
     testimonialsRating: 'Rated 4.9/5 by Enterprise Clients',
 
     trustKicker: 'ENTERPRISE STANDARDS',
@@ -373,9 +373,9 @@ export const translations: Record<Language, Translations> = {
     portfolioViewAll: 'Alle Projekte ansehen',
     portfolioDeliveryTime: 'Lieferzeit',
 
-    testimonialsKicker: 'KUNDENSTIMMEN',
-    testimonialsHeading: 'Geschätzt von technischen Führungskräften weltweit',
-    testimonialsSubheading: 'Erfahren Sie, was CTOs, Produktleiter und Gründer über die Zusammenarbeit mit unseren Engineering-Teams berichten.',
+    testimonialsKicker: 'UNSER ABLAUF',
+    testimonialsHeading: 'Ein klarer Weg von der Idee bis zum Launch',
+    testimonialsSubheading: 'Ein strukturierter Ablauf hält Entscheidungen, Fortschritt und Übergabe in jeder Phase nachvollziehbar.',
     testimonialsRating: 'Bewertet mit 4,9/5 von Unternehmenskunden',
 
     trustKicker: 'ENTERPRISE-STANDARDS',

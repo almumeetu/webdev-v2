@@ -132,7 +132,6 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
               {/* Verified Badges */}
               <div className="mt-4 flex items-center gap-2 flex-wrap justify-center sm:justify-start">
                 <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200/80 shrink-0 whitespace-nowrap">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
                   <span className="whitespace-nowrap">{lang === 'de' ? 'Aktiver Lead' : 'Active Lead'}</span>
                 </span>
                 <span className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-950 bg-[#BBE7F1] px-3 py-1 rounded-full border border-[#9cd5e2] shrink-0 whitespace-nowrap">

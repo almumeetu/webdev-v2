@@ -1,6 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { Play, Plus, Minus, CheckCircle, Shield, Sparkles, Award } from 'lucide-react';
 import { gsap, useGsapContext, animateCounter } from '../utils/gsapHelper';
+import {
+  RiAddLine,
+  RiSubtractLine,
+  RiShieldCheckLine,
+} from 'react-icons/ri';
 
 interface FaqAndExperienceSectionProps {
   onLearnMore?: () => void;
@@ -98,7 +102,7 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
 
               {/* Verified Trust overlay chip */}
               <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-semibold text-slate-800 shadow-md flex items-center gap-1.5 border border-slate-200/80">
-                <Shield className="w-3.5 h-3.5 text-cyan-700" />
+                <RiShieldCheckLine className="w-3.5 h-3.5 text-cyan-600" />
                 <span>GDPR & ISO Standard Compliant</span>
               </div>
 
@@ -126,7 +130,7 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
             </div>
 
             {/* Headline */}
-            <h2 className="faq-text-content text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-950 tracking-tight leading-[1.22] font-['Kufam']">
+            <h2 className="faq-text-content text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-semibold text-slate-950 tracking-tight leading-[1.22] font-['Kufam']">
               Have any Question to our team?
             </h2>
 
@@ -151,13 +155,13 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
                       onClick={() => setOpenFaq(isOpen ? null : idx)}
                       className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 focus:outline-none min-h-[44px] cursor-pointer"
                     >
-                      <span className="text-sm sm:text-base font-bold text-slate-900 font-['Instrument_Sans']">
+                      <span className="text-sm sm:text-base font-medium text-slate-900">
                         {faq.q}
                       </span>
                       <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors ${
-                        isOpen ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2]' : 'bg-slate-100 text-slate-600'
+                        isOpen ? 'bg-cyan-100 text-cyan-700 border border-cyan-300' : 'bg-slate-100 text-slate-500 border border-slate-200'
                       }`}>
-                        {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                        {isOpen ? <RiSubtractLine className="w-4 h-4" /> : <RiAddLine className="w-4 h-4" />}
                       </div>
                     </button>
 

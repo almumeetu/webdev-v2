@@ -25,6 +25,7 @@ import {
   initialJobPostings,
   initialJobApplications,
 } from '../data/initialData';
+import { removeSeededTestimonials } from '../utils/testimonials';
 
 interface AppContextType {
   // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -205,11 +206,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     // Testimonials
     const dbTestimonials = await apiFetch<Testimonial[]>('/api/testimonials');
     if (dbTestimonials && dbTestimonials.length > 0) {
-      setTestimonials(dbTestimonials);
+      setTestimonials(removeSeededTestimonials(dbTestimonials));
     } else {
       try {
         const saved = localStorage.getItem('webdev_testimonials');
-        if (saved) setTestimonials(JSON.parse(saved));
+        if (saved) {
+          const cleanTestimonials = removeSeededTestimonials(JSON.parse(saved));
+          setTestimonials(cleanTestimonials);
+          localStorage.setItem('webdev_testimonials', JSON.stringify(cleanTestimonials));
+        }
       } catch {}
     }
 

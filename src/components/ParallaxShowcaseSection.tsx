@@ -151,7 +151,6 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
               </button>
 
               <span className="text-xs text-slate-400 font-mono flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 <span>Response in &lt; 12 Hours</span>
               </span>
             </div>

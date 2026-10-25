@@ -124,7 +124,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
             <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-10 h-10" />
             </div>
-            <h4 className="text-2xl font-bold text-slate-900 font-['Archivo']">
+            <h4 className="text-2xl font-semibold text-slate-900 font-['Archivo']">
               {lang === 'de' ? 'Anfrage erfolgreich eingegangen!' : 'Inquiry Received Successfully!'}
             </h4>
             <p className="text-sm text-slate-600 max-w-md mx-auto">
@@ -141,7 +141,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
             {/* Name Fields */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1">
                   {lang === 'de' ? 'Vorname *' : 'First Name *'}
                 </label>
                 <input
@@ -155,7 +155,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1">
                   {lang === 'de' ? 'Nachname *' : 'Last Name *'}
                 </label>
                 <input
@@ -172,7 +172,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
             {/* Email & Phone */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1">
                   {lang === 'de' ? 'Geschäftliche E-Mail *' : 'Work Email *'}
                 </label>
                 <input
@@ -186,7 +186,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1">
                   {lang === 'de' ? 'Telefon / WhatsApp *' : 'Phone / WhatsApp *'}
                 </label>
                 <input
@@ -203,7 +203,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
             {/* Project Type & Target Market */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1">
                   {lang === 'de' ? 'Projektbereich / Architektur' : 'Project Domain'}
                 </label>
                 <select
@@ -221,7 +221,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1">
                   {lang === 'de' ? 'Zielmarkt / Bereitstellungsregion' : 'Target Market / Deployment Region'}
                 </label>
                 <select
@@ -239,7 +239,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
 
             {/* Message / Specifications */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+              <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1">
                 {lang === 'de' ? 'Erzählen Sie uns von Ihrem Projekt & Ihren Architekturzielen' : 'Tell Us About Your Project & Architecture Goals'}
               </label>
               <textarea
@@ -257,7 +257,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-bold text-sm py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer border border-[#9cd5e2] shadow-sm"
+                className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-medium text-sm py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer border border-[#9cd5e2] shadow-sm"
               >
                 {isSubmitting ? (
                   <span>{lang === 'de' ? 'Kostenschätzung wird vorbereitet...' : 'Processing Estimate...'}</span>

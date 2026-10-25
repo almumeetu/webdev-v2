@@ -1,10 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { 
   Send, 
-  Sparkles, 
   CheckCircle2, 
   DollarSign, 
-  Globe, 
   Calculator, 
   AlertCircle,
   MapPin,
@@ -165,7 +163,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
         backAction={onBack}
         backLabel="Back to Overview"
         align="left"
-        className="quote-fade-item"
+        contentClassName="quote-fade-item"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-10">
@@ -432,9 +430,9 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
             {/* Leverkusen Germany Office - FIRST */}
             <div className="quote-fade-item p-6 rounded-3xl bg-slate-50 border border-emerald-500/30 space-y-3 shadow-xs">
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
                 <h3 className="text-sm font-bold text-slate-900 font-['Archivo']">
-                  European Engineering Hub (Germany)
+                  Germany Office
                 </h3>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
@@ -461,9 +459,9 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
             {/* Joypurhat Bangladesh Office - Dedicated R&D */}
             <div className="quote-fade-item p-6 rounded-3xl bg-slate-50 border border-slate-200/90 space-y-3 shadow-xs">
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#9cd5e2]"></span>
+                <MapPin className="w-4 h-4 text-cyan-700 shrink-0" />
                 <h3 className="text-sm font-bold text-slate-900 font-['Archivo']">
-                  Dedicated Offshore R&D Center (Bangladesh)
+                  Bangladesh Office
                 </h3>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">

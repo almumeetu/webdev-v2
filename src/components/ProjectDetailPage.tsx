@@ -20,7 +20,6 @@ import { Project } from '../types';
 import { useGsapContext } from '../utils/gsapHelper';
 import gsap from 'gsap';
 import { BreadcrumbBar } from './Breadcrumb';
-import { ProjectOrderModal } from './ProjectOrderModal';
 import { useLanguage } from '../context/LanguageContext';
 
 interface ProjectDetailPageProps {
@@ -37,7 +36,6 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
   onGetQuoteForSimilar,
 }) => {
   const pageRef = useRef<HTMLDivElement>(null);
-  const [orderModalOpen, setOrderModalOpen] = useState(false);
   const { lang, t, localizeProject } = useLanguage();
 
   const project = rawProject ? localizeProject(rawProject) : null;
@@ -94,8 +92,8 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-6 sm:py-8">
 
-        {/* Project Hero Banner */}
-        <div className="proj-anim-fade relative h-72 sm:h-96 rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
+        {/* Project Hero Banner - Static Background */}
+        <div className="relative h-72 sm:h-96 rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
           {project.image && project.image.trim() !== '' ? (
             <img
               src={project.image}
@@ -105,7 +103,8 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
           ) : null}
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
 
-          <div className="absolute bottom-6 left-6 right-6 text-white space-y-3">
+          {/* Animated Content Over Banner */}
+          <div className="proj-anim-fade absolute bottom-6 left-6 right-6 text-white space-y-3">
             <div className="flex items-center gap-2.5 flex-wrap">
               <span className="text-xs font-mono font-bold uppercase tracking-wider bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] px-3.5 py-1.5 rounded-full">
                 {project.category}
@@ -280,11 +279,11 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
             <div className="flex flex-wrap items-center gap-3 shrink-0">
               <button
                 type="button"
-                onClick={() => setOrderModalOpen(true)}
+                onClick={() => onGetQuoteForSimilar(project.title)}
                 className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-extrabold text-xs sm:text-sm px-6 py-3.5 rounded-xl border border-[#9cd5e2] transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
               >
-                <Zap className="w-4 h-4 text-slate-950" />
-                <span>{lang === 'de' ? 'Diese Website jetzt bestellen' : 'Order This Website Now'}</span>
+                <span>{lang === 'de' ? 'Projekt unverbindlich anfragen' : 'Request Consultation'}</span>
+                <ArrowRight className="w-4 h-4 text-slate-950" />
               </button>
             </div>
           </div>
@@ -300,14 +299,6 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
 
             <div className="flex items-center gap-3">
               <button
-                onClick={() => setOrderModalOpen(true)}
-                className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center gap-2 cursor-pointer"
-              >
-                <span>{lang === 'de' ? 'Architektur bestellen' : 'Order Architecture'}</span>
-                <Zap className="w-4 h-4 text-slate-950" />
-              </button>
-
-              <button
                 onClick={() => onGetQuoteForSimilar(project.title)}
                 className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl border border-slate-700 shadow-sm transition-all flex items-center gap-2 cursor-pointer"
               >
@@ -320,12 +311,6 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
         </div>
 
       </div>
-
-      <ProjectOrderModal
-        isOpen={orderModalOpen}
-        onClose={() => setOrderModalOpen(false)}
-        project={project}
-      />
     </div>
   );
 };

@@ -178,14 +178,14 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
 
-        {/* 2. Hero Visual Card with Gradient Overlay & Status Bar */}
-        <div className="serv-anim-fade relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/90 bg-slate-950">
+        {/* 2. Hero Visual Card with Gradient Overlay & Status Bar - Static Background */}
+        <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/90 bg-slate-950">
           <div className="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden">
             {service.image && service.image.trim() !== '' ? (
               <img
                 src={service.image}
                 alt={service.title}
-                className="w-full h-full object-cover opacity-60 scale-105 transition-transform duration-700 hover:scale-100"
+                className="w-full h-full object-cover opacity-60"
               />
             ) : null}
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent" />
@@ -194,8 +194,8 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             {/* Ambient inner glow */}
             <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-[#BBE7F1]/20 rounded-full blur-[100px] pointer-events-none" />
 
-            {/* Inner Content Over Banner */}
-            <div className="absolute inset-0 p-5 sm:p-8 md:p-10 flex flex-col justify-between text-white">
+            {/* Inner Content Over Banner - Animated Content Only */}
+            <div className="serv-anim-fade absolute inset-0 p-5 sm:p-8 md:p-10 flex flex-col justify-between text-white">
               
               {/* Badges row - Floating stylish cursive indicators (No background) */}
               <div className="flex items-center justify-between flex-wrap gap-3">
@@ -204,8 +204,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                   <span>{lang === 'de' ? 'Produktionsreifer Service' : 'Production Grade Service'}</span>
                 </div>
 
-                <div className="inline-flex items-center gap-2 text-emerald-400 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <div className="inline-flex items-center gap-1.5 text-emerald-400 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
                   <span>{lang === 'de' ? 'Deutsche & EU-Lieferung Aktiv' : 'German & EU Delivery Active'}</span>
                 </div>
               </div>

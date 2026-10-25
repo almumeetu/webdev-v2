@@ -90,7 +90,7 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
                     </span>
                   </div>
                   
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 font-['Archivo'] group-hover:text-slate-950 transition-colors">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 group-hover:text-slate-950 transition-colors">
                     {item.title}
                   </h3>
                   
@@ -99,7 +99,7 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
                   </p>
                 </div>
 
-                <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm text-slate-600 group-hover:text-slate-950 font-bold transition-colors">
+                <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm text-slate-600 group-hover:text-slate-950 font-medium transition-colors">
                   <span>Explore Standard</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>

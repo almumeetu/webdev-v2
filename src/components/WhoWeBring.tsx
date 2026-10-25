@@ -1,7 +1,13 @@
 import React, { useRef } from 'react';
-import { Check, ArrowUpRight, ShieldCheck, Award, Server } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { gsap, useGsapContext, animateCounter } from '../utils/gsapHelper';
 import { useLanguage } from '../context/LanguageContext';
+import {
+  RiCheckDoubleLine,
+  RiShieldCheckLine,
+  RiGlobalLine,
+  RiAwardLine,
+} from 'react-icons/ri';
 
 interface WhoWeBringProps {
   onAboutClick: () => void;
@@ -78,8 +84,8 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
               <span>{t.whoKicker}</span>
             </div>
 
-            {/* Bold Headline */}
-            <h2 className="who-content-item text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-900 tracking-tight leading-[1.22] font-['Kufam']">
+            {/* Headline */}
+            <h2 className="who-content-item text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-semibold text-slate-900 tracking-tight leading-[1.22] font-['Kufam']">
               {t.whoHeading}
             </h2>
 
@@ -88,32 +94,32 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
               {t.whoSubtext}
             </p>
 
-            {/* 4 Feature Checklist */}
+            {/* 4 Feature Checklist — each with its own color */}
             <div className="who-content-item grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
               <div className="flex items-center gap-2.5 text-slate-800 font-medium text-sm">
-                <div className="w-5 h-5 rounded-full bg-[#BBE7F1]/50 border border-[#9cd5e2] flex items-center justify-center text-slate-900 shrink-0">
-                  <Check className="w-3.5 h-3.5 stroke-[3]" />
+                <div className="w-6 h-6 rounded-full bg-violet-100 border border-violet-300 flex items-center justify-center shrink-0">
+                  <RiCheckDoubleLine className="w-3.5 h-3.5 text-violet-600" />
                 </div>
                 <span>{t.whoBullet1}</span>
               </div>
 
               <div className="flex items-center gap-2.5 text-slate-800 font-medium text-sm">
-                <div className="w-5 h-5 rounded-full bg-[#BBE7F1]/50 border border-[#9cd5e2] flex items-center justify-center text-slate-900 shrink-0">
-                  <Check className="w-3.5 h-3.5 stroke-[3]" />
+                <div className="w-6 h-6 rounded-full bg-sky-100 border border-sky-300 flex items-center justify-center shrink-0">
+                  <RiShieldCheckLine className="w-3.5 h-3.5 text-sky-600" />
                 </div>
                 <span>{t.whoBullet2}</span>
               </div>
 
               <div className="flex items-center gap-2.5 text-slate-800 font-medium text-sm">
-                <div className="w-5 h-5 rounded-full bg-[#BBE7F1]/50 border border-[#9cd5e2] flex items-center justify-center text-slate-900 shrink-0">
-                  <Check className="w-3.5 h-3.5 stroke-[3]" />
+                <div className="w-6 h-6 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center shrink-0">
+                  <RiGlobalLine className="w-3.5 h-3.5 text-emerald-600" />
                 </div>
                 <span>{t.whoBullet3}</span>
               </div>
 
               <div className="flex items-center gap-2.5 text-slate-800 font-medium text-sm">
-                <div className="w-5 h-5 rounded-full bg-[#BBE7F1]/50 border border-[#9cd5e2] flex items-center justify-center text-slate-900 shrink-0">
-                  <Check className="w-3.5 h-3.5 stroke-[3]" />
+                <div className="w-6 h-6 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center shrink-0">
+                  <RiAwardLine className="w-3.5 h-3.5 text-amber-600" />
                 </div>
                 <span>{t.whoBullet4}</span>
               </div>
@@ -129,7 +135,7 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
               <button
                 id="more-about-us-btn"
                 onClick={onAboutClick}
-                className="w-full sm:w-auto justify-center bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-sm px-6 py-3.5 rounded-xl border border-[#9cd5e2] transition-all flex items-center gap-2 group cursor-pointer min-h-[44px] shadow-xs"
+                className="w-full sm:w-auto justify-center bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-medium text-sm px-6 py-3.5 rounded-xl border border-[#9cd5e2] transition-all flex items-center gap-2 group cursor-pointer min-h-[44px] shadow-xs"
               >
                 <span>{t.whoMoreBtn}</span>
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-slate-950" />
@@ -137,11 +143,11 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
 
               {/* Founder signature */}
               <div className="flex items-center gap-3">
-                <div className="font-serif italic text-xl sm:text-2xl font-bold text-slate-900 tracking-wider font-['Archivo'] select-none">
+                <div className="font-serif italic text-xl sm:text-2xl font-semibold text-slate-900 tracking-wider font-['Archivo'] select-none">
                   Md Moyen Uddin
                 </div>
                 <div className="text-left border-l border-slate-300 pl-3">
-                  <div className="text-sm font-bold text-slate-800">CEO & Founder</div>
+                  <div className="text-sm font-medium text-slate-800">CEO & Founder</div>
                   <div className="text-xs text-slate-500">WEBDEV Software Solutions</div>
                 </div>
               </div>
@@ -171,14 +177,14 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
                   className="w-full h-24 sm:h-36 object-cover"
                 />
                 <div className="p-2.5 sm:p-3 bg-white">
-                  <div className="text-xs sm:text-sm font-bold text-slate-900">Engineering Excellence</div>
-                  <div className="text-xs text-cyan-800 font-semibold">Dedicated Agile Squads</div>
+                  <div className="text-xs sm:text-sm font-medium text-slate-900">Engineering Excellence</div>
+                  <div className="text-xs text-cyan-800 font-medium">Dedicated Agile Squads</div>
                 </div>
               </div>
 
               {/* Floating experience badge - safe relative positioning */}
               <div className="absolute -top-3 right-2 sm:-top-4 sm:-right-4 bg-slate-950 text-white border border-slate-700/80 p-3 sm:p-4 rounded-2xl shadow-xl flex items-center gap-2.5 sm:gap-3">
-                <div ref={counterRef} className="text-xl sm:text-3xl font-black font-['Archivo'] text-[#BBE7F1]">10+</div>
+                <div ref={counterRef} className="text-xl sm:text-3xl font-semibold font-['Archivo'] text-[#BBE7F1]">10+</div>
                 <div className="text-xs font-medium leading-tight text-slate-300">
                   Years of<br />Excellence
                 </div>

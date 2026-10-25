@@ -59,7 +59,7 @@ export const GlobalEcosystemSection: React.FC = () => {
               <span>{t.ecosystemKicker}</span>
             </div>
             
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold text-white tracking-tight font-['Kufam']">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-semibold text-white tracking-tight font-['Kufam']">
               {lang === 'de' ? (
                 <>Geschätzt von führenden <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-orange-400">Unternehmen</span></>
               ) : (

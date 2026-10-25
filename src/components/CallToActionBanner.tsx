@@ -1,7 +1,13 @@
 import React, { useRef, useEffect } from 'react';
-import { ArrowRight, Sparkles, Shield, Globe, CheckCircle2 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useGsapContext } from '../utils/gsapHelper';
 import gsap from 'gsap';
+import {
+  RiCheckboxCircleLine,
+  RiShieldCheckLine,
+  RiGlobalLine,
+  RiRocketLine,
+} from 'react-icons/ri';
 
 interface CallToActionBannerProps {
   onContactClick: () => void;
@@ -91,7 +97,7 @@ export const CallToActionBanner: React.FC<CallToActionBannerProps> = ({ onContac
           </div>
 
           {/* Headline */}
-          <h2 className="cta-banner-item text-base xs:text-lg sm:text-xl md:text-2xl lg:text-[28px] font-bold text-white tracking-tight leading-[1.25] font-['Kufam'] max-w-2xl mx-auto">
+          <h2 className="cta-banner-item text-base xs:text-lg sm:text-xl md:text-2xl lg:text-[28px] font-semibold text-white tracking-tight leading-[1.25] font-['Kufam'] max-w-2xl mx-auto">
             Ready to gain competitive advantage by modernising your software architecture?
           </h2>
 
@@ -103,15 +109,15 @@ export const CallToActionBanner: React.FC<CallToActionBannerProps> = ({ onContac
           {/* Trust indicators */}
           <div className="cta-banner-item flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[10px] sm:text-xs text-slate-300/90 pt-1">
             <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-[6px] backdrop-blur-sm">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+              <RiCheckboxCircleLine className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
               <span>Free Technical Consultation</span>
             </div>
             <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-[6px] backdrop-blur-sm">
-              <Shield className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+              <RiShieldCheckLine className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
               <span>Full IP &amp; Source Code Ownership</span>
             </div>
             <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-[6px] backdrop-blur-sm">
-              <Globe className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+              <RiGlobalLine className="w-3.5 h-3.5 text-violet-400 flex-shrink-0" />
               <span>GDPR &amp; ISO Standard Protocols</span>
             </div>
           </div>
@@ -121,8 +127,9 @@ export const CallToActionBanner: React.FC<CallToActionBannerProps> = ({ onContac
             <button
               id="cta-get-in-touch-btn"
               onClick={onContactClick}
-              className="group w-full sm:w-auto justify-center bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-xs sm:text-sm px-6 sm:px-8 py-3 sm:py-3.5 rounded-[6px] transition-all transform hover:scale-[1.02] inline-flex items-center gap-2 cursor-pointer min-h-[42px] border border-[#9cd5e2] shadow-sm"
+              className="group w-full sm:w-auto justify-center bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-medium text-xs sm:text-sm px-6 sm:px-8 py-3 sm:py-3.5 rounded-[6px] transition-all transform hover:scale-[1.02] inline-flex items-center gap-2 cursor-pointer min-h-[42px] border border-[#9cd5e2] shadow-sm"
             >
+              <RiRocketLine className="w-3.5 h-3.5 text-slate-950" />
               <span>SCHEDULE AN ARCHITECTURE CALL</span>
               <ArrowRight className="w-3.5 h-3.5 text-slate-950 group-hover:translate-x-0.5 transition-transform" />
             </button>

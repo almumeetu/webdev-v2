@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Calendar, Clock, ArrowRight, Heart, BookOpen } from 'lucide-react';
+import { Calendar, ArrowRight, BookOpen } from 'lucide-react';
 import { BlogPost } from '../types';
 import { useGsapContext, animateStagger } from '../utils/gsapHelper';
 import { useLanguage } from '../context/LanguageContext';
@@ -89,19 +89,6 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 ) : null}
-                
-                {/* Category badge */}
-                <div className="absolute top-3 left-3 bg-[#BBE7F1]/90 backdrop-blur-sm text-slate-950 text-[10px] sm:text-[11px] font-bold px-2.5 py-1 rounded-[6px] uppercase tracking-wider border border-[#9cd5e2] shadow-xs">
-                  {blog.category}
-                </div>
-
-                {/* Read time badge */}
-                {blog.readTime && (
-                  <div className="absolute top-3 right-3 bg-slate-950/75 backdrop-blur-sm text-slate-200 text-[10px] sm:text-[11px] font-medium px-2 py-0.5 rounded-[6px] border border-white/10 flex items-center gap-1 shadow-xs">
-                    <Clock className="w-3 h-3 text-slate-300" />
-                    <span>{blog.readTime}</span>
-                  </div>
-                )}
               </div>
 
               {/* Card Meta & Title */}
@@ -130,15 +117,10 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
                     </div>
                   </div>
 
-                  {/* Title */}
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-cyan-800 transition-colors line-clamp-2 leading-snug font-['Archivo']">
+                  {/* Title (Clean, High-Legibility) */}
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 group-hover:text-sky-700 transition-colors line-clamp-2 leading-snug font-['Kufam']">
                     {blog.title}
                   </h3>
-
-                  {/* Excerpt */}
-                  <p className="mt-2 text-xs sm:text-sm text-slate-600 line-clamp-2 leading-relaxed">
-                    {blog.excerpt}
-                  </p>
 
                   {/* Tags */}
                   {blog.tags && blog.tags.length > 0 && (
@@ -157,14 +139,9 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
 
                 {/* Footer Action */}
                 <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-xs sm:text-sm font-semibold text-slate-950 group-hover:text-cyan-800 inline-flex items-center gap-1.5 uppercase tracking-wider transition-colors cursor-pointer">
+                  <span className="text-xs sm:text-sm font-semibold text-slate-950 group-hover:text-sky-700 inline-flex items-center gap-1.5 uppercase tracking-wider transition-colors cursor-pointer">
                     <span>{t.blogReadArticle}</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-
-                  <span className="text-xs text-slate-400 flex items-center gap-1.5">
-                    <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500/30" />
-                    <span>{blog.likes}</span>
                   </span>
                 </div>
               </div>

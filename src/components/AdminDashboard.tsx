@@ -3919,7 +3919,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   value={testimonialForm.name}
                   onChange={(e) => setTestimonialForm({...testimonialForm, name: e.target.value})}
                   className="w-full px-4 py-3 bg-[#0c0d12] border border-white/10 rounded-md text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all text-sm"
-                  placeholder="David H. Miller"
+                  placeholder="Client name"
                 />
               </div>
 

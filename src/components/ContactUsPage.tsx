@@ -4,15 +4,13 @@ import {
   Clock, 
   Send, 
   CheckCircle2, 
-  Globe, 
+  MessageCircle,
   ShieldCheck, 
   ArrowRight,
   ExternalLink,
   Navigation,
   Check,
-  Building2,
   Cpu,
-  Sparkles
 } from 'lucide-react';
 import { Inquiry } from '../types';
 import { Breadcrumb } from './Breadcrumb';
@@ -192,7 +190,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
         backAction={onBackToHome}
         backLabel={t.backToHome}
         align="left"
-        className="contact-anim-item"
+        contentClassName="contact-anim-item"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12 sm:space-y-16">
@@ -226,13 +224,13 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
                     <button
                       onClick={() => setIsSubmitted(false)}
-                      className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold px-6 py-3 rounded-xl transition-colors cursor-pointer"
+                      className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-medium px-6 py-3 rounded-xl transition-colors cursor-pointer"
                     >
                       {lang === 'de' ? 'Weitere Nachricht senden' : 'Send Another Message'}
                     </button>
                     <button
                       onClick={onBackToHome}
-                      className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 border border-[#9cd5e2] text-xs sm:text-sm font-bold px-6 py-3 rounded-xl transition-colors cursor-pointer"
+                      className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 border border-[#9cd5e2] text-xs sm:text-sm font-medium px-6 py-3 rounded-xl transition-colors cursor-pointer"
                     >
                       {t.backToHome}
                     </button>
@@ -244,10 +242,10 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   {/* Form Header */}
                   <div className="border-b border-slate-100 pb-4">
                     <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide mb-1">
-                      <Sparkles className="w-4 h-4 text-cyan-700" />
+                      <MessageCircle className="w-4 h-4 text-cyan-700" />
                       <span>{lang === 'de' ? 'Starten Sie ein Projekt mit uns' : 'Start a Conversation with Us'}</span>
                     </div>
-                    <h2 className="text-lg sm:text-xl font-bold text-slate-900 font-['Kufam']">
+                    <h2 className="text-lg sm:text-xl font-semibold text-slate-900 font-['Kufam']">
                       {lang === 'de' ? 'Besprechen Sie Ihr Projekt & Ihre Software-Architektur' : 'Discuss Your Project & Architecture'}
                     </h2>
                     <p className="text-xs sm:text-sm text-slate-500 mt-1">
@@ -260,7 +258,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   {/* Name Fields */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                      <label className="text-xs font-medium text-slate-800 uppercase tracking-wider">
                         {lang === 'de' ? 'Vorname *' : 'First Name *'}
                       </label>
                       <input
@@ -274,7 +272,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                      <label className="text-xs font-medium text-slate-800 uppercase tracking-wider">
                         {lang === 'de' ? 'Nachname *' : 'Last Name *'}
                       </label>
                       <input
@@ -291,7 +289,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   {/* Email & Phone */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                      <label className="text-xs font-medium text-slate-800 uppercase tracking-wider">
                         {lang === 'de' ? 'Geschäftliche E-Mail *' : 'Business Email *'}
                       </label>
                       <input
@@ -305,7 +303,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                      <label className="text-xs font-medium text-slate-800 uppercase tracking-wider">
                         {lang === 'de' ? 'Telefon / WhatsApp' : 'Phone / WhatsApp'}
                       </label>
                       <input
@@ -321,7 +319,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   {/* Company & Service */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                      <label className="text-xs font-medium text-slate-800 uppercase tracking-wider">
                         {lang === 'de' ? 'Unternehmen oder Organisation' : 'Company or Organization'}
                       </label>
                       <input
@@ -334,7 +332,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                      <label className="text-xs font-medium text-slate-800 uppercase tracking-wider">
                         {lang === 'de' ? 'Fachbereich / Leistungsfeld' : 'Service Domain'}
                       </label>
                       <select
@@ -366,7 +364,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
 
                   {/* Message */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                    <label className="text-xs font-medium text-slate-800 uppercase tracking-wider">
                       {lang === 'de' ? 'Projektumfang & Anforderungen *' : 'Project Scope & Requirements *'}
                     </label>
                     <textarea
@@ -387,7 +385,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] disabled:opacity-60 text-slate-950 font-bold text-xs sm:text-sm py-4 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider"
+                    className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] disabled:opacity-60 text-slate-950 font-medium text-xs sm:text-sm py-4 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider"
                   >
                     {isSubmitting ? (
                       <span>{lang === 'de' ? 'Anfrage wird übertragen...' : 'Transmitting Inquiry...'}</span>
@@ -417,26 +415,22 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
             <div className="contact-anim-item bg-white rounded-3xl p-6 sm:p-7 border border-emerald-500/30 shadow-md space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold">
-                    <Globe className="w-5 h-5" />
+                  <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-medium">
+                    <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 text-base font-['Archivo']">
+                    <h3 className="font-semibold text-slate-900 text-base font-['Archivo']">
                       {lang === 'de' ? 'Küppersteg, Leverkusen (Deutschland)' : 'Küppersteg, Leverkusen (DE)'}
                     </h3>
-                    <div className="flex items-center gap-1.5 text-xs font-mono text-emerald-600 font-bold">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                      <span>{lang === 'de' ? 'Europäischer Engineering-Hub' : 'European Engineering Hub'}</span>
-                    </div>
                   </div>
                 </div>
 
                 {/* Live Clock */}
                 <div className="text-right">
-                  <div className="text-[10px] uppercase font-mono text-slate-400 font-bold">
+                  <div className="text-[10px] uppercase font-mono text-slate-400 font-medium">
                     {lang === 'de' ? 'MEZ (UTC+1)' : 'CET (UTC+1)'}
                   </div>
-                  <div className="text-xs font-mono font-extrabold text-slate-900">{deTime || 'Active'}</div>
+                  <div className="text-xs font-mono font-semibold text-slate-900">{deTime || 'Active'}</div>
                 </div>
               </div>
 
@@ -462,7 +456,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
               <div className="pt-2 flex gap-2">
                 <a
                   href="tel:+491729766016"
-                  className="flex-1 text-center py-2 px-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-xs sm:text-sm transition-colors"
+                  className="flex-1 text-center py-2 px-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-medium text-xs sm:text-sm transition-colors"
                 >
                   {lang === 'de' ? 'Büro Leverkusen anrufen' : 'Call German Office'}
                 </a>
@@ -471,7 +465,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                     setActiveMapTab('leverkusen');
                     document.getElementById('interactive-map-section')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors flex items-center gap-1 cursor-pointer"
+                  className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs transition-colors flex items-center gap-1 cursor-pointer"
                 >
                   <MapPin className="w-3.5 h-3.5" />
                   <span>{lang === 'de' ? 'Karte' : 'View Map'}</span>
@@ -483,24 +477,20 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
             <div className="contact-anim-item bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-sm space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-10 h-10 rounded-xl bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] flex items-center justify-center font-bold">
-                    <Building2 className="w-5 h-5" />
+                  <div className="w-10 h-10 rounded-xl bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] flex items-center justify-center font-medium">
+                    <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 text-base font-['Archivo']">
+                    <h3 className="font-semibold text-slate-900 text-base font-['Archivo']">
                       {lang === 'de' ? 'Joypurhat, Bangladesch' : 'Joypurhat, Bangladesh'}
                     </h3>
-                    <div className="flex items-center gap-1.5 text-[11px] font-mono text-cyan-800 font-bold">
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-600 animate-pulse"></span>
-                      <span>{lang === 'de' ? 'Dediziertes Offshore R&D-Zentrum' : 'Dedicated Offshore R&D Center'}</span>
-                    </div>
                   </div>
                 </div>
 
                 {/* Live Clock */}
                 <div className="text-right">
-                  <div className="text-[10px] uppercase font-mono text-slate-400 font-bold">BST (UTC+6)</div>
-                  <div className="text-xs font-mono font-extrabold text-slate-900">{bdTime || 'Active'}</div>
+                  <div className="text-[10px] uppercase font-mono text-slate-400 font-medium">BST (UTC+6)</div>
+                  <div className="text-xs font-mono font-semibold text-slate-900">{bdTime || 'Active'}</div>
                 </div>
               </div>
 
@@ -518,7 +508,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                 <div className="flex items-center justify-between">
                   <span className="text-slate-500">{lang === 'de' ? 'Öffnungszeiten:' : 'Working Hours:'}</span>
                   <span className="font-semibold text-slate-900">
-                    {lang === 'de' ? 'Mo - Sa: 9:00 - 20:00 BST' : 'Mon - Sat: 9:00 AM - 8:00 PM BST'}
+                    {lang === 'de' ? 'Mo - Sa: 9:00 - 20:00 BST' : 'Mon - Sa: 9:00 AM - 8:00 PM BST'}
                   </span>
                 </div>
               </div>
@@ -526,7 +516,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
               <div className="pt-2 flex gap-2">
                 <a
                   href="tel:+8801722301927"
-                  className="flex-1 text-center py-2 px-3 rounded-xl bg-[#BBE7F1]/40 hover:bg-[#BBE7F1]/70 text-slate-950 border border-[#9cd5e2]/60 font-bold text-xs sm:text-sm transition-colors"
+                  className="flex-1 text-center py-2 px-3 rounded-xl bg-[#BBE7F1]/40 hover:bg-[#BBE7F1]/70 text-slate-950 border border-[#9cd5e2]/60 font-medium text-xs sm:text-sm transition-colors"
                 >
                   {lang === 'de' ? 'R&D-Labor anrufen' : 'Call R&D Lab'}
                 </a>
@@ -535,7 +525,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                     setActiveMapTab('joypurhat');
                     document.getElementById('interactive-map-section')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-colors flex items-center gap-1 cursor-pointer"
+                  className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs sm:text-sm transition-colors flex items-center gap-1 cursor-pointer"
                 >
                   <MapPin className="w-3.5 h-3.5" />
                   <span>{lang === 'de' ? 'Karte' : 'View Map'}</span>
@@ -543,31 +533,6 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
               </div>
             </div>
 
-            {/* Direct Technical Access Card */}
-            <div className="contact-anim-item bg-gradient-to-br from-slate-900 to-slate-950 rounded-3xl p-6 sm:p-7 text-white space-y-3.5 shadow-xl border border-slate-800">
-              <div className="flex items-center gap-2 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider">
-                <ShieldCheck className="w-4 h-4" />
-                <span>{lang === 'de' ? 'Deutsche & EU SLA-Garantie' : 'German & EU SLA Guarantee'}</span>
-              </div>
-              <h4 className="font-extrabold text-lg sm:text-xl text-white font-['Archivo']">
-                {lang === 'de' ? 'Direkte technische Zusammenarbeit' : 'Direct Engineering Collaboration'}
-              </h4>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                {lang === 'de'
-                  ? 'Verbinden Sie sich direkt mit unseren Chef-Architekten. Wir bieten bilaterale Vertraulichkeitsvereinbarungen (NDA), europäische Verträge und ein erstes Scoping innerhalb von 12 Stunden.'
-                  : 'Connect directly with lead architects. We offer strict bilateral NDAs, local European contracts, and sub-12h scoping turnarounds.'}
-              </p>
-              <div className="pt-1 flex items-center gap-4 text-xs font-mono text-slate-400">
-                <span className="flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>{lang === 'de' ? '100% IP-Übertragung' : '100% IP Transfer'}</span>
-                </span>
-                <span className="flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>{lang === 'de' ? 'DSGVO-konform' : 'GDPR Compliant'}</span>
-                </span>
-              </div>
-            </div>
 
           </aside>
 
@@ -582,7 +547,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                 <Navigation className="w-4 h-4 text-cyan-700" />
                 <span>{lang === 'de' ? 'Präsenz vor Ort & Entwicklungszentren' : 'Physical Presence & Engineering Hubs'}</span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 font-['Kufam'] mt-1">
+              <h2 className="text-xl sm:text-2xl font-semibold text-slate-900 font-['Kufam'] mt-1">
                 {lang === 'de' ? 'Europäische Standorte & Globale Entwicklungszentren' : 'European Operations & Global Engineering Map'}
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 mt-1 font-['Kufam']">
@@ -597,26 +562,26 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
               <button
                 type="button"
                 onClick={() => setActiveMapTab('leverkusen')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                   activeMapTab === 'leverkusen'
                     ? 'bg-emerald-600 text-white shadow-xs'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`}
               >
-                <Globe className="w-3.5 h-3.5" />
+                <MapPin className="w-3.5 h-3.5" />
                 <span>{lang === 'de' ? 'Leverkusen Hub (Deutschland)' : 'Leverkusen Hub (Germany)'}</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveMapTab('joypurhat')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                   activeMapTab === 'joypurhat'
-                    ? 'bg-[#BBE7F1] text-slate-950 font-bold border border-[#9cd5e2] shadow-xs'
+                    ? 'bg-[#BBE7F1] text-slate-950 font-medium border border-[#9cd5e2] shadow-xs'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`}
               >
-                <Building2 className="w-3.5 h-3.5" />
+                <MapPin className="w-3.5 h-3.5" />
                 <span>{lang === 'de' ? 'Joypurhat Zentrum (Bangladesch)' : 'Joypurhat Center (Bangladesh)'}</span>
               </button>
             </div>
@@ -646,7 +611,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
             {/* Floating Info Overlay Card on Map */}
             <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10 max-w-xs sm:max-w-sm bg-slate-950/90 backdrop-blur-md text-white p-5 rounded-2xl border border-slate-800 shadow-2xl space-y-3">
               <div className="flex items-center justify-between">
-                <span className={`text-xs font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
+                <span className={`text-xs font-mono font-medium uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
                   activeMapTab === 'joypurhat' ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2]' : 'bg-emerald-600 text-white'
                 }`}>
                   {activeMapTab === 'joypurhat' 
@@ -659,7 +624,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
               </div>
 
               <div>
-                <h4 className="font-bold text-sm sm:text-base font-['Archivo'] text-white">
+                <h4 className="font-semibold text-sm sm:text-base font-['Archivo'] text-white">
                   {activeMapTab === 'joypurhat' 
                     ? (lang === 'de' ? 'Joypurhat Entwicklungszentrum' : 'Joypurhat Headquarters')
                     : (lang === 'de' ? 'Küppersteg, Leverkusen Niederlassung' : 'Küppersteg, Leverkusen Operations')}
@@ -680,13 +645,13 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   }
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#BBE7F1] hover:text-[#a7dfed] transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-medium text-[#BBE7F1] hover:text-[#a7dfed] transition-colors"
                 >
                   <span>{lang === 'de' ? 'In Google Maps öffnen' : 'Open in Google Maps'}</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
 
-                <span className="text-[11px] font-mono text-emerald-400 font-bold flex items-center gap-1">
+                <span className="text-[11px] font-mono text-emerald-400 font-medium flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                   {lang === 'de' ? 'Jetzt aktiv' : 'Active Now'}
                 </span>

@@ -104,7 +104,7 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
             <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide mb-2">
               <span>{t.portfolioKicker}</span>
             </div>
-            <h2 className="text-xl sm:text-2xl lg:text-[30px] font-bold text-slate-900 tracking-tight font-['Kufam']">
+            <h2 className="text-xl sm:text-2xl lg:text-[30px] font-semibold text-slate-900 tracking-tight font-['Kufam']">
               {t.portfolioHeading}
             </h2>
           </div>
@@ -119,7 +119,7 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
                   type="button"
                   key={cat.name}
                   onClick={() => setSelectedCategory(cat.name)}
-                  className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0 min-h-[38px] ${
+                  className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0 min-h-[38px] ${
                     isSelected
                       ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs'
                       : 'bg-slate-100 hover:bg-slate-200/80 text-slate-700 border border-slate-200/80'
@@ -179,14 +179,14 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
                 <div className="p-5 flex-1 flex flex-col justify-between space-y-3.5 bg-white">
                   <div>
                     <div className="flex items-center justify-between text-xs mb-1.5">
-                      <span className="font-mono font-bold text-cyan-800 tracking-wide">{project.category}</span>
+                      <span className="font-mono font-medium text-cyan-800 tracking-wide">{project.category}</span>
                       <span className="text-slate-500 font-medium truncate max-w-[130px] flex items-center gap-1">
                         <Building2 className="w-3 h-3 text-slate-400 shrink-0" />
                         <span className="truncate">{project.clientName}</span>
                       </span>
                     </div>
 
-                    <h3 className="text-base sm:text-lg font-extrabold text-slate-900 group-hover:text-cyan-800 transition-colors font-['Archivo'] line-clamp-1">
+                    <h3 className="text-base sm:text-lg font-semibold text-slate-900 group-hover:text-cyan-800 transition-colors line-clamp-1">
                       {project.title}
                     </h3>
 
@@ -210,7 +210,7 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
                       )}
                     </div>
 
-                    <div className="inline-flex items-center gap-1 text-sm font-bold text-slate-950 group-hover:text-cyan-800 shrink-0 whitespace-nowrap">
+                    <div className="inline-flex items-center gap-1 text-sm font-medium text-slate-950 group-hover:text-cyan-800 shrink-0 whitespace-nowrap">
                       <span className="whitespace-nowrap">{t.portfolioViewProject}</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
                     </div>
@@ -225,7 +225,7 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
         <div className="mt-9 text-center">
           <button
             onClick={onViewAllProjects}
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-800 font-bold text-sm sm:text-base border border-slate-200 transition-all cursor-pointer min-h-[44px]"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-800 font-medium text-sm sm:text-base border border-slate-200 transition-all cursor-pointer min-h-[44px]"
           >
             <span>{t.portfolioViewAll}</span>
             <ArrowRight className="w-4 h-4 text-slate-950" />

@@ -17,7 +17,7 @@ import { MeetOurTeamSection } from './MeetOurTeamSection';
 import { WorkingProcessSection } from './WorkingProcessSection';
 import { FaqAndExperienceSection } from './FaqAndExperienceSection';
 import { RecentProjectsSection } from './RecentProjectsSection';
-import { TestimonialsSection } from './TestimonialsSection';
+import { DeliveryApproachSection } from './DeliveryApproachSection';
 import { ClientLogosSection } from './ClientLogosSection';
 import { GlobalEcosystemSection } from './GlobalEcosystemSection';
 import { GlobalTrustSection } from './GlobalTrustSection';
@@ -409,7 +409,7 @@ function MainAppContent() {
               onViewAllProjects={() => handleNavigate('portfolio')}
             />
 
-            <TestimonialsSection testimonials={testimonials} />
+            <DeliveryApproachSection />
 
             <GlobalEcosystemSection />
 

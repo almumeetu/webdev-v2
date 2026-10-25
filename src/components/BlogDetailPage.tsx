@@ -164,8 +164,8 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
           </div>
         </div>
 
-        {/* Main Banner Image */}
-        <div className="blog-fade-item relative h-72 sm:h-96 rounded-3xl overflow-hidden shadow-xl border border-slate-200">
+        {/* Main Banner Image - Static */}
+        <div className="relative h-72 sm:h-96 rounded-3xl overflow-hidden shadow-xl border border-slate-200">
           {currentBlog.image && currentBlog.image.trim() !== '' ? (
             <img
               src={currentBlog.image}

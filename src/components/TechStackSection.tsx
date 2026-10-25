@@ -40,7 +40,7 @@ const TechBadge: React.FC<TechBadgeProps> = ({ tech }) => (
     <div className="relative p-2.5 rounded-xl bg-gradient-to-br from-primary-50 to-violet-50 shadow-inner group-hover/item:shadow-lg group-hover/item:scale-110 transition-all duration-500">
       <img src={tech.icon} alt={tech.name} loading="lazy" width="36" height="36" className="h-9 w-9 object-contain" />
     </div>
-    <span className="relative text-base font-bold bg-gradient-to-r from-slate-700 to-slate-900 bg-clip-text text-transparent group-hover/item:from-primary-600 group-hover/item:to-violet-600 transition-all duration-500">
+    <span className="relative text-base font-medium bg-gradient-to-r from-slate-700 to-slate-900 bg-clip-text text-transparent group-hover/item:from-primary-600 group-hover/item:to-violet-600 transition-all duration-500">
       {tech.name}
     </span>
     
@@ -67,7 +67,7 @@ export const TechStackSection: React.FC = () => {
         <div className="inline-flex items-center gap-2 text-cyan-700 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
           <span>The Engine Room & Tech Arsenal</span>
         </div>
-        <h2 className="mt-3 text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold tracking-tight font-['Kufam']">
+        <h2 className="mt-3 text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-semibold tracking-tight font-['Kufam']">
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-primary-600 to-violet-600">
             Powering World-Class Solutions
           </span>

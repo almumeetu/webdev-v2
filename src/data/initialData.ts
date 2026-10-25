@@ -1,6 +1,197 @@
 import { Project, TeamMember, BlogPost, Inquiry, ServiceDetail, SiteSettings, Testimonial, HeroSlide, JobPosting, JobApplication } from '../types';
 
-export const initialProjects: Project[] = [];
+export const initialProjects: Project[] = [
+  {
+    id: 'proj-1',
+    title: 'FinTech Cloud-Banking Portal',
+    category: 'Full Stack & MERN',
+    status: 'completed',
+    description: 'Enterprise full-stack banking portal for a European financial institution featuring microservices, sub-second latency, multi-currency accounting, and real-time fraud detection.',
+    clientName: 'Bavarian FinTech Group',
+    clientCountry: 'Germany',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+    completionDate: '2025',
+    techStack: ['Next.js', 'React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis', 'Docker', 'AWS'],
+    liveUrl: 'https://fintech-portal.example.com',
+    features: ['Multi-currency IBAN account management', 'Two-factor biometric authentication', 'BaFin-compliant audit logging', 'Sub-millisecond Redis caching'],
+    metrics: '€14M+ processed monthly transaction volume at 99.99% uptime',
+    priceRange: '€12,500 - €25,000',
+    estimatedDelivery: '3 - 5 Weeks',
+    readyToOrder: true,
+    highlight: 'BaFin-compliant • €14M+ volume'
+  },
+  {
+    id: 'proj-2',
+    title: 'High-End Classical Guitar E-Commerce',
+    category: 'E-Commerce',
+    status: 'completed',
+    description: 'Custom high-converting online shop and instrument showroom for master luthier classical guitars based in North Carolina, USA with worldwide shipping.',
+    clientName: 'All Strings Nylon',
+    clientCountry: 'USA',
+    image: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=1200&q=80',
+    completionDate: '2024',
+    techStack: ['Next.js', 'Shopify', 'React', 'TailwindCSS', 'Algolia', 'Stripe', 'Audio Waveform API'],
+    liveUrl: 'https://allstringsnylon.com',
+    features: ['Acoustic audio sample waveform player', 'Ultra-high-res 360° zoom gallery', 'Seamless domestic & international checkout', 'Real-time multi-location warehouse sync'],
+    metrics: '+38% increase in average order value (AOV)',
+    priceRange: '$8,500 - $16,000',
+    estimatedDelivery: '2 - 3 Weeks',
+    readyToOrder: true,
+    highlight: '+38% AOV Growth • Algolia & Stripe'
+  },
+  {
+    id: 'proj-3',
+    title: 'Commercial Electrical & Power Grid SaaS',
+    category: 'Web Application',
+    status: 'completed',
+    description: 'Operations, dispatching, and field assembly portal for a major industrial electrical contractor based in Florida, USA.',
+    clientName: 'Gilmore Electric Co.',
+    clientCountry: 'USA',
+    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80',
+    completionDate: '2024',
+    techStack: ['React', 'Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Prisma', 'TailwindCSS'],
+    liveUrl: 'https://gilmoreelectric.example.com',
+    features: ['Real-time field technician dispatching', 'Automated OSHA safety compliance checklists', 'Architectural blueprint viewer & annotation tool', 'Multi-tenant commercial billing engine'],
+    metrics: 'Managed 350+ commercial construction projects',
+    priceRange: '$14,000 - $28,000',
+    estimatedDelivery: '3 - 4 Weeks',
+    readyToOrder: true,
+    highlight: '350+ Projects Managed • Real-Time Dispatch'
+  },
+  {
+    id: 'proj-4',
+    title: 'Sustainable Mega Data Center Cloud-Grid',
+    category: 'Backend & Cloud',
+    status: 'completed',
+    description: 'Telemetric IoT energy monitoring and multi-gigawatt cooling grid telemetry for Europe’s largest 100% green data center campus in Sines, Portugal.',
+    clientName: 'Start Campus Sines',
+    clientCountry: 'Europe',
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
+    completionDate: '2024',
+    techStack: ['Python', 'Django', 'TimescaleDB', 'Grafana', 'Docker', 'AWS IoT', 'Redis'],
+    liveUrl: 'https://startcampus.pt',
+    features: ['Real-time PUE (Power Usage Effectiveness) analytics', 'Automated anomaly detection and heat distribution', 'EU-ETS compliant carbon footprint tracking', 'Strict TLS 1.3 encrypted industrial telemetry'],
+    metrics: 'Real-time telemetry across 495MW campus capacity',
+    priceRange: '€18,000 - €35,000',
+    estimatedDelivery: '4 - 6 Weeks',
+    readyToOrder: true,
+    highlight: '495MW Campus Telemetry • TimescaleDB & Grafana'
+  },
+  {
+    id: 'proj-5',
+    title: 'Nordic Clean Living Headless Shopify',
+    category: 'E-Commerce',
+    status: 'completed',
+    description: 'High-converting headless Shopify storefront for sustainable home goods across the DACH region with 98+ PageSpeed scores.',
+    clientName: 'Nordic Living GmbH',
+    clientCountry: 'Germany',
+    image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1200&q=80',
+    completionDate: '2025',
+    techStack: ['Next.js', 'Shopify', 'TypeScript', 'TailwindCSS', 'Klarna', 'Stripe'],
+    liveUrl: 'https://nordic-living.example.de',
+    features: ['Headless checkout with Klarna & SEPA direct debit', 'GDPR-compliant cookie consent and privacy engine', 'Custom 3D product visualizer', 'Automated DHL Express shipping label generation'],
+    metrics: '+43% increase in mobile checkout conversion rate',
+    priceRange: '€7,500 - €15,000',
+    estimatedDelivery: '2 - 3 Weeks',
+    readyToOrder: true,
+    highlight: '98+ PageSpeed • Klarna & SEPA Direct Checkout'
+  },
+  {
+    id: 'proj-6',
+    title: 'Nationwide Freight & Logistics Telemetry',
+    category: 'Web Application',
+    status: 'completed',
+    description: 'Comprehensive supply chain and fleet tracking platform for a leading German freight logistics provider featuring real-time GPS telemetry.',
+    clientName: 'Bavarian Cargo Express GmbH',
+    clientCountry: 'Germany',
+    image: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1200&q=80',
+    completionDate: '2024',
+    techStack: ['React', 'Next.js', 'Node.js', 'PostgreSQL', 'Mapbox GL', 'Socket.io', 'Docker'],
+    liveUrl: 'https://bavarian-cargo.example.de',
+    features: ['Real-time freight truck dispatching and ETA recalculation', 'Automated CMR invoice and bill of lading generation', 'Offline-first PWA for field drivers', 'Integrated SMS and webhook delivery notification gateways'],
+    metrics: '4,500+ active consignments tracked daily',
+    priceRange: '€11,000 - €22,000',
+    estimatedDelivery: '2 - 4 Weeks',
+    readyToOrder: true,
+    highlight: '4,500+ Shipments/Day • Offline PWA & GPS GIS'
+  },
+  {
+    id: 'proj-7',
+    title: 'Global Multi-Vendor Retail Portal',
+    category: 'WordPress & Shopify',
+    status: 'ongoing',
+    description: 'Enterprise multi-vendor architecture with real-time multi-currency support (USD, GBP, EUR) for an expanding UK omnichannel retailer.',
+    clientName: 'Crown Retail Group UK',
+    clientCountry: 'UK',
+    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80',
+    completionDate: '2026',
+    techStack: ['Shopify', 'WordPress', 'GraphQL', 'Next.js', 'TailwindCSS', 'Stripe'],
+    liveUrl: 'https://crown-retail.example.co.uk',
+    features: ['Sub-second faceted product search', 'Automated UK VAT calculation and digital invoicing', 'London and Manchester multi-warehouse inventory sync', 'Mobile-first PWA shopping experience'],
+    metrics: 'Sprint 3 active • 0.38s average server response',
+    priceRange: '£9,000 - £18,000',
+    estimatedDelivery: '3 - 4 Weeks',
+    readyToOrder: true,
+    highlight: '0.38s Server Response • Multi-Currency Ledger'
+  },
+  {
+    id: 'proj-8',
+    title: 'MedConnect Telemedicine & Patient Portal',
+    category: 'Web Application',
+    status: 'completed',
+    description: 'Next-generation telemedicine platform with encrypted WebRTC video consultations, electronic prescription dispatch, and strict German GDPR compliance.',
+    clientName: 'MedConnect Kliniken e.V.',
+    clientCountry: 'Germany',
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80',
+    completionDate: '2025',
+    techStack: ['Next.js', 'TypeScript', 'WebRTC', 'Node.js', 'PostgreSQL', 'TailwindCSS', 'Docker'],
+    liveUrl: 'https://medconnect.example.de',
+    features: ['End-to-end encrypted video consultations', 'German E-Prescription synchronization', 'Automated doctor appointment booking', 'Integrated SEPA & credit card payment'],
+    metrics: '65% reduction in wait times across 14 clinic locations',
+    priceRange: '€15,000 - €30,000',
+    estimatedDelivery: '3 - 4 Weeks',
+    readyToOrder: true,
+    highlight: 'GDPR-Encrypted WebRTC • 14 Clinics Powered'
+  },
+  {
+    id: 'proj-9',
+    title: 'Luxury Estates PropTech Booking Portal',
+    category: 'Full Stack & MERN',
+    status: 'completed',
+    description: 'Exclusive real estate portal with interactive Mapbox geolocation, 3D virtual tours, mortgage estimation calculator, and lead qualification CRM.',
+    clientName: 'Pacific Rim Luxury Realty',
+    clientCountry: 'USA',
+    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
+    completionDate: '2025',
+    techStack: ['React', 'Next.js', 'Node.js', 'MongoDB', 'Mapbox', 'TailwindCSS', 'AWS'],
+    liveUrl: 'https://luxury-estates.example.com',
+    features: ['Interactive Mapbox parcel and neighborhood search', 'Matterport 3D virtual tour embedding', 'Lead capture funnel with SMS and automated email', 'Automated MLS / IDX property feeds'],
+    metrics: '$28M+ in property inquiries generated in first 6 months',
+    priceRange: '$10,000 - $20,000',
+    estimatedDelivery: '2 - 3 Weeks',
+    readyToOrder: true,
+    highlight: '$28M+ Inquiries Generated • 3D Virtual Tours'
+  },
+  {
+    id: 'proj-10',
+    title: 'OmniFlow AI Customer Support & Automation Suite',
+    category: 'Backend & Cloud',
+    status: 'ongoing',
+    description: 'High-throughput customer interaction engine with multi-channel WhatsApp, email, and live web chat, paired with autonomous LLM routing and CRM connectors.',
+    clientName: 'OmniFlow EU Ltd.',
+    clientCountry: 'Europe',
+    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80',
+    completionDate: '2026',
+    techStack: ['Python', 'FastAPI', 'Next.js', 'PostgreSQL', 'Redis', 'Docker', 'AWS'],
+    liveUrl: 'https://omniflow-ai.example.eu',
+    features: ['Autonomous AI first response under 1 second', 'Intelligent sentiment escalation to human agents', 'Omnichannel sync across WhatsApp, Email, and Chat', 'Real-time analytics and CSAT reporting dashboard'],
+    metrics: 'Handling 120,000+ monthly customer conversations',
+    priceRange: '€16,000 - €32,000',
+    estimatedDelivery: '3 - 5 Weeks',
+    readyToOrder: true,
+    highlight: '120,000+ Conversations/Month • Autonomous LLM'
+  }
+];
 
 export const initialTeam: TeamMember[] = [
   {
@@ -263,68 +454,7 @@ The combination of React 19 server actions, unified hydration, and TypeScript co
   }
 ];
 
-export const initialTestimonials = [
-  {
-    id: 'test-1',
-    name: 'David H. Miller',
-    role: 'Chief Operating Officer',
-    company: 'All Strings Nylon, Apex, North Carolina',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
-    country: 'USA',
-    flag: '🇺🇸',
-    quote: '"WebDev Software Solutions overhauled our entire eCommerce infrastructure. Communicating with Saikat and the team during our US Eastern business hours was seamless. Their attention to detail, sub-second search speeds, and custom audio player helped increase our US conversion rate by 38%. We trust them completely with our core digital assets."',
-    rating: 5,
-    verified: true
-  },
-  {
-    id: 'test-2',
-    name: 'Henrik Von Klaus',
-    role: 'Managing Director',
-    company: 'Rheinland Tech Logistik GmbH, Frankfurt',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
-    country: 'Germany',
-    flag: '🇩🇪',
-    quote: '"Very well thought out and articulate communication. Clear sprint milestones, zero shortcuts, and uncompromising precision. Even when requirements shifted, they responded with ingenious architectural solutions. WebDev delivers authentic high-performance engineering with incredible cost-efficiency. A premier software partner."',
-    rating: 5,
-    verified: true
-  },
-  {
-    id: 'test-3',
-    name: 'Oliver Kensington',
-    role: 'Head of Engineering',
-    company: 'Apex Retail Solutions Ltd, London',
-    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&q=80',
-    country: 'UK',
-    flag: '🇬🇧',
-    quote: '"Working with WebDev felt like having an elite senior engineering squad right inside our London office. Their clean TypeScript code, Dockerized microservices, and adherence to strict bilateral NDAs gave our board total peace of mind. Delivered our platform two weeks ahead of schedule."',
-    rating: 5,
-    verified: true
-  },
-  {
-    id: 'test-4',
-    name: 'Elena Rostova',
-    role: 'Head of Product',
-    company: 'Nordic Commerce Group, Munich & Berlin',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-    country: 'Germany',
-    flag: '🇩🇪',
-    quote: '"The headless Shopify build they produced for our brand surpassed every performance target. Our mobile conversion rate jumped by 43% in the first month alone. Their agile development velocity, clean code standards, and transparent collaboration are world-class."',
-    rating: 5,
-    verified: true
-  },
-  {
-    id: 'test-5',
-    name: 'Kawsar Mahmud',
-    role: 'Chief Operating Officer',
-    company: 'Prime Agro Industries Ltd, Bangladesh',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80',
-    country: 'Bangladesh',
-    flag: '🇧🇩',
-    quote: '"Working with WebDev Software Solutions transformed our supply chain logistics. Their MERN stack platform handles our fleet tracking effortlessly and their proactive server support gives us complete peace of mind. Highly recommended for any serious business."',
-    rating: 5,
-    verified: true
-  }
-];
+export const initialTestimonials: Testimonial[] = [];
 
 export const clientLogos = [
   { 
@@ -599,68 +729,7 @@ We reserve the right to update these Terms. Continued use of our services consti
   gdprBadgeText: 'Transparent project governance, strict bilateral NDAs, and agile sprint delivery with real-time communication.'
 };
 
-export const initialTestimonialsData: Testimonial[] = [
-  {
-    id: 'test-1',
-    name: 'David H. Miller',
-    role: 'Chief Operating Officer',
-    company: 'All Strings Nylon, Apex, North Carolina',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
-    country: 'USA',
-    flag: '🇺🇸',
-    quote: 'WebDev Software Solutions overhauled our entire eCommerce infrastructure. Communicating with Saikat and the team during our US Eastern business hours was seamless. Their attention to detail, sub-second search speeds, and custom audio player helped increase our US conversion rate by 38%. We trust them completely with our core digital assets.',
-    rating: 5,
-    verified: true
-  },
-  {
-    id: 'test-2',
-    name: 'Henrik Von Klaus',
-    role: 'Managing Director',
-    company: 'Rheinland Tech Logistik GmbH, Frankfurt',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
-    country: 'Germany',
-    flag: '🇩🇪',
-    quote: 'Very well thought out and articulate communication. Clear sprint milestones, zero shortcuts, and uncompromising precision. Even when requirements shifted, they responded with ingenious architectural solutions. WebDev delivers authentic high-performance engineering with incredible cost-efficiency. A premier software partner.',
-    rating: 5,
-    verified: true
-  },
-  {
-    id: 'test-3',
-    name: 'Oliver Kensington',
-    role: 'Head of Engineering',
-    company: 'Apex Retail Solutions Ltd, London',
-    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&q=80',
-    country: 'UK',
-    flag: '🇬🇧',
-    quote: 'Working with WebDev felt like having an elite senior engineering squad right inside our London office. Their clean TypeScript code, Dockerized microservices, and adherence to strict bilateral NDAs gave our board total peace of mind. Delivered our platform two weeks ahead of schedule.',
-    rating: 5,
-    verified: true
-  },
-  {
-    id: 'test-4',
-    name: 'Elena Rostova',
-    role: 'Head of Product',
-    company: 'Nordic Commerce Group, Munich & Berlin',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-    country: 'Germany',
-    flag: '🇩🇪',
-    quote: 'The headless Shopify build they produced for our brand surpassed every performance target. Our mobile conversion rate jumped by 43% in the first month alone. Their agile development velocity, clean code standards, and transparent collaboration are world-class.',
-    rating: 5,
-    verified: true
-  },
-  {
-    id: 'test-5',
-    name: 'Kawsar Mahmud',
-    role: 'Chief Operating Officer',
-    company: 'Prime Agro Industries Ltd, Bangladesh',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80',
-    country: 'Bangladesh',
-    flag: '🇧🇩',
-    quote: 'Working with WebDev Software Solutions transformed our supply chain logistics. Their MERN stack platform handles our fleet tracking effortlessly and their proactive server support gives us complete peace of mind. Highly recommended for any serious business.',
-    rating: 5,
-    verified: true
-  }
-];
+export const initialTestimonialsData: Testimonial[] = [];
 
 export const initialJobPostings: JobPosting[] = [];
 

@@ -1,11 +1,14 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { initialTestimonialsData } from '@/data/initialData';
+import { removeSeededTestimonials } from '@/utils/testimonials';
 
 // GET all testimonials
 export async function GET() {
   try {
-    const testimonials = await prisma.testimonial.findMany({ orderBy: { createdAt: 'desc' } });
+    const testimonials = removeSeededTestimonials(
+      await prisma.testimonial.findMany({ orderBy: { createdAt: 'desc' } })
+    );
     if (testimonials.length > 0) {
       return NextResponse.json({ success: true, source: 'postgresql', data: testimonials });
     }
