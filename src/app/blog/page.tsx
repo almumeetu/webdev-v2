@@ -16,11 +16,6 @@ export default function BlogPage() {
       <Breadcrumb
         badge={lang === 'de' ? 'FACHBLOG & INSIGHTS' : 'ENGINEERING BLOG'}
         title={lang === 'de' ? 'Technische Einblicke & News' : 'Technical Insights & News'}
-        subtitle={
-          lang === 'de'
-            ? 'Detaillierte Analysen zu verteilten Systemen, moderner Webarchitektur, Cloud-Infrastrukturen und Best Practices im Software-Engineering.'
-            : 'Deep dives on distributed systems, modern web architecture, cloud deployment, and engineering best practices.'
-        }
         items={[
           { label: lang === 'de' ? 'Startseite' : 'Home', onClick: () => router.push('/') },
           { label: lang === 'de' ? 'Technische Einblicke & News' : 'Technical Insights & News', active: true }
@@ -29,7 +24,7 @@ export default function BlogPage() {
         backLabel={lang === 'de' ? 'Zurück zur Startseite' : 'Back to Home'}
         align="left"
       />
-      <div className="py-8">
+      <div className="pt-6 sm:pt-8 lg:pt-10 pb-12 sm:pb-16 lg:pb-20">
         <LatestNewsSection
           blogs={blogs}
           onSelectBlog={(blog) => router.push(`/blog/${blog.id}`)}

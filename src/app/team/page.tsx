@@ -12,15 +12,10 @@ export default function TeamPage() {
   const { lang } = useLanguage();
 
   return (
-    <div>
+    <div className="bg-white min-h-screen">
       <Breadcrumb
         badge={lang === 'de' ? 'FÜHRUNGSTEAM & SENIOR ENGINEERS' : 'EXECUTIVE LEADERSHIP & CORE ENGINEERS'}
         title={lang === 'de' ? 'Engineering-Team & Technische Leitung' : 'Engineering Team & Technical Leadership'}
-        subtitle={
-          lang === 'de'
-            ? 'Erfahrene Software-Architekten, Full-Stack-Entwickler und Cloud-Infrastruktur-Spezialisten für hochmoderne digitale Lösungen.'
-            : 'Senior software architects, full-stack engineers, and cloud infrastructure specialists delivering enterprise digital solutions.'
-        }
         items={[
           { label: lang === 'de' ? 'Startseite' : 'Home', onClick: () => router.push('/') },
           { label: lang === 'de' ? 'Engineering-Team & Führung' : 'Engineering Team & Leadership', active: true }
@@ -28,13 +23,12 @@ export default function TeamPage() {
         backAction={() => router.push('/')}
         backLabel={lang === 'de' ? 'Zurück zur Startseite' : 'Back to Home'}
         align="left"
+        dividerFillColor="text-white"
       />
-      <div className="py-8">
-        <MeetOurTeamSection
-          teamMembers={teamMembers}
-          onSelectMember={(member) => router.push(`/team/${member.id}`)}
-        />
-      </div>
+      <MeetOurTeamSection
+        teamMembers={teamMembers}
+        onSelectMember={(member) => router.push(`/team/${member.id}`)}
+      />
     </div>
   );
 }

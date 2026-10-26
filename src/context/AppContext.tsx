@@ -12,6 +12,7 @@ import {
   Testimonial,
   JobPosting,
   JobApplication,
+  HeroSlide,
   DEFAULT_PROJECT_CATEGORIES,
 } from '../types';
 import {
@@ -21,6 +22,7 @@ import {
   initialInquiries,
   initialServices,
   initialSiteSettings,
+  initialHeroSlides,
   initialTestimonialsData,
   initialJobPostings,
   initialJobApplications,
@@ -119,6 +121,95 @@ async function apiFetch<T>(url: string, options?: RequestInit): Promise<T | null
   } catch {
     return null;
   }
+}
+
+const LEGACY_DEFAULT_HERO_SLIDES: HeroSlide[] = [
+  {
+    id: 'slide-1',
+    badge: 'GERMANY & BANGLADESH ENGINEERING',
+    title: 'Modern Full-Stack & Cloud Solutions',
+    highlightText: 'Built to Scale',
+    subtitle: 'We craft high-performance web applications, enterprise software, and scalable digital architectures with European precision.',
+    primaryBtnText: 'Request Consultation',
+    primaryBtnAction: 'quote',
+    secondaryBtnText: 'Our Services',
+    secondaryBtnAction: 'services',
+    backgroundImage: '/images/background/webdev-bg.webp',
+    tag: '01 / Enterprise Systems',
+  },
+  {
+    id: 'slide-2',
+    badge: 'NEXT.JS & ENTERPRISE PERFORMANCE',
+    title: 'Transforming Ideas into Digital Realities',
+    highlightText: 'Fast & Secure',
+    subtitle: 'Specialized in MERN stack, Next.js, and cloud ecosystems engineered for high availability, security, and peak performance.',
+    primaryBtnText: 'Explore Portfolio',
+    primaryBtnAction: 'projects',
+    secondaryBtnText: 'Contact Us',
+    secondaryBtnAction: 'contact',
+    backgroundImage: '/images/background/hero-img-1.webp',
+    tag: '02 / Cloud Architecture',
+  },
+  {
+    id: 'slide-3',
+    badge: 'TAILORED SOFTWARE DEVELOPMENT',
+    title: 'End-to-End Engineering for Visionary Brands',
+    highlightText: 'Worldwide Impact',
+    subtitle: 'Empowering ambitious businesses worldwide with scalable architecture, robust code, and dedicated technical partnership.',
+    primaryBtnText: 'Start Your Project',
+    primaryBtnAction: 'quote',
+    secondaryBtnText: 'Explore Services',
+    secondaryBtnAction: 'services',
+    backgroundImage: '/images/background/webdev-bg-s.webp',
+    tag: '03 / Tailored Solutions',
+  },
+];
+
+const KNOWN_LEGACY_TITLES = [
+  'Modern Full-Stack & Cloud Solutions',
+  'Web & Mobile Engineering.',
+  'Web & Mobile Engineering',
+  'Transforming Ideas into Digital Realities',
+  'Exceptional Web Experiences.',
+  'Exceptional Web Experiences',
+  'End-to-End Engineering for Visionary Brands',
+  'Powerful Mobile Apps.',
+  'Powerful Mobile Apps',
+];
+
+function refreshLegacyHeroDefaults(settings: SiteSettings): SiteSettings {
+  if (!settings.heroSlides?.length) return { ...settings, heroSlides: initialHeroSlides };
+
+  const refreshedSlides = settings.heroSlides.map((slide, index) => {
+    const fresh = initialHeroSlides[index];
+    if (!fresh) return slide;
+
+    const legacy = LEGACY_DEFAULT_HERO_SLIDES[index];
+    const isKnownLegacy = KNOWN_LEGACY_TITLES.includes(slide.title) ||
+      (legacy && (
+        slide.id === legacy.id &&
+        slide.title === legacy.title &&
+        slide.highlightText === legacy.highlightText
+      ));
+
+    if (!isKnownLegacy) return slide;
+
+    return {
+      ...slide,
+      badge: fresh.badge,
+      title: fresh.title,
+      highlightText: fresh.highlightText,
+      subtitle: fresh.subtitle,
+      primaryBtnText: fresh.primaryBtnText,
+      primaryBtnAction: fresh.primaryBtnAction,
+      secondaryBtnText: fresh.secondaryBtnText,
+      secondaryBtnAction: fresh.secondaryBtnAction,
+      backgroundImage: fresh.backgroundImage,
+      tag: fresh.tag,
+    };
+  });
+
+  return { ...settings, heroSlides: refreshedSlides };
 }
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
@@ -227,7 +318,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     // Site settings
     try {
       const saved = localStorage.getItem('webdev_site_settings');
-      if (saved) setSiteSettings({ ...initialSiteSettings, ...JSON.parse(saved) });
+      if (saved) {
+        const savedSettings = JSON.parse(saved) as Partial<SiteSettings>;
+        const refreshed = refreshLegacyHeroDefaults({ ...initialSiteSettings, ...savedSettings });
+        setSiteSettings(refreshed);
+        localStorage.setItem('webdev_site_settings', JSON.stringify(refreshed));
+      }
     } catch {}
 
     // Auth user

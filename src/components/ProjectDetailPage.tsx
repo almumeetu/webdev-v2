@@ -90,7 +90,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-6 sm:py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 pt-6 sm:pt-8 lg:pt-10 pb-16 sm:pb-20 lg:pb-24">
 
         {/* Project Hero Banner - Static Background */}
         <div className="relative h-72 sm:h-96 rounded-3xl overflow-hidden shadow-2xl border border-slate-200">

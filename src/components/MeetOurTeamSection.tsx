@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { TeamMember } from '../types';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
-import { ArrowUpRight, Phone, Mail, User, Award, Briefcase } from 'lucide-react';
+import { ArrowUpRight, Phone, Mail, User, Award, Briefcase, MapPin, ShieldCheck, Globe } from 'lucide-react';
 import { gsap, useGsapContext } from '../utils/gsapHelper';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -126,7 +126,7 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
     return (
       <section
         ref={sectionRef}
-        className="relative overflow-hidden bg-white py-16 sm:py-24 text-slate-900"
+        className="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-24 text-slate-900"
       >
         {/* Decorative background shape */}
         <div className="pointer-events-none absolute -right-32 top-0 h-[500px] w-[500px] rounded-full bg-cyan-50 opacity-60 blur-3xl" />
@@ -266,46 +266,35 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#F5F7FA] py-16 text-slate-900 sm:py-24"
+      className="relative bg-white py-12 sm:py-16 lg:py-20 text-slate-900"
     >
-      {/* Decorative background */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.035]"
-        style={{
-          backgroundImage: `radial-gradient(circle, #64748b 1px, transparent 1px)`,
-          backgroundSize: '28px 28px'
-        }}
-      />
-      <div className="pointer-events-none absolute right-0 top-0 h-96 w-96 rounded-full bg-cyan-100/60 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 rounded-full bg-indigo-100/40 blur-3xl" />
-
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Header */}
-        <div className="team-ref-header mb-12 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        {/* Section Header */}
+        <div className="team-ref-header mb-10 sm:mb-12 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between border-b border-slate-100 pb-8 sm:pb-10">
           <div className="max-w-2xl">
-            <div className="mb-4 flex items-center gap-3">
-              <span className="h-px w-10 bg-gradient-to-r from-cyan-600 to-cyan-400" />
-              <span className="font-['Kufam'] text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-700">
+            <div className="mb-3 flex items-center gap-3">
+              <span className="h-px w-8 bg-cyan-700" />
+              <span className="font-['Kufam'] text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-800">
                 {t.teamKicker}
               </span>
             </div>
-            <h2 className="text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold tracking-tight text-slate-950 font-['Kufam']">
               {lang === 'de' ? 'Die Menschen hinter unseren Lösungen' : 'Meet the minds behind the work'}
             </h2>
-            <p className="mt-4 max-w-xl text-[15px] leading-7 text-slate-500">
+            <p className="mt-3 text-sm sm:text-base leading-relaxed text-slate-600">
               {t.teamSubheading}
             </p>
           </div>
 
-          {/* Team count badge */}
-          <div className="flex shrink-0 items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-3 shadow-sm self-start sm:self-auto">
-            <span className="text-3xl font-semibold text-slate-900">
-              {String(teamMembers.length).padStart(2, '0')}
-            </span>
-            <div className="flex flex-col">
-              <span className="text-xs font-semibold text-slate-900">{lang === 'de' ? 'Team' : 'Team'}</span>
-              <span className="text-xs text-slate-500">{lang === 'de' ? 'Mitglieder' : 'members'}</span>
+          {/* Delivery & Governance trust strip */}
+          <div className="flex flex-wrap sm:flex-col items-start sm:items-end gap-2 text-xs text-slate-600 self-start sm:self-auto shrink-0">
+            <div className="inline-flex items-center gap-2 rounded-xl border border-slate-200/90 bg-slate-50/70 px-3.5 py-2 font-medium">
+              <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
+              <span>{lang === 'de' ? '🇩🇪 Leverkusen HQ & 🇧🇩 Global Engineering' : '🇩🇪 Leverkusen HQ & 🇧🇩 Global Engineering'}</span>
+            </div>
+            <div className="text-[11px] text-slate-500 sm:pr-1">
+              <span>{String(teamMembers.length).padStart(2, '0')} {lang === 'de' ? 'Dedizierte Spezialisten & Engineers' : 'Dedicated Core Engineers'}</span>
             </div>
           </div>
         </div>
@@ -319,75 +308,80 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
             return (
               <article
                 key={localizedMember.id}
-                className="team-ref-card group relative flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/80 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-slate-900/8 hover:ring-slate-300"
+                className="team-ref-card group flex h-full flex-col overflow-hidden rounded-2xl bg-white border border-slate-200/90 hover:border-slate-300 shadow-xs hover:shadow-xl hover:shadow-slate-200/60 hover:-translate-y-1 transition-all duration-300"
               >
-                {/* Image area */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
+                {/* Portrait Image */}
+                <div className="relative aspect-[4/5] overflow-hidden bg-slate-100">
                   {localizedMember.image ? (
                     <img
                       src={localizedMember.image}
                       alt={localizedMember.name}
-                      className={`h-full w-full object-cover ${getImagePosition(localizedMember)} transition-transform duration-500 group-hover:scale-[1.04]`}
+                      className={`h-full w-full object-cover ${getImagePosition(localizedMember)} transition-transform duration-700 ease-out group-hover:scale-105`}
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center bg-slate-100 text-slate-300">
-                      <User className="h-14 w-14" />
+                      <User className="h-16 w-16" />
                     </div>
                   )}
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-slate-950/60 to-transparent" />
 
-                  {/* Branch badge - bottom left */}
-                  <span className="absolute bottom-3.5 left-3.5 rounded-full border border-white/80 bg-white/95 px-3 py-1 text-[10px] font-medium uppercase tracking-widest text-slate-700 shadow-md backdrop-blur-sm">
-                    {localizedMember.branch}
-                  </span>
-                  {/* Experience badge - top right */}
-                  <span className={`absolute right-3.5 top-3.5 inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-medium shadow-sm backdrop-blur-sm ${accent.pill}`}>
-                    <Briefcase className="h-2.5 w-2.5" />
-                    {localizedMember.experienceYears}+ {lang === 'de' ? 'J.' : 'yrs'}
-                  </span>
+                  {/* Soft bottom vignette */}
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent" />
+
+                  {/* Branch / Location Badge */}
+                  <div className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-slate-950/80 backdrop-blur-md px-3 py-1.5 text-[11px] font-medium text-white border border-white/10 shadow-sm">
+                    <MapPin className="h-3 w-3 text-cyan-400 shrink-0" />
+                    <span className="truncate max-w-[190px]">{localizedMember.location || localizedMember.branch}</span>
+                  </div>
+
+                  {/* Experience Badge */}
+                  <div className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-white/95 backdrop-blur-md px-2.5 py-1 text-[11px] font-semibold text-slate-800 border border-slate-200/80 shadow-xs">
+                    <Briefcase className="h-3 w-3 text-cyan-800 shrink-0" />
+                    <span>{localizedMember.experienceYears}+ {lang === 'de' ? 'Jahre' : 'yrs exp.'}</span>
+                  </div>
                 </div>
 
                 {/* Content */}
                 <div className="flex flex-1 flex-col p-5 sm:p-6">
-                  {/* Role */}
-                  <p className={`mb-0.5 text-[10px] font-medium uppercase tracking-[0.14em] ${accent.pill.split(' ')[1]}`}>
+                  {/* Clean Role */}
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-cyan-800">
                     {getCleanRole(localizedMember).split('|')[0].trim()}
                   </p>
+
                   {/* Name */}
-                  <h3 className="mt-1 text-xl font-semibold tracking-tight text-slate-950 sm:text-2xl">
+                  <h3 className="mt-1 text-xl sm:text-2xl font-bold tracking-tight text-slate-950 font-['Kufam'] group-hover:text-cyan-800 transition-colors">
                     {localizedMember.name}
                   </h3>
-                  {/* Accent line */}
-                  <div className={`mt-2 h-0.5 w-8 rounded-full ${accent.dot} transition-all duration-300 group-hover:w-12`} />
+
+                  {/* Subtle Accent Line */}
+                  <div className="mt-2 mb-3.5 h-0.5 w-8 rounded-full bg-cyan-700/30 group-hover:w-14 group-hover:bg-cyan-800 transition-all duration-300" />
 
                   {/* Bio */}
-                  <p className="mt-3 min-h-[4rem] text-sm leading-6 text-slate-500 line-clamp-3">
+                  <p className="text-sm leading-relaxed text-slate-600 line-clamp-3 mb-5">
                     {getCleanBio(localizedMember)}
                   </p>
 
-                  {/* Skill tags */}
-                  <div className="mt-4 flex min-h-7 flex-wrap gap-1.5">
+                  {/* Skill Badges */}
+                  <div className="flex flex-wrap gap-1.5 mb-6">
                     {localizedMember.skills?.slice(0, 3).map((skill) => (
                       <span
                         key={skill}
-                        className="rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-medium text-slate-600 transition-colors group-hover:bg-slate-200/70"
+                        className="rounded-lg bg-slate-50 border border-slate-200/80 px-2.5 py-1 text-[11px] font-medium text-slate-700 group-hover:border-slate-300 transition-colors"
                       >
                         {skill}
                       </span>
                     ))}
                   </div>
 
-                  {/* Footer actions */}
+                  {/* Footer Actions */}
                   <div className="mt-auto flex items-center justify-between gap-3 border-t border-slate-100 pt-4">
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1.5">
                       {localizedMember.linkedin && (
                         <a
                           href={localizedMember.linkedin}
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`${localizedMember.name} LinkedIn`}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-blue-50 hover:text-blue-700"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200/90 text-slate-500 hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50/50 transition-colors"
                         >
                           <LinkedinIcon className="h-4 w-4" />
                         </a>
@@ -398,7 +392,7 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`${localizedMember.name} GitHub`}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-slate-100 hover:text-slate-900"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200/90 text-slate-500 hover:text-slate-950 hover:border-slate-300 hover:bg-slate-50 transition-colors"
                         >
                           <GithubIcon className="h-4 w-4" />
                         </a>
@@ -407,27 +401,28 @@ export const MeetOurTeamSection: React.FC<MeetOurTeamSectionProps> = ({
                         <a
                           href={`mailto:${localizedMember.email}`}
                           aria-label={`Email ${localizedMember.name}`}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-cyan-50 hover:text-cyan-700"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200/90 text-slate-500 hover:text-cyan-800 hover:border-cyan-200 hover:bg-cyan-50/50 transition-colors"
                         >
-                          <Mail className="h-4 w-4" />
+                          <Mail className="h-3.5 w-3.5" />
                         </a>
                       )}
                       {localizedMember.phone && (
                         <a
                           href={`tel:${localizedMember.phone.replace(/[^\d+]/g, '')}`}
                           aria-label={`Call ${localizedMember.name}`}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-emerald-50 hover:text-emerald-700"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200/90 text-slate-500 hover:text-emerald-700 hover:border-emerald-200 hover:bg-emerald-50/50 transition-colors"
                         >
-                          <Phone className="h-4 w-4" />
+                          <Phone className="h-3.5 w-3.5" />
                         </a>
                       )}
                     </div>
+
                     <button
                       type="button"
                       onClick={() => onSelectMember(localizedMember)}
-                      className="group/btn inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-950 px-3 py-1.5 text-[11px] font-semibold text-white transition-all hover:bg-slate-800 cursor-pointer"
+                      className="group/btn inline-flex items-center gap-1.5 rounded-xl bg-slate-950 px-3.5 py-2 text-xs font-semibold text-white transition-all hover:bg-slate-800 active:scale-95 shadow-xs cursor-pointer"
                     >
-                      <span>{lang === 'de' ? 'Profil' : 'Profile'}</span>
+                      <span>{lang === 'de' ? 'Profil ansehen' : 'View Profile'}</span>
                       <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
                     </button>
                   </div>

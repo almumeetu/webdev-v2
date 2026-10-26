@@ -1,4 +1,6 @@
-import React, { useRef } from 'react';
+'use client';
+
+import React, { useMemo } from 'react';
 import { 
   Code2, 
   Server, 
@@ -7,7 +9,6 @@ import {
   Globe2, 
   ArrowRight 
 } from 'lucide-react';
-import { useGsapContext, animateStagger } from '../utils/gsapHelper';
 import { useLanguage } from '../context/LanguageContext';
 
 interface ServiceFeatureCardsProps {
@@ -15,15 +16,10 @@ interface ServiceFeatureCardsProps {
 }
 
 export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSelectFeature }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
+  const isDe = lang === 'de';
 
-  useGsapContext(containerRef, () => {
-    if (!containerRef.current) return;
-    animateStagger('.feature-card-item', containerRef.current, 0.1, 35);
-  });
-
-  const features = [
+  const features = useMemo(() => [
     {
       id: 'feat-mern',
       icon: Code2,
@@ -64,51 +60,74 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
       iconBg: 'bg-purple-50 text-purple-600 group-hover:bg-purple-600 group-hover:text-white',
       badge: 'Scalable'
     }
-  ];
+  ], [t]);
+
+  const renderCard = (item: typeof features[0], keySuffix: string) => {
+    const Icon = item.icon;
+    return (
+      <div
+        key={`${item.id}-${keySuffix}`}
+        onClick={() => onSelectFeature && onSelectFeature(item.id)}
+        className="w-[290px] sm:w-[330px] md:w-[350px] lg:w-[380px] xl:w-[388px] shrink-0 bg-white hover:bg-slate-50/70 border border-slate-200/90 hover:border-cyan-400/80 rounded-2xl p-5 sm:p-6 transition-all duration-200 hover:-translate-y-1 cursor-pointer flex flex-col justify-between group shadow-xs hover:shadow-xl hover:shadow-cyan-950/5 select-none"
+      >
+        <div>
+          <div className="flex items-center justify-between gap-3 mb-4">
+            <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 shadow-2xs shrink-0 ${item.iconBg}`}>
+              <Icon className="w-5 h-5" />
+            </div>
+            <span className="text-[11.5px] sm:text-xs font-mono font-semibold text-slate-600 bg-slate-100 border border-slate-200/90 px-3 py-1 rounded-full whitespace-nowrap shrink-0">
+              {item.badge}
+            </span>
+          </div>
+          
+          <h3 className="text-base sm:text-[17px] lg:text-lg font-semibold text-slate-900 group-hover:text-cyan-800 transition-colors">
+            {item.title}
+          </h3>
+          
+          <p className="mt-2.5 text-sm text-slate-600 leading-relaxed font-normal">
+            {item.desc}
+          </p>
+        </div>
+
+        <div className="mt-6 pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm text-slate-600 group-hover:text-cyan-800 font-medium transition-colors">
+          <span>{isDe ? 'Standard entdecken' : 'Explore Standard'}</span>
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+        </div>
+      </div>
+    );
+  };
+
 
   return (
-    <section ref={containerRef} className="bg-white py-12 sm:py-16 border-b border-slate-200/80 text-slate-900 relative z-20">
+    <section className="bg-white py-10 sm:py-14 border-b border-slate-200/80 text-slate-900 relative z-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Responsive Grid: 1 col on mobile, 2 col on sm, 3 col on md, 5 col on lg */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
-          {features.map((item) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={item.id}
-                onClick={() => onSelectFeature && onSelectFeature(item.id)}
-                className="feature-card-item bg-white hover:bg-slate-50/80 border border-slate-200/90 hover:border-[#9cd5e2] rounded-2xl p-5 sm:p-6 transition-[background-color,border-color,box-shadow,transform] duration-200 hover:-translate-y-1 cursor-pointer flex flex-col justify-between group shadow-xs hover:shadow-xl"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 shadow-xs ${item.iconBg}`}>
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <span className="text-xs font-mono font-semibold text-slate-600 bg-slate-100 border border-slate-200/80 px-2.5 py-1 rounded-full">
-                      {item.badge}
-                    </span>
-                  </div>
-                  
-                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 group-hover:text-slate-950 transition-colors">
-                    {item.title}
-                  </h3>
-                  
-                  <p className="mt-2.5 text-sm text-slate-600 leading-relaxed font-normal">
-                    {item.desc}
-                  </p>
-                </div>
+        {/* Infinite Marquee Slider */}
+        <div className="relative w-full overflow-hidden group/marquee py-2 rounded-2xl">
+          {/* Subtle edge fade overlays matching section background */}
+          <div className="pointer-events-none absolute left-0 inset-y-0 w-8 sm:w-16 md:w-20 bg-gradient-to-r from-white to-transparent z-10" />
+          <div className="pointer-events-none absolute right-0 inset-y-0 w-8 sm:w-16 md:w-20 bg-gradient-to-l from-white to-transparent z-10" />
 
-                <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm text-slate-600 group-hover:text-slate-950 font-medium transition-colors">
-                  <span>Explore Standard</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </div>
-            );
-          })}
+          {/* Marquee Track: Seamless loop with 2 identical sets, pauses smoothly on hover */}
+          <div 
+            className="flex w-max animate-marquee hover:[animation-play-state:paused] focus-within:[animation-play-state:paused]"
+            style={{ animationDuration: '40s' }}
+          >
+            {/* Primary Track */}
+            <div className="flex gap-5 sm:gap-6 shrink-0 pr-5 sm:pr-6 items-stretch">
+              {features.map((item) => renderCard(item, 'track1'))}
+            </div>
+
+            {/* Duplicate Track for mathematically seamless infinite marquee */}
+            <div className="flex gap-5 sm:gap-6 shrink-0 pr-5 sm:pr-6 items-stretch" aria-hidden="true">
+              {features.map((item) => renderCard(item, 'track2'))}
+            </div>
+          </div>
         </div>
 
       </div>
     </section>
   );
 };
+
+export default ServiceFeatureCards;

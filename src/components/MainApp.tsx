@@ -436,9 +436,6 @@ function MainAppContent() {
             <Breadcrumb
               badge={isDe ? 'UNTERNEHMENSKAPAZITÄTEN' : 'ENTERPRISE CAPABILITIES'}
               title={isDe ? 'Alle IT- & Cloud-Dienste' : 'All IT & Cloud Services'}
-              subtitle={isDe 
-                ? 'Full-Stack Web-Engineering, Cloud-Infrastruktur, KI-Integrationen & maßgeschneiderte Unternehmenssoftware.' 
-                : 'Full-stack web engineering, cloud infrastructure, AI integrations & bespoke enterprise software development.'}
               items={[
                 { label: isDe ? 'Startseite' : 'Home', onClick: () => handleNavigate('home') },
                 { label: isDe ? 'Alle IT- & Cloud-Dienste' : 'All IT & Cloud Services', active: true }
@@ -447,7 +444,7 @@ function MainAppContent() {
               backLabel={isDe ? 'Zurück zur Startseite' : 'Back to Home'}
               align="left"
             />
-            <div className="py-8">
+            <div className="pt-6 sm:pt-8 lg:pt-10 pb-12 sm:pb-16 lg:pb-20">
               <OurServicesSection
                 services={services}
                 onSelectService={(serviceId) => {
@@ -482,9 +479,6 @@ function MainAppContent() {
             <Breadcrumb
               badge={isDe ? 'BEWIESENE ERFOLGE' : 'PROVEN DELIVERIES'}
               title={isDe ? 'Unternehmensprojekte & Fallstudien' : 'Enterprise Projects & Case Studies'}
-              subtitle={isDe 
-                ? 'Entdecken Sie produktionsreife Plattformen, E-Commerce-Architekturen und SaaS-Anwendungen, bereitgestellt in Europa & den USA.' 
-                : 'Explore production-grade platforms, e-commerce architectures, and SaaS applications deployed across USA & Europe.'}
               items={[
                 { label: isDe ? 'Startseite' : 'Home', onClick: () => handleNavigate('home') },
                 { label: isDe ? 'Projekte & Fallstudien' : 'Projects & Case Studies', active: true }
@@ -493,7 +487,7 @@ function MainAppContent() {
               backLabel={isDe ? 'Zurück zur Startseite' : 'Back to Home'}
               align="left"
             />
-            <div className="py-8">
+            <div className="pt-6 sm:pt-8 lg:pt-10 pb-12 sm:pb-16 lg:pb-20">
               <RecentProjectsSection
                 projects={projects}
                 onSelectProject={(project) => { setSelectedProject(project); handleNavigate('project-detail'); }}
@@ -505,13 +499,10 @@ function MainAppContent() {
 
         {/* Team */}
         {currentView === 'team' && (
-          <div>
+          <div className="bg-white">
             <Breadcrumb
               badge={isDe ? 'FÜHRUNGSTEAM & KERNENTWICKLER' : 'EXECUTIVE LEADERSHIP & CORE ENGINEERS'}
               title={isDe ? 'Entwicklungsteam & Technische Führung' : 'Engineering Team & Technical Leadership'}
-              subtitle={isDe 
-                ? 'Erfahrene Software-Architekten, Full-Stack-Ingenieure und Cloud-Spezialisten für erstklassige digitale Lösungen.' 
-                : 'Senior software architects, full-stack engineers, and cloud infrastructure specialists delivering enterprise digital solutions.'}
               items={[
                 { label: isDe ? 'Startseite' : 'Home', onClick: () => handleNavigate('home') },
                 { label: isDe ? 'Entwicklungsteam & Führung' : 'Engineering Team & Leadership', active: true }
@@ -519,14 +510,13 @@ function MainAppContent() {
               backAction={() => handleNavigate('home')}
               backLabel={isDe ? 'Zurück zur Startseite' : 'Back to Home'}
               align="left"
+              dividerFillColor="text-white"
             />
-            <div className="py-8">
-              <MeetOurTeamSection
-                teamMembers={teamMembers}
-                onSelectMember={(member) => { setSelectedTeamMember(member); handleNavigate('team-member'); }}
-                onViewAllTeam={() => {}}
-              />
-            </div>
+            <MeetOurTeamSection
+              teamMembers={teamMembers}
+              onSelectMember={(member) => { setSelectedTeamMember(member); handleNavigate('team-member'); }}
+              onViewAllTeam={() => {}}
+            />
           </div>
         )}
 
@@ -561,9 +551,6 @@ function MainAppContent() {
             <Breadcrumb
               badge={isDe ? 'ENGINEERING-BLOG' : 'ENGINEERING BLOG'}
               title={isDe ? 'Technische Einblicke & Neuigkeiten' : 'Technical Insights & News'}
-              subtitle={isDe 
-                ? 'Fundierte Analysen zu verteilten Systemen, moderner Webarchitektur, Cloud-Deployment und Best Practices.' 
-                : 'Deep dives on distributed systems, modern web architecture, cloud deployment, and engineering best practices.'}
               items={[
                 { label: isDe ? 'Startseite' : 'Home', onClick: () => handleNavigate('home') },
                 { label: isDe ? 'Technische Einblicke & News' : 'Technical Insights & News', active: true }
@@ -572,7 +559,7 @@ function MainAppContent() {
               backLabel={isDe ? 'Zurück zur Startseite' : 'Back to Home'}
               align="left"
             />
-            <div className="py-8">
+            <div className="pt-6 sm:pt-8 lg:pt-10 pb-12 sm:pb-16 lg:pb-20">
               <LatestNewsSection
                 blogs={blogs}
                 onSelectBlog={(blog) => { setSelectedBlog(blog); handleNavigate('blog-detail'); }}

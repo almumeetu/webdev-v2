@@ -14,6 +14,7 @@ import { Footer } from './Footer';
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname === '/admin';
+  const isHome = pathname === '/';
 
   // Ensure every route transition starts at the very top of the page
   useEffect(() => {
@@ -30,7 +31,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-['Kufam'] font-sans antialiased selection:bg-[#BBE7F1] selection:text-slate-950">
+    <div className={`min-h-screen ${isHome ? 'bg-slate-50' : 'bg-white'} text-slate-900 flex flex-col font-['Kufam'] font-sans antialiased selection:bg-[#BBE7F1] selection:text-slate-950`}>
       <TopBar />
       <Navbar />
       <main className="flex-1">{children}</main>

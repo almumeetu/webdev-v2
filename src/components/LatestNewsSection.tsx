@@ -51,22 +51,22 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
   return (
     <section
       ref={sectionRef}
-      className="py-16 sm:py-20 lg:py-24 bg-slate-50/70 text-slate-900 relative border-t border-b border-slate-200/80"
+      className="py-16 sm:py-20 lg:py-24 bg-white text-slate-900 relative"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14 space-y-3">
-          <div className="news-header-anim inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-            <BookOpen className="w-4 h-4 text-cyan-700" />
+          <div className="news-header-anim inline-flex items-center gap-2 text-sky-700 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide uppercase">
+            <BookOpen className="w-4 h-4 text-sky-600" />
             <span>{t.blogKicker}</span>
           </div>
 
-          <h2 className="news-header-anim text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-950 tracking-tight font-['Kufam']">
+          <h2 className="news-header-anim text-xl sm:text-2xl md:text-3xl font-semibold text-slate-950 tracking-tight font-['Kufam']">
             {t.blogHeading}
           </h2>
 
-          <p className="news-header-anim text-slate-600 text-xs sm:text-sm leading-relaxed font-['Kufam']">
+          <p className="news-header-anim text-slate-600 text-sm sm:text-base leading-relaxed font-['Kufam'] max-w-xl mx-auto">
             {t.blogSubheading}
           </p>
         </div>
@@ -77,7 +77,7 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
             <article
               key={blog.id}
               onClick={() => onSelectBlog(blog)}
-              className="blog-card-item group bg-white rounded-[6px] overflow-hidden border border-slate-200/80 hover:border-[#9cd5e2] hover:shadow-md transition-all duration-200 flex flex-col cursor-pointer"
+              className="blog-card-item group bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-sky-300 hover:shadow-lg transition-all duration-300 flex flex-col cursor-pointer"
             >
               {/* Image banner */}
               <div className="relative h-48 sm:h-52 overflow-hidden bg-slate-100">
@@ -150,13 +150,13 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
         </div>
 
         {/* View all articles button */}
-        <div className="mt-12 text-center">
+        <div className="mt-12 sm:mt-14 text-center">
           <button
             onClick={onViewAllBlogs}
-            className="inline-flex items-center gap-2 bg-white hover:bg-slate-100 text-slate-800 font-semibold text-xs sm:text-sm px-6 py-3 rounded-[6px] border border-slate-300 hover:border-slate-400 transition-all cursor-pointer min-h-[40px]"
+            className="inline-flex items-center gap-2.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm px-7 py-3.5 rounded-xl transition-all shadow-sm hover:shadow-md cursor-pointer"
           >
             <span>{t.blogViewAll}</span>
-            <ArrowRight className="w-4 h-4 text-slate-950" />
+            <ArrowRight className="w-4 h-4" />
           </button>
         </div>
 

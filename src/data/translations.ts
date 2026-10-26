@@ -426,28 +426,28 @@ export const translations: Record<Language, Translations> = {
 
 export const germanHeroSlides: Record<number, Partial<HeroSlide>> = {
   0: {
-    badge: 'Full-Stack Webentwicklung • MERN & Next.js',
-    title: 'Enterprise-Webanwendungen optimiert für',
-    highlightText: 'Höchste Skalierbarkeit & Performance',
-    subtitle: 'Wir konzipieren robuste Cloud-Architekturen, maßgeschneiderte digitale Plattformen und hochperformante Webanwendungen für zukunftsorientierte Unternehmen.',
-    primaryBtnText: 'Beratung anfragen',
+    badge: 'ENGINEERING DIGITALER ERLEBNISSE',
+    title: 'Web- & Mobile-Engineering',
+    highlightText: 'Skalierbar gebaut.',
+    subtitle: 'Zuverlässige, hochperformante Web- und Mobilprodukte für nachhaltiges Wachstum.',
+    primaryBtnText: 'Projekt starten',
     secondaryBtnText: 'Leistungen entdecken'
   },
   1: {
-    badge: 'Linux-Servertechnik & DevOps',
-    title: 'Gehärtete Cloud-Infrastruktur mit',
-    highlightText: '99,99 % garantierter Verfügbarkeit',
-    subtitle: 'Zero-Downtime CI/CD-Pipelines, automatisierte Kubernetes-Orchestrierung und 24/7 proaktive Systemüberwachung.',
-    primaryBtnText: 'Infrastruktur-SLAs ansehen',
-    secondaryBtnText: 'Projekte entdecken'
+    badge: 'MODERNE WEBENTWICKLUNG',
+    title: 'Moderne Web-Apps',
+    highlightText: 'Schnell & Skalierbar.',
+    subtitle: 'Schnelle, sichere und responsive Webplattformen für beste Performance.',
+    primaryBtnText: 'Website entwickeln',
+    secondaryBtnText: 'Webleistungen ansehen'
   },
   2: {
-    badge: 'Headless E-Commerce & Conversion-Optimierung',
-    title: 'Digitale Shopping-Erlebnisse für',
-    highlightText: 'Maximale Conversion-Geschwindigkeit',
-    subtitle: 'Individuelle Headless-Storefronts mit Shopify Plus, nahtlose Stripe-Zahlungsabwicklung und blitzschnelle Produktsuche.',
-    primaryBtnText: 'E-Commerce-Projekt starten',
-    secondaryBtnText: 'Fallstudien ansehen'
+    badge: 'MOBILE LÖSUNGEN DER NÄCHSTEN GENERATION',
+    title: 'Native Mobile-Apps',
+    highlightText: 'iOS & Android.',
+    subtitle: 'Hochperformante Apps entwickelt mit modernen plattformübergreifenden Technologien.',
+    primaryBtnText: 'App-Projekt besprechen',
+    secondaryBtnText: 'Mobile Lösungen entdecken'
   },
   3: {
     badge: 'Corporate CMS & Enterprise-Portale',

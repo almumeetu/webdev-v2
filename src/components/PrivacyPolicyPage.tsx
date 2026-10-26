@@ -55,7 +55,7 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = ({ content, o
   const displayContent = lang === 'de' ? (GERMAN_PRIVACY_POLICY) : (content || '');
 
   return (
-    <div className="min-h-screen bg-slate-50 py-12 sm:py-16">
+    <div className="min-h-screen bg-slate-50 pt-10 sm:pt-14 lg:pt-16 pb-16 sm:pb-20 lg:pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
         

@@ -1,4 +1,7 @@
+'use client';
+
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import { Mail } from 'lucide-react';
 import { GithubIcon, LinkedinIcon, TwitterIcon } from './SocialIcons';
 import { useLanguage } from '../context/LanguageContext';
@@ -8,11 +11,17 @@ interface TopBarProps {
 }
 
 export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
+  const pathname = usePathname();
+  const isHome = pathname === '/';
   const { lang, setLang } = useLanguage();
 
   return (
-    <div className="bg-slate-50 text-slate-600 text-[11px] sm:text-xs py-1 sm:py-1.5 border-b border-slate-200/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+    <div className={`relative z-30 transition-colors duration-200 text-slate-600 text-[11px] sm:text-xs py-1 sm:py-1.5 select-none ${
+      isHome 
+        ? 'bg-transparent border-b border-slate-900/[0.06]' 
+        : 'bg-slate-50 border-b border-slate-200/80'
+    }`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 relative z-10">
         
         {/* Left side: Contact Email */}
         <div className="flex items-center gap-1.5 text-slate-600">

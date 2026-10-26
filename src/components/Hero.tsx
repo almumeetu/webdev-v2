@@ -1,11 +1,27 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { ArrowRight } from 'lucide-react';
-import { HeroSlide } from '../types';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  Cloud,
+  Code2,
+  Globe2,
+  LayoutPanelTop,
+  MapPin,
+  ShieldCheck,
+  Smartphone,
+  Sparkles,
+  Zap,
+} from 'lucide-react';
+import { SiAndroid, SiApple, SiFlutter, SiKotlin, SiNextdotjs, SiReact } from 'react-icons/si';
+import type { IconType } from 'react-icons';
+import type { HeroSlide } from '../types';
 import { initialHeroSlides } from '../data/initialData';
 import { useLanguage } from '../context/LanguageContext';
 import { SignatureShapeDivider } from './SignatureShapeDivider';
+import styles from './Hero.module.css';
 
 interface HeroProps {
   slides?: HeroSlide[];
@@ -14,6 +30,258 @@ interface HeroProps {
   onContactClick?: () => void;
   onOpenQuote?: () => void;
   onNavigateProjects?: () => void;
+}
+
+const AUTOPLAY_INTERVAL = 6500;
+
+const ENGINEERING_TECH = [
+  { label: 'Flutter', Icon: SiFlutter, color: 'flutter' },
+  { label: 'React Native', Icon: SiReact, color: 'react' },
+  { label: 'Kotlin', Icon: SiKotlin, color: 'kotlin' },
+];
+
+function PlatformTile({
+  label,
+  Icon,
+  detail,
+}: {
+  label: string;
+  Icon: IconType | typeof LayoutPanelTop;
+  detail: string;
+}) {
+  return (
+    <div className={styles.platformTile}>
+      <span className={styles.platformIcon}>
+        <Icon aria-hidden="true" />
+      </span>
+      <span className={styles.platformName}>{label}</span>
+      <span className={styles.platformDetail}>{detail}</span>
+    </div>
+  );
+}
+
+function EngineeringVisual({ isDe }: { isDe: boolean }) {
+  return (
+    <div className={styles.architectureStage}>
+      <div className={styles.stageCaption}>
+        <span>{isDe ? 'Systemarchitektur' : 'System architecture'}</span>
+        <span className={styles.stageCaptionMeta}>01 / PLATFORM</span>
+      </div>
+
+      <div className={styles.cloudNode}>
+        <span className={styles.cloudIcon}><Cloud aria-hidden="true" /></span>
+        <span className={styles.cloudNodeCopy}>
+          <strong>{isDe ? 'Cloud-Plattform' : 'Cloud platform'}</strong>
+          <small>API · DATA · CI/CD</small>
+        </span>
+        <span className={styles.coreTag}>{isDe ? 'KERN' : 'CORE'}</span>
+      </div>
+
+      <div className={styles.connectorTree} aria-hidden="true">
+        <span className={styles.connectorStem} />
+        <span className={styles.connectorRail} />
+      </div>
+
+      <div className={styles.platformGrid}>
+        <PlatformTile label="Web" Icon={LayoutPanelTop} detail={isDe ? 'Plattform' : 'Platform'} />
+        <PlatformTile label="Android" Icon={SiAndroid} detail={isDe ? 'Native App' : 'Native app'} />
+        <PlatformTile label="iOS" Icon={SiApple} detail={isDe ? 'Native App' : 'Native app'} />
+      </div>
+
+      <div className={styles.architectureFootnote}>
+        <span className={styles.liveDot} />
+        <span>{isDe ? 'Eine Architektur. Jede Oberfläche.' : 'One architecture. Every screen.'}</span>
+        <span className={styles.architectureLatency}>{isDe ? 'SKALIERBAR' : 'READY TO SCALE'}</span>
+      </div>
+    </div>
+  );
+}
+
+function WebExperienceVisual({ isDe }: { isDe: boolean }) {
+  return (
+    <div className={styles.browserStage}>
+      <div className={styles.stageCaption}>
+        <span>{isDe ? 'Web-App Vorschau' : 'Web app preview'}</span>
+        <span className={styles.stageCaptionMeta}>02 / WEB</span>
+      </div>
+
+      <div className={styles.browserWindow}>
+        <div className={styles.browserToolbar}>
+          <span className={styles.browserDots}><i /><i /><i /></span>
+          <span className={styles.addressBar}><ShieldCheck aria-hidden="true" /> studio.webdev.dev</span>
+          <ArrowUpRight className={styles.browserExternal} aria-hidden="true" />
+        </div>
+
+        <div className={styles.webPagePreview}>
+          <div className={styles.webNav}>
+            <span className={styles.webWordmark}><span />northstar</span>
+            <span className={styles.webNavLinks}><i /><i /><i /></span>
+            <span className={styles.webNavButton} />
+          </div>
+
+          <div className={styles.webHeroPreview}>
+            <div className={styles.webHeroCopy}>
+              <span className={styles.webKicker}>{isDe ? 'DIGITALE PRODUKTE' : 'DIGITAL PRODUCTS'}</span>
+              <strong>{isDe ? 'Ein besseres Erlebnis beginnt hier.' : 'A better experience starts here.'}</strong>
+              <span className={styles.webHeroButton}>{isDe ? 'Entdecken' : 'Discover'} <ArrowRight aria-hidden="true" /></span>
+            </div>
+            <div className={styles.webArtwork}>
+              <span className={styles.webArtworkOrb} />
+              <span className={styles.webArtworkCard}><Sparkles aria-hidden="true" /></span>
+            </div>
+          </div>
+
+          <div className={styles.webFeatureRow}>
+            <span><i /> {isDe ? 'Schnell' : 'Fast'}</span>
+            <span><i /> {isDe ? 'Sicher' : 'Secure'}</span>
+            <span><i /> {isDe ? 'Responsiv' : 'Responsive'}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.browserMetrics}>
+        <span><Zap aria-hidden="true" /><strong>{isDe ? 'Performance' : 'Performance'}</strong></span>
+        <span><ShieldCheck aria-hidden="true" /><strong>{isDe ? 'Sicherheit' : 'Security'}</strong></span>
+        <span><Smartphone aria-hidden="true" /><strong>{isDe ? 'Responsive' : 'Responsive'}</strong></span>
+      </div>
+    </div>
+  );
+}
+
+function PhoneMockup({
+  variant,
+  isDe,
+}: {
+  variant: 'backLeft' | 'front' | 'backRight';
+  isDe: boolean;
+}) {
+  return (
+    <div className={`${styles.phone} ${styles[variant]}`}>
+      <div className={styles.phoneScreen}>
+        <span className={styles.phoneNotch} />
+        <div className={styles.phoneStatus}><span>9:41</span><span>•••</span></div>
+        {variant === 'backLeft' ? (
+          <div className={styles.phoneAltScreen}>
+            <span className={styles.phoneAppIcon}><Globe2 aria-hidden="true" /></span>
+            <strong>Explore</strong>
+            <span className={styles.phoneSkeleton} />
+            <span className={styles.phoneSkeletonShort} />
+            <span className={styles.phoneImageTile}><Sparkles aria-hidden="true" /></span>
+            <span className={styles.phoneSkeleton} />
+          </div>
+        ) : variant === 'backRight' ? (
+          <div className={styles.phoneAltScreen}>
+            <span className={styles.phoneAppIcon}><Code2 aria-hidden="true" /></span>
+            <strong>{isDe ? 'Projekte' : 'Projects'}</strong>
+            <span className={styles.phoneProjectCard}><i /><b /><small /></span>
+            <span className={styles.phoneProjectCard}><i /><b /><small /></span>
+            <span className={styles.phoneSkeletonShort} />
+          </div>
+        ) : (
+          <div className={styles.phoneMainScreen}>
+            <div className={styles.phoneGreeting}>
+              <span>{isDe ? 'GUTEN MORGEN' : 'GOOD MORNING'}</span>
+              <strong>{isDe ? 'Dein nächstes Kapitel.' : 'Your next chapter.'}</strong>
+            </div>
+            <div className={styles.phoneProgressCard}>
+              <span className={styles.phoneProgressTop}><span>{isDe ? 'Projektfortschritt' : 'Project progress'}</span><i>•••</i></span>
+              <div className={styles.phoneProgressRing}><b>72<span>%</span></b></div>
+              <span className={styles.phoneProgressLabel}>{isDe ? 'Auf Kurs' : 'On track'}</span>
+            </div>
+            <div className={styles.phoneAppRows}>
+              <span><i /><b /><small /></span>
+              <span><i /><b /><small /></span>
+            </div>
+            <div className={styles.phoneTabBar}><i /><i /><i /><i /></div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function MobileExperienceVisual({ isDe }: { isDe: boolean }) {
+  return (
+    <div className={styles.mobileStage}>
+      <div className={styles.stageCaption}>
+        <span>{isDe ? 'Mobile-Erlebnis' : 'Mobile experience'}</span>
+        <span className={styles.stageCaptionMeta}>03 / MOBILE</span>
+      </div>
+
+      <div className={styles.deviceShowcase}>
+        <PhoneMockup variant="backLeft" isDe={isDe} />
+        <PhoneMockup variant="backRight" isDe={isDe} />
+        <PhoneMockup variant="front" isDe={isDe} />
+        <span className={`${styles.platformPill} ${styles.androidPill}`}><SiAndroid aria-hidden="true" /> Android</span>
+        <span className={`${styles.platformPill} ${styles.applePill}`}><SiApple aria-hidden="true" /> iOS</span>
+      </div>
+
+      <div className={styles.mobileBuildNote}>
+        <span className={styles.mobileBuildIcon}><Code2 aria-hidden="true" /></span>
+        <span><strong>{isDe ? 'Ein Produkt. Zwei Plattformen.' : 'One product. Two platforms.'}</strong><small>Flutter · React Native · Kotlin</small></span>
+        <span className={styles.mobileBuildCheck}><Check aria-hidden="true" /></span>
+      </div>
+    </div>
+  );
+}
+
+function EngineeringShowcase({ slide, index, isDe }: { slide: HeroSlide; index: number; isDe: boolean }) {
+  const themeClass = [styles.themeEngineering, styles.themeWeb, styles.themeMobile][index] || styles.themeEngineering;
+  const localBackground = slide.backgroundImage?.startsWith('/') && !slide.backgroundImage.startsWith('//')
+    ? slide.backgroundImage
+    : undefined;
+
+  const imageDescription = isDe
+    ? [
+      'Vernetzte Cloud-, Web-, Android- und iOS-Architektur mit Flutter, React Native und Kotlin.',
+      'Vorschau einer responsiven Webanwendung mit Leistungs-, Sicherheits- und Mobilansicht.',
+      'Drei Smartphone-Vorschauen für eine plattformübergreifende App auf Android und iOS.',
+    ][index] || 'Digitale Produktentwicklung von Web bis Mobile.'
+    : [
+      'Connected cloud, web, Android, and iOS architecture with Flutter, React Native, and Kotlin.',
+      'A responsive web application preview with performance, security, and mobile views.',
+      'Three smartphone previews for a cross-platform app on Android and iOS.',
+    ][index] || 'Digital product engineering from web to mobile.';
+
+  return (
+    <div className={`${styles.showcase} ${themeClass}`} role="img" aria-label={imageDescription}>
+      {localBackground && <img className={styles.userBackground} src={localBackground} alt="" loading="lazy" decoding="async" />}
+      <div className={styles.showcaseScrim} />
+
+      <div className={styles.showcaseInner}>
+        <div className={styles.showcaseHeader}>
+          <span className={styles.logoTile}>
+            <img src="/images/logo/webdev-logo.png" alt="" loading="eager" />
+          </span>
+          <span className={styles.showcaseBrand}>
+            <span>WebDev Software Solutions</span>
+            <strong>{isDe ? 'Engineering-Plattform' : 'Engineering Platform'}</strong>
+          </span>
+          <span className={styles.excellenceStatus}>
+            <i />
+            <span>{isDe ? 'Engineering Excellence' : 'Engineering Excellence'}</span>
+          </span>
+        </div>
+
+        <div className={styles.showcaseVisual} key={`visual-${index}`}>
+          {index === 1 ? <WebExperienceVisual isDe={isDe} /> : index === 2 ? <MobileExperienceVisual isDe={isDe} /> : <EngineeringVisual isDe={isDe} />}
+        </div>
+
+        <div className={styles.techFooter}>
+          {(index === 1
+            ? [{ label: 'Next.js', Icon: SiNextdotjs, color: 'blue' }, { label: 'API', Icon: Code2, color: 'blue' }, { label: 'Cloud', Icon: Cloud, color: 'cyan' }]
+            : ENGINEERING_TECH
+          ).map(({ label, Icon, color }) => (
+            <span className={styles.techBadge} key={label}>
+              <Icon className={styles[color]} aria-hidden="true" />
+              <span>{label}</span>
+            </span>
+          ))}
+          <span className={styles.showcaseTag}>{slide.tag || (isDe ? `0${index + 1} / DIGITALE PRODUKTE` : `0${index + 1} / DIGITAL PRODUCTS`)}</span>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export const Hero: React.FC<HeroProps> = ({
@@ -26,292 +294,240 @@ export const Hero: React.FC<HeroProps> = ({
 }) => {
   const { lang, localizeHeroSlide } = useLanguage();
   const isDe = lang === 'de';
+  const rawSlides = customSlides?.length ? customSlides : initialHeroSlides;
+  const slides = useMemo(() => rawSlides.map((slide, index) => localizeHeroSlide(slide, index)), [rawSlides, localizeHeroSlide]);
 
-  const rawSlides = (customSlides && customSlides.length > 0) ? customSlides : initialHeroSlides;
-  const slides = rawSlides.map((slide, idx) => localizeHeroSlide(slide, idx));
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [isHovering, setIsHovering] = useState(false);
+  const [isPausedByUser, setIsPausedByUser] = useState(false);
+  const [isPausedByFocus, setIsPausedByFocus] = useState(false);
+  const [isDocumentVisible, setIsDocumentVisible] = useState(true);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [timerVersion, setTimerVersion] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+  const carouselRef = useRef<HTMLElement>(null);
 
-  // Auto-slide duration in milliseconds (continuous auto-play)
-  const AUTO_PLAY_INTERVAL = 5500;
+  const safeIndex = Math.min(currentIndex, Math.max(slides.length - 1, 0));
+  const currentSlide = slides[safeIndex] || initialHeroSlides[0];
+  const rotationPaused = isPausedByUser || isPausedByFocus || prefersReducedMotion;
+  const isAutoplayRunning = slides.length > 1 && !rotationPaused && !isHovering && isDocumentVisible;
 
-  const goToSlide = useCallback((index: number) => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex(index);
-    setTimeout(() => setIsTransitioning(false), 300);
-  }, [isTransitioning]);
-
-  const handleNext = useCallback(() => {
-    const nextIndex = (currentIndex + 1) % slides.length;
-    goToSlide(nextIndex);
-  }, [currentIndex, slides.length, goToSlide]);
-
-  const handlePrev = useCallback(() => {
-    const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
-    goToSlide(prevIndex);
-  }, [currentIndex, slides.length, goToSlide]);
-
-  // Continuous Auto advance timer — always auto-plays smoothly
   useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updateMotionPreference = () => setPrefersReducedMotion(mediaQuery.matches);
+    updateMotionPreference();
+    mediaQuery.addEventListener('change', updateMotionPreference);
+    return () => mediaQuery.removeEventListener('change', updateMotionPreference);
+  }, []);
+
+  useEffect(() => {
+    const updateDocumentVisibility = () => {
+      const isVisible = document.visibilityState === 'visible';
+      setIsDocumentVisible(isVisible);
+      if (isVisible) setTimerVersion((version) => version + 1);
+    };
+    updateDocumentVisibility();
+    document.addEventListener('visibilitychange', updateDocumentVisibility);
+    return () => document.removeEventListener('visibilitychange', updateDocumentVisibility);
+  }, []);
+
+  useEffect(() => {
+    if (slides.length <= 1 || !isDocumentVisible || isHovering || rotationPaused) return;
+
+    const timer = window.setTimeout(() => {
+      setCurrentIndex((index) => (index + 1) % slides.length);
+    }, AUTOPLAY_INTERVAL);
+
+    return () => window.clearTimeout(timer);
+  }, [currentIndex, isDocumentVisible, isHovering, rotationPaused, slides.length, timerVersion]);
+
+  const navigateTo = useCallback((index: number) => {
     if (slides.length <= 1) return;
+    const nextIndex = (index + slides.length) % slides.length;
+    setCurrentIndex(nextIndex);
+    setTimerVersion((version) => version + 1);
+  }, [slides.length]);
 
-    timerRef.current = setInterval(() => {
+  const handleNext = useCallback(() => navigateTo(safeIndex + 1), [navigateTo, safeIndex]);
+  const handlePrevious = useCallback(() => navigateTo(safeIndex - 1), [navigateTo, safeIndex]);
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) return;
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
       handleNext();
-    }, AUTO_PLAY_INTERVAL);
+    } else if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      handlePrevious();
+    } else if (event.key === 'Home') {
+      event.preventDefault();
+      navigateTo(0);
+    } else if (event.key === 'End') {
+      event.preventDefault();
+      navigateTo(slides.length - 1);
+    }
+  };
 
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [currentIndex, slides.length, handleNext]);
+  const handleTouchStart = (event: React.TouchEvent<HTMLElement>) => {
+    touchStartX.current = event.changedTouches[0]?.clientX ?? null;
+  };
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') handlePrev();
-      if (e.key === 'ArrowRight') handleNext();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleNext, handlePrev]);
+  const handleTouchEnd = (event: React.TouchEvent<HTMLElement>) => {
+    const startX = touchStartX.current;
+    const endX = event.changedTouches[0]?.clientX;
+    touchStartX.current = null;
+    if (startX === null || endX === undefined) return;
+    const distance = startX - endX;
+    if (Math.abs(distance) < 48) return;
+    if (distance > 0) handleNext();
+    else handlePrevious();
+  };
 
-  // Action dispatcher
-  const executeAction = (action?: string) => {
+  const executeAction = (action?: HeroSlide['primaryBtnAction'] | HeroSlide['secondaryBtnAction']) => {
     switch (action) {
       case 'quote':
         if (onOpenQuote) onOpenQuote();
-        else if (onContactClick) onContactClick();
+        else onContactClick?.();
         break;
       case 'services':
         if (onExploreServices) onExploreServices();
-        else if (onExploreClick) onExploreClick();
+        else onExploreClick?.();
         break;
       case 'projects':
         if (onNavigateProjects) onNavigateProjects();
-        else if (onExploreClick) onExploreClick();
+        else onExploreClick?.();
         break;
       case 'contact':
         if (onContactClick) onContactClick();
-        else if (onOpenQuote) onOpenQuote();
+        else onOpenQuote?.();
         break;
       default:
         if (onOpenQuote) onOpenQuote();
-        break;
+        else onContactClick?.();
     }
   };
 
-  const currentSlide = slides[currentIndex] || slides[0];
-
-  // Short, punchy title definitions focused on Leverkusen & German Engineering
-  const shortTitleData = isDe ? [
-    {
-      title: 'Enterprise Web-Engineering.',
-      highlight: 'Präzise & Skalierbar.',
-      subtitle: 'Wir entwickeln performante Webplattformen, Cloud-Infrastrukturen und maßgeschneiderte Unternehmenssoftware mit deutscher Ingenieurspräzision.'
-    },
-    {
-      title: 'Moderne Cloud-Architektur.',
-      highlight: 'Ausfallsicher & Schnell.',
-      subtitle: 'Gehärtete Linux-Systeme, Next.js und Kubernetes-Infrastrukturen mit 99,99% garantierter Verfügbarkeit und voller DSGVO-Konformität.'
-    },
-    {
-      title: 'Maßgeschneiderte Software.',
-      highlight: '100% IP-Übertragung.',
-      subtitle: 'Individuelle Webanwendungen und SaaS-Lösungen direkt aus Leverkusen – mit transparenten 14-Tage-Sprints und verbindlichen Festpreisen.'
-    }
-  ] : [
-    {
-      title: 'Enterprise Web Engineering.',
-      highlight: 'Built for Scale.',
-      subtitle: 'High-performance web platforms, resilient cloud architectures, and bespoke enterprise software engineered in Leverkusen, Germany.'
-    },
-    {
-      title: 'Modern Cloud Architecture.',
-      highlight: 'Fast & Resilient.',
-      subtitle: 'Hardened cloud infrastructure, Next.js 15, and automated DevOps delivering 99.99% availability with complete GDPR compliance.'
-    },
-    {
-      title: 'Tailored Software Solutions.',
-      highlight: '100% IP Ownership.',
-      subtitle: 'Bespoke digital applications built to rigorous German engineering standards – bilateral NDAs, rapid sprints, and direct technical leadership.'
-    }
-  ];
-
-  const activeContent = shortTitleData[currentIndex] || shortTitleData[0];
-
-  // Character-by-character serene kinetic wave typography renderer
-  const renderAnimatedCharacters = (
-    text: string,
-    startCharIndex: number,
-    isHighlight = false
-  ) => {
-    let charCounter = startCharIndex;
-    const words = text.split(' ');
-
-    const elements = words.map((word, wordIdx) => {
-      const letters = Array.from(word);
-      return (
-        <span key={`slide-${currentIndex}-w-${wordIdx}`} className="inline-block whitespace-nowrap">
-          {letters.map((char, letterIdx) => {
-            const delay = `${charCounter * 0.065}s`;
-            charCounter++;
-            return (
-              <span
-                key={`slide-${currentIndex}-c-${wordIdx}-${letterIdx}-${char}`}
-                className={isHighlight ? 'hero-char-highlight' : 'hero-char-animate'}
-                style={{ animationDelay: delay }}
-              >
-                {char}
-              </span>
-            );
-          })}
-          {wordIdx < words.length - 1 && (
-            <span
-              key={`slide-${currentIndex}-space-${wordIdx}`}
-              className={isHighlight ? 'hero-char-highlight' : 'hero-char-animate'}
-              style={{ animationDelay: `${charCounter++ * 0.065}s` }}
-            >
-              &nbsp;
-            </span>
-          )}
-        </span>
-      );
-    });
-
-    return { elements, nextCharIndex: charCounter };
+  const toggleRotation = () => {
+    if (prefersReducedMotion) return;
+    const shouldPause = !rotationPaused;
+    setIsPausedByUser(shouldPause);
+    setIsPausedByFocus(shouldPause);
+    if (!shouldPause) setTimerVersion((version) => version + 1);
   };
 
-  const titleResult = renderAnimatedCharacters(activeContent.title, 0, false);
-  const highlightResult = renderAnimatedCharacters(activeContent.highlight, titleResult.nextCharIndex, true);
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    setTimerVersion((version) => version + 1);
+  };
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-gradient-to-b from-[#f0f7f9] via-[#f7fafc] to-[#ffffff] pt-16 pb-20 sm:pt-20 sm:pb-28 lg:pt-24 lg:pb-32 select-none"
-      aria-label="Hero Showcase"
+      ref={carouselRef}
+      className={`hero-shape-surface ${styles.hero} relative -mt-[114px] w-full overflow-hidden bg-slate-50 pb-8 pt-[142px] sm:-mt-[124px] sm:pb-10 sm:pt-[156px] lg:-mt-[130px] lg:pb-12 lg:pt-[166px]`}
+      role="region"
+      aria-roledescription={isDe ? 'Karussell' : 'carousel'}
+      aria-label={isDe ? 'WebDev Leistungsübersicht' : 'WebDev services overview'}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={handleMouseLeave}
+      onFocusCapture={() => setIsPausedByFocus(true)}
+      onBlurCapture={(event) => {
+        if (!carouselRef.current?.contains(event.relatedTarget as Node)) {
+          setIsPausedByFocus(false);
+          setTimerVersion((version) => version + 1);
+        }
+      }}
+      onKeyDown={handleKeyDown}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
-      {/* ── 1. Tech Blueprint Matrix Grid with Precision Crosshairs ── */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.55]">
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="hero-tech-grid" width="48" height="48" patternUnits="userSpaceOnUse">
-              <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(148, 163, 184, 0.16)" strokeWidth="0.8" />
-              <path d="M -3 0 L 3 0 M 0 -3 L 0 3" stroke="rgba(2, 132, 199, 0.28)" strokeWidth="0.8" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#hero-tech-grid)" />
-        </svg>
+      <div className={styles.keyboardControls} role="group" aria-label={isDe ? 'Karussell-Steuerung' : 'Carousel controls'}>
+        <button type="button" onClick={handlePrevious}>{isDe ? 'Vorherige Folie' : 'Previous slide'}</button>
+        <button type="button" onClick={handleNext}>{isDe ? 'Nächste Folie' : 'Next slide'}</button>
+        <button type="button" onClick={toggleRotation} disabled={prefersReducedMotion}>
+          {rotationPaused
+            ? (isDe ? 'Folienwechsel starten' : 'Resume slide rotation')
+            : (isDe ? 'Folienwechsel pausieren' : 'Pause slide rotation')}
+        </button>
       </div>
-
-      {/* ── 2. Subtle Tech Circuit Traces & Network Nodes (Left Flank) ── */}
-      <svg 
-        className="pointer-events-none absolute left-0 top-12 w-64 sm:w-72 h-[380px] opacity-35 hidden md:block" 
-        viewBox="0 0 260 380" 
-        fill="none" 
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M0 60 H70 L110 100 V180 L150 220 H250" stroke="#0284c7" strokeWidth="1.2" strokeOpacity="0.3" strokeDasharray="3 3" />
-        <path d="M0 140 H50 L90 180 H170 L210 220 V320" stroke="#9cd5e2" strokeWidth="1.2" strokeOpacity="0.4" />
-        <path d="M0 240 H80 L120 280 H200" stroke="#0284c7" strokeWidth="1" strokeOpacity="0.25" />
-        <circle cx="110" cy="100" r="3" fill="#0284c7" fillOpacity="0.4" />
-        <circle cx="150" cy="220" r="3.5" fill="#9cd5e2" fillOpacity="0.6" />
-        <circle cx="90" cy="180" r="2.5" fill="#0284c7" fillOpacity="0.35" />
-        <circle cx="170" cy="180" r="3" fill="#9cd5e2" fillOpacity="0.5" />
-        <circle cx="120" cy="280" r="2.5" fill="#0284c7" fillOpacity="0.4" />
-        <text x="14" y="52" fill="#0284c7" fillOpacity="0.45" fontSize="9" fontFamily="monospace" letterSpacing="1">SYS // DE-NRW · 51373</text>
-      </svg>
-
-      {/* ── 3. Subtle Tech Circuit Traces & Cloud Topology (Right Flank) ── */}
-      <svg 
-        className="pointer-events-none absolute right-0 top-8 w-64 sm:w-72 h-[380px] opacity-35 hidden md:block" 
-        viewBox="0 0 260 380" 
-        fill="none" 
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M260 80 H180 L140 120 V200 L100 240 H0" stroke="#0284c7" strokeWidth="1.2" strokeOpacity="0.3" strokeDasharray="4 2" />
-        <path d="M260 160 H200 L160 200 H80 L40 240 V340" stroke="#9cd5e2" strokeWidth="1.2" strokeOpacity="0.4" />
-        <path d="M260 260 H170 L130 300 H50" stroke="#0284c7" strokeWidth="1" strokeOpacity="0.25" />
-        <circle cx="140" cy="120" r="3" fill="#0284c7" fillOpacity="0.4" />
-        <circle cx="100" cy="240" r="3.5" fill="#9cd5e2" fillOpacity="0.6" />
-        <circle cx="160" cy="200" r="2.5" fill="#0284c7" fillOpacity="0.35" />
-        <circle cx="80" cy="200" r="3" fill="#9cd5e2" fillOpacity="0.5" />
-        <text x="135" y="72" fill="#0284c7" fillOpacity="0.45" fontSize="9" fontFamily="monospace" letterSpacing="1">K8S · CLOUD // 99.99%</text>
-      </svg>
-
-      {/* ── 4. Soft Ambient Glow Aura ── */}
-      <div className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 w-[680px] sm:w-[900px] h-[340px] rounded-full bg-gradient-to-b from-[#BBE7F1]/50 via-[#9cd5e2]/25 to-transparent blur-3xl opacity-75" />
-
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        
-        {/* ── 5. Frosted Pill Badge (Leverkusen HQ) ── */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#9cd5e2]/80 text-slate-800 text-xs font-mono font-medium shadow-2xs mb-5 sm:mb-6 transition-all hover:border-[#9cd5e2] hover:bg-white">
-          <span className="tracking-wide">
-            {isDe ? '🇩🇪 SOFTWARE-ENGINEERING · LEVERKUSEN, DEUTSCHLAND' : '🇩🇪 SOFTWARE ENGINEERING · LEVERKUSEN, GERMANY'}
-          </span>
-        </div>
-
-        {/* ── 6. Headline: Refined Non-Bold Scale with Ultra-Smooth Serene Flow ── */}
-        <div className={`transition-all duration-700 ease-out ${
-          isTransitioning ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'
-        }`}>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-normal sm:font-medium text-slate-900 tracking-tight leading-[1.28] font-['Kufam'] max-w-3xl mx-auto">
-            {titleResult.elements}
-            <span className="inline-block">&nbsp;</span>
-            <span className="inline-block underline decoration-[#9cd5e2] decoration-2 underline-offset-8">
-              {highlightResult.elements}
-            </span>
-          </h1>
-
-          {/* ── 7. Concise, High-Legibility Subtitle ── */}
-          <p className="mt-4 text-sm sm:text-base md:text-[17px] text-slate-600 max-w-2xl mx-auto leading-relaxed font-normal font-['Kufam']">
-            {activeContent.subtitle}
-          </p>
-        </div>
-
-        {/* ── 4. High-Impact Action Buttons ── */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5 sm:gap-4">
-          <button
-            onClick={() => executeAction(currentSlide.primaryBtnAction || 'quote')}
-            className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-semibold text-sm sm:text-base border border-[#9cd5e2] transition-all duration-200 shadow-xs hover:shadow-md hover:shadow-[#BBE7F1]/30 hover:-translate-y-0.5 active:scale-[0.98] cursor-pointer"
+      <div className={styles.ambientLayer} aria-hidden="true">
+        <span className={styles.ambientGlowLeft} />
+        <span className={styles.ambientGlowRight} />
+        <span className={styles.blueprintLine} />
+      </div>
+      <div className={`${styles.layout} relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-7 px-4 sm:px-6 lg:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)] lg:gap-8 lg:px-8 xl:gap-10`}>
+        <div className={styles.contentColumn}>
+          <div
+            key={currentSlide.id || safeIndex}
+            className={styles.slideCopy}
+            role="group"
+            aria-roledescription={isDe ? 'Folie' : 'slide'}
+            aria-label={`${safeIndex + 1} ${isDe ? 'von' : 'of'} ${slides.length}`}
+            aria-live={isAutoplayRunning ? 'off' : 'polite'}
           >
-            <span>{currentSlide.primaryBtnText || (isDe ? 'Beratung anfragen' : 'Request Consultation')}</span>
-            <ArrowRight className="w-4 h-4 text-slate-950" />
-          </button>
+            <h1 className={styles.headline}>
+              <span className={styles.headlineMain}>{currentSlide.title}</span>
+              {currentSlide.highlightText && <span className={styles.headlineHighlight}>{currentSlide.highlightText}</span>}
+            </h1>
 
-          <button
-            onClick={() => executeAction(currentSlide.secondaryBtnAction || 'services')}
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/90 hover:bg-white border border-slate-200/90 hover:border-[#9cd5e2] text-slate-800 font-semibold text-sm sm:text-base backdrop-blur-md shadow-2xs hover:shadow-xs hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 cursor-pointer"
-          >
-            <span>{currentSlide.secondaryBtnText || (isDe ? 'Leistungen entdecken' : 'Explore Services')}</span>
-          </button>
-        </div>
+            <p className={styles.description}>{currentSlide.subtitle}</p>
 
-        {/* ── 5. Minimal Slide Dots with Smooth Active Indicator ── */}
-        {slides.length > 1 && (
-          <div className="mt-8 sm:mt-10 flex items-center justify-center gap-2">
-            {slides.map((_, i) => (
+            <div className={styles.ctaRow}>
               <button
-                key={`dot-${i}`}
-                onClick={() => goToSlide(i)}
-                aria-label={`Go to slide ${i + 1}`}
-                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                  i === currentIndex
-                    ? 'w-7 bg-sky-600'
-                    : 'w-2 bg-slate-300 hover:bg-slate-400'
-                }`}
-              />
-            ))}
+                type="button"
+                onClick={() => executeAction(currentSlide.primaryBtnAction || 'quote')}
+                className={styles.primaryButton}
+              >
+                <span>{currentSlide.primaryBtnText || (isDe ? 'Projekt starten' : 'Start Your Project')}</span>
+                <ArrowRight aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={() => executeAction(currentSlide.secondaryBtnAction || 'services')}
+                className={styles.secondaryButton}
+              >
+                <span>{currentSlide.secondaryBtnText || (isDe ? 'Leistungen entdecken' : 'Explore Services')}</span>
+                <ArrowUpRight aria-hidden="true" />
+              </button>
+            </div>
           </div>
-        )}
 
+          {/* Stable footer section: dot pagination and location metadata */}
+          <div className={styles.columnFooter}>
+            {slides.length > 1 && (
+              <div className={styles.dotPagination} role="tablist" aria-label={isDe ? 'Folie wählen' : 'Select slide'}>
+                {slides.map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    role="tab"
+                    aria-selected={idx === safeIndex}
+                    aria-label={`${isDe ? 'Folie' : 'Slide'} ${idx + 1}`}
+                    className={`${styles.dotBtn} ${idx === safeIndex ? styles.dotActive : ''}`}
+                    onClick={() => navigateTo(idx)}
+                  />
+                ))}
+              </div>
+            )}
+
+            <div className={styles.contentMeta}>
+              <div className={styles.locationLine}>
+                <MapPin aria-hidden="true" />
+                <span>{isDe ? 'Leverkusen, Deutschland · Weltweit tätig' : 'Leverkusen, Germany · Working worldwide'}</span>
+              </div>
+
+              <span className={styles.visuallyHidden} aria-live={isAutoplayRunning ? 'off' : 'polite'} aria-atomic="true">
+                {isDe ? `Folie ${safeIndex + 1} von ${slides.length}: ${currentSlide.title} ${currentSlide.highlightText || ''}` : `Slide ${safeIndex + 1} of ${slides.length}: ${currentSlide.title} ${currentSlide.highlightText || ''}`}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.visualColumn}>
+          <EngineeringShowcase slide={currentSlide} index={safeIndex} isDe={isDe} />
+        </div>
       </div>
 
-      {/* ── 6. Signature Architectural Shape Divider at the Bottom (Subtle, Static, Non-Wavy) ── */}
-      <SignatureShapeDivider
-        position="bottom"
-        fillColor="text-white"
-        heightClass="h-4 sm:h-5 md:h-6"
-      />
+      <SignatureShapeDivider position="bottom" fillColor="text-white" heightClass="h-4 sm:h-5 md:h-6" />
     </section>
   );
 };

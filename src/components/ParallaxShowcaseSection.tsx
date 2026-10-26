@@ -106,7 +106,7 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
               <span>The WebDev Cross-Border Advantage</span>
             </div>
 
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-white font-['Kufam'] tracking-tight leading-[1.2]">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[30px] font-semibold text-white font-['Kufam'] tracking-tight leading-[1.25]">
               Industrial Rigor Meets <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-[#BBE7F1] to-sky-200">
                 Computational Agility

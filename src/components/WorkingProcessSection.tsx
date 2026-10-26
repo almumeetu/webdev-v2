@@ -65,7 +65,7 @@ export const WorkingProcessSection: React.FC = () => {
   ];
 
   return (
-    <section ref={sectionRef} className="py-16 sm:py-20 lg:py-28 bg-slate-950 text-white relative overflow-hidden border-t border-b border-slate-800">
+    <section ref={sectionRef} className="py-16 sm:py-20 lg:py-24 bg-slate-950 text-white relative overflow-hidden border-t border-b border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Section Header */}

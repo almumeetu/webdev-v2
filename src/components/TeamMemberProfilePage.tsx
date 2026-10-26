@@ -89,7 +89,7 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
   const isCEO = currentMember.role.toLowerCase().includes('ceo') || currentMember.role.toLowerCase().includes('founder');
 
   return (
-    <div ref={pageRef} className="min-h-screen bg-slate-50/50 text-slate-900 relative">
+    <div ref={pageRef} className="min-h-screen bg-white text-slate-900 relative">
       {/* Top Breadcrumb Navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 sm:pt-6 pb-2">
         <BreadcrumbBar
@@ -103,7 +103,7 @@ export const TeamMemberProfilePage: React.FC<TeamMemberProfilePageProps> = ({
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10 sm:space-y-12 pb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10 sm:space-y-12 pt-4 sm:pt-6 pb-16 sm:pb-20 lg:pb-24">
 
         {/* Hero Section: Executive Portrait & Core Identification */}
         <div className="profile-anim-item bg-white rounded-3xl border border-slate-200/90 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.06)] p-6 sm:p-10 relative overflow-hidden">

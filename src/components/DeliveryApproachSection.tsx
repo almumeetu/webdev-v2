@@ -47,13 +47,13 @@ export const DeliveryApproachSection: React.FC = () => {
       ];
 
   return (
-    <section className="bg-white py-16 text-slate-900 sm:py-20">
+    <section className="home-shape-architecture bg-white py-16 sm:py-20 lg:py-24 text-slate-900">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <header className="mx-auto mb-10 max-w-3xl text-center sm:mb-12">
           <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-800">
             {t.testimonialsKicker}
           </p>
-          <h2 className="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl lg:text-4xl">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold tracking-tight text-slate-950">
             {t.testimonialsHeading}
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">

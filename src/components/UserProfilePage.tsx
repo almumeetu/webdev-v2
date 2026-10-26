@@ -67,11 +67,6 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
       <Breadcrumb
         badge={lang === 'de' ? 'KUNDENPORTAL & SICHERHEIT' : 'CLIENT PORTAL & SECURITY'}
         title={lang === 'de' ? 'Kundenprofil & Organisationsportal' : 'Client Profile & Organization Portal'}
-        subtitle={
-          lang === 'de'
-            ? 'Verwalten Sie Ihre Zugangsdaten, Sicherheitspräferenzen und aktiven Softwareprojekte.'
-            : 'Manage your enterprise account credentials, security preferences, and active software engagement dossiers.'
-        }
         items={[
           { label: lang === 'de' ? 'Startseite' : 'Home', onClick: onBack },
           { label: lang === 'de' ? 'Kundenprofil & Portal' : 'Client Profile & Portal', active: true }
@@ -81,7 +76,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
         align="left"
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-12 sm:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 pt-10 sm:pt-14 lg:pt-16 pb-16 sm:pb-20 lg:pb-24">
 
         {/* User Card */}
         <div className="profile-fade-item bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-md flex flex-col sm:flex-row items-center sm:items-start gap-6">

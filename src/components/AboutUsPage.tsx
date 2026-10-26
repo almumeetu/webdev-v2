@@ -10,7 +10,9 @@ import {
   CheckCircle2, 
   ArrowRight,
   TrendingUp,
-  Award
+  Award,
+  Target,
+  Zap
 } from 'lucide-react';
 import { useGsapContext } from '../utils/gsapHelper';
 import gsap from 'gsap';
@@ -51,19 +53,14 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
   });
 
   return (
-    <div ref={containerRef} className="bg-white text-slate-900 min-h-screen">
-      {/* Top Standard Breadcrumb & Hero Banner */}
+    <div ref={containerRef} className="bg-slate-50/50 text-slate-900 min-h-screen">
+      {/* Breadcrumb Banner */}
       <Breadcrumb
-        badge={lang === 'de' ? 'ÜBER WEBDEV SOFTWARE SOLUTIONS' : 'ABOUT WEBDEV SOFTWARE SOLUTIONS'}
+        badge={lang === 'de' ? 'ÜBER UNS' : 'ABOUT US'}
         title={
           lang === 'de'
-            ? 'Skalierbare Software & Cloud-Infrastruktur nach höchsten Qualitätsstandards'
-            : 'Architecting Scalable Software & Cloud Infrastructure'
-        }
-        subtitle={
-          lang === 'de'
-            ? 'Eine erstklassige Full-Stack-Software-Beratung für hochperformante Webanwendungen, sichere Cloud-Plattformen und conversion-optimierte E-Commerce-Lösungen weltweit.'
-            : 'A premier full-stack software engineering consultancy building high-performance web applications, enterprise cloud platforms, and conversion-optimized e-commerce solutions for global businesses.'
+            ? 'Skalierbare Software & Cloud-Infrastruktur'
+            : 'Building Scalable Software & Cloud Infrastructure'
         }
         items={[
           { label: t.navHome, onClick: onBackToHome },
@@ -75,56 +72,57 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
         contentClassName="about-anim-fade"
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-16 sm:space-y-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 lg:pt-16 pb-16 sm:pb-20 lg:pb-24 space-y-16 sm:space-y-20">
         
-        {/* Core Narrative */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
-          <div className="space-y-5 sm:space-y-6">
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 font-['Archivo']">
+        {/* Story Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center about-anim-fade">
+          <div className="space-y-5">
+            <h2 className="text-xl sm:text-2xl lg:text-[28px] font-semibold text-slate-900 tracking-tight">
               {lang === 'de'
-                ? 'Software-Engineering für weltweite Unternehmen in Deutschland, den USA & Europa'
-                : 'Engineered for Global Enterprises Across USA, Germany & Europe'}
+                ? 'Professionelle Software-Entwicklung für Deutschland'
+                : 'Professional Software Engineering for Germany'}
             </h2>
             <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
               {lang === 'de' ? (
                 <>
-                  Gegründet mit der Vision, erstklassige digitale Softwarelösungen zu schaffen, die herausragendes technisches Talent mit anspruchsvollen europäischen und deutschen Architekturstandards vereinen, betreut <strong>WebDev Software Solutions</strong> internationale Kunden mit höchster Verlässlichkeit und rechtlicher Transparenz.
+                  Mit Sitz in <strong>Leverkusen, Deutschland</strong>, entwickelt <strong>WebDev Software Solutions</strong> maßgeschneiderte digitale Lösungen für deutsche und europäische Unternehmen. Wir kombinieren moderne Technologien mit höchsten Sicherheits- und Datenschutzstandards nach DSGVO.
                 </>
               ) : (
                 <>
-                  Founded with the vision to deliver world-class digital software that combines exceptional computational engineering talent with meticulous European and American architectural standards, <strong>WebDev Software Solutions</strong> serves international clients with complete trust and legal transparency.
+                  Based in <strong>Leverkusen, Germany</strong>, <strong>WebDev Software Solutions</strong> delivers custom digital solutions for German and European businesses, combining cutting-edge technology with the highest GDPR security and privacy standards.
                 </>
               )}
             </p>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+            <p className="text-sm text-slate-600 leading-relaxed">
               {lang === 'de'
-                ? 'Unsere agilen Entwicklungsteams sind spezialisiert auf hochskalierbare MERN-Architekturen, verteilte Cloud-Backends und moderne Frontend-Frameworks. Durch strenge Code-Reviews, CI/CD-Automatisierung und umfassende Testverfahren gewährleisten wir höchste Ausfallsicherheit und nahtlose Projektabwicklung.'
-                : 'Our agile engineering squads specialize in high-concurrency MERN architectures, distributed cloud backends, and modern frontend frameworks. Through strict code reviews, CI/CD automation, and rigorous testing standards, we ensure production reliability and seamless cross-border delivery.'}
+                ? 'Unsere Tech-Stack: Next.js, TypeScript, React Native, Flutter, Kotlin für Mobile-Apps, PostgreSQL und Supabase für Datenbanken, sowie Prisma ORM. Wir entwickeln skalierbare Web- und Mobile-Anwendungen mit modernen Cloud-Architekturen und CI/CD-Automatisierung.'
+                : 'Our tech stack: Next.js, TypeScript, React Native, Flutter, Kotlin for mobile apps, PostgreSQL and Supabase for databases, and Prisma ORM. We build scalable web and mobile applications with modern cloud architectures and CI/CD automation.'}
             </p>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-              <div className="p-3.5 rounded-xl bg-[#BBE7F1]/20 border border-[#9cd5e2] text-center">
-                <div className="text-xl sm:text-2xl font-extrabold text-slate-950 font-['Archivo']">500+</div>
-                <div className="text-xs text-slate-600 mt-0.5 font-semibold">
-                  {lang === 'de' ? 'Globale Projekte' : 'Global Projects'}
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3">
+              <div className="p-4 rounded-xl bg-white border border-slate-200 text-center shadow-xs">
+                <div className="text-2xl font-bold text-slate-950">500+</div>
+                <div className="text-xs text-slate-500 mt-1 font-medium">
+                  {lang === 'de' ? 'Projekte' : 'Projects'}
                 </div>
               </div>
-              <div className="p-3.5 rounded-xl bg-[#BBE7F1]/20 border border-[#9cd5e2] text-center">
-                <div className="text-xl sm:text-2xl font-extrabold text-slate-950 font-['Archivo']">100%</div>
-                <div className="text-xs text-slate-600 mt-0.5 font-semibold">
+              <div className="p-4 rounded-xl bg-white border border-slate-200 text-center shadow-xs">
+                <div className="text-2xl font-bold text-slate-950">100%</div>
+                <div className="text-xs text-slate-500 mt-1 font-medium">
                   {lang === 'de' ? 'IP-Eigentum' : 'IP Ownership'}
                 </div>
               </div>
-              <div className="p-3.5 rounded-xl bg-[#BBE7F1]/20 border border-[#9cd5e2] text-center">
-                <div className="text-xl sm:text-2xl font-extrabold text-slate-950 font-['Archivo']">99.98%</div>
-                <div className="text-xs text-slate-600 mt-0.5 font-semibold">
-                  {lang === 'de' ? 'Produktions-SLA' : 'Production SLA'}
+              <div className="p-4 rounded-xl bg-white border border-slate-200 text-center shadow-xs">
+                <div className="text-2xl font-bold text-slate-950">99.98%</div>
+                <div className="text-xs text-slate-500 mt-1 font-medium">
+                  {lang === 'de' ? 'Uptime' : 'Uptime SLA'}
                 </div>
               </div>
-              <div className="p-3.5 rounded-xl bg-[#BBE7F1]/20 border border-[#9cd5e2] text-center">
-                <div className="text-xl sm:text-2xl font-extrabold text-slate-950 font-['Archivo']">14+ Hrs</div>
-                <div className="text-xs text-slate-600 mt-0.5 font-semibold">
-                  {lang === 'de' ? 'Zeitzonen-Sync' : 'Timezone Sync'}
+              <div className="p-4 rounded-xl bg-white border border-slate-200 text-center shadow-xs">
+                <div className="text-2xl font-bold text-slate-950">14+</div>
+                <div className="text-xs text-slate-500 mt-1 font-medium">
+                  {lang === 'de' ? 'Zeitzonen' : 'Time Zones'}
                 </div>
               </div>
             </div>
@@ -133,130 +131,154 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
           <div className="relative">
             <img
               src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80"
-              alt="Engineering Team at WebDev Software Solutions"
-              className="rounded-3xl shadow-2xl w-full object-cover h-[340px] sm:h-[440px]"
+              alt="Engineering Team"
+              className="rounded-2xl shadow-lg w-full object-cover h-[320px] sm:h-[400px] border border-slate-200"
             />
-            <div className="absolute bottom-2 left-2 sm:-bottom-6 sm:-left-6 bg-slate-900 text-white p-4 sm:p-5 rounded-2xl shadow-xl max-w-xs border border-slate-800">
-              <div className="text-xs font-mono text-emerald-400 uppercase font-bold">
+            <div className="absolute bottom-4 left-4 right-4 bg-white p-4 rounded-xl shadow-lg border border-slate-200">
+              <div className="text-xs font-semibold text-sky-600 uppercase">
                 {lang === 'de' ? 'Globales Delivery-Modell' : 'Global Delivery Model'}
               </div>
-              <div className="text-xs sm:text-sm font-bold mt-1">
+              <div className="text-sm font-bold mt-0.5 text-slate-900">
                 {lang === 'de' ? 'Dedizierte Agile Squads' : 'Dedicated Agile Squads'}
               </div>
-              <div className="text-xs text-slate-400 mt-1">
+              <div className="text-xs text-slate-500 mt-1">
                 {lang === 'de' ? 'High-Velocity Sprints & Continuous Deployment' : 'High-velocity sprints & continuous deployment'}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Operating Hubs Detailed */}
-        <div className="space-y-8">
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-              <span>{lang === 'de' ? 'Standorte & Niederlassungen' : 'Physical Presence & Operating Hubs'}</span>
+        {/* Operating Hubs */}
+        <div className="about-anim-fade space-y-8">
+          <div className="text-center max-w-2xl mx-auto">
+            <div className="text-xs font-semibold text-sky-600 uppercase tracking-wider mb-2">
+              {lang === 'de' ? 'Standorte & Engineering-Zentren' : 'Physical Presence & Engineering Hubs'}
             </div>
-            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 font-['Kufam']">
-              {lang === 'de' ? 'Standorte & globale Engineering-Zentren' : 'Physical Presence & Global Engineering Facilities'}
+            <h3 className="text-2xl sm:text-3xl font-bold text-slate-900">
+              {lang === 'de' ? 'Globale Niederlassungen' : 'Global Facilities'}
             </h3>
-            <p className="text-slate-600 text-xs sm:text-sm font-['Kufam']">
+            <p className="text-slate-600 text-sm mt-2">
               {lang === 'de'
-                ? 'Direkte internationale Zusammenarbeit mit Kunden, gestützt auf spezialisierte Engineering-Squads.'
-                : 'Direct international client collaboration backed by dedicated high-velocity engineering squads.'}
+                ? 'Direkte internationale Zusammenarbeit mit Kunden.'
+                : 'Direct international client collaboration backed by dedicated squads.'}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {/* Leverkusen Germany Office - FIRST */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-slate-50 border border-slate-200 space-y-4 shadow-xs">
-              <div className="w-12 h-12 rounded-xl bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] flex items-center justify-center font-bold">
-                <Globe className="w-6 h-6" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Leverkusen Germany */}
+            <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-sm space-y-3">
+              <div className="w-10 h-10 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center">
+                <Globe className="w-5 h-5" />
               </div>
-              <h4 className="text-lg sm:text-xl font-bold text-slate-900 font-['Archivo']">
-                {lang === 'de' ? 'Küppersteg, Leverkusen, Deutschland (Europa-Zentrale)' : 'Küppersteg, Leverkusen, Germany (European Hub)'}
+              <h4 className="text-base font-bold text-slate-900">
+                {lang === 'de' ? 'Leverkusen, Deutschland' : 'Leverkusen, Germany'}
               </h4>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                {lang === 'de'
-                  ? 'Unser europäischer Knotenpunkt in Nordrhein-Westfalen. Garantiert DSGVO-Konformität, Sicherheitsstandards nach BaFin-Niveau, Serverbetrieb im Hetzner Rechenzentrum Frankfurt und persönliche Beratung für Kunden in der DACH-Region.'
-                  : 'Our European operational gateway located in North Rhine-Westphalia. Guarantees German GDPR compliance, BaFin-grade security standards, Hetzner Frankfurt data center management, and direct on-site consulting for DACH clients.'}
-              </p>
-              <ul className="text-xs sm:text-sm text-slate-700 space-y-2 pt-2">
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-700 shrink-0" />
-                  <span>{lang === 'de' ? 'DSGVO / GDPR & ISO-27001 Sicherheitsstandards' : 'German GDPR (DSGVO) & ISO-27001 Security Frameworks'}</span>
+              <ul className="text-xs text-slate-700 space-y-1.5">
+                <li className="flex items-start gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-sky-600 shrink-0 mt-0.5" />
+                  <span>{lang === 'de' ? 'DSGVO & ISO-27001' : 'GDPR & ISO-27001'}</span>
                 </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-700 shrink-0" />
-                  <span>{lang === 'de' ? 'Europäische Cloud & Hetzner Frankfurt Serverarchitektur' : 'European Cloud & Hetzner Frankfurt Server Architecture'}</span>
+                <li className="flex items-start gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-sky-600 shrink-0 mt-0.5" />
+                  <span>{lang === 'de' ? 'Hetzner Frankfurt' : 'Hetzner Frankfurt'}</span>
                 </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-700 shrink-0" />
-                  <span>Küppersteg, 51373 Leverkusen, NRW, Germany (+49 172 9766016)</span>
+                <li className="flex items-start gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-sky-600 shrink-0 mt-0.5" />
+                  <span>Küppersteg, 51373 Leverkusen</span>
                 </li>
               </ul>
             </div>
 
-            {/* Joypurhat Bangladesh Office - R&D */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-slate-50 border border-slate-200 space-y-4 shadow-xs">
-              <div className="w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold">
-                <Building2 className="w-6 h-6" />
+            {/* Joypurhat Bangladesh */}
+            <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-sm space-y-3">
+              <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <Building2 className="w-5 h-5" />
               </div>
-              <h4 className="text-lg sm:text-xl font-bold text-slate-900 font-['Archivo']">
-                {lang === 'de' ? 'Joypurhat, Bangladesch (Globales R&D-Zentrum)' : 'Joypurhat, Bangladesh (Global R&D Center)'}
+              <h4 className="text-base font-bold text-slate-900">
+                {lang === 'de' ? 'Joypurhat, Bangladesch' : 'Joypurhat, Bangladesh'}
               </h4>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                {lang === 'de'
-                  ? 'Unser hochmodernes Software-Entwicklungslabor mit über 30 Vollzeit-Softwareentwicklern, MERN-Architekten, WordPress-Spezialisten und QA-Automation-Experten für kontinuierliche Entwicklung und Sprints.'
-                  : 'Our dedicated offshore engineering lab. Houses over 30 full-stack engineers, MERN architects, WordPress core contributors, and QA automation specialists. Providing agile sprint execution and continuous deployment for international clients.'}
-              </p>
-              <ul className="text-xs sm:text-sm text-slate-700 space-y-2 pt-2">
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>{lang === 'de' ? 'Full-Stack MERN & Next.js Core Engineering Squads' : 'Full-Stack MERN & Next.js Core Engineering Squads'}</span>
+              <ul className="text-xs text-slate-700 space-y-1.5">
+                <li className="flex items-start gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                  <span>{lang === 'de' ? 'Next.js & TypeScript' : 'Next.js & TypeScript'}</span>
                 </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>{lang === 'de' ? 'Shopify & WooCommerce Custom Theme & App-Entwicklung' : 'Shopify & WooCommerce Custom Theme & App Dev'}</span>
+                <li className="flex items-start gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                  <span>{lang === 'de' ? 'Flutter, React Native & Kotlin' : 'Flutter, React Native & Kotlin'}</span>
                 </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Housing Estate, Ward No: 07, Joypurhat-5900, Bangladesh</span>
+                <li className="flex items-start gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                  <span>{lang === 'de' ? 'PostgreSQL, Supabase & Prisma' : 'PostgreSQL, Supabase & Prisma'}</span>
                 </li>
               </ul>
             </div>
           </div>
+
         </div>
 
-        {/* CTA Bottom Banner */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white text-center space-y-6 shadow-2xl border border-slate-800 relative overflow-hidden">
-          <div className="absolute inset-0 bg-tech-circuit opacity-20 pointer-events-none"></div>
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold font-['Archivo'] relative z-10">
-            {lang === 'de' ? 'Arbeiten Sie mit unseren Software-Architekten' : 'Collaborate With Our Engineering Leads'}
+        {/* Values Section */}
+        <div className="about-anim-fade grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="p-5 rounded-xl bg-white border border-slate-200 text-center shadow-xs">
+            <div className="w-10 h-10 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center mx-auto mb-2">
+              <Target className="w-5 h-5" />
+            </div>
+            <h3 className="font-semibold text-slate-900 text-sm">
+              {lang === 'de' ? 'Zielorientiert' : 'Goal-Driven'}
+            </h3>
+          </div>
+
+          <div className="p-5 rounded-xl bg-white border border-slate-200 text-center shadow-xs">
+            <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-2">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <h3 className="font-semibold text-slate-900 text-sm">
+              {lang === 'de' ? 'Sicherheit zuerst' : 'Security First'}
+            </h3>
+          </div>
+
+          <div className="p-5 rounded-xl bg-white border border-slate-200 text-center shadow-xs">
+            <div className="w-10 h-10 rounded-lg bg-violet-50 text-violet-600 flex items-center justify-center mx-auto mb-2">
+              <Zap className="w-5 h-5" />
+            </div>
+            <h3 className="font-semibold text-slate-900 text-sm">
+              {lang === 'de' ? 'Schnelle Lieferung' : 'Fast Delivery'}
+            </h3>
+          </div>
+
+          <div className="p-5 rounded-xl bg-white border border-slate-200 text-center shadow-xs">
+            <div className="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-2">
+              <Award className="w-5 h-5" />
+            </div>
+            <h3 className="font-semibold text-slate-900 text-sm">
+              {lang === 'de' ? 'Qualitätsgarantie' : 'Quality Assurance'}
+            </h3>
+          </div>
+        </div>
+
+
+        {/* CTA Banner */}
+        <div className="about-anim-fade p-8 sm:p-12 rounded-2xl bg-slate-900 text-white text-center space-y-6 shadow-lg">
+          <h3 className="text-2xl sm:text-3xl font-bold">
+            {lang === 'de' ? 'Starten Sie Ihr Projekt mit uns' : 'Start Your Project With Us'}
           </h3>
-          <p className="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed relative z-10 font-normal">
+          <p className="text-slate-300 text-sm max-w-2xl mx-auto">
             {lang === 'de'
-              ? 'Bereit für ein skalierbares MERN-Projekt, eine Next.js Plattform oder eine Neuausrichtung Ihrer Server-Infrastruktur?'
-              : 'Ready to initiate an enterprise MERN web app, Shopify store, or server infrastructure overhaul?'}
+              ? 'Bereit für eine moderne Web-Anwendung mit Next.js & TypeScript oder eine Mobile-App mit Flutter, React Native oder Kotlin?'
+              : 'Ready to build a modern web application with Next.js & TypeScript or a mobile app with Flutter, React Native, or Kotlin?'}
           </p>
-          <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap pt-2 relative z-10">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <button
               onClick={onOpenQuote}
-              className="bg-white hover:bg-slate-100 text-slate-950 text-xs sm:text-sm font-bold px-6 py-3.5 rounded-xl transition-all min-h-[44px] cursor-pointer"
+              className="bg-white hover:bg-slate-100 text-slate-950 text-sm font-semibold px-6 py-3 rounded-xl transition-colors cursor-pointer"
             >
-              {lang === 'de' ? 'Architektur-Beratung anfordern' : 'Request Architecture Consultation'}
+              {lang === 'de' ? 'Beratung anfordern' : 'Request Consultation'}
             </button>
             <button
               onClick={onExploreTeam}
-              className="bg-slate-800/90 hover:bg-slate-800 text-[#BBE7F1] border border-slate-700/80 hover:border-[#9cd5e2] text-xs sm:text-sm font-bold px-6 py-3.5 rounded-xl transition-all min-h-[44px] cursor-pointer flex items-center gap-1.5"
+              className="bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold px-6 py-3 rounded-xl transition-colors cursor-pointer flex items-center gap-2"
             >
-              <span>{lang === 'de' ? 'Unser Entwicklerteam kennenlernen' : 'Meet The Minds Behind WebDev'}</span>
-              <ArrowRight className="w-4 h-4 text-[#BBE7F1]" />
-            </button>
-            <button
-              onClick={onBackToHome}
-              className="bg-slate-800/80 hover:bg-slate-800 text-slate-300 text-xs sm:text-sm font-bold px-6 py-3.5 rounded-xl transition-all min-h-[44px] cursor-pointer"
-            >
-              {t.backToHome}
+              <span>{lang === 'de' ? 'Team kennenlernen' : 'Meet The Team'}</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>

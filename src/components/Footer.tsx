@@ -22,7 +22,6 @@ import {
 import { useLanguage } from '../context/LanguageContext';
 import { useAppContext } from '../context/AppContext';
 import { getRoute } from '../utils/routes';
-import { SignatureShapeDivider } from './SignatureShapeDivider';
 
 export const Footer: React.FC = () => {
   const router = useRouter();
@@ -43,64 +42,64 @@ export const Footer: React.FC = () => {
 
   const quickLinks = lang === 'de'
     ? [
-        { label: 'Dienstleistungen', view: 'services', Icon: HiOutlineCode,            color: 'text-violet-600', bg: 'group-hover:border-violet-300 group-hover:bg-violet-50' },
-        { label: 'Portfolio',        view: 'portfolio', Icon: HiOutlineCollection,      color: 'text-amber-600',  bg: 'group-hover:border-amber-300  group-hover:bg-amber-50'  },
-        { label: 'Unser Team',       view: 'team',      Icon: HiOutlineUserGroup,       color: 'text-sky-600',    bg: 'group-hover:border-sky-300    group-hover:bg-sky-50'    },
-        { label: 'Blog & News',      view: 'blog',      Icon: HiOutlineNewspaper,       color: 'text-rose-600',   bg: 'group-hover:border-rose-300   group-hover:bg-rose-50'   },
-        { label: 'Kontakt',          view: 'contact',   Icon: HiOutlineMail,            color: 'text-emerald-600', bg: 'group-hover:border-emerald-300 group-hover:bg-emerald-50' },
+        { label: 'Dienstleistungen', view: 'services', Icon: HiOutlineCode, color: 'text-violet-600' },
+        { label: 'Portfolio', view: 'portfolio', Icon: HiOutlineCollection, color: 'text-amber-600' },
+        { label: 'Unser Team', view: 'team', Icon: HiOutlineUserGroup, color: 'text-sky-600' },
+        { label: 'Blog & News', view: 'blog', Icon: HiOutlineNewspaper, color: 'text-rose-600' },
+        { label: 'Kontakt', view: 'contact', Icon: HiOutlineMail, color: 'text-emerald-600' },
       ]
     : [
-        { label: 'Services',             view: 'services', Icon: HiOutlineCode,        color: 'text-violet-600', bg: 'group-hover:border-violet-300 group-hover:bg-violet-50' },
-        { label: 'Portfolio',            view: 'portfolio', Icon: HiOutlineCollection, color: 'text-amber-600',  bg: 'group-hover:border-amber-300  group-hover:bg-amber-50'  },
-        { label: 'Meet the Team',        view: 'team',      Icon: HiOutlineUserGroup,  color: 'text-sky-600',    bg: 'group-hover:border-sky-300    group-hover:bg-sky-50'    },
-        { label: 'Engineering Insights', view: 'blog',      Icon: HiOutlineNewspaper,  color: 'text-rose-600',   bg: 'group-hover:border-rose-300   group-hover:bg-rose-50'   },
-        { label: 'Contact',              view: 'contact',   Icon: HiOutlineMail,       color: 'text-emerald-600', bg: 'group-hover:border-emerald-300 group-hover:bg-emerald-50' },
+        { label: 'Services', view: 'services', Icon: HiOutlineCode, color: 'text-violet-600' },
+        { label: 'Portfolio', view: 'portfolio', Icon: HiOutlineCollection, color: 'text-amber-600' },
+        { label: 'Meet the Team', view: 'team', Icon: HiOutlineUserGroup, color: 'text-sky-600' },
+        { label: 'Engineering Insights', view: 'blog', Icon: HiOutlineNewspaper, color: 'text-rose-600' },
+        { label: 'Contact', view: 'contact', Icon: HiOutlineMail, color: 'text-emerald-600' },
       ];
 
   const companyLinks = lang === 'de'
     ? [
-        { label: 'Über uns',              view: 'about',    Icon: HiOutlineInformationCircle, color: 'text-cyan-600',    bg: 'group-hover:border-cyan-300    group-hover:bg-cyan-50',    badge: undefined },
-        { label: 'Karriere',              view: 'careers',  Icon: HiOutlineBriefcase,         color: 'text-indigo-600',  bg: 'group-hover:border-indigo-300  group-hover:bg-indigo-50',  badge: activeJobsCount > 0 ? 'Stellen' : undefined },
-        { label: 'Datenschutz',           view: 'privacy',  Icon: HiOutlineShieldCheck,       color: 'text-green-600',   bg: 'group-hover:border-green-300   group-hover:bg-green-50',   badge: undefined },
-        { label: 'Nutzungsbedingungen',   view: 'terms',    Icon: HiOutlineDocumentText,      color: 'text-orange-600',  bg: 'group-hover:border-orange-300  group-hover:bg-orange-50',  badge: undefined },
+        { label: 'Über uns', view: 'about', Icon: HiOutlineInformationCircle, color: 'text-cyan-600', badge: undefined },
+        { label: 'Karriere', view: 'careers', Icon: HiOutlineBriefcase, color: 'text-indigo-600', badge: activeJobsCount > 0 ? 'Stellen' : undefined },
+        { label: 'Datenschutz', view: 'privacy', Icon: HiOutlineShieldCheck, color: 'text-green-600', badge: undefined },
+        { label: 'Nutzungsbedingungen', view: 'terms', Icon: HiOutlineDocumentText, color: 'text-orange-600', badge: undefined },
       ]
     : [
-        { label: 'About Us',         view: 'about',   Icon: HiOutlineInformationCircle, color: 'text-cyan-600',    bg: 'group-hover:border-cyan-300    group-hover:bg-cyan-50',    badge: undefined },
-        { label: 'Careers',          view: 'careers', Icon: HiOutlineBriefcase,         color: 'text-indigo-600',  bg: 'group-hover:border-indigo-300  group-hover:bg-indigo-50',  badge: activeJobsCount > 0 ? 'Hiring' : undefined },
-        { label: 'Privacy Policy',   view: 'privacy', Icon: HiOutlineShieldCheck,       color: 'text-green-600',   bg: 'group-hover:border-green-300   group-hover:bg-green-50',   badge: undefined },
-        { label: 'Terms of Service', view: 'terms',   Icon: HiOutlineDocumentText,      color: 'text-orange-600',  bg: 'group-hover:border-orange-300  group-hover:bg-orange-50',  badge: undefined },
+        { label: 'About Us', view: 'about', Icon: HiOutlineInformationCircle, color: 'text-cyan-600', badge: undefined },
+        { label: 'Careers', view: 'careers', Icon: HiOutlineBriefcase, color: 'text-indigo-600', badge: activeJobsCount > 0 ? 'Hiring' : undefined },
+        { label: 'Privacy Policy', view: 'privacy', Icon: HiOutlineShieldCheck, color: 'text-green-600', badge: undefined },
+        { label: 'Terms of Service', view: 'terms', Icon: HiOutlineDocumentText, color: 'text-orange-600', badge: undefined },
       ];
 
   return (
-    <footer className="relative overflow-hidden bg-slate-50/95 border-t border-slate-200/90 text-slate-700 pt-8 sm:pt-10">
-      {/* ── Signature Architectural Shape Divider at the Top of Footer ── */}
-      <SignatureShapeDivider
-        position="top"
-        fillColor="text-white"
-        heightClass="h-4 sm:h-5 md:h-6"
-      />
-
-      {/* Subtle background grid */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+    <footer className="site-footer-edge footer-simple-surface relative bg-slate-50 text-slate-700 overflow-hidden border-t border-slate-200">
+      {/* Background shape image */}
+      <div 
+        className="pointer-events-none absolute inset-0 opacity-30"
         style={{
-          backgroundImage: `linear-gradient(rgba(15,23,42,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.4) 1px, transparent 1px)`,
-          backgroundSize: '60px 60px'
+          backgroundImage: `url('/images/white bg-shape/tech-bg-shape-1.webp')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
         }}
       />
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      {/* Subtle background pattern overlay */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: `radial-gradient(circle, rgba(15,23,42,0.5) 1px, transparent 1px)`,
+          backgroundSize: '32px 32px',
+        }}
+      />
 
-        {/* ── Main Footer Grid: 12 Columns for Perfect Balance ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 py-12 sm:py-14">
-
-          {/* Column 1: Brand & Identity (4 cols) */}
-          <div className="lg:col-span-4 flex flex-col gap-4">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-x-10 gap-y-9 pt-14 pb-12 sm:grid-cols-2 sm:pt-16 sm:pb-14 lg:grid-cols-4 lg:gap-x-12 lg:pt-20 lg:pb-16">
+          <section className="flex flex-col items-start gap-4">
             <button
               type="button"
               onClick={() => router.push('/')}
               aria-label={siteSettings.companyName}
-              className="inline-flex shrink-0 items-center self-start"
+              className="footer-nav-link inline-flex shrink-0 items-center"
             >
               {(siteSettings.logoUrl || siteSettings.darkLogoUrl) ? (
                 <img
@@ -109,176 +108,151 @@ export const Footer: React.FC = () => {
                   className="h-10 w-auto object-contain sm:h-11"
                 />
               ) : (
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#9cd5e2] bg-[#BBE7F1]/30 text-sm font-semibold text-slate-900">
-                  {siteSettings.companyName?.slice(0, 2).toUpperCase() || 'WD'}
+                <span className="text-lg font-semibold tracking-tight text-slate-900">
+                  {siteSettings.companyName || 'WebDev'}
                 </span>
               )}
             </button>
-
-            <p className="text-sm leading-relaxed text-slate-600 max-w-sm font-normal">
+            <p className="max-w-sm text-sm leading-relaxed text-slate-600">
               {lang === 'de'
                 ? t.footerAboutText
                 : (siteSettings.footerAboutText ||
                   'Building resilient web platforms, scalable cloud systems, and digital products for growing businesses worldwide.')}
             </p>
 
-            {/* Social links */}
             {socialLinks.length > 0 && (
-              <nav aria-label={lang === 'de' ? 'Soziale Netzwerke' : 'Social links'} className="flex items-center gap-2 pt-1">
-                {socialLinks.map(({ href, label, Icon }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    title={label}
-                    className="group inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-2xs transition-all duration-200 hover:border-[#9cd5e2] hover:bg-[#BBE7F1]/20 hover:text-slate-950 hover:scale-105"
-                  >
-                    <Icon className="h-4 w-4" />
-                  </a>
-                ))}
+              <nav aria-label={lang === 'de' ? 'Soziale Netzwerke' : 'Social links'} className="flex items-center gap-4 pt-1">
+                {socialLinks.map(({ href, label, Icon }) => {
+                  const iconColor = label === 'LinkedIn'
+                    ? 'text-[#0A66C2]'
+                    : label === 'WhatsApp'
+                      ? 'text-[#25D366]'
+                      : 'text-slate-900';
+                  return (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      title={label}
+                      className={`inline-flex h-8 w-8 items-center justify-center transition-transform duration-200 hover:-translate-y-0.5 ${iconColor}`}
+                    >
+                      <Icon className="h-5 w-5" />
+                    </a>
+                  );
+                })}
               </nav>
             )}
-          </div>
+          </section>
 
-          {/* Column 2: Navigation Links (2 cols) */}
-          <div className="lg:col-span-2 flex flex-col gap-3.5">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-900 font-mono">
-              {lang === 'de' ? 'Navigation' : 'Explore'}
-            </p>
-            <ul className="flex flex-col gap-2.5">
-              {quickLinks.map(({ label, view, Icon, color, bg }) => (
-                <li key={view}>
-                  <button
-                    onClick={() => onNavigate(view)}
-                    className="group flex items-center gap-2.5 text-sm text-slate-600 transition-all duration-150 hover:text-slate-950 hover:translate-x-0.5 cursor-pointer text-left"
-                  >
-                    <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-slate-200/90 bg-white shadow-2xs transition-all duration-200 ${color} ${bg}`}>
-                      <Icon className="h-3.5 w-3.5" />
-                    </span>
-                    <span>{label}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 3: Company & Legal (2 cols) */}
-          <div className="lg:col-span-2 flex flex-col gap-3.5">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-900 font-mono">
-              {lang === 'de' ? 'Unternehmen' : 'Company'}
-            </p>
-            <ul className="flex flex-col gap-2.5">
-              {companyLinks.map(({ label, view, badge, Icon, color, bg }) => (
-                <li key={view}>
-                  <button
-                    onClick={() => onNavigate(view)}
-                    className="group flex items-center gap-2.5 text-sm text-slate-600 transition-all duration-150 hover:text-slate-950 hover:translate-x-0.5 cursor-pointer text-left"
-                  >
-                    <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-slate-200/90 bg-white shadow-2xs transition-all duration-200 ${color} ${bg}`}>
-                      <Icon className="h-3.5 w-3.5" />
-                    </span>
-                    <span>{label}</span>
-                    {badge && (
-                      <span className="rounded-full border border-emerald-300 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-700">
-                        {badge}
-                      </span>
-                    )}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 4: Standorte / Locations (Only the 2 locations with colorful icons) */}
-          <div className="lg:col-span-4 flex flex-col gap-3.5">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-900 font-mono">
-              {lang === 'de' ? 'Standorte' : 'Locations'}
-            </p>
-
+          <section className="flex flex-col items-start gap-4">
+            <h2 className="text-base font-semibold text-slate-950">
+              {lang === 'de' ? 'Entdecken' : 'Explore'}
+            </h2>
             <ul className="flex flex-col gap-3">
-              <li>
-                <a
-                  href="https://www.google.com/maps/search/?api=1&query=Küppersteg,+51373+Leverkusen,+Germany"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-start gap-2.5 text-sm text-slate-600 transition-all duration-150 hover:text-slate-950 cursor-pointer"
-                >
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-sky-200/90 bg-sky-50 shadow-2xs transition-all duration-200 text-sky-600 group-hover:border-sky-300 group-hover:bg-sky-100 mt-0.5">
-                    <MapPin className="h-3.5 w-3.5" />
-                  </span>
-                  <span className="leading-snug">Küppersteg, 51373 Leverkusen, NRW, Germany</span>
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href="https://www.google.com/maps/search/?api=1&query=Housing+Estate,+Ward+07,+Joypurhat-5900,+Bangladesh"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-start gap-2.5 text-sm text-slate-600 transition-all duration-150 hover:text-slate-950 cursor-pointer"
-                >
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-emerald-200/90 bg-emerald-50 shadow-2xs transition-all duration-200 text-emerald-600 group-hover:border-emerald-300 group-hover:bg-emerald-100 mt-0.5">
-                    <MapPin className="h-3.5 w-3.5" />
-                  </span>
-                  <span className="leading-snug">Joypurhat, Bangladesh</span>
-                </a>
-              </li>
+              {quickLinks.map(({ label, view, Icon, color }) => (
+                <li key={view}>
+                  <button
+                    type="button"
+                    onClick={() => onNavigate(view)}
+                    className="footer-nav-link group inline-flex items-center gap-2.5 text-left text-sm text-slate-600 transition-colors hover:text-slate-950"
+                  >
+                    <Icon className={`h-[18px] w-[18px] shrink-0 ${color}`} />
+                    <span>{label}</span>
+                  </button>
+                </li>
+              ))}
             </ul>
-          </div>
+          </section>
 
+          <section className="flex flex-col items-start gap-4">
+            <h2 className="text-base font-semibold text-slate-950">
+              {lang === 'de' ? 'Unternehmen' : 'Company'}
+            </h2>
+            <ul className="flex flex-col gap-3">
+              {companyLinks.map(({ label, view, badge, Icon, color }) => (
+                <li key={view}>
+                  <button
+                    type="button"
+                    onClick={() => onNavigate(view)}
+                    className="footer-nav-link group inline-flex items-center gap-2.5 text-left text-sm text-slate-600 transition-colors hover:text-slate-950"
+                  >
+                    <Icon className={`h-[18px] w-[18px] shrink-0 ${color}`} />
+                    <span>{label}</span>
+                    {badge && <span className="text-[10px] font-medium text-emerald-700">{badge}</span>}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="flex flex-col items-start gap-4">
+            <h2 className="text-base font-semibold text-slate-950">
+              {lang === 'de' ? 'Standorte' : 'Locations'}
+            </h2>
+            <div className="flex flex-col gap-4">
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Leverkusen,+Germany"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-start gap-2.5 text-sm text-slate-600 transition-colors hover:text-slate-950"
+              >
+                <MapPin className="mt-0.5 h-[18px] w-[18px] shrink-0 text-sky-600" />
+                <span className="block font-medium text-slate-900 group-hover:text-sky-700 transition-colors">Leverkusen, Germany</span>
+              </a>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Joypurhat,+Bangladesh"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-start gap-2.5 text-sm text-slate-600 transition-colors hover:text-slate-950"
+              >
+                <MapPin className="mt-0.5 h-[18px] w-[18px] shrink-0 text-emerald-600" />
+                <span className="block font-medium text-slate-900 group-hover:text-emerald-700 transition-colors">Joypurhat, Bangladesh</span>
+              </a>
+            </div>
+          </section>
         </div>
 
-        {/* ── Sub-Footer / Formal Governance & Legal Bar ── */}
-        <div className="flex flex-col items-center justify-between gap-4 border-t border-slate-200 py-6 sm:flex-row">
-          <span className="text-xs text-slate-500 font-['Kufam']">
-            © {currentYear}{' '}
-            <strong className="font-semibold text-slate-800">{siteSettings.companyName}</strong>.{' '}
-            {lang === 'de' ? 'Alle Rechte vorbehalten.' : 'All rights reserved.'}
-          </span>
-
+        <div className="flex flex-col-reverse items-center justify-between gap-4 border-t border-slate-200/80 py-5 sm:flex-row">
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
-            <button
-              onClick={() => onNavigate('privacy')}
-              className="text-xs text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
-            >
+            <button type="button" onClick={() => onNavigate('privacy')} className="footer-nav-link text-xs text-slate-500 transition-colors hover:text-slate-900">
               {t.footerPrivacy}
             </button>
-            <button
-              onClick={() => onNavigate('terms')}
-              className="text-xs text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
-            >
+            <button type="button" onClick={() => onNavigate('terms')} className="footer-nav-link text-xs text-slate-500 transition-colors hover:text-slate-900">
               {t.footerTerms}
             </button>
-            <button
-              onClick={() => onNavigate('contact')}
-              className="text-xs text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
-            >
+            <button type="button" onClick={() => onNavigate('contact')} className="footer-nav-link text-xs text-slate-500 transition-colors hover:text-slate-900">
               {lang === 'de' ? 'Sicherheit & NDA' : 'Security & NDA'}
             </button>
-
             <button
               id="footer-admin-link"
+              type="button"
               onClick={() => onNavigate('admin')}
-              className="inline-flex items-center gap-1.5 text-xs text-slate-500 transition-colors hover:text-slate-900 cursor-pointer"
+              className="footer-nav-link inline-flex items-center gap-1 text-xs text-slate-500 transition-colors hover:text-slate-900"
               title={lang === 'de' ? 'Administrator-Portal' : 'Administrator Portal'}
             >
               <Lock className="h-3 w-3" />
-              <span>{lang === 'de' ? 'Admin' : 'Admin'}</span>
+              <span>Admin</span>
             </button>
+          </div>
 
+          <div className="flex items-center gap-4 text-xs text-slate-500">
+            <span className="text-center sm:text-right">
+              © {currentYear} <strong className="font-semibold text-slate-800">{siteSettings.companyName}</strong>.{' '}
+              {lang === 'de' ? 'Alle Rechte vorbehalten.' : 'All rights reserved.'}
+            </span>
             <button
+              type="button"
               onClick={scrollToTop}
-              className="group ml-2 inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-500 shadow-2xs transition-all duration-200 hover:border-[#9cd5e2] hover:bg-[#BBE7F1]/20 hover:text-slate-950 cursor-pointer"
+              className="footer-to-top rounded-full inline-flex h-8 w-8 shrink-0 items-center justify-center text-slate-500 transition-colors hover:text-sky-700 group"
               title={lang === 'de' ? 'Nach oben scrollen' : 'Back to Top'}
               aria-label={lang === 'de' ? 'Nach oben scrollen' : 'Back to Top'}
             >
-              <ArrowUp className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5" />
+              <ArrowUp className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5" />
             </button>
           </div>
         </div>
-
       </div>
     </footer>
   );

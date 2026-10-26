@@ -183,11 +183,6 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
       <Breadcrumb
         badge={lang === 'de' ? 'BEWÄHRTE ERFOLGE • INNOVATIV & SKALIERBAR' : 'PROVEN DELIVERIES • PRODUCTION CASE STUDIES'}
         title={lang === 'de' ? 'Enterprise Plattformen & Performante Webanwendungen' : 'Enterprise Platforms & Websites Built to Perform'}
-        subtitle={
-          lang === 'de'
-            ? 'Entdecken Sie unsere produktiven Webanwendungen, Headless-Commerce-Systeme und SaaS-Plattformen in Deutschland, den USA und Europa.'
-            : 'Explore our production-grade web applications, headless commerce systems, and SaaS platforms deployed across Germany, the USA, and Europe.'
-        }
         items={[
           { label: lang === 'de' ? 'Startseite' : 'Home', onClick: () => router.push('/') },
           { label: lang === 'de' ? 'Projekte & Fallstudien' : 'Projects & Case Studies', active: true }
@@ -209,7 +204,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
       </Breadcrumb>
 
       {/* ─── Clean Minimalist Horizontal Category Tabs & Controls Bar ─────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-6">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 lg:pt-16 pb-8">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200/80 pb-5">
           
           {/* Horizontal Category Tabs */}
@@ -670,7 +665,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
       </section>
 
       {/* ─── Bottom High-Converting Call to Action Banner ───────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-24 pb-16 sm:pb-20 lg:pb-24">
         <div className="bg-gradient-to-br from-[#BBE7F1]/25 via-white to-slate-50 border border-slate-200/90 text-slate-900 rounded-3xl p-8 sm:p-14 md:p-16 text-center relative overflow-hidden space-y-6 shadow-lg">
           
           {/* Subtle Ambient Light Blobs */}
@@ -682,7 +677,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
             <span>{lang === 'de' ? 'BEREIT FÜR DEN LAUNCH IHRER PLATTFORM?' : 'READY TO LAUNCH YOUR PLATFORM?'}</span>
           </div>
 
-          <h2 className="relative z-10 text-2xl sm:text-3xl md:text-4xl font-bold text-slate-950 max-w-2xl mx-auto tracking-tight font-['Kufam']">
+          <h2 className="relative z-10 text-xl sm:text-2xl md:text-3xl font-semibold text-slate-950 max-w-2xl mx-auto tracking-tight font-['Kufam']">
             {lang === 'de'
               ? 'Benötigen Sie eine Website, die exakt auf Ihre Geschäftsziele abgestimmt ist?'
               : 'Need a Website Tailored to Your Specific Business Goals?'}

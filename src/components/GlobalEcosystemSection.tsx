@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { RiGlobalLine } from 'react-icons/ri';
 
 const brands = [
   { name: "Agneya Singh", image: "/images/brands/agneyasingh.png" },
@@ -15,7 +16,7 @@ export const GlobalEcosystemSection: React.FC = () => {
   const { t, lang } = useLanguage();
   return (
     <section 
-      className="py-24 sm:py-32 relative z-10 overflow-hidden bg-[#020617] text-white bg-fixed bg-center bg-cover bg-no-repeat"
+      className="py-16 sm:py-20 lg:py-24 relative z-10 overflow-hidden bg-[#020617] text-white bg-fixed bg-center bg-cover bg-no-repeat"
       style={{
         backgroundImage: "url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&q=85')",
         backgroundAttachment: 'fixed',
@@ -52,22 +53,18 @@ export const GlobalEcosystemSection: React.FC = () => {
 
       {/* ── FOREGROUND CONTENT ── */}
       <div className="relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-          <div className="text-center space-y-5">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide backdrop-blur-sm shadow-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-14">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <div className="inline-flex items-center gap-2 text-cyan-400 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
+              <RiGlobalLine className="w-4 h-4 text-cyan-400" />
               <span>{t.ecosystemKicker}</span>
             </div>
             
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-semibold text-white tracking-tight font-['Kufam']">
-              {lang === 'de' ? (
-                <>Geschätzt von führenden <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-orange-400">Unternehmen</span></>
-              ) : (
-                <>Trusted by Industry <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-orange-400">Leaders</span></>
-              )}
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-semibold text-white tracking-tight font-['Kufam']">
+              {lang === 'de' ? 'Geschätzt von führenden Unternehmen' : 'Trusted by Industry Leaders'}
             </h2>
 
-            <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed font-['Kufam']">
+            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto font-['Kufam']">
               {t.ecosystemSubtext}
             </p>
           </div>

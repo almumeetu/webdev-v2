@@ -118,7 +118,7 @@ export const TechnologyIndexSection: React.FC = () => {
             </div>
 
             {/* Bold Headline matching reference */}
-            <h2 className="tech-index-text text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-slate-900 tracking-tight leading-[1.22] font-['Kufam']">
+            <h2 className="tech-index-text text-xl sm:text-2xl md:text-3xl lg:text-[30px] font-semibold text-slate-900 tracking-tight leading-[1.25] font-['Kufam']">
               We Are Always Best For Technology Solution
             </h2>
 

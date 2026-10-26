@@ -94,7 +94,7 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
   return (
     <section 
       id="portfolio-section"
-      className="py-16 sm:py-20 bg-white text-slate-900 relative overflow-hidden border-b border-slate-200/80"
+      className="py-16 sm:py-20 lg:py-24 bg-slate-50/50 text-slate-900 relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -109,8 +109,8 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
             </h2>
           </div>
 
-          {/* Clean Single-Line Category Filter Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 max-w-full touch-pan-x scroll-smooth">
+          {/* Modern Clean Tab Navigation */}
+          <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-slate-100 border border-slate-200 overflow-x-auto no-scrollbar">
             {categories.map((cat) => {
               const Icon = cat.icon;
               const isSelected = selectedCategory === cat.name;
@@ -119,13 +119,13 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
                   type="button"
                   key={cat.name}
                   onClick={() => setSelectedCategory(cat.name)}
-                  className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0 min-h-[38px] ${
+                  className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0 ${
                     isSelected
-                      ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-xs'
-                      : 'bg-slate-100 hover:bg-slate-200/80 text-slate-700 border border-slate-200/80'
+                      ? 'bg-white text-slate-900 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isSelected ? 'text-slate-950' : 'text-slate-500'}`} />
+                  <Icon className={`w-4 h-4 ${isSelected ? 'text-sky-600' : 'text-slate-400'}`} />
                   <span>{cat.label}</span>
                 </button>
               );

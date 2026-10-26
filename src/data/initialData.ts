@@ -608,42 +608,42 @@ export const initialBlogPosts = initialBlogs;
 export const initialHeroSlides: HeroSlide[] = [
   {
     id: 'slide-1',
-    badge: 'GERMANY & BANGLADESH ENGINEERING',
-    title: 'Modern Full-Stack & Cloud Solutions',
-    highlightText: 'Built to Scale',
-    subtitle: 'We craft high-performance web applications, enterprise software, and scalable digital architectures with European precision.',
-    primaryBtnText: 'Request Consultation',
-    primaryBtnAction: 'quote',
-    secondaryBtnText: 'Our Services',
-    secondaryBtnAction: 'services',
-    backgroundImage: '/images/background/webdev-bg.webp',
-    tag: '01 / Enterprise Systems'
-  },
-  {
-    id: 'slide-2',
-    badge: 'NEXT.JS & ENTERPRISE PERFORMANCE',
-    title: 'Transforming Ideas into Digital Realities',
-    highlightText: 'Fast & Secure',
-    subtitle: 'Specialized in MERN stack, Next.js, and cloud ecosystems engineered for high availability, security, and peak performance.',
-    primaryBtnText: 'Explore Portfolio',
-    primaryBtnAction: 'projects',
-    secondaryBtnText: 'Contact Us',
-    secondaryBtnAction: 'contact',
-    backgroundImage: '/images/background/hero-img-1.webp',
-    tag: '02 / Cloud Architecture'
-  },
-  {
-    id: 'slide-3',
-    badge: 'TAILORED SOFTWARE DEVELOPMENT',
-    title: 'End-to-End Engineering for Visionary Brands',
-    highlightText: 'Worldwide Impact',
-    subtitle: 'Empowering ambitious businesses worldwide with scalable architecture, robust code, and dedicated technical partnership.',
+    badge: 'ENGINEERING DIGITAL EXPERIENCES',
+    title: 'Web & Mobile Engineering',
+    highlightText: 'Built to Scale.',
+    subtitle: 'Reliable, high-performance web and mobile products engineered for business growth.',
     primaryBtnText: 'Start Your Project',
     primaryBtnAction: 'quote',
     secondaryBtnText: 'Explore Services',
     secondaryBtnAction: 'services',
-    backgroundImage: '/images/background/webdev-bg-s.webp',
-    tag: '03 / Tailored Solutions'
+    backgroundImage: '/images/background/webdev-bg.webp',
+    tag: '01 / Software Engineering'
+  },
+  {
+    id: 'slide-2',
+    badge: 'MODERN WEB ENGINEERING',
+    title: 'Modern Web Apps',
+    highlightText: 'Fast & Scalable.',
+    subtitle: 'Fast, secure, and responsive web platforms built for performance.',
+    primaryBtnText: 'Build Your Website',
+    primaryBtnAction: 'quote',
+    secondaryBtnText: 'View Web Services',
+    secondaryBtnAction: 'services',
+    backgroundImage: '/images/background/hero-img-1.webp',
+    tag: '02 / Web Development'
+  },
+  {
+    id: 'slide-3',
+    badge: 'NEXT-GENERATION MOBILE SOLUTIONS',
+    title: 'Native Mobile Apps',
+    highlightText: 'iOS & Android.',
+    subtitle: 'High-performance apps built with modern cross-platform technologies.',
+    primaryBtnText: 'Discuss Your App',
+    primaryBtnAction: 'quote',
+    secondaryBtnText: 'Explore Mobile Solutions',
+    secondaryBtnAction: 'services',
+    backgroundImage: '/images/background/webdev-bg (1).webp',
+    tag: '03 / Mobile App Development'
   }
 ];
 

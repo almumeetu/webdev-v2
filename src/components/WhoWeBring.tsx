@@ -68,7 +68,7 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
   return (
     <section 
       ref={sectionRef} 
-      className="py-16 sm:py-20 lg:py-24 bg-slate-100/90 border-b border-slate-300/80 text-slate-900 overflow-hidden relative"
+      className="home-shape-network py-16 sm:py-20 lg:py-24 bg-slate-100/90 border-b border-slate-300/80 text-slate-900 overflow-hidden relative"
     >
       {/* Background subtle watermark & tech circuit */}
       <div className="absolute inset-0 bg-tech-circuit-light opacity-40 pointer-events-none"></div>

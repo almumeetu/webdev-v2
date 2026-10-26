@@ -161,7 +161,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   ];
 
   return (
-    <div ref={pageRef} className="min-h-screen bg-white text-slate-900 pb-20">
+    <div ref={pageRef} className="min-h-screen bg-white text-slate-900 pb-16 sm:pb-20 lg:pb-24">
       
       {/* Top Breadcrumb Navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 sm:pt-6 pb-2">
@@ -176,7 +176,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16 pt-4 sm:pt-6">
 
         {/* 2. Hero Visual Card with Gradient Overlay & Status Bar - Static Background */}
         <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/90 bg-slate-950">

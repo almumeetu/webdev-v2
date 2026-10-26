@@ -66,7 +66,7 @@ export const GlobalTrustSection: React.FC<GlobalTrustSectionProps> = ({
   ];
 
   return (
-    <section className="py-14 sm:py-18 bg-slate-100/90 border-b border-slate-300/80 text-slate-900 relative">
+    <section className="home-shape-waves py-16 sm:py-20 lg:py-24 bg-slate-100/90 border-b border-slate-300/80 text-slate-900 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
@@ -75,7 +75,7 @@ export const GlobalTrustSection: React.FC<GlobalTrustSectionProps> = ({
             <RiShieldCheckLine className="w-4 h-4 text-cyan-600" />
             <span>{t.trustKicker}</span>
           </div>
-          <h2 className="text-xl sm:text-2xl lg:text-[30px] font-bold text-slate-900 tracking-tight font-['Kufam']">
+          <h2 className="text-xl sm:text-2xl lg:text-[28px] font-semibold text-slate-900 tracking-tight font-['Kufam']">
             {t.trustHeading}
           </h2>
           <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto font-['Kufam']">

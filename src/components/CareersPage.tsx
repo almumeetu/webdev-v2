@@ -10,20 +10,11 @@ import {
   Sparkles, 
   Search, 
   Filter, 
-  ChevronRight, 
   CheckCircle2, 
   ArrowRight, 
   X, 
   Upload, 
-  ExternalLink, 
-  Globe, 
   ShieldCheck, 
-  Code2, 
-  Server, 
-  Laptop, 
-  GraduationCap, 
-  HeartHandshake, 
-  Zap, 
   Send,
   AlertCircle,
   FileText,
@@ -175,17 +166,12 @@ export const CareersPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-['Kufam'] font-sans selection:bg-[#BBE7F1] selection:text-slate-950 pb-20">
+    <div className="min-h-screen bg-white text-slate-900 font-['Kufam'] font-sans selection:bg-[#BBE7F1] selection:text-slate-950 pb-16 sm:pb-20 lg:pb-24">
       
       {/* ─── 1. Breadcrumb Header ─── */}
       <Breadcrumb
         badge={lang === 'de' ? 'WERDE TEIL UNSERES GLOBALEN ENTWICKLERTEAMS' : 'JOIN OUR GLOBAL ENGINEERING SQUAD'}
         title={lang === 'de' ? 'Karriere & Offene Stellen' : 'Careers & Engineering Openings'}
-        subtitle={
-          lang === 'de'
-            ? 'Arbeiten Sie Seite an Seite mit Senior Software-Architekten und DevOps-Spezialisten in Deutschland und Bangladesch. Wir entwickeln hochskalierbare Webplattformen, Cloud-Infrastrukturen und moderne digitale Commerce-Lösungen.'
-            : 'Work alongside senior software architects and DevOps specialists across Germany and Bangladesh. Engineering high-concurrency web systems, cloud architectures, and digital commerce.'
-        }
         items={[
           { label: t.navHome, onClick: () => router.push('/') },
           { label: t.navCareers, active: true }
@@ -195,68 +181,10 @@ export const CareersPage: React.FC = () => {
         align="left"
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 lg:pt-16 space-y-8 sm:space-y-10">
         
-        {/* ─── 2. Hero Highlights Grid ─── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 space-y-1 shadow-2xs hover:border-[#9cd5e2] hover:bg-white hover:shadow-xs transition-all duration-300">
-            <div className="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-700 flex items-center justify-center mb-3 border border-cyan-200">
-              <Globe className="w-5 h-5" />
-            </div>
-            <h3 className="text-base font-bold text-slate-950 font-['Archivo']">
-              {lang === 'de' ? 'Dual-Hub & Remote' : 'Dual-Hub & Remote'}
-            </h3>
-            <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-              {lang === 'de'
-                ? 'Leverkusen (Deutschland), Joypurhat (Bangladesch) und weltweites Remote-Arbeiten.'
-                : 'Leverkusen (Germany), Joypurhat (Bangladesh), and distributed remote talent worldwide.'}
-            </p>
-          </div>
-
-          <div className="p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 space-y-1 shadow-2xs hover:border-[#9cd5e2] hover:bg-white hover:shadow-xs transition-all duration-300">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-3 border border-emerald-200">
-              <Zap className="w-5 h-5" />
-            </div>
-            <h3 className="text-base font-bold text-slate-950 font-['Archivo']">
-              {lang === 'de' ? 'Modernste Technologien' : 'Modern Tech Only'}
-            </h3>
-            <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-              {lang === 'de'
-                ? 'React 19, Next.js 16, TypeScript, Docker, Kubernetes und Enterprise-Microservices.'
-                : 'React 19, Next.js 15, TypeScript, Docker, Kubernetes, and enterprise microservices.'}
-            </p>
-          </div>
-
-          <div className="p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 space-y-1 shadow-2xs hover:border-[#9cd5e2] hover:bg-white hover:shadow-xs transition-all duration-300">
-            <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center mb-3 border border-purple-200">
-              <GraduationCap className="w-5 h-5" />
-            </div>
-            <h3 className="text-base font-bold text-slate-950 font-['Archivo']">
-              {lang === 'de' ? '1.200 € Weiterbildungsbudget' : '$1,200 Learning Grant'}
-            </h3>
-            <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-              {lang === 'de'
-                ? 'Geförderte AWS-, GCP-, CKA- und PMP®-Zertifizierungen, Fachliteratur und Konferenzen.'
-                : 'Fully sponsored AWS, GCP, CKA, and PMP® certifications, tech books, and conferences.'}
-            </p>
-          </div>
-
-          <div className="p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 space-y-1 shadow-2xs hover:border-[#9cd5e2] hover:bg-white hover:shadow-xs transition-all duration-300">
-            <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-700 flex items-center justify-center mb-3 border border-sky-200">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <h3 className="text-base font-bold text-slate-950 font-['Archivo']">
-              {lang === 'de' ? 'Deutsche Qualität & SLAs' : 'German Quality & SLAs'}
-            </h3>
-            <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-              {lang === 'de'
-                ? 'BaFin- & DSGVO-Standards, transparente Sprint-Velocity und kollegiale Zusammenarbeit.'
-                : 'BaFin & GDPR compliance standards, transparent sprint velocity, and zero ego.'}
-            </p>
-          </div>
-        </div>
-
-        {/* ─── 3. Search & Multi-Faceted Filter Bar ─── */}
+        {/* ─── 2. Search & Position Filters ─── */}
+        {totalActiveJobs > 0 && (
         <div className="bg-slate-50/70 border border-slate-200/90 rounded-3xl p-4 sm:p-6 shadow-2xs space-y-4">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             
@@ -336,8 +264,9 @@ export const CareersPage: React.FC = () => {
             </div>
           </div>
         </div>
+        )}
 
-        {/* ─── 4. Jobs List / Cards Grid ─── */}
+        {/* ─── 3. Open Roles ─── */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl sm:text-2xl font-bold font-['Archivo'] tracking-tight text-slate-950 flex items-center gap-2.5">
@@ -363,32 +292,16 @@ export const CareersPage: React.FC = () => {
           </div>
 
           {totalActiveJobs === 0 ? (
-            <div className="p-8 sm:p-14 text-center rounded-3xl bg-slate-50/70 border border-slate-200/80 space-y-5 shadow-2xs">
-              <div className="w-16 h-16 rounded-2xl bg-cyan-50 border border-cyan-200 flex items-center justify-center mx-auto text-cyan-700 shadow-xs">
-                <Sparkles className="w-8 h-8" />
-              </div>
-              <div className="space-y-2 max-w-md mx-auto">
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-950 font-['Archivo']">
+            <div className="p-6 sm:p-8 text-center rounded-2xl bg-slate-50/70 border border-slate-200/80 space-y-3 shadow-2xs">
+              <div className="space-y-1.5 max-w-md mx-auto">
+                <h3 className="text-lg sm:text-xl font-bold text-slate-950 font-['Archivo']">
                   {lang === 'de' ? 'Zurzeit keine offenen Stellen ausgeschrieben' : 'Currently No Active Openings'}
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                <p className="text-xs text-slate-600 leading-relaxed">
                   {lang === 'de'
-                    ? 'Aktuell sind alle Positionen besetzt. Unsere Entwicklerteams in Deutschland und Bangladesch wachsen jedoch stetig. Reichen Sie gerne eine Initiativbewerbung ein, und wir kontaktieren Sie umgehend, sobald eine passende Stelle frei wird.'
-                    : 'We currently do not have any open positions available. However, our engineering teams across Germany and Bangladesh are continually expanding. You are welcome to submit a spontaneous application to our General Talent Pool, and we will contact you as soon as a new opportunity matching your skill set opens.'}
+                    ? 'Reichen Sie eine Initiativbewerbung ein. Wir melden uns, sobald eine passende Stelle frei wird.'
+                    : 'Submit a general application and we will reach out when a suitable role opens.'}
                 </p>
-              </div>
-              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
-                <button
-                  onClick={handleOpenGeneralApply}
-                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 text-xs sm:text-sm font-bold transition-all cursor-pointer border border-[#9cd5e2] flex items-center justify-center gap-2 shadow-xs font-['Archivo']"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>{lang === 'de' ? 'Initiativbewerbung absenden' : 'Join Our General Talent Pool'}</span>
-                </button>
-              </div>
-              <div className="text-[11px] text-slate-500 flex items-center justify-center gap-2 pt-2">
-                <span className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
-                <span>{lang === 'de' ? 'Neue Stellenangebote werden hier automatisch veröffentlicht' : 'New opportunities will appear here as soon as they are announced'}</span>
               </div>
             </div>
           ) : filteredJobs.length === 0 ? (
@@ -514,198 +427,6 @@ export const CareersPage: React.FC = () => {
               ))}
             </div>
           )}
-        </div>
-
-        {/* ─── 5. Culture & Benefits Section ─── */}
-        <div className="pt-8 border-t border-slate-200/80 space-y-8">
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-xs font-mono font-bold tracking-widest uppercase text-cyan-800">
-              {lang === 'de' ? 'ARBEITEN BEI WEBDEV SOFTWARE SOLUTIONS' : 'LIFE AT WEBDEV SOFTWARE SOLUTIONS'}
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-bold font-['Archivo'] tracking-tight text-slate-950">
-              {lang === 'de' ? 'Warum Entwickler bei uns durchstarten' : 'Why Engineers Thrive Here'}
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              {lang === 'de'
-                ? 'Wir vereinen europäische Projektsteuerung und anspruchsvolle Qualitätsstandards mit einer kollegialen, grenzüberschreitenden Teamkultur.'
-                : 'We combine European project governance and client standards with a warm, collaborative, cross-border development atmosphere.'}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="p-6 rounded-3xl bg-slate-50/70 border border-slate-200/80 hover:bg-white hover:border-[#9cd5e2] hover:shadow-xs transition-all space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-800 flex items-center justify-center border border-cyan-200">
-                <Laptop className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-bold text-slate-950 font-['Archivo']">
-                {lang === 'de' ? 'Hardware- & Tooling-Budget' : 'Hardware & Tooling Stipend'}
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                {lang === 'de'
-                  ? 'Apple Silicon MacBook Pro oder hochkonfigurierte Linux-Workstation, 4K-Displays und Premium-Lizenzen (Figma, Copilot, Docker Pro).'
-                  : 'Apple Silicon MacBook Pro or high-spec Linux workstation, 4K displays, and top-tier software subscriptions (Figma, Copilot, Docker Pro).'}
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-slate-50/70 border border-slate-200/80 hover:bg-white hover:border-[#9cd5e2] hover:shadow-xs transition-all space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center border border-emerald-200">
-                <Clock className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-bold text-slate-950 font-['Archivo']">
-                {lang === 'de' ? 'Flexible & asynchrone Arbeitszeiten' : 'Flexible & Asynchronous Hours'}
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                {lang === 'de'
-                  ? 'Wir messen Ergebnisse, saubere Software-Architektur und funktionierenden Produktiv-Code – keine Zeiterfassung vor der Webcam.'
-                  : 'We measure results, clean architectures, and deployed code rather than hours spent sitting in front of a webcam.'}
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-slate-50/70 border border-slate-200/80 hover:bg-white hover:border-[#9cd5e2] hover:shadow-xs transition-all space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-800 flex items-center justify-center border border-purple-200">
-                <GraduationCap className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-bold text-slate-950 font-['Archivo']">
-                {lang === 'de' ? 'Mentoring & zertifizierte Weiterbildung' : 'Mentorship & Sponsored Certs'}
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                {lang === 'de'
-                  ? 'Lernen Sie direkt von Senior-Architekten mit 10+ Jahren Erfahrung in verteilten Systemen, BaFin-Audits und PMP®-zertifizierter Projektleitung.'
-                  : 'Learn directly from senior software architects with 10+ years in distributed systems, BaFin audits, and PMP® certified governance.'}
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-slate-50/70 border border-slate-200/80 hover:bg-white hover:border-[#9cd5e2] hover:shadow-xs transition-all space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-800 flex items-center justify-center border border-sky-200">
-                <DollarSign className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-bold text-slate-950 font-['Archivo']">
-                {lang === 'de' ? 'Attraktive, globale Vergütung' : 'Competitive Global Pay'}
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                {lang === 'de'
-                  ? 'Überdurchschnittliche Vergütung gekoppelt an internationale Kundenprojekte, inklusive jährlicher Erfolgsprämien und Boni.'
-                  : 'Above-market compensation indexed to international client billing with annual milestone bonuses and profit-sharing dividends.'}
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-slate-50/70 border border-slate-200/80 hover:bg-white hover:border-[#9cd5e2] hover:shadow-xs transition-all space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-800 flex items-center justify-center border border-amber-200">
-                <HeartHandshake className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-bold text-slate-950 font-['Archivo']">
-                {lang === 'de' ? 'Kultur des gegenseitigen Respekts' : 'Culture of Mutual Respect'}
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                {lang === 'de'
-                  ? 'Ein egofreies Umfeld, in dem jede Meinung zählt. Konstruktive Pull-Request-Reviews und lösungsorientierte Teamarbeit.'
-                  : "An ego-free environment where every engineer's voice is valued. Constructive PR reviews and collaborative problem-solving."}
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-slate-50/70 border border-slate-200/80 hover:bg-white hover:border-[#9cd5e2] hover:shadow-xs transition-all space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-rose-50 text-rose-800 flex items-center justify-center border border-rose-200">
-                <Globe className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-bold text-slate-950 font-['Archivo']">
-                {lang === 'de' ? 'Internationale Austauschprogramme' : 'International Relocation Opportunities'}
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                {lang === 'de'
-                  ? 'Möglichkeiten für Schlüsselentwickler zur Teilnahme an europäischen Vor-Ort-Deployments und Austauschprogrammen zwischen Deutschland & Bangladesch.'
-                  : 'Opportunities for key contributors to participate in European on-site client deployments and exchange programs between Germany & Bangladesh.'}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* ─── 6. Hiring Process Timeline ─── */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-slate-50/80 border border-slate-200/90 space-y-8 shadow-2xs">
-          <div className="max-w-xl">
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-800">
-              {lang === 'de' ? 'BEWERBUNGSPROZESS' : 'HIRING TIMELINE'}
-            </span>
-            <h2 className="text-xl sm:text-2xl font-bold font-['Archivo'] text-slate-950 mt-1">
-              {lang === 'de' ? 'Transparenter, schneller & pragmatischer Ablauf' : 'Transparent, Fast & Pragmatic Process'}
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              {lang === 'de'
-                ? 'Keine endlosen 6-stufigen Algorithmus-Rätsel. Wir legen Wert auf sauberen Code, klare Kommunikation und Architekturverständnis.'
-                : 'No endless 6-stage algorithmic puzzles. We value real code, clear communication, and architecture understanding.'}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs space-y-2 hover:border-[#9cd5e2] transition-colors">
-              <div className="text-2xl font-bold font-mono text-cyan-800/40">01</div>
-              <h4 className="text-sm font-bold text-slate-950 font-['Archivo']">
-                {lang === 'de' ? 'Sichtung der Unterlagen' : 'Application Review'}
-              </h4>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                {lang === 'de'
-                  ? 'Wir prüfen Ihr GitHub-Profil, Portfolio und Erfahrung innerhalb von 48 Stunden.'
-                  : 'We review your GitHub, portfolio, and experience within 48 business hours.'}
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs space-y-2 hover:border-[#9cd5e2] transition-colors">
-              <div className="text-2xl font-bold font-mono text-cyan-800/40">02</div>
-              <h4 className="text-sm font-bold text-slate-950 font-['Archivo']">
-                {lang === 'de' ? 'Kennenlerngespräch' : 'Introductory Conversation'}
-              </h4>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                {lang === 'de'
-                  ? '30-minütiger Google Meet Call über Ihre Ziele, Erwartungen und das Team.'
-                  : '30-minute Google Meet to discuss your passions, goals, and team expectations.'}
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs space-y-2 hover:border-[#9cd5e2] transition-colors">
-              <div className="text-2xl font-bold font-mono text-cyan-800/40">03</div>
-              <h4 className="text-sm font-bold text-slate-950 font-['Archivo']">
-                {lang === 'de' ? 'Praxisnahe Coding-Aufgabe' : 'Practical System Challenge'}
-              </h4>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                {lang === 'de'
-                  ? 'Ein kleines Praxisprojekt (2-3 Std.), das echten Kundenanforderungen entspricht.'
-                  : 'A real-world take-home mini project (2-3 hours) mirroring actual client problems.'}
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs space-y-2 hover:border-[#9cd5e2] transition-colors">
-              <div className="text-2xl font-bold font-mono text-cyan-800/40">04</div>
-              <h4 className="text-sm font-bold text-slate-950 font-['Archivo']">
-                {lang === 'de' ? 'Vertrag & Onboarding' : 'Offer & Onboarding'}
-              </h4>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                {lang === 'de'
-                  ? 'Transparenter Vertrag, Hardware-Lieferung und persönliches Mentoring im ersten Sprint.'
-                  : 'Clear contract, hardware arrival, and guided mentorship during your first sprint.'}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* ─── 7. Spontaneous Application CTA Banner ─── */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-slate-50 via-[#BBE7F1]/20 to-cyan-50/50 border border-[#9cd5e2]/80 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-2 max-w-xl">
-            <h3 className="text-xl sm:text-2xl font-bold font-['Archivo'] text-slate-950">
-              {lang === 'de' ? 'Nicht die passende Position gefunden?' : "Don't see the exact role you're looking for?"}
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              {lang === 'de'
-                ? 'Wir suchen regelmäßig talentierte Frontend-Entwickler, Backend-Spezialisten, DevOps-Engineers und technische Projektleiter. Hinterlegen Sie Ihr Profil in unserem Talent-Pool.'
-                : 'We frequently open new requisitions for talented frontend engineers, backend specialists, DevOps administrators, and technical PMs. Submit your resume to our general talent pool.'}
-            </p>
-          </div>
-
-          <button
-            onClick={handleOpenGeneralApply}
-            className="px-6 py-3.5 rounded-2xl bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-xs sm:text-sm transition-all cursor-pointer border border-[#9cd5e2] shadow-xs shrink-0 flex items-center justify-center gap-2 font-['Archivo']"
-          >
-            <Send className="w-4 h-4" />
-            <span>{lang === 'de' ? 'Initiativbewerbung einreichen' : 'Submit Spontaneous CV'}</span>
-          </button>
         </div>
 
       </div>
