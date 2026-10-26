@@ -68,7 +68,7 @@ model TeamMember {
   image               String
   bio                 String   @db.Text
   skills              String[]
-  email               String   @unique
+  email               String
   phone               String?
   linkedin            String?
   github              String?
@@ -168,7 +168,7 @@ model SiteSetting {
   companyName     String   @default("WebDev Software Solutions")
   tagline         String   @default("Enterprise Web & Cloud Engineering")
   logoUrl         String   @default("/images/logo/webdev-logo.png")
-  email           String   @default("info@webdevsoftwaresolutions.com")
+  email           String   @default("webdevsoftwaresolutions26@gmail.com")
   phone_bd        String   @default("+880 1722-301927")
   phone_de        String   @default("+49 172 9766016")
   address_bd      String   @default("Housing Estate, Ward 07, Joypurhat-5900, Bangladesh")

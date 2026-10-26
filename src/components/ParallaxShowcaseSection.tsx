@@ -101,10 +101,6 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
           {/* Left Column: Mission, Vision & Engineering Value (7 cols) */}
           <div className="lg:col-span-7 space-y-6 sm:space-y-8">
             
-            <div className="inline-flex items-center gap-2 text-cyan-300 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-              <Sparkles className="w-4 h-4 text-cyan-400" />
-              <span>The WebDev Cross-Border Advantage</span>
-            </div>
 
             <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[30px] font-semibold text-white font-['Kufam'] tracking-tight leading-[1.25]">
               Industrial Rigor Meets <br />

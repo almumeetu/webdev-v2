@@ -19,13 +19,10 @@ import {
   initialProjects,
   initialTeamMembers,
   initialBlogPosts,
-  initialInquiries,
   initialServices,
   initialSiteSettings,
   initialHeroSlides,
   initialTestimonialsData,
-  initialJobPostings,
-  initialJobApplications,
 } from '../data/initialData';
 import { removeSeededTestimonials } from '../utils/testimonials';
 
@@ -76,28 +73,28 @@ interface AppContextType {
 
   // ─── Inquiry ──────────────────────────────────────────────────────────────────
   addInquiry: (inquiry: Inquiry) => void;
-  updateInquiryStatus: (id: string, status: Inquiry['status']) => void;
-  deleteInquiry: (id: string) => void;
+  updateInquiryStatus: (id: string, status: Inquiry['status']) => Promise<void>;
+  deleteInquiry: (id: string) => Promise<void>;
 
   // ─── Careers & Jobs CRUD ──────────────────────────────────────────────────────
   jobs: JobPosting[];
   applications: JobApplication[];
-  addJob: (data: Partial<JobPosting>) => void;
-  updateJob: (id: string, data: Partial<JobPosting>) => void;
-  toggleJobActive: (id: string) => void;
-  deleteJob: (id: string) => void;
+  addJob: (data: Partial<JobPosting>) => Promise<void>;
+  updateJob: (id: string, data: Partial<JobPosting>) => Promise<void>;
+  toggleJobActive: (id: string) => Promise<void>;
+  deleteJob: (id: string) => Promise<void>;
   addApplication: (data: Partial<JobApplication>) => Promise<{ success: boolean; id: string }>;
-  updateApplicationStatus: (id: string, status: JobApplication['status']) => void;
-  updateApplicationNotes: (id: string, notes: string, rating?: number) => void;
-  deleteApplication: (id: string) => void;
+  updateApplicationStatus: (id: string, status: JobApplication['status']) => Promise<void>;
+  updateApplicationNotes: (id: string, notes: string, rating?: number) => Promise<void>;
+  deleteApplication: (id: string) => Promise<void>;
 
   // ─── Auth ─────────────────────────────────────────────────────────────────────
-  login: (user: UserProfile) => void;
-  logout: () => void;
-  updateProfile: (updated: UserProfile) => void;
+  login: (user: UserProfile) => Promise<void>;
+  logout: () => Promise<void>;
+  updateProfile: (updated: UserProfile) => Promise<void>;
 
   // ─── Site Settings ────────────────────────────────────────────────────────────
-  updateSiteSettings: (settings: SiteSettings) => void;
+  updateSiteSettings: (settings: SiteSettings) => Promise<void>;
 
   // ─── Factory Reset ───────────────────────────────────────────────────────────
   resetToDefaultData: () => void;
@@ -121,6 +118,15 @@ async function apiFetch<T>(url: string, options?: RequestInit): Promise<T | null
   } catch {
     return null;
   }
+}
+
+async function apiMutation<T = unknown>(url: string, options: RequestInit): Promise<T> {
+  const response = await fetch(url, options);
+  const payload = await response.json().catch(() => null);
+  if (!response.ok || !payload?.success) {
+    throw new Error(payload?.message || 'The request could not be completed.');
+  }
+  return payload.data as T;
 }
 
 const LEGACY_DEFAULT_HERO_SLIDES: HeroSlide[] = [
@@ -175,10 +181,22 @@ const KNOWN_LEGACY_TITLES = [
   'End-to-End Engineering for Visionary Brands',
   'Powerful Mobile Apps.',
   'Powerful Mobile Apps',
+  'Native Mobile Apps',
+  'Modern Web Apps',
 ];
 
 function refreshLegacyHeroDefaults(settings: SiteSettings): SiteSettings {
   if (!settings.heroSlides?.length) return { ...settings, heroSlides: initialHeroSlides };
+
+  // If saved slides are in the old default order where slide 0 is 'Web & Mobile Engineering',
+  // seamlessly refresh directly to the new initialHeroSlides!
+  const isOldDefaultOrder = settings.heroSlides.length === 3 &&
+    settings.heroSlides[0]?.title === 'Web & Mobile Engineering' &&
+    settings.heroSlides[2]?.title === 'Native Mobile Apps';
+
+  if (isOldDefaultOrder) {
+    return { ...settings, heroSlides: initialHeroSlides };
+  }
 
   const refreshedSlides = settings.heroSlides.map((slide, index) => {
     const fresh = initialHeroSlides[index];
@@ -212,13 +230,61 @@ function refreshLegacyHeroDefaults(settings: SiteSettings): SiteSettings {
   return { ...settings, heroSlides: refreshedSlides };
 }
 
+function refreshLegacyCompanySettings(settings: SiteSettings): SiteSettings {
+  const companyEmail = 'webdevsoftwaresolutions26@gmail.com';
+  const legacyEmails = ['info@webdevsoftwaresolutions.com', 'engineer@webdevsoftware.com'];
+  const socialLinks = {
+    ...initialSiteSettings.socialLinks,
+    ...settings.socialLinks,
+  };
+
+  if (!socialLinks.github || socialLinks.github === 'https://github.com/almumeetusaikat') {
+    socialLinks.github = 'https://github.com/webdevsoftware';
+  }
+  if (!socialLinks.linkedin || socialLinks.linkedin === 'https://linkedin.com') {
+    socialLinks.linkedin = 'https://www.linkedin.com/in/webdevss';
+  }
+
+  const replaceLegacyEmail = (value: string) => legacyEmails.reduce(
+    (result, legacyEmail) => result.split(legacyEmail).join(companyEmail),
+    value,
+  );
+
+  return {
+    ...settings,
+    email: legacyEmails.includes(settings.email) ? companyEmail : settings.email,
+    socialLinks,
+    privacyPolicy: replaceLegacyEmail(settings.privacyPolicy || ''),
+    termsOfService: replaceLegacyEmail(settings.termsOfService || ''),
+  };
+}
+
+function refreshLegacyTeamDetails(members: TeamMember[]): TeamMember[] {
+  const companyEmail = 'webdevsoftwaresolutions26@gmail.com';
+  const legacyEmails = ['info@webdevsoftwaresolutions.com', 'engineer@webdevsoftware.com'];
+  const ceoDefaults = initialTeamMembers.find((member) => member.id === 'team-2');
+
+  return members.map((member) => {
+    if (member.id === 'team-2' && ceoDefaults) {
+      return {
+        ...member,
+        email: companyEmail,
+        linkedin: ceoDefaults.linkedin,
+        education: ceoDefaults.education,
+      };
+    }
+
+    return legacyEmails.includes(member.email) ? { ...member, email: companyEmail } : member;
+  });
+}
+
 export function AppProvider({ children }: { children: React.ReactNode }) {
   // ─── Core Data State ──────────────────────────────────────────────────────────
   const [projects, setProjects]                 = useState<Project[]>(initialProjects);
   const [projectCategories, setProjectCategories] = useState<string[]>(DEFAULT_PROJECT_CATEGORIES);
   const [teamMembers, setTeamMembers]           = useState<TeamMember[]>(initialTeamMembers);
   const [blogs, setBlogs]                       = useState<BlogPost[]>(initialBlogPosts);
-  const [inquiries, setInquiries]               = useState<Inquiry[]>(initialInquiries);
+  const [inquiries, setInquiries]               = useState<Inquiry[]>([]);
   const [services, setServices]                 = useState<ServiceDetail[]>(initialServices);
   const [testimonials, setTestimonials]         = useState<Testimonial[]>(initialTestimonialsData);
   const [siteSettings, setSiteSettings]         = useState<SiteSettings>(initialSiteSettings);
@@ -264,11 +330,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     // Team
     const dbTeam = await apiFetch<TeamMember[]>('/api/team');
     if (dbTeam && dbTeam.length > 0) {
-      setTeamMembers(dbTeam);
+      setTeamMembers(refreshLegacyTeamDetails(dbTeam));
     } else {
       try {
         const saved = localStorage.getItem('webdev_team_members');
-        if (saved) setTeamMembers(JSON.parse(saved));
+        if (saved) {
+          const refreshedTeam = refreshLegacyTeamDetails(JSON.parse(saved));
+          setTeamMembers(refreshedTeam);
+          localStorage.setItem('webdev_team_members', JSON.stringify(refreshedTeam));
+        }
       } catch {}
     }
 
@@ -284,14 +354,49 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
 
     // Services
+    const mergeServiceWithDefaults = (s: Partial<ServiceDetail> & { id: string }): ServiceDetail => {
+      const init = initialServices.find((item) => item.id === s.id);
+      if (!init) return s as ServiceDetail;
+      return {
+        ...init,
+        ...s,
+        title: init.title,
+        shortDesc: init.shortDesc,
+        category: s.category || init.category || 'Development',
+        features: init.features,
+        deliverables: (s.deliverables && s.deliverables.length > 0) ? s.deliverables : init.deliverables,
+        techs: init.techs,
+      } as ServiceDetail;
+    };
+
     const dbServices = await apiFetch<ServiceDetail[]>('/api/services');
     if (dbServices && dbServices.length > 0) {
-      setServices(dbServices);
+      const mergedDb = dbServices.map(mergeServiceWithDefaults);
+      const existingIds = new Set(mergedDb.map((s) => s.id));
+      const missing = initialServices.filter((s) => !existingIds.has(s.id));
+      const allServices = [...mergedDb, ...missing];
+      setServices(allServices);
+      try {
+        localStorage.setItem('webdev_services', JSON.stringify(allServices));
+      } catch {}
     } else {
       try {
         const saved = localStorage.getItem('webdev_services');
-        if (saved) setServices(JSON.parse(saved));
-      } catch {}
+        if (saved) {
+          const parsed: ServiceDetail[] = JSON.parse(saved);
+          const enriched = parsed.map(mergeServiceWithDefaults);
+          const existingIds = new Set(enriched.map((s) => s.id));
+          const missing = initialServices.filter((s) => !existingIds.has(s.id));
+          const merged = missing.length > 0 ? [...enriched, ...missing] : enriched;
+          setServices(merged);
+          localStorage.setItem('webdev_services', JSON.stringify(merged));
+        } else {
+          setServices(initialServices);
+          localStorage.setItem('webdev_services', JSON.stringify(initialServices));
+        }
+      } catch {
+        setServices(initialServices);
+      }
     }
 
     // Testimonials
@@ -309,64 +414,72 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       } catch {}
     }
 
-    // Inquiries (localStorage only — internal admin data)
-    try {
-      const saved = localStorage.getItem('webdev_inquiries');
-      if (saved) setInquiries(JSON.parse(saved));
-    } catch {}
+    // Settings and career records are loaded from the server so admin changes survive devices.
+    const serverSettings = await apiFetch<SiteSettings>('/api/site-settings');
+    if (serverSettings) {
+      setSiteSettings(refreshLegacyCompanySettings(refreshLegacyHeroDefaults({
+        ...initialSiteSettings,
+        ...serverSettings,
+        socialLinks: { ...initialSiteSettings.socialLinks, ...serverSettings.socialLinks },
+      })));
+    }
 
-    // Site settings
+    const publicJobs = await apiFetch<JobPosting[]>('/api/careers');
+    setJobs(publicJobs || []);
+
+    let sessionUser: UserProfile | null = null;
     try {
-      const saved = localStorage.getItem('webdev_site_settings');
-      if (saved) {
-        const savedSettings = JSON.parse(saved) as Partial<SiteSettings>;
-        const refreshed = refreshLegacyHeroDefaults({ ...initialSiteSettings, ...savedSettings });
-        setSiteSettings(refreshed);
-        localStorage.setItem('webdev_site_settings', JSON.stringify(refreshed));
+      const sessionResponse = await fetch('/api/auth/me', { cache: 'no-store' });
+      if (sessionResponse.ok) {
+        const sessionPayload = await sessionResponse.json();
+        if (sessionPayload.success && sessionPayload.user) sessionUser = sessionPayload.user as UserProfile;
       }
-    } catch {}
+    } catch {
+      sessionUser = null;
+    }
+    setCurrentUser(sessionUser);
 
-    // Auth user
-    try {
-      const saved = localStorage.getItem('webdev_auth_user');
-      if (saved) setCurrentUser(JSON.parse(saved));
-    } catch {}
+    if (sessionUser?.role === 'admin') {
+      const [adminJobs, adminApplications, adminInquiries] = await Promise.all([
+        apiFetch<JobPosting[]>('/api/careers?all=true'),
+        apiFetch<JobApplication[]>('/api/careers/applications'),
+        apiFetch<Inquiry[]>('/api/inquiries'),
+      ]);
+      if (adminJobs) setJobs(adminJobs);
+      if (adminApplications) setApplications(adminApplications);
+      if (adminInquiries) setInquiries(adminInquiries);
+    } else if (sessionUser) {
+      const ownInquiries = await apiFetch<Inquiry[]>('/api/inquiries/mine');
+      setInquiries(ownInquiries || []);
+    } else {
+      setApplications([]);
+      setInquiries([]);
+    }
 
-    // Jobs (localStorage only)
+    // Remove legacy client-side credentials and private records from earlier releases.
     try {
-      const saved = localStorage.getItem('webdev_job_postings');
-      if (saved) {
-        const parsed: JobPosting[] = JSON.parse(saved);
-        setJobs(parsed.filter((j) => !['job-1', 'job-2', 'job-3', 'job-4', 'job-5'].includes(j.id)));
-      }
-    } catch {}
-
-    // Applications (localStorage only)
-    try {
-      const saved = localStorage.getItem('webdev_job_applications');
-      if (saved) {
-        const parsed: JobApplication[] = JSON.parse(saved);
-        setApplications(parsed.filter((a) => !['app-1', 'app-2', 'app-3'].includes(a.id)));
-      }
+      ['webdev_auth_user', 'webdev_registered_users', 'webdev_job_applications', 'webdev_inquiries']
+        .forEach((key) => localStorage.removeItem(key));
     } catch {}
 
     setIsHydrated(true);
   }, []);
 
   useEffect(() => {
-    loadAllData();
+    let active = true;
+    const startLoading = () => {
+      if (active) void loadAllData();
+    };
+    queueMicrotask(startLoading);
+    return () => { active = false; };
   }, [loadAllData]);
 
-  // ─── Cross-tab sync for localStorage-backed data ──────────────────────────────
+  // ─── Cross-tab sync for non-sensitive local cache data ────────────────────────
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
       try {
         if (e.key === 'webdev_projects' && e.newValue) setProjects(JSON.parse(e.newValue));
         if (e.key === 'webdev_project_categories' && e.newValue) setProjectCategories(JSON.parse(e.newValue));
-        if (e.key === 'webdev_inquiries' && e.newValue) setInquiries(JSON.parse(e.newValue));
-        if (e.key === 'webdev_site_settings' && e.newValue) setSiteSettings(JSON.parse(e.newValue));
-        if (e.key === 'webdev_job_postings' && e.newValue) setJobs(JSON.parse(e.newValue));
-        if (e.key === 'webdev_job_applications' && e.newValue) setApplications(JSON.parse(e.newValue));
       } catch {}
     };
     window.addEventListener('storage', handleStorageChange);
@@ -383,26 +496,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (!isHydrated) return;
     try { localStorage.setItem('webdev_project_categories', JSON.stringify(projectCategories)); } catch {}
   }, [projectCategories, isHydrated]);
-
-  useEffect(() => {
-    if (!isHydrated) return;
-    try { localStorage.setItem('webdev_inquiries', JSON.stringify(inquiries)); } catch {}
-  }, [inquiries, isHydrated]);
-
-  useEffect(() => {
-    if (!isHydrated) return;
-    try { localStorage.setItem('webdev_site_settings', JSON.stringify(siteSettings)); } catch {}
-  }, [siteSettings, isHydrated]);
-
-  useEffect(() => {
-    if (!isHydrated) return;
-    try { localStorage.setItem('webdev_job_postings', JSON.stringify(jobs)); } catch {}
-  }, [jobs, isHydrated]);
-
-  useEffect(() => {
-    if (!isHydrated) return;
-    try { localStorage.setItem('webdev_job_applications', JSON.stringify(applications)); } catch {}
-  }, [applications, isHydrated]);
 
   // ─── Projects CRUD (DB-backed) ────────────────────────────────────────────────
   const addProject = async (data: Partial<Project>) => {
@@ -660,6 +753,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     const newService: ServiceDetail = {
       id: `serv-${Date.now()}`,
       title: data.title || 'New Service',
+      category: data.category || 'Development',
       shortDesc: data.shortDesc || '',
       fullDesc: data.fullDesc || '',
       iconName: data.iconName || 'Code2',
@@ -668,7 +762,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       features: data.features || [],
       deliverables: data.deliverables || [],
     };
-    setServices((prev) => [...prev, newService]);
+    setServices((prev) => {
+      const updated = [...prev, newService];
+      try { localStorage.setItem('webdev_services', JSON.stringify(updated)); } catch {}
+      return updated;
+    });
     await apiFetch('/api/services', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -677,7 +775,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateService = async (id: string, data: Partial<ServiceDetail>) => {
-    setServices((prev) => prev.map((s) => (s.id === id ? { ...s, ...data } : s)));
+    setServices((prev) => {
+      const updated = prev.map((s) => (s.id === id ? { ...s, ...data } : s));
+      try { localStorage.setItem('webdev_services', JSON.stringify(updated)); } catch {}
+      return updated;
+    });
     await apiFetch(`/api/services/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -686,7 +788,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   const deleteService = async (id: string) => {
-    setServices((prev) => prev.filter((s) => s.id !== id));
+    setServices((prev) => {
+      const updated = prev.filter((s) => s.id !== id);
+      try { localStorage.setItem('webdev_services', JSON.stringify(updated)); } catch {}
+      return updated;
+    });
     await apiFetch(`/api/services/${id}`, { method: 'DELETE' });
   };
 
@@ -726,40 +832,82 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     await apiFetch(`/api/testimonials/${id}`, { method: 'DELETE' });
   };
 
-  // ─── Inquiry (localStorage only) ─────────────────────────────────────────────
+  // ─── Inquiry ─────────────────────────────────────────────────────────────────
   const addInquiry = (newInquiry: Inquiry) => {
     setInquiries((prev) => [newInquiry, ...prev]);
     if (currentUser) {
-      setCurrentUser({ ...currentUser, inquiries: [...currentUser.inquiries, newInquiry] });
+      setCurrentUser({ ...currentUser, inquiries: [...(currentUser.inquiries || []), newInquiry] });
     }
   };
 
-  const updateInquiryStatus = (id: string, status: Inquiry['status']) => {
-    setInquiries((prev) => prev.map((i) => (i.id === id ? { ...i, status } : i)));
+  const updateInquiryStatus = async (id: string, status: Inquiry['status']) => {
+    const updated = await apiMutation<Inquiry>('/api/inquiries', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status }),
+    });
+    setInquiries((prev) => prev.map((inquiry) => inquiry.id === id ? updated : inquiry));
   };
 
-  const deleteInquiry = (id: string) => setInquiries((prev) => prev.filter((i) => i.id !== id));
+  const deleteInquiry = async (id: string) => {
+    await apiMutation(`/api/inquiries?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+    setInquiries((prev) => prev.filter((inquiry) => inquiry.id !== id));
+  };
 
   // ─── Auth ─────────────────────────────────────────────────────────────────────
-  const login = (user: UserProfile) => {
-    setCurrentUser(user);
-    try { localStorage.setItem('webdev_auth_user', JSON.stringify(user)); } catch {}
+  const login = async (_user: UserProfile) => {
+    try {
+      const response = await fetch('/api/auth/me', { cache: 'no-store' });
+      const payload = await response.json();
+      if (!response.ok || !payload.success || !payload.user) throw new Error('Session validation failed.');
+      const verifiedUser = payload.user as UserProfile;
+      setCurrentUser(verifiedUser);
+      if (verifiedUser.role === 'admin') {
+        const [adminJobs, adminApplications, adminInquiries] = await Promise.all([
+          apiFetch<JobPosting[]>('/api/careers?all=true'),
+          apiFetch<JobApplication[]>('/api/careers/applications'),
+          apiFetch<Inquiry[]>('/api/inquiries'),
+        ]);
+        if (adminJobs) setJobs(adminJobs);
+        if (adminApplications) setApplications(adminApplications);
+        if (adminInquiries) setInquiries(adminInquiries);
+      } else {
+        const ownInquiries = await apiFetch<Inquiry[]>('/api/inquiries/mine');
+        setInquiries(ownInquiries || []);
+      }
+    } catch {
+      setCurrentUser(null);
+      setApplications([]);
+      setInquiries([]);
+    }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' }).catch(() => undefined);
     setCurrentUser(null);
-    try { localStorage.removeItem('webdev_auth_user'); } catch {}
+    setApplications([]);
+    setInquiries([]);
+    const publicJobs = await apiFetch<JobPosting[]>('/api/careers');
+    setJobs(publicJobs || []);
   };
 
-  const updateProfile = (updated: UserProfile) => {
-    setCurrentUser(updated);
-    try { localStorage.setItem('webdev_auth_user', JSON.stringify(updated)); } catch {}
+  const updateProfile = async (updated: UserProfile) => {
+    const saved = await apiMutation<UserProfile>('/api/auth/profile', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: updated.name, company: updated.company, phone: updated.phone }),
+    });
+    setCurrentUser(saved);
   };
 
   // ─── Site Settings ────────────────────────────────────────────────────────────
-  const updateSiteSettings = (settings: SiteSettings) => {
-    setSiteSettings(settings);
-    try { localStorage.setItem('webdev_site_settings', JSON.stringify(settings)); } catch {}
+  const updateSiteSettings = async (settings: SiteSettings) => {
+    const saved = await apiMutation<SiteSettings>('/api/site-settings', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(settings),
+    });
+    setSiteSettings(saved);
   };
 
   const resetToDefaultData = () => {
@@ -767,10 +915,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setProjectCategories(DEFAULT_PROJECT_CATEGORIES);
     setTeamMembers(initialTeamMembers);
     setBlogs(initialBlogPosts);
-    setInquiries(initialInquiries);
+    setInquiries([]);
     setServices(initialServices);
     setTestimonials(initialTestimonialsData);
     setSiteSettings(initialSiteSettings);
+    setJobs([]);
+    setApplications([]);
     try {
       ['webdev_projects','webdev_project_categories','webdev_team_members','webdev_blogs','webdev_inquiries',
        'webdev_services','webdev_testimonials','webdev_site_settings',
@@ -778,10 +928,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     } catch {}
   };
 
-  // ─── Careers & Jobs CRUD (localStorage) ──────────────────────────────────────
-  const addJob = (data: Partial<JobPosting>) => {
+  // ─── Careers & Jobs CRUD (PostgreSQL) ─────────────────────────────────────────
+  const addJob = async (data: Partial<JobPosting>) => {
     const newJob: JobPosting = {
-      id: `job-${Date.now()}`,
+      id: '',
       title: data.title || 'Software Engineer',
       department: data.department || 'Engineering',
       type: data.type || 'Full-time',
@@ -801,24 +951,38 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       deadline: data.deadline,
       applicantsCount: 0,
     };
-    setJobs((prev) => [newJob, ...prev]);
+    const savedJob = await apiMutation<JobPosting>('/api/careers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newJob),
+    });
+    setJobs((prev) => [savedJob, ...prev]);
   };
 
-  const updateJob = (id: string, data: Partial<JobPosting>) => {
-    setJobs((prev) => prev.map((j) => (j.id === id ? { ...j, ...data } : j)));
+  const updateJob = async (id: string, data: Partial<JobPosting>) => {
+    const savedJob = await apiMutation<JobPosting>(`/api/careers/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    setJobs((prev) => prev.map((job) => job.id === id ? savedJob : job));
   };
 
-  const toggleJobActive = (id: string) => {
-    setJobs((prev) => prev.map((j) => (j.id === id ? { ...j, isActive: !j.isActive } : j)));
+  const toggleJobActive = async (id: string) => {
+    const job = jobs.find((item) => item.id === id);
+    if (!job) return;
+    await updateJob(id, { isActive: !job.isActive });
   };
 
-  const deleteJob = (id: string) => setJobs((prev) => prev.filter((j) => j.id !== id));
+  const deleteJob = async (id: string) => {
+    const archived = await apiMutation<JobPosting>(`/api/careers/${id}`, { method: 'DELETE' });
+    setJobs((prev) => prev.map((job) => job.id === id ? archived : job));
+  };
 
   const addApplication = async (data: Partial<JobApplication>): Promise<{ success: boolean; id: string }> => {
-    const newAppId = `app-${Date.now()}`;
     const targetJob = jobs.find((j) => j.id === data.jobId);
     const newApp: JobApplication = {
-      id: newAppId,
+      id: '',
       jobId: data.jobId || 'general',
       jobTitle: data.jobTitle || targetJob?.title || 'General Application',
       applicantName: data.applicantName || 'Anonymous',
@@ -839,29 +1003,48 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       notes: '',
       appliedAt: new Date().toISOString(),
     };
-    setApplications((prev) => [newApp, ...prev]);
-    if (data.jobId && data.jobId !== 'general') {
-      setJobs((prev) => prev.map((j) => j.id === data.jobId ? { ...j, applicantsCount: (j.applicantsCount || 0) + 1 } : j));
-    }
     try {
-      await fetch('/api/careers/applications', {
+      const result = await apiMutation<{ id: string }>('/api/careers/applications', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newApp),
       });
-    } catch {}
-    return { success: true, id: newAppId };
+      if (currentUser?.role === 'admin') {
+        setApplications((prev) => [{ ...newApp, id: result.id, appliedAt: new Date().toISOString() }, ...prev]);
+      }
+      if (data.jobId && data.jobId !== 'general') {
+        setJobs((prev) => prev.map((job) => job.id === data.jobId
+          ? { ...job, applicantsCount: (job.applicantsCount || 0) + 1 }
+          : job));
+      }
+      return { success: true, id: result.id };
+    } catch {
+      return { success: false, id: '' };
+    }
   };
 
-  const updateApplicationStatus = (id: string, status: JobApplication['status']) => {
-    setApplications((prev) => prev.map((a) => (a.id === id ? { ...a, status } : a)));
+  const updateApplicationStatus = async (id: string, status: JobApplication['status']) => {
+    const updated = await apiMutation<JobApplication>('/api/careers/applications', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status }),
+    });
+    setApplications((prev) => prev.map((application) => application.id === id ? updated : application));
   };
 
-  const updateApplicationNotes = (id: string, notes: string, rating?: number) => {
-    setApplications((prev) => prev.map((a) => (a.id === id ? { ...a, notes, ...(rating !== undefined ? { rating } : {}) } : a)));
+  const updateApplicationNotes = async (id: string, notes: string, rating?: number) => {
+    const updated = await apiMutation<JobApplication>('/api/careers/applications', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, notes, ...(rating !== undefined ? { rating } : {}) }),
+    });
+    setApplications((prev) => prev.map((application) => application.id === id ? updated : application));
   };
 
-  const deleteApplication = (id: string) => setApplications((prev) => prev.filter((a) => a.id !== id));
+  const deleteApplication = async (id: string) => {
+    await apiMutation(`/api/careers/applications?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+    setApplications((prev) => prev.filter((application) => application.id !== id));
+  };
 
   // ─── Context Value ────────────────────────────────────────────────────────────
   const value: AppContextType = {

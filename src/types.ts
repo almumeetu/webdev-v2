@@ -122,6 +122,7 @@ export interface UserProfile {
 export interface ServiceDetail {
   id: string;
   title: string;
+  category?: string;
   shortDesc: string;
   fullDesc: string;
   iconName: string;

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useCallback, useSyncExternalStore } from 'react';
 import {
   Language,
   Translations,
@@ -31,30 +31,45 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [lang, setLangState] = useState<Language>('en');
+const LANGUAGE_CHANGE_EVENT = 'webdev-language-change';
 
-  // Load language preference from localStorage on mount
+function subscribeToLanguage(onChange: () => void) {
+  window.addEventListener('storage', onChange);
+  window.addEventListener(LANGUAGE_CHANGE_EVENT, onChange);
+  return () => {
+    window.removeEventListener('storage', onChange);
+    window.removeEventListener(LANGUAGE_CHANGE_EVENT, onChange);
+  };
+}
+
+function getLanguageSnapshot(): Language {
+  try {
+    return window.localStorage.getItem('webdev_lang') === 'de' ? 'de' : 'en';
+  } catch {
+    return 'en';
+  }
+}
+
+function getServerLanguageSnapshot(): Language {
+  return 'en';
+}
+
+export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const lang = useSyncExternalStore(subscribeToLanguage, getLanguageSnapshot, getServerLanguageSnapshot);
+
+  // Keep the document language in sync with the selected locale.
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem('webdev_lang') as Language;
-      if (saved === 'en' || saved === 'de') {
-        setLangState(saved);
-        document.documentElement.lang = saved;
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   const setLang = useCallback((newLang: Language) => {
-    setLangState(newLang);
     try {
       localStorage.setItem('webdev_lang', newLang);
       document.documentElement.lang = newLang;
     } catch {
       // ignore
     }
+    window.dispatchEvent(new Event(LANGUAGE_CHANGE_EVENT));
   }, []);
 
   const toggleLang = useCallback(() => {

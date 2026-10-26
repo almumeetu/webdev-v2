@@ -91,10 +91,6 @@ export const CallToActionBanner: React.FC<CallToActionBannerProps> = ({ onContac
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center space-y-4 sm:space-y-5">
 
-          {/* Eyebrow label - Clean, no icon, 400 font weight */}
-          <div className="cta-banner-item text-cyan-300 font-['Kufam'] text-[11px] sm:text-xs font-normal font-[400] tracking-wider uppercase">
-            <span>Start Your Digital Transformation Today</span>
-          </div>
 
           {/* Headline */}
           <h2 className="cta-banner-item text-base xs:text-lg sm:text-xl md:text-2xl lg:text-[28px] font-semibold text-white tracking-tight leading-[1.25] font-['Kufam'] max-w-2xl mx-auto">

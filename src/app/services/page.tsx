@@ -27,6 +27,7 @@ export default function ServicesPage() {
       <div className="pt-6 sm:pt-8 lg:pt-10 pb-12 sm:pb-16 lg:pb-20">
         <OurServicesSection
           services={services}
+          showAll={true}
           onSelectService={(serviceId) => router.push(`/services/${serviceId}`)}
           onViewAllServices={() => router.push('/contact')}
         />

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { initialProjects } from '@/data/initialData';
+import { requireAdmin } from '@/lib/auth';
 
 // GET all projects
 export async function GET() {
@@ -22,6 +23,8 @@ export async function GET() {
 
 // POST new project (Admin CMS)
 export async function POST(request: Request) {
+  const authResponse = await requireAdmin(request);
+  if (authResponse) return authResponse;
   try {
     const project = await request.json();
 

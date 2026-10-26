@@ -57,19 +57,6 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [pathname]);
 
-  // Expose header height as a CSS variable so mega menu can anchor below it
-  useEffect(() => {
-    const header = document.getElementById('main-header');
-    if (!header) return;
-    const updateHeaderHeight = () => {
-      document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
-    };
-    updateHeaderHeight();
-    const ro = new ResizeObserver(updateHeaderHeight);
-    ro.observe(header);
-    return () => ro.disconnect();
-  }, []);
-
   // Close user dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -118,7 +105,7 @@ export const Navbar: React.FC = () => {
   return (
     <header 
       id="main-header"
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`w-full sticky top-0 z-50 transition-all duration-300 ${
         isScrolled
           ? 'site-header-edge bg-white/95 backdrop-blur-xl py-2 sm:py-2.5 shadow-xs border-b border-slate-200/80'
           : isHome
@@ -134,13 +121,13 @@ export const Navbar: React.FC = () => {
             <button
               id="brand-logo-btn"
               onClick={() => handleNavClick('home')}
-              className="flex items-center gap-3 text-left group focus:outline-none shrink-0 cursor-pointer py-0.5"
+              className="flex items-center gap-3 text-left focus:outline-none shrink-0 cursor-pointer py-0.5"
             >
               {siteSettings.logoUrl && siteSettings.logoUrl.trim() !== '' ? (
                 <img 
                   src={siteSettings.logoUrl}
                   alt={siteSettings.companyName}
-                  className="h-10 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.03]"
+                  className="h-10 sm:h-11 w-auto object-contain"
                 />
               ) : (
                 <div className="flex items-center gap-2.5">
@@ -159,6 +146,7 @@ export const Navbar: React.FC = () => {
           <nav className="hidden lg:flex items-center justify-self-center gap-1 xl:gap-1.5 font-medium text-[14.5px]">
             <button
               id="nav-home"
+              data-clean-hover
               onClick={() => handleNavClick('home')}
               className={`px-3 py-1.5 rounded-xl text-[14.5px] transition-all duration-150 cursor-pointer ${getNavLinkClass('home')}`}
             >
@@ -167,6 +155,7 @@ export const Navbar: React.FC = () => {
 
             <button
               id="nav-about"
+              data-clean-hover
               onClick={() => handleNavClick('about')}
               className={`px-3 py-1.5 rounded-xl text-[14.5px] transition-all duration-150 cursor-pointer ${getNavLinkClass('about')}`}
             >
@@ -177,6 +166,7 @@ export const Navbar: React.FC = () => {
 
             <button
               id="nav-contact"
+              data-clean-hover
               onClick={() => handleNavClick('contact')}
               className={`px-3 py-1.5 rounded-xl text-[14.5px] transition-all duration-150 cursor-pointer ${getNavLinkClass('contact')}`}
             >
@@ -192,6 +182,7 @@ export const Navbar: React.FC = () => {
               <div className="relative" ref={userDropdownRef}>
                 <button
                   id="user-profile-btn"
+                  data-clean-hover
                   onClick={() => setUserDropdownOpen((prev) => !prev)}
                   className={`flex items-center gap-2 rounded-full pl-1 pr-2.5 py-1 text-xs font-medium transition-all cursor-pointer border ${
                     userDropdownOpen
@@ -292,8 +283,9 @@ export const Navbar: React.FC = () => {
               <div className="flex items-center gap-2">
                 <button
                   id="nav-signin-btn"
+                  data-clean-hover
                   onClick={onOpenAuth}
-                  className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-xl border border-slate-200/90 text-slate-700 hover:text-slate-950 hover:bg-slate-100 hover:border-slate-300 transition-all cursor-pointer shadow-2xs"
+                  className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-xl border border-slate-200/90 text-slate-700 hover:text-slate-950 hover:bg-slate-100 transition-all cursor-pointer shadow-2xs"
                 >
                   <LogIn className="w-3.5 h-3.5 text-sky-700" />
                   <span>{t.navSignIn}</span>
@@ -344,6 +336,7 @@ export const Navbar: React.FC = () => {
             {/* Main Navigation Links */}
             <div className="space-y-1">
               <button
+                data-clean-hover
                 onClick={() => handleNavClick('home')}
                 className={`w-full text-left px-4 py-2.5 rounded-xl text-[15px] font-medium flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${getMobileNavLinkClass('home')}`}
               >
@@ -352,6 +345,7 @@ export const Navbar: React.FC = () => {
               </button>
 
               <button
+                data-clean-hover
                 onClick={() => handleNavClick('about')}
                 className={`w-full text-left px-4 py-2.5 rounded-xl text-[15px] font-medium flex items-center justify-between transition-colors min-h-[44px] cursor-pointer ${getMobileNavLinkClass('about')}`}
               >
@@ -362,6 +356,7 @@ export const Navbar: React.FC = () => {
               <ServicesMenu mobile active={currentView === 'services'} onNavigate={() => setMobileMenuOpen(false)} />
 
               <button
+                data-clean-hover
                 onClick={() => {
                   setMobileMenuOpen(false);
                   handleNavClick('contact');

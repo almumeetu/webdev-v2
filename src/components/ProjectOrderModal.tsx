@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   X, 
   Send, 
@@ -44,20 +44,11 @@ export const ProjectOrderModal: React.FC<ProjectOrderModalProps> = ({
   const [phoneNumber, setPhoneNumber] = useState('');
   const [company, setCompany] = useState('');
   const [timeline, setTimeline] = useState('Standard (2-4 Weeks)');
-  const [budget, setBudget] = useState('$3,000 - $6,000');
+  const [budget, setBudget] = useState(project?.priceRange || '$3,000 - $6,000');
   const [ndaRequested, setNdaRequested] = useState(false);
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedSuccess, setSubmittedSuccess] = useState(false);
-
-  useEffect(() => {
-    if (project) {
-      setSelectedProjectId(project.id);
-      if (project.priceRange) {
-        setBudget(project.priceRange);
-      }
-    }
-  }, [project]);
 
   if (!isOpen) return null;
 
@@ -232,7 +223,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                       <select
                         value={selectedProjectId}
                         onChange={(e) => setSelectedProjectId(e.target.value)}
-                        className="w-full sm:w-48 text-xs font-semibold bg-white border border-slate-300 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2]"
+                        className="w-full sm:w-48 text-xs font-semibold bg-white border border-slate-300 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2]"
                       >
                         {allProjects.map((p) => {
                           const lp = localizeProject(p);
@@ -359,7 +350,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                       placeholder={lang === 'de' ? 'z. B. Alexander Schmidt / Markus Weber' : 'e.g. John Doe / Alexander Schmidt'}
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] text-slate-900"
+                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] text-slate-900"
                     />
                   </div>
 
@@ -373,7 +364,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                       placeholder="name@company.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] text-slate-900"
+                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] text-slate-900"
                     />
                   </div>
 
@@ -387,7 +378,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                       placeholder="+49 172... oder +880 17..."
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
-                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] text-slate-900"
+                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] text-slate-900"
                     />
                   </div>
 
@@ -400,7 +391,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                       placeholder={lang === 'de' ? 'z. B. Acme GmbH / Studio KG' : 'e.g. Acme Corp / Studio GmbH'}
                       value={company}
                       onChange={(e) => setCompany(e.target.value)}
-                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] text-slate-900"
+                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] text-slate-900"
                     />
                   </div>
 
@@ -411,7 +402,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                     <select
                       value={timeline}
                       onChange={(e) => setTimeline(e.target.value)}
-                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] text-slate-900 bg-white"
+                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] text-slate-900 bg-white"
                     >
                       <option value="Urgent (Under 2 Weeks)">{lang === 'de' ? '⚡ Dringend (Unter 2 Wochen)' : '⚡ Urgent (Under 2 Weeks)'}</option>
                       <option value="Standard (2-4 Weeks)">{lang === 'de' ? 'Standard (2-4 Wochen)' : 'Standard (2-4 Weeks)'}</option>
@@ -427,7 +418,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                     <select
                       value={budget}
                       onChange={(e) => setBudget(e.target.value)}
-                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] text-slate-900 bg-white"
+                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] text-slate-900 bg-white"
                     >
                       <option value="$1,500 - $3,000">{lang === 'de' ? '1.500 € - 3.000 € (Turnkey MVP)' : '$1,500 - $3,000 (Turnkey MVP)'}</option>
                       <option value="$3,000 - $6,000">{lang === 'de' ? '3.000 € - 6.000 € (Standard Wachstum)' : '$3,000 - $6,000 (Standard Growth)'}</option>
@@ -449,7 +440,7 @@ ${message || 'Client is interested in deploying a platform similar to ' + projec
                   placeholder={lang === 'de' ? `Beschreiben Sie gewünschtes Branding, Zahlungsmethoden oder spezifische Module für ${activeProject?.title || 'dieses Projekt'}...` : `Tell us what branding, payment methods, or custom pages you want to add to ${activeProject?.title || 'this project'}...`}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] text-slate-900 resize-none"
+                  className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] text-slate-900 resize-none"
                 />
               </div>
 

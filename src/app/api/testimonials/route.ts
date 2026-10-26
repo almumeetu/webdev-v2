@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { initialTestimonialsData } from '@/data/initialData';
 import { removeSeededTestimonials } from '@/utils/testimonials';
+import { requireAdmin } from '@/lib/auth';
 
 // GET all testimonials
 export async function GET() {
@@ -20,6 +21,8 @@ export async function GET() {
 
 // POST new testimonial
 export async function POST(request: Request) {
+  const authResponse = await requireAdmin(request);
+  if (authResponse) return authResponse;
   try {
     const body = await request.json();
     const created = await prisma.testimonial.create({

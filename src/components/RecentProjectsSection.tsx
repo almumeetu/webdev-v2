@@ -101,9 +101,6 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
         {/* Compact Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-9">
           <div>
-            <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide mb-2">
-              <span>{t.portfolioKicker}</span>
-            </div>
             <h2 className="text-xl sm:text-2xl lg:text-[30px] font-semibold text-slate-900 tracking-tight font-['Kufam']">
               {t.portfolioHeading}
             </h2>

@@ -8,14 +8,13 @@ import { WhoWeBring } from '@/components/WhoWeBring';
 import { OurServicesSection } from '@/components/OurServicesSection';
 import { MeetOurTeamSection } from '@/components/MeetOurTeamSection';
 import { GlobalTrustSection } from '@/components/GlobalTrustSection';
-import { RecentProjectsSection } from '@/components/RecentProjectsSection';
 import { DeliveryApproachSection } from '@/components/DeliveryApproachSection';
 import { GlobalEcosystemSection } from '@/components/GlobalEcosystemSection';
 import { LatestNewsSection } from '@/components/LatestNewsSection';
 
 export default function HomePage() {
   const router = useRouter();
-  const { projects, teamMembers, blogs, services, siteSettings } = useAppContext();
+  const { teamMembers, blogs, services, siteSettings } = useAppContext();
 
   return (
     <>
@@ -61,15 +60,9 @@ export default function HomePage() {
         onExplorePortfolio={() => router.push('/portfolio')}
       />
 
-      <RecentProjectsSection
-        projects={projects}
-        onSelectProject={(project) => router.push(`/portfolio/${project.id}`)}
-        onViewAllProjects={() => router.push('/portfolio')}
-      />
+      <GlobalEcosystemSection />
 
       <DeliveryApproachSection />
-
-      <GlobalEcosystemSection />
 
       <LatestNewsSection
         blogs={blogs}

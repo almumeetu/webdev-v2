@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { initialJobPostings } from '@/data/initialData';
+import { requireAdmin } from '@/lib/auth';
 
 // GET all job postings
 // Query param ?all=true returns both active and inactive (for Admin CMS)
@@ -8,9 +9,13 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const includeAll = searchParams.get('all') === 'true';
+    if (includeAll) {
+      const authResponse = await requireAdmin();
+      if (authResponse) return authResponse;
+    }
 
     if (process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('your_')) {
-      const whereClause = includeAll ? {} : { isActive: true };
+      const whereClause = includeAll ? { id: { not: 'general' } } : { isActive: true };
       const dbJobs = await prisma.jobPosting.findMany({
         where: whereClause,
         orderBy: { createdAt: 'desc' },
@@ -21,16 +26,15 @@ export async function GET(request: Request) {
         }
       });
 
-      if (dbJobs && dbJobs.length > 0) {
-        const mapped = dbJobs.map((j: any) => ({
-          ...j,
-          applicantsCount: j.applications ? j.applications.length : 0
-        }));
-        return NextResponse.json({ success: true, source: 'postgresql', data: mapped });
-      }
+      const mapped = dbJobs.map((job) => ({
+        ...job,
+        applicantsCount: job.applications.length,
+      }));
+      return NextResponse.json({ success: true, source: 'postgresql', data: mapped });
     }
   } catch (error) {
-    console.warn('PostgreSQL not accessible for careers GET, using fallback data:', error);
+    console.error('PostgreSQL not accessible for careers GET:', error);
+    return NextResponse.json({ success: false, message: 'Careers service is unavailable.' }, { status: 503 });
   }
 
   return NextResponse.json({ success: true, source: 'fallback', data: initialJobPostings });
@@ -38,6 +42,8 @@ export async function GET(request: Request) {
 
 // POST new job posting (Admin CMS)
 export async function POST(request: Request) {
+  const authResponse = await requireAdmin(request);
+  if (authResponse) return authResponse;
   try {
     const body = await request.json();
 
@@ -48,8 +54,11 @@ export async function POST(request: Request) {
       );
     }
 
+    if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('your_')) {
+      return NextResponse.json({ success: false, message: 'Careers service is unavailable.' }, { status: 503 });
+    }
+
     const newJob = {
-      id: body.id || `job-${Date.now()}`,
       title: body.title,
       department: body.department,
       type: body.type || 'Full-time',
@@ -69,18 +78,9 @@ export async function POST(request: Request) {
       deadline: body.deadline || null,
     };
 
-    if (process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('your_')) {
-      const created = await prisma.jobPosting.create({
-        data: newJob
-      });
-      return NextResponse.json(
-        { success: true, message: 'Job posting created in PostgreSQL', data: created },
-        { status: 201 }
-      );
-    }
-
+    const created = await prisma.jobPosting.create({ data: newJob });
     return NextResponse.json(
-      { success: true, message: 'Job posting received (managed via client AppContext)', data: newJob },
+      { success: true, message: 'Job posting created.', data: created },
       { status: 201 }
     );
   } catch (error) {

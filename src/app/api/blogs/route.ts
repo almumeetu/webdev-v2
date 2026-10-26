@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { initialBlogPosts } from '@/data/initialData';
+import { requireAdmin } from '@/lib/auth';
 
 // GET all blogs
 export async function GET() {
@@ -17,6 +18,8 @@ export async function GET() {
 
 // POST new blog
 export async function POST(request: Request) {
+  const authResponse = await requireAdmin(request);
+  if (authResponse) return authResponse;
   try {
     const body = await request.json();
     const created = await prisma.blogPost.create({

@@ -10,7 +10,7 @@ import { Breadcrumb } from './Breadcrumb';
 interface UserProfilePageProps {
   currentUser: UserProfile;
   onBack: () => void;
-  onUpdateProfile: (updated: UserProfile) => void;
+  onUpdateProfile: (updated: UserProfile) => void | Promise<void>;
   onLogout: () => void;
   userInquiries: Inquiry[];
 }
@@ -29,6 +29,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
   const [phone, setPhone] = useState(currentUser.phone || '');
   const [company, setCompany] = useState(currentUser.company || '');
   const [isSaved, setIsSaved] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   useGsapContext(pageRef, () => {
     if (!pageRef.current) return;
@@ -49,16 +50,17 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
     );
   });
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    onUpdateProfile({
-      ...currentUser,
-      name,
-      phone,
-      company
-    });
-    setIsSaved(true);
-    setTimeout(() => setIsSaved(false), 2500);
+    setSaveError(null);
+    try {
+      await onUpdateProfile({ ...currentUser, name, phone, company });
+      setIsSaved(true);
+      setTimeout(() => setIsSaved(false), 2500);
+    } catch {
+      setIsSaved(false);
+      setSaveError(lang === 'de' ? 'Profil konnte nicht gespeichert werden.' : 'Profile could not be saved. Please try again.');
+    }
   };
 
   return (
@@ -191,6 +193,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({
                 />
               </div>
 
+              {saveError && <p role="alert" className="text-xs text-rose-700">{saveError}</p>}
               <button
                 type="submit"
                 className="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-3 rounded-xl transition-all cursor-pointer"

@@ -57,10 +57,6 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14 space-y-3">
-          <div className="news-header-anim inline-flex items-center gap-2 text-sky-700 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide uppercase">
-            <BookOpen className="w-4 h-4 text-sky-600" />
-            <span>{t.blogKicker}</span>
-          </div>
 
           <h2 className="news-header-anim text-xl sm:text-2xl md:text-3xl font-semibold text-slate-950 tracking-tight font-['Kufam']">
             {t.blogHeading}
@@ -153,7 +149,7 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
         <div className="mt-12 sm:mt-14 text-center">
           <button
             onClick={onViewAllBlogs}
-            className="inline-flex items-center gap-2.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm px-7 py-3.5 rounded-xl transition-all shadow-sm hover:shadow-md cursor-pointer"
+            className="inline-flex items-center gap-2.5 rounded-xl border border-sky-600 bg-sky-600 px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-sky-700 hover:shadow-md active:bg-sky-800 cursor-pointer"
           >
             <span>{t.blogViewAll}</span>
             <ArrowRight className="w-4 h-4" />

@@ -71,10 +71,6 @@ export const GlobalTrustSection: React.FC<GlobalTrustSectionProps> = ({
 
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 space-y-2.5">
-          <div className="inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-            <RiShieldCheckLine className="w-4 h-4 text-cyan-600" />
-            <span>{t.trustKicker}</span>
-          </div>
           <h2 className="text-xl sm:text-2xl lg:text-[28px] font-semibold text-slate-900 tracking-tight font-['Kufam']">
             {t.trustHeading}
           </h2>

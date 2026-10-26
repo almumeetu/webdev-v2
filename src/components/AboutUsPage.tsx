@@ -3,16 +3,13 @@ import {
   Building2, 
   Globe, 
   ShieldCheck, 
-  Server, 
-  Cpu, 
   Users, 
-  MapPin, 
   CheckCircle2, 
   ArrowRight,
-  TrendingUp,
   Award,
   Target,
-  Zap
+  Zap,
+  CalendarDays
 } from 'lucide-react';
 import { useGsapContext } from '../utils/gsapHelper';
 import gsap from 'gsap';
@@ -32,6 +29,41 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { t, lang } = useLanguage();
+  const collaborationSteps = lang === 'de'
+    ? [
+        {
+          icon: Target,
+          title: 'Ziele und Umfang abstimmen',
+          description: 'Wir klären Anforderungen, Prioritäten und den gewünschten Nutzen, bevor die Umsetzung beginnt.',
+        },
+        {
+          icon: Users,
+          title: 'Fortschritt gemeinsam prüfen',
+          description: 'Regelmäßige Zwischenstände schaffen Raum für Feedback und halten Entscheidungen nachvollziehbar.',
+        },
+        {
+          icon: CheckCircle2,
+          title: 'Sorgfältig übergeben',
+          description: 'Zum Abschluss erhalten Sie eine geprüfte Lösung, dokumentierte Entscheidungen und klare nächste Schritte.',
+        },
+      ]
+    : [
+        {
+          icon: Target,
+          title: 'Agree on goals and scope',
+          description: 'We align on requirements, priorities, and the intended outcome before implementation starts.',
+        },
+        {
+          icon: Users,
+          title: 'Review progress together',
+          description: 'Regular, reviewable updates make room for feedback and keep decisions visible as work moves forward.',
+        },
+        {
+          icon: CheckCircle2,
+          title: 'Hand over with care',
+          description: 'You receive a reviewed solution, documented decisions, and clear next steps at completion.',
+        },
+      ];
 
   useGsapContext(containerRef, () => {
     if (!containerRef.current) return;
@@ -120,9 +152,9 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
                 </div>
               </div>
               <div className="p-4 rounded-xl bg-white border border-slate-200 text-center shadow-xs">
-                <div className="text-2xl font-bold text-slate-950">14+</div>
+                <div className="text-2xl font-bold text-slate-950">70+</div>
                 <div className="text-xs text-slate-500 mt-1 font-medium">
-                  {lang === 'de' ? 'Zeitzonen' : 'Time Zones'}
+                  {lang === 'de' ? 'Kunden weltweit' : 'Clients Worldwide'}
                 </div>
               </div>
             </div>
@@ -151,9 +183,6 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
         {/* Operating Hubs */}
         <div className="about-anim-fade space-y-8">
           <div className="text-center max-w-2xl mx-auto">
-            <div className="text-xs font-semibold text-sky-600 uppercase tracking-wider mb-2">
-              {lang === 'de' ? 'Standorte & Engineering-Zentren' : 'Physical Presence & Engineering Hubs'}
-            </div>
             <h3 className="text-2xl sm:text-3xl font-bold text-slate-900">
               {lang === 'de' ? 'Globale Niederlassungen' : 'Global Facilities'}
             </h3>
@@ -215,6 +244,78 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
           </div>
 
         </div>
+
+        {/* Company Story */}
+        <section className="about-anim-fade grid items-stretch gap-4 sm:gap-6 lg:grid-cols-[0.7fr_1.3fr]">
+          <div className="flex flex-col justify-between rounded-2xl bg-sky-900 p-6 text-white sm:p-8">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 text-sky-100">
+              <CalendarDays className="h-5 w-5" aria-hidden="true" />
+            </div>
+            <div className="mt-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-200">
+                {lang === 'de' ? 'Gegründet' : 'Established'}
+              </p>
+              <p className="mt-2 text-5xl font-bold tracking-tight sm:text-6xl">2016</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-center rounded-2xl bg-white p-6 ring-1 ring-slate-200/70 sm:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-700">
+              {lang === 'de' ? 'Unsere Geschichte' : 'Our Story'}
+            </p>
+            <h3 className="mt-3 text-xl font-semibold tracking-tight text-slate-950 sm:text-2xl">
+              {lang === 'de' ? 'Software mit klarem Fokus entwickeln' : 'Building with purpose'}
+            </h3>
+            <p className="mt-3 text-sm leading-6 text-slate-600 sm:text-base">
+              {lang === 'de'
+                ? 'WebDev Software Solutions wurde 2016 gegründet. Seitdem entwickeln wir Web-, Mobile- und Cloud-Lösungen und begleiten Projekte von der ersten Abstimmung bis zum Start und zur Übergabe.'
+                : 'WebDev Software Solutions was founded in 2016. Since then, we have built web, mobile, and cloud solutions, supporting projects from the first planning conversation through launch and handover.'}
+            </p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {[
+                lang === 'de' ? 'Webentwicklung' : 'Web engineering',
+                lang === 'de' ? 'Mobile Apps' : 'Mobile apps',
+                lang === 'de' ? 'Cloud-Systeme' : 'Cloud systems',
+              ].map((specialty) => (
+                <span key={specialty} className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700">
+                  {specialty}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Working Together */}
+        <section className="about-anim-fade space-y-7">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-700">
+              {lang === 'de' ? 'Zusammenarbeit' : 'Working Together'}
+            </p>
+            <h3 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+              {lang === 'de' ? 'Fortschritt bleibt nachvollziehbar' : 'Progress stays visible'}
+            </h3>
+            <p className="mt-3 text-sm leading-6 text-slate-600 sm:text-base">
+              {lang === 'de'
+                ? 'Klare Absprachen und regelmäßige Reviews halten alle Beteiligten auf demselben Stand.'
+                : 'Clear agreements and regular reviews keep everyone aligned throughout delivery.'}
+            </p>
+          </div>
+
+          <ol className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {collaborationSteps.map(({ icon: Icon, title, description }, index) => (
+              <li key={title} className="rounded-2xl bg-white p-5 shadow-xs ring-1 ring-slate-200/70 sm:p-6">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-sky-700">
+                    <Icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <span className="font-mono text-xs font-semibold tracking-wider text-slate-400">0{index + 1}</span>
+                </div>
+                <h4 className="mt-5 text-base font-semibold text-slate-950">{title}</h4>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{description}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
 
         {/* Values Section */}
         <div className="about-anim-fade grid grid-cols-2 sm:grid-cols-4 gap-4">

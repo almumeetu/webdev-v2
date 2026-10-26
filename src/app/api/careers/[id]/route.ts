@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { initialJobPostings } from '@/data/initialData';
+import { requireAdmin } from '@/lib/auth';
 
 // GET single job posting by ID
 export async function GET(
@@ -10,24 +10,21 @@ export async function GET(
   try {
     const { id } = await params;
 
-    if (process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('your_')) {
-      const dbJob = await prisma.jobPosting.findUnique({
-        where: { id },
-        include: {
-          applications: true
-        }
-      });
-      if (dbJob) {
-        return NextResponse.json({ success: true, source: 'postgresql', data: dbJob });
-      }
+    if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('your_')) {
+      return NextResponse.json({ success: false, message: 'Careers service is unavailable.' }, { status: 503 });
     }
 
-    const fallbackJob = initialJobPostings.find((j) => j.id === id);
-    if (fallbackJob) {
-      return NextResponse.json({ success: true, source: 'fallback', data: fallbackJob });
-    }
-
-    return NextResponse.json({ success: false, message: 'Job not found' }, { status: 404 });
+    const dbJob = await prisma.jobPosting.findFirst({
+      where: { id, isActive: true },
+      select: {
+        id: true, title: true, department: true, type: true, experienceLevel: true,
+        workplace: true, location: true, salaryRange: true, description: true,
+        responsibilities: true, requirements: true, niceToHave: true, benefits: true,
+        techStack: true, isActive: true, featured: true, postedDate: true, deadline: true,
+      },
+    });
+    if (!dbJob) return NextResponse.json({ success: false, message: 'Job not found.' }, { status: 404 });
+    return NextResponse.json({ success: true, source: 'postgresql', data: dbJob });
   } catch (error) {
     console.error('Error fetching job:', error);
     return NextResponse.json({ success: false, message: 'Failed to fetch job' }, { status: 500 });
@@ -39,19 +36,19 @@ export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const authResponse = await requireAdmin(request);
+  if (authResponse) return authResponse;
   try {
     const { id } = await params;
     const body = await request.json();
 
-    if (process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('your_')) {
-      const updated = await prisma.jobPosting.update({
-        where: { id },
-        data: body
-      });
-      return NextResponse.json({ success: true, message: 'Job updated in PostgreSQL', data: updated });
+    if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('your_')) {
+      return NextResponse.json({ success: false, message: 'Careers service is unavailable.' }, { status: 503 });
     }
-
-    return NextResponse.json({ success: true, message: 'Job updated (managed via AppContext)', data: { id, ...body } });
+    const allowedFields = ['title', 'department', 'type', 'experienceLevel', 'workplace', 'location', 'salaryRange', 'description', 'responsibilities', 'requirements', 'niceToHave', 'benefits', 'techStack', 'isActive', 'featured', 'postedDate', 'deadline'] as const;
+    const data = Object.fromEntries(allowedFields.filter((key) => key in body).map((key) => [key, body[key]]));
+    const updated = await prisma.jobPosting.update({ where: { id }, data });
+    return NextResponse.json({ success: true, message: 'Job updated.', data: updated });
   } catch (error) {
     console.error('Error updating job:', error);
     return NextResponse.json({ success: false, message: 'Failed to update job' }, { status: 500 });
@@ -63,17 +60,17 @@ export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const authResponse = await requireAdmin(request);
+  if (authResponse) return authResponse;
   try {
     const { id } = await params;
 
-    if (process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('your_')) {
-      await prisma.jobPosting.delete({
-        where: { id }
-      });
-      return NextResponse.json({ success: true, message: 'Job deleted from PostgreSQL' });
+    if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('your_')) {
+      return NextResponse.json({ success: false, message: 'Careers service is unavailable.' }, { status: 503 });
     }
-
-    return NextResponse.json({ success: true, message: 'Job deleted (managed via AppContext)' });
+    // Preserve linked applications and candidate records when removing a job from public listings.
+    const archived = await prisma.jobPosting.update({ where: { id }, data: { isActive: false } });
+    return NextResponse.json({ success: true, message: 'Job archived.', data: archived });
   } catch (error) {
     console.error('Error deleting job:', error);
     return NextResponse.json({ success: false, message: 'Failed to delete job' }, { status: 500 });

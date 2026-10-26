@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WebDev Software Solutions
 
-## Getting Started
+Production website built with Next.js, React, Prisma, and PostgreSQL.
 
-First, run the development server:
+## Local development
+
+Install dependencies and start the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install --frozen-lockfile
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Set `DATABASE_URL` and a `SESSION_SECRET` of at least 32 random bytes in the local environment. The application reads and writes CMS records through PostgreSQL; candidate applications and inquiries are not stored in browser storage.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Database and admin setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This repository currently has no committed Prisma migration history. For an existing database, verify its schema before creating a baseline migration. Do not run `prisma db push` against a populated production database. Once a migration is reviewed and the existing database has been baselined, deploy schema changes with:
 
-## Learn More
+```bash
+pnpm exec prisma migrate deploy
+```
 
-To learn more about Next.js, take a look at the following resources:
+Provision the administrator with `ADMIN_EMAIL` and a unique `ADMIN_PASSWORD` between 12 and 128 characters, then run `pnpm exec prisma db seed`. The seeder does not create a sample client or use a default password.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Production deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The `deploy.sh` script deploys `main` by default (`DEPLOY_BRANCH` can override it), installs the frozen lockfile, generates Prisma Client, builds, and reloads PM2. It does not change the database when a release contains no Prisma schema change or migration. It stops if the schema changes without a migration. Configure `DATABASE_URL` and `SESSION_SECRET` in the server environment first.
 
-## Deploy on Vercel
+`nginx.webdevss.tech.conf` expects a valid Let’s Encrypt certificate for `webdevss.tech` and `www.webdevss.tech` at `/etc/letsencrypt/live/webdevss.tech/`. Obtain the certificate before enabling the HTTPS server block.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Run the PostgreSQL setup script only on the target VPS. It requires a unique `DB_PASSWORD` environment variable and does not contain a default database password.

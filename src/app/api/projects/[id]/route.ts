@@ -1,8 +1,11 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { requireAdmin } from '@/lib/auth';
 
 // PUT (update) a project
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const authResponse = await requireAdmin(request);
+  if (authResponse) return authResponse;
   try {
     const { id } = await params;
     const body = await request.json();
@@ -31,7 +34,9 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 }
 
 // DELETE a project
-export async function DELETE(_: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const authResponse = await requireAdmin(request);
+  if (authResponse) return authResponse;
   try {
     const { id } = await params;
     await prisma.project.delete({ where: { id } });

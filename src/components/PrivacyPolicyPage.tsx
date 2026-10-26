@@ -14,7 +14,7 @@ const GERMAN_PRIVACY_POLICY = `# Datenschutzerklärung (DSGVO)
 ## 1. Verantwortlicher
 WebDev Software Solutions
 Küppersteg, 51373 Leverkusen, Deutschland
-E-Mail: info@webdevsoftwaresolutions.com
+E-Mail: webdevsoftwaresolutions26@gmail.com
 Telefon: +49 172 9766016
 
 ## 2. Erhebung und Speicherung personenbezogener Daten
@@ -40,7 +40,7 @@ Gemäß DSGVO haben Sie folgende Rechte:
 - Recht auf Datenübertragbarkeit (Art. 20 DSGVO)
 - Recht auf Widerspruch gegen die Verarbeitung (Art. 21 DSGVO)
 
-Um Ihre Rechte auszuüben, genügt eine formlose E-Mail an **info@webdevsoftwaresolutions.com**.
+Um Ihre Rechte auszuüben, genügt eine formlose E-Mail an **webdevsoftwaresolutions26@gmail.com**.
 
 ## 6. Technische Datensicherheit & Verschlüsselung
 Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte eine durchgehende 256-Bit-SSL/TLS-Verschlüsselung.
@@ -116,8 +116,8 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = ({ content, o
         <div className="mt-8 text-center">
           <p className="text-xs text-slate-500">
             {lang === 'de' ? 'Bei datenschutzrechtlichen Fragen kontaktieren Sie uns unter ' : 'For privacy-related questions, contact us at '}
-            <a href="mailto:info@webdevsoftwaresolutions.com" className="text-cyan-800 hover:text-cyan-900 font-semibold">
-              info@webdevsoftwaresolutions.com
+            <a href="mailto:webdevsoftwaresolutions26@gmail.com" className="text-cyan-800 hover:text-cyan-900 font-semibold">
+              webdevsoftwaresolutions26@gmail.com
             </a>
           </p>
         </div>

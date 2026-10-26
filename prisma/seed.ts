@@ -4,7 +4,6 @@ import {
   initialProjects,
   initialTeamMembers,
   initialBlogPosts,
-  initialInquiries,
   initialServices,
   initialSiteSettings,
   initialTestimonialsData,
@@ -16,15 +15,21 @@ async function main() {
   console.log('🌱 Starting Prisma Database Seeding for WebDev Software Solutions...');
 
   // 1. Seed Master Admin User
-  const adminPasswordHash = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'admin123', 10);
+  const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  if (!adminEmail || !adminPassword || adminPassword.length < 12 || adminPassword.length > 128) {
+    throw new Error('Set ADMIN_EMAIL and an ADMIN_PASSWORD between 12 and 128 characters before seeding.');
+  }
+  const adminPasswordHash = await bcrypt.hash(adminPassword, 12);
   const admin = await prisma.user.upsert({
-    where: { email: (process.env.ADMIN_EMAIL || 'admin@webdevsoftware.com').toLowerCase() },
+    where: { email: adminEmail },
     update: {
       name: 'Tanvir Hossain',
+      passwordHash: adminPasswordHash,
     },
     create: {
       name: 'Tanvir Hossain',
-      email: (process.env.ADMIN_EMAIL || 'admin@webdevsoftware.com').toLowerCase(),
+      email: adminEmail,
       passwordHash: adminPasswordHash,
       role: 'admin',
       country: 'Germany',
@@ -34,24 +39,6 @@ async function main() {
     },
   });
   console.log(`✅ Master Admin seeded: ${admin.email}`);
-
-  // 2. Seed Client User
-  const clientPasswordHash = await bcrypt.hash('client123', 10);
-  const client = await prisma.user.upsert({
-    where: { email: 'client@enterprise.com' },
-    update: {},
-    create: {
-      name: 'Lukas Schneider (Enterprise Partner)',
-      email: 'client@enterprise.com',
-      passwordHash: clientPasswordHash,
-      role: 'client',
-      country: 'Germany',
-      company: 'Bavarian Tech Logistics GmbH',
-      phone: '+49 171 000000',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
-    },
-  });
-  console.log(`✅ Sample Client seeded: ${client.email}`);
 
   // 3. Seed Projects
   for (const p of initialProjects) {
@@ -80,8 +67,11 @@ async function main() {
   // 4. Seed Team Members
   for (const m of initialTeamMembers) {
     await prisma.teamMember.upsert({
-      where: { email: m.email },
-      update: {},
+      where: { id: m.id },
+      update: {
+        email: m.email,
+        ...(m.id === 'team-2' ? { linkedin: m.linkedin, education: m.education || [] } : {}),
+      },
       create: {
         id: m.id,
         name: m.name,
@@ -175,7 +165,10 @@ async function main() {
   // 8. Seed Site Settings
   await prisma.siteSetting.upsert({
     where: { id: 'singleton' },
-    update: {},
+    update: {
+      email: initialSiteSettings.email,
+      socialLinks: initialSiteSettings.socialLinks as any,
+    },
     create: {
       id: 'singleton',
       companyName: initialSiteSettings.companyName,

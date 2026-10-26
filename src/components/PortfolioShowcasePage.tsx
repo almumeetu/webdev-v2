@@ -3,34 +3,25 @@
 import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
-  Search, 
-  CheckCircle2, 
   ArrowRight, 
   ExternalLink, 
-  Eye, 
   Clock, 
-  Building2, 
   Sparkles, 
+  LayoutGrid,
   Code2, 
   Laptop, 
   Server, 
   Store, 
   ShoppingBag, 
   TrendingUp, 
-  ShieldCheck, 
-  RotateCcw, 
   DollarSign, 
-  HelpCircle,
   Tag,
-  ChevronRight,
-  SlidersHorizontal,
-  Globe
+  ChevronRight
 } from 'lucide-react';
 import { Project } from '../types';
 import { ProjectDetailModal } from './ProjectDetailModal';
 import { Breadcrumb } from './Breadcrumb';
 import { useLanguage } from '../context/LanguageContext';
-import { useAppContext } from '../context/AppContext';
 
 interface PortfolioShowcasePageProps {
   projects: Project[];
@@ -50,7 +41,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
   initialOrderId,
 }) => {
   const router = useRouter();
-  const { lang, t, localizeProject } = useLanguage();
+  const { lang, localizeProject } = useLanguage();
 
   // Localize all projects dynamically based on current language
   const localizedProjects = useMemo(() => {
@@ -70,9 +61,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
   const [selectedProjectForPreview, setSelectedProjectForPreview] = useState<Project | null>(null);
 
-  const { projectCategories } = useAppContext();
-
-  // Categories list with counts
+  // Keep "All" first and list every populated category alphabetically.
   const categories = useMemo(() => {
     const knownIcons: Record<string, any> = {
       'Web Application': Laptop,
@@ -83,7 +72,6 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
     };
 
     const baseList = [
-      { id: 'All', label: lang === 'de' ? 'Alle' : 'All', icon: Sparkles },
       { id: 'Web Application', label: lang === 'de' ? 'Web-Anwendungen' : 'Web Application', icon: Laptop },
       { id: 'Full Stack & MERN', label: lang === 'de' ? 'Full-Stack & MERN' : 'Full Stack & MERN', icon: Code2 },
       { id: 'Backend & Cloud', label: lang === 'de' ? 'Backend & Cloud' : 'Backend & Cloud', icon: Server },
@@ -91,35 +79,32 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
       { id: 'WordPress & Shopify', label: lang === 'de' ? 'WordPress & Shopify' : 'WordPress & Shopify', icon: Store },
     ];
 
-    const addedIds = new Set(baseList.map((c) => c.id));
-    const extraCategories: { id: string; label: string; icon: any }[] = [];
-
-    const allCatNames = new Set<string>();
-    if (projectCategories) projectCategories.forEach((c) => allCatNames.add(c));
-    projects.forEach((p) => { if (p.category) allCatNames.add(p.category); });
-
-    allCatNames.forEach((catName) => {
-      if (!addedIds.has(catName)) {
-        extraCategories.push({
-          id: catName,
-          label: catName,
-          icon: knownIcons[catName] || Tag,
-        });
-        addedIds.add(catName);
-      }
+    const categoryCounts = new Map<string, number>();
+    localizedProjects.forEach(({ category }) => {
+      if (category) categoryCounts.set(category, (categoryCounts.get(category) || 0) + 1);
     });
 
-    return [...baseList, ...extraCategories];
-  }, [lang, projectCategories, projects]);
+    const availableCategories = new Set(categoryCounts.keys());
+    const knownCategoryIds = new Set(baseList.map(({ id }) => id));
+    const extraCategories = Array.from(availableCategories)
+      .filter((id) => !knownCategoryIds.has(id))
+      .map((id) => ({ id, label: id, icon: knownIcons[id] || Tag }));
+    const sortedCategories = [
+      ...baseList.filter(({ id }) => availableCategories.has(id)),
+      ...extraCategories,
+    ]
+      .sort((a, b) => a.label.localeCompare(b.label, lang === 'de' ? 'de' : 'en', { sensitivity: 'base' }))
+      .map((category) => ({ ...category, count: categoryCounts.get(category.id) || 0 }));
 
-  const countryOptions = useMemo(() => [
-    { value: 'All', label: lang === 'de' ? '🌐 Alle Regionen' : '🌐 All Regions' },
-    { value: 'Germany', label: `🇩🇪 ${lang === 'de' ? 'Deutschland' : 'Germany'}` },
-    { value: 'USA', label: '🇺🇸 USA' },
-    { value: 'UK', label: `🇬🇧 ${lang === 'de' ? 'Großbritannien' : 'UK'}` },
-    { value: 'Europe', label: `🇪🇺 ${lang === 'de' ? 'Europa' : 'Europe'}` },
-    { value: 'Bangladesh', label: `🇧🇩 ${lang === 'de' ? 'Bangladesch' : 'Bangladesh'}` },
-  ], [lang]);
+    return [
+      { id: 'All', label: lang === 'de' ? 'Alle' : 'All', icon: LayoutGrid, count: localizedProjects.length },
+      ...sortedCategories,
+    ];
+  }, [lang, localizedProjects]);
+
+  const activeCategoryId = categories.some(({ id }) => id === selectedCategory)
+    ? selectedCategory
+    : 'All';
 
   const getCountryFlag = (country: string) => {
     switch (country) {
@@ -135,7 +120,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
   // ─── Filtered Projects ──────────────────────────────────────────────────────
   const filteredProjects = useMemo(() => {
     return localizedProjects.filter((project) => {
-      if (selectedCategory !== 'All' && project.category !== selectedCategory) {
+      if (activeCategoryId !== 'All' && project.category !== activeCategoryId) {
         return false;
       }
       if (selectedCountry !== 'All' && project.clientCountry !== selectedCountry) {
@@ -158,7 +143,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
       }
       return true;
     });
-  }, [localizedProjects, selectedCategory, selectedCountry, selectedStatus, searchQuery]);
+  }, [localizedProjects, activeCategoryId, selectedCountry, selectedStatus, searchQuery]);
 
   // Active Project for Detail View:
   const activeProject = useMemo(() => {
@@ -168,13 +153,6 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
     }
     return filteredProjects[0] || null;
   }, [filteredProjects, activeProjectId]);
-
-  const handleResetFilters = () => {
-    setSearchQuery('');
-    setSelectedCategory('All');
-    setSelectedCountry('All');
-    setSelectedStatus('All');
-  };
 
   return (
     <div className="min-h-screen bg-white text-slate-900">
@@ -195,7 +173,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
           <button
             type="button"
             onClick={() => router.push('/contact')}
-            className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl border border-[#9cd5e2] transition-all flex items-center gap-2 cursor-pointer shadow-xs"
+            className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-xs"
           >
             <span>{lang === 'de' ? 'Projekt unverbindlich anfragen' : 'Request Consultation'}</span>
             <ArrowRight className="w-4 h-4 text-slate-950" />
@@ -203,174 +181,135 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
         </div>
       </Breadcrumb>
 
-      {/* ─── Clean Minimalist Horizontal Category Tabs & Controls Bar ─────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 lg:pt-16 pb-8">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200/80 pb-5">
-          
-          {/* Horizontal Category Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 max-w-full touch-pan-x">
-            {categories.map((cat) => {
-              const Icon = cat.icon;
-              const isSelected = selectedCategory === cat.id;
-              const count = cat.id === 'All' 
-                ? localizedProjects.length 
-                : localizedProjects.filter((p) => p.category === cat.id).length;
-
-              return (
-                <button
-                  type="button"
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 shrink-0 ${
-                    isSelected
-                      ? 'bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] shadow-2xs font-bold'
-                      : 'bg-slate-100 hover:bg-slate-200/70 text-slate-600 border border-transparent'
-                  }`}
-                >
-                  <Icon className={`w-3.5 h-3.5 ${isSelected ? 'text-slate-950' : 'text-slate-500'}`} />
-                  <span>{cat.label}</span>
-                  <span className={`text-[11px] font-mono px-1.5 py-0.2 rounded-full ${
-                    isSelected ? 'bg-slate-950 text-white' : 'bg-slate-200 text-slate-600'
-                  }`}>
-                    {count}
-                  </span>
-                </button>
-              );
-            })}
+      {/* ─── Category Tabs ───────────────────────────────────────────────────── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10 pb-7">
+        <div className="flex flex-col gap-1.5 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-cyan-800">
+              Portfolio
+            </p>
+            <h2 className="text-lg sm:text-xl font-bold text-slate-950">
+              {lang === 'de' ? 'Nach Bereich stöbern' : 'Browse by category'}
+            </h2>
           </div>
+          <p className="text-xs text-slate-500">
+            {lang === 'de'
+              ? `${localizedProjects.length} Projekte insgesamt`
+              : `${localizedProjects.length} projects in total`}
+          </p>
+        </div>
 
-          {/* Quick Search & Region Controls */}
-          <div className="flex items-center gap-2.5 shrink-0 flex-wrap sm:flex-nowrap">
-            {/* Search input */}
-            <div className="relative w-full sm:w-64">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={lang === 'de' ? 'Projekte suchen...' : 'Search projects...'}
-                className="w-full pl-9 pr-7 py-2 rounded-xl border border-slate-200/90 bg-white text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] transition-all"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-700"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
+        <div
+          role="tablist"
+          aria-label={lang === 'de' ? 'Portfolio-Kategorien' : 'Portfolio categories'}
+          className="mt-4 flex items-center gap-2 overflow-x-auto rounded-2xl bg-slate-50/60 p-2 no-scrollbar touch-pan-x lg:flex-wrap lg:overflow-x-visible"
+        >
+          {categories.map((category, index) => {
+            const Icon = category.icon;
+            const isSelected = activeCategoryId === category.id;
 
-            {/* Country Selector */}
-            <select
-              value={selectedCountry}
-              onChange={(e) => setSelectedCountry(e.target.value)}
-              className="text-xs font-semibold bg-white border border-slate-200/90 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] cursor-pointer"
-            >
-              {countryOptions.map((c) => (
-                <option key={c.value} value={c.value}>
-                  {c.label}
-                </option>
-              ))}
-            </select>
-
-            {/* Status Selector */}
-            <select
-              value={selectedStatus}
-              onChange={(e) => setSelectedStatus(e.target.value)}
-              className="text-xs font-semibold bg-white border border-slate-200/90 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] cursor-pointer"
-            >
-              <option value="All">{lang === 'de' ? 'Alle Status' : 'All Statuses'}</option>
-              <option value="completed">{lang === 'de' ? 'Live im Betrieb' : 'Live Production'}</option>
-              <option value="ongoing">{lang === 'de' ? 'In aktivem Sprint' : 'In Active Sprint'}</option>
-            </select>
-
-            {/* Reset button if filter active */}
-            {(selectedCategory !== 'All' || selectedCountry !== 'All' || selectedStatus !== 'All' || searchQuery !== '') && (
+            return (
               <button
                 type="button"
-                onClick={handleResetFilters}
-                className="text-xs text-rose-600 hover:text-rose-700 font-bold p-2 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer"
-                title="Reset filters"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </div>
+                role="tab"
+                id={`portfolio-category-tab-${index}`}
+                aria-controls="portfolio-projects-panel"
+                aria-selected={isSelected}
+                tabIndex={isSelected ? 0 : -1}
+                key={category.id}
+                onClick={() => setSelectedCategory(category.id)}
+                onKeyDown={(event) => {
+                  const lastIndex = categories.length - 1;
+                  const currentIndex = categories.findIndex(({ id }) => id === category.id);
+                  let nextIndex = currentIndex;
 
+                  if (event.key === 'ArrowRight') nextIndex = currentIndex === lastIndex ? 0 : currentIndex + 1;
+                  else if (event.key === 'ArrowLeft') nextIndex = currentIndex === 0 ? lastIndex : currentIndex - 1;
+                  else if (event.key === 'Home') nextIndex = 0;
+                  else if (event.key === 'End') nextIndex = lastIndex;
+                  else return;
+
+                  event.preventDefault();
+                  const nextCategory = categories[nextIndex];
+                  setSelectedCategory(nextCategory.id);
+                  document.getElementById(`portfolio-category-tab-${nextIndex}`)?.focus();
+                }}
+                className={`group inline-flex min-h-11 shrink-0 items-center gap-2.5 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-700 focus-visible:ring-offset-2 ${
+                  isSelected
+                    ? 'bg-slate-950 text-white shadow-sm'
+                    : 'bg-white text-slate-600 shadow-2xs hover:-translate-y-0.5 hover:bg-[#BBE7F1]/20 hover:text-slate-950'
+                }`}
+              >
+                <Icon className={`h-4 w-4 transition-transform duration-200 group-hover:scale-110 ${
+                  isSelected ? 'text-[#BBE7F1]' : 'text-slate-500 group-hover:text-cyan-800'
+                }`} />
+                <span>{category.label}</span>
+                <span className={`min-w-6 rounded-md px-1.5 py-0.5 text-center text-[11px] font-mono ${
+                  isSelected
+                    ? 'bg-white/10 text-[#BBE7F1]'
+                    : 'bg-slate-100 text-slate-500 group-hover:bg-white'
+                }`}>
+                  {category.count}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </section>
 
       {/* ─── Master-Detail Layout: Projects on Left Side, Selected Preview on Right Side ─ */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+      <main
+        id="portfolio-projects-panel"
+        role="tabpanel"
+        aria-labelledby={`portfolio-category-tab-${Math.max(0, categories.findIndex(({ id }) => id === activeCategoryId))}`}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24"
+      >
         
         {filteredProjects.length === 0 ? (
-          <div className="py-20 text-center rounded-3xl bg-slate-50/70 border border-slate-200/80 space-y-4">
-            <HelpCircle className="w-12 h-12 text-slate-400 mx-auto" />
+          <div className="py-20 px-6 text-center rounded-3xl bg-slate-50/70 space-y-3">
+            <Sparkles className="w-10 h-10 text-cyan-700 mx-auto" />
             <h3 className="text-xl font-bold text-slate-900 font-['Archivo']">
               {lang === 'de' ? 'Keine passenden Projekte gefunden' : 'No matching projects found'}
             </h3>
             <p className="text-sm text-slate-600 max-w-md mx-auto">
               {lang === 'de'
-                ? 'Wir konnten keine Projekte finden, die Ihren Filtern entsprechen. Bitte setzen Sie Ihre Filter zurück.'
-                : "We couldn't find any projects matching your current filters. Try changing your search query or reset all filters."}
+                ? 'Wählen Sie einen anderen Bereich, um weitere Projekte zu entdecken.'
+                : 'Choose another category to explore more of our work.'}
             </p>
-            <button
-              type="button"
-              onClick={handleResetFilters}
-              className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-xs px-6 py-3 rounded-xl border border-[#9cd5e2] cursor-pointer"
-            >
-              {lang === 'de' ? 'Alle Filter zurücksetzen' : 'Reset All Filters'}
-            </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
             {/* ─── LEFT SIDE: Project Master List (lg:col-span-5) ───────────── */}
-            <div className="lg:col-span-5 space-y-3">
-              <div className="flex items-center justify-between text-xs text-slate-500 pb-1">
-                <span className="font-semibold text-slate-700">
-                  {lang === 'de'
-                    ? `${filteredProjects.length} Fallstudien verfügbar`
-                    : `${filteredProjects.length} Case Studies Available`}
-                </span>
-                <span className="text-[11px] font-mono text-slate-400">
-                  {lang === 'de' ? 'Klicken für Details' : 'Click to preview'}
-                </span>
-              </div>
-
+            <div className="lg:col-span-5">
               {/* Scrollable list of sleek project cards */}
-              <div className="space-y-3">
+              <div>
                 {filteredProjects.map((project) => {
                   const isActive = activeProject?.id === project.id;
                   return (
                     <div
                       key={project.id}
                       onClick={() => setActiveProjectId(project.id)}
-                      className={`p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 cursor-pointer flex gap-3.5 items-start group ${
+                      className={`p-3.5 sm:p-4 rounded-none border-b border-slate-100/90 last:border-b-0 transition-all duration-200 cursor-pointer flex gap-3.5 items-start group ${
                         isActive
-                          ? 'bg-[#BBE7F1]/20 border-[#9cd5e2] shadow-xs ring-1 ring-[#9cd5e2]'
-                          : 'bg-white hover:bg-slate-50/80 border-slate-200/80 hover:border-slate-300'
+                          ? 'bg-[#BBE7F1]/15 border-b-[#d8f0f4]'
+                          : 'bg-white hover:bg-slate-50/60'
                       }`}
                     >
                       {/* Compact thumbnail */}
-                      <div className="relative w-24 sm:w-28 aspect-[4/3] rounded-xl overflow-hidden bg-slate-100 border border-slate-200/80 shrink-0">
+                      <div className="relative w-24 sm:w-28 aspect-[4/3] rounded-xl overflow-hidden bg-slate-100 shrink-0">
                         <img
                           src={project.image}
                           alt={project.title}
                           loading="lazy"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
-                        <span className={`absolute bottom-1 right-1 w-2.5 h-2.5 rounded-full border border-white ${
-                          project.status === 'completed' ? 'bg-emerald-500' : 'bg-amber-500'
-                        }`} />
                       </div>
 
                       {/* Info on right side */}
-                      <div className="flex-1 min-w-0 space-y-1">
+                      <div className="flex-1 min-w-0 space-y-1.5">
                         <div className="flex items-center justify-between gap-1 text-[11px]">
-                          <span className="font-mono font-bold text-cyan-800 uppercase tracking-wide truncate">
+                          <span className="font-mono font-medium text-cyan-800 uppercase tracking-wide truncate">
                             {project.category}
                           </span>
                           <span className="text-slate-400 shrink-0">
@@ -378,22 +317,18 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                           </span>
                         </div>
 
-                        <h4 className={`text-sm font-bold font-['Archivo'] leading-snug line-clamp-1 transition-colors ${
-                          isActive ? 'text-slate-950 font-black' : 'text-slate-900 group-hover:text-cyan-800'
+                        <h4 className={`text-sm font-semibold font-['Kufam'] leading-snug line-clamp-1 transition-colors ${
+                          isActive ? 'text-slate-950 font-bold' : 'text-slate-900 group-hover:text-cyan-800'
                         }`}>
                           {project.title}
                         </h4>
 
-                        <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed font-normal">
-                          {project.description}
-                        </p>
-
-                        <div className="flex items-center justify-between pt-1">
+                        <div className="flex items-center justify-between pt-0.5">
                           <div className="flex items-center gap-1">
                             {project.techStack?.slice(0, 2).map((tech, idx) => (
                               <span
                                 key={idx}
-                                className="text-[10px] font-medium bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded border border-slate-200/60"
+                                className="text-[10px] font-medium bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded"
                               >
                                 {tech}
                               </span>
@@ -405,7 +340,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                             )}
                           </div>
 
-                          <span className={`text-[11px] font-bold flex items-center gap-0.5 ${
+                          <span className={`text-[11px] font-medium flex items-center gap-0.5 ${
                             isActive ? 'text-cyan-800' : 'text-slate-400 group-hover:text-slate-700'
                           }`}>
                             <span>{lang === 'de' ? 'Details' : 'Preview'}</span>
@@ -422,10 +357,10 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
             {/* ─── RIGHT SIDE: Selected Project Interactive Detail Preview (lg:col-span-7) ─── */}
             <div className="lg:col-span-7 lg:sticky lg:top-24">
               {activeProject ? (
-                <article className="bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-8 space-y-6">
+                <article className="bg-white rounded-3xl shadow-sm p-6 sm:p-8 space-y-6">
                   
                   {/* Hero Cover Banner */}
-                  <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden bg-slate-100 border border-slate-200/80 shadow-2xs">
+                  <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden bg-slate-100 shadow-2xs">
                     <img
                       src={activeProject.image}
                       alt={activeProject.title}
@@ -435,22 +370,9 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
 
                     {/* Floating Badges */}
                     <div className="absolute top-3.5 left-3.5 flex items-center gap-2">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md text-white text-xs font-semibold border border-white/20 shadow-xs">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md text-white text-xs font-semibold border border-white/10 shadow-xs">
                         <span>{getCountryFlag(activeProject.clientCountry)}</span>
                         <span>{activeProject.clientName}</span>
-                      </span>
-                    </div>
-
-                    <div className="absolute top-3.5 right-3.5">
-                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md border shadow-xs ${
-                        activeProject.status === 'completed'
-                          ? 'bg-emerald-950/80 text-emerald-200 border-emerald-500/40'
-                          : 'bg-amber-950/80 text-amber-200 border-amber-500/40'
-                      }`}>
-                        <span className={`w-2 h-2 rounded-full ${
-                          activeProject.status === 'completed' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'
-                        }`} />
-                        <span>{activeProject.status === 'completed' ? (lang === 'de' ? 'Live im Betrieb' : 'Live Production') : (lang === 'de' ? 'Aktiver Sprint' : 'Active Sprint')}</span>
                       </span>
                     </div>
 
@@ -466,41 +388,12 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
 
                   {/* Impact Metric Bar if available */}
                   {activeProject.metrics && (
-                    <div className="p-3.5 rounded-xl bg-emerald-50/90 border border-emerald-150 text-emerald-950 flex items-center gap-2.5 text-xs sm:text-sm">
+                    <div className="p-3.5 rounded-xl bg-emerald-50/90 text-emerald-950 flex items-center gap-2.5 text-xs sm:text-sm">
                       <TrendingUp className="w-4 h-4 text-emerald-600 shrink-0" />
                       <span className="font-bold">{activeProject.metrics}</span>
                     </div>
                   )}
 
-                  {/* Description */}
-                  <div className="space-y-2">
-                    <h4 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">
-                      {lang === 'de' ? 'Über das Projekt' : 'Project Overview'}
-                    </h4>
-                    <p className="text-sm text-slate-700 leading-relaxed font-normal">
-                      {activeProject.description}
-                    </p>
-                  </div>
-
-                  {/* Key Features */}
-                  {activeProject.features && activeProject.features.length > 0 && (
-                    <div className="space-y-2.5">
-                      <h4 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">
-                        {lang === 'de' ? 'Kernarchitektur & Features' : 'Architecture & Deliverables'}
-                      </h4>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        {activeProject.features.map((feat, idx) => (
-                          <div
-                            key={idx}
-                            className="flex items-start gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200/70 text-xs text-slate-700"
-                          >
-                            <CheckCircle2 className="w-3.5 h-3.5 text-cyan-700 shrink-0 mt-0.5" />
-                            <span>{feat}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
 
                   {/* Tech Stack Chips */}
                   <div className="space-y-2">
@@ -511,7 +404,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                       {activeProject.techStack?.map((tech, idx) => (
                         <span
                           key={idx}
-                          className="text-xs font-semibold bg-slate-100 text-slate-800 px-3 py-1 rounded-lg border border-slate-200/80"
+                          className="text-xs font-semibold bg-slate-100 text-slate-800 px-3 py-1 rounded-lg"
                         >
                           {tech}
                         </span>
@@ -521,7 +414,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
 
                   {/* Investment & Timeline Row */}
                   {(activeProject.priceRange || activeProject.estimatedDelivery) && (
-                    <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-600">
+                    <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 text-xs text-slate-600">
                       {activeProject.priceRange && (
                         <div className="flex items-center gap-1.5">
                           <DollarSign className="w-4 h-4 text-emerald-600" />
@@ -538,12 +431,12 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                   )}
 
                   {/* Actions Bar */}
-                  <div className="pt-2 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                  <div className="pt-2 border-t border-slate-100/70 flex flex-wrap items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
                       <button
                         type="button"
                         onClick={() => router.push(`/portfolio/${activeProject.id}`)}
-                        className="text-xs font-bold text-slate-800 hover:text-slate-950 px-4 py-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors flex items-center gap-1.5 cursor-pointer"
+                        className="text-xs font-bold text-slate-800 hover:text-slate-950 px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors flex items-center gap-1.5 cursor-pointer"
                       >
                         <span>{lang === 'de' ? 'Vollständige Fallstudie' : 'Full Case Study'}</span>
                         <ArrowRight className="w-3.5 h-3.5" />
@@ -554,7 +447,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                           href={activeProject.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs font-bold text-cyan-800 hover:text-cyan-950 px-4 py-3 rounded-xl border border-cyan-200 bg-cyan-50/50 hover:bg-cyan-50 transition-colors flex items-center gap-1.5 cursor-pointer"
+                          className="text-xs font-bold text-cyan-800 hover:text-cyan-950 px-4 py-3 rounded-xl bg-cyan-50/60 hover:bg-cyan-50 transition-colors flex items-center gap-1.5 cursor-pointer"
                           title="Visit live system"
                         >
                           <span>{lang === 'de' ? 'Live Demo' : 'Live Demo'}</span>
@@ -566,7 +459,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
                     <button
                       type="button"
                       onClick={() => router.push(`/contact?project=${encodeURIComponent(activeProject.title)}`)}
-                      className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-xs sm:text-sm px-6 py-3 rounded-xl border border-[#9cd5e2] transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
+                      className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-bold text-xs sm:text-sm px-6 py-3 rounded-xl transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
                     >
                       <span>{lang === 'de' ? 'Ähnliches Projekt anfragen' : 'Request Similar Project'}</span>
                       <ArrowRight className="w-4 h-4 text-slate-950" />
@@ -583,14 +476,10 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
       </main>
 
       {/* ─── Client Trust & Quality Guarantees (Spacious & Clean) ────────────── */}
-      <section className="bg-slate-50/70 border-t border-b border-slate-200/80 py-20 sm:py-24">
+      <section className="bg-slate-50/70 py-20 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <div className="inline-flex items-center gap-1.5 text-cyan-800 text-xs font-mono font-medium uppercase tracking-wider">
-              <ShieldCheck className="w-4 h-4 text-cyan-700" />
-              <span>{lang === 'de' ? 'ENTERPRISE-LIEFERSTANDARDS' : 'Enterprise Delivery Standards'}</span>
-            </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-950">
               {lang === 'de' ? 'Warum weltweite Kunden Websites bei uns beauftragen' : 'Why Global Clients Buy Websites From Us'}
             </h2>
@@ -603,7 +492,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             
-            <div className="p-7 bg-white rounded-3xl border border-slate-200/80 shadow-2xs space-y-3">
+            <div className="p-7 bg-white rounded-3xl shadow-2xs space-y-3">
               <div className="w-12 h-12 rounded-2xl bg-cyan-50 text-cyan-800 flex items-center justify-center text-lg font-medium">
                 🇩🇪
               </div>
@@ -617,7 +506,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
               </p>
             </div>
 
-            <div className="p-7 bg-white rounded-3xl border border-slate-200/80 shadow-2xs space-y-3">
+            <div className="p-7 bg-white rounded-3xl shadow-2xs space-y-3">
               <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-800 flex items-center justify-center text-lg font-medium">
                 ⚡
               </div>
@@ -631,7 +520,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
               </p>
             </div>
 
-            <div className="p-7 bg-white rounded-3xl border border-slate-200/80 shadow-2xs space-y-3">
+            <div className="p-7 bg-white rounded-3xl shadow-2xs space-y-3">
               <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-800 flex items-center justify-center text-lg font-medium">
                 🔒
               </div>
@@ -645,7 +534,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
               </p>
             </div>
 
-            <div className="p-7 bg-white rounded-3xl border border-slate-200/80 shadow-2xs space-y-3">
+            <div className="p-7 bg-white rounded-3xl shadow-2xs space-y-3">
               <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-800 flex items-center justify-center text-lg font-medium">
                 🤝
               </div>
@@ -666,13 +555,13 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
 
       {/* ─── Bottom High-Converting Call to Action Banner ───────────────────── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-24 pb-16 sm:pb-20 lg:pb-24">
-        <div className="bg-gradient-to-br from-[#BBE7F1]/25 via-white to-slate-50 border border-slate-200/90 text-slate-900 rounded-3xl p-8 sm:p-14 md:p-16 text-center relative overflow-hidden space-y-6 shadow-lg">
+        <div className="bg-gradient-to-br from-[#BBE7F1]/25 via-white to-slate-50 text-slate-900 rounded-3xl p-8 sm:p-14 md:p-16 text-center relative overflow-hidden space-y-6 shadow-lg">
           
           {/* Subtle Ambient Light Blobs */}
           <div className="pointer-events-none absolute -top-20 -left-20 w-72 h-72 rounded-full bg-[#BBE7F1]/40 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-20 -right-20 w-72 h-72 rounded-full bg-cyan-200/35 blur-3xl" />
           
-          <div className="relative z-10 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#BBE7F1]/50 border border-[#9cd5e2] text-slate-950 text-xs font-mono font-semibold tracking-wider uppercase shadow-2xs">
+          <div className="relative z-10 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#BBE7F1]/50 text-slate-950 text-xs font-mono font-semibold tracking-wider uppercase shadow-2xs">
             <span className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse" />
             <span>{lang === 'de' ? 'BEREIT FÜR DEN LAUNCH IHRER PLATTFORM?' : 'READY TO LAUNCH YOUR PLATFORM?'}</span>
           </div>
@@ -693,7 +582,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
             <button
               type="button"
               onClick={() => router.push('/contact')}
-              className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-semibold text-sm px-8 py-4 rounded-xl border border-[#9cd5e2] transition-all duration-150 flex items-center gap-2 cursor-pointer shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98]"
+              className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-semibold text-sm px-8 py-4 rounded-xl transition-all duration-150 flex items-center gap-2 cursor-pointer shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98]"
             >
               <span>{lang === 'de' ? 'Projekt jetzt anfragen' : 'Inquire About Your Project'}</span>
               <ArrowRight className="w-4 h-4 text-slate-950" />
@@ -702,7 +591,7 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
             <button
               type="button"
               onClick={() => router.push('/contact')}
-              className="bg-white hover:bg-slate-50 text-slate-800 font-semibold text-sm px-7 py-4 rounded-xl border border-slate-200 transition-all duration-150 cursor-pointer shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98]"
+              className="bg-white hover:bg-slate-50 text-slate-800 font-semibold text-sm px-7 py-4 rounded-xl transition-all duration-150 cursor-pointer shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98]"
             >
               <span>{lang === 'de' ? 'Individuelle Anforderungen einreichen' : 'Submit Custom Requirements'}</span>
             </button>

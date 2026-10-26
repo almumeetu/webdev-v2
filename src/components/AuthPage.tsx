@@ -118,8 +118,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
   const getPasswordStrength = (pass: string) => {
     if (!pass) return { score: 0, label: '', color: 'bg-slate-200 dark:bg-slate-700' };
     let score = 0;
-    if (pass.length >= 6) score += 1;
-    if (pass.length >= 10) score += 1;
+    if (pass.length >= 12) score += 1;
+    if (pass.length >= 16) score += 1;
     if (/[A-Z]/.test(pass) && /[a-z]/.test(pass)) score += 1;
     if (/[0-9]/.test(pass)) score += 1;
     if (/[^A-Za-z0-9]/.test(pass)) score += 1;
@@ -133,70 +133,22 @@ export const AuthPage: React.FC<AuthPageProps> = ({
   const passwordStrength = getPasswordStrength(signUpPassword);
   const passwordsMatch = signUpConfirmPassword.length > 0 && signUpPassword === signUpConfirmPassword;
 
-  // ─── Quick Fill Demo Credentials ─────────────────────────────────────────────
+  // ─── Account entry shortcuts ─────────────────────────────────────────────────
   const handleQuickFill = (type: 'client' | 'admin') => {
-    setAuthMode('signin');
+    setAuthMode(type === 'client' ? 'signup' : 'signin');
     setErrorMessage(null);
     setSuccessMessage(null);
-
-    if (type === 'client') {
-      setSignInEmail('client@enterprise.com');
-      setSignInPassword('client123');
-      setDemoNotice(isDe ? 'Demo-Kundendaten eingefügt' : 'Demo Client credentials filled');
-    } else {
-      setSignInEmail('admin@webdevsoftware.com');
-      setSignInPassword('admin123');
-      setDemoNotice(isDe ? 'Demo-Administratordaten eingefügt' : 'Demo Admin credentials filled');
-    }
-
+    setDemoNotice(type === 'client'
+      ? (isDe ? 'Erstellen Sie ein Kundenkonto mit Ihren eigenen Daten.' : 'Create a client account with your own details.')
+      : (isDe ? 'Melden Sie sich mit Ihrem bereitgestellten Administratorkonto an.' : 'Sign in with your provisioned administrator account.'));
     setTimeout(() => setDemoNotice(null), 4000);
   };
 
-  // ─── Single Sign-On (SSO) Simulation ─────────────────────────────────────────
-  const handleSSO = async (provider: 'Google' | 'GitHub') => {
-    setErrorMessage(null);
-    setSuccessMessage(null);
-    setIsLoading(true);
-    setLoadingMessage(isDe ? `Verbindung zu ${provider} wird hergestellt...` : `Connecting to ${provider}...`);
-
-    try {
-      await new Promise(r => setTimeout(r, 700));
-
-      const ssoUser: UserProfile = {
-        id: `user-sso-${Date.now()}`,
-        name: provider === 'Google' ? 'Alexander Bergmann' : 'David Chen',
-        email: provider === 'Google' ? 'a.bergmann@global-enterprise.de' : 'chen.david@github.com',
-        avatar: provider === 'Google' 
-          ? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'
-          : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
-        role: 'client',
-        country: 'Germany',
-        company: provider === 'Google' ? 'Bergmann Digital GmbH' : 'OpenSource Labs',
-        phone: '+49 172 8899123',
-        savedProjects: ['proj-1', 'proj-2'],
-        inquiries: []
-      };
-
-      if (typeof window !== 'undefined') {
-        try {
-          const localAccounts = JSON.parse(localStorage.getItem('webdev_registered_users') || '[]');
-          const filtered = localAccounts.filter((a: any) => a.email.toLowerCase() !== ssoUser.email.toLowerCase());
-          filtered.push(ssoUser);
-          localStorage.setItem('webdev_registered_users', JSON.stringify(filtered));
-        } catch {
-          // ignore
-        }
-      }
-
-      setSuccessMessage(isDe ? `${provider}-SSO verifiziert. Arbeitsbereich wird gestartet...` : `${provider} SSO verified. Launching workspace...`);
-      setTimeout(() => {
-        onLoginSuccess(ssoUser);
-      }, 500);
-    } catch {
-      setErrorMessage(isDe ? `${provider}-SSO fehlgeschlagen. Bitte versuchen Sie es erneut.` : `Failed to complete ${provider} SSO. Please try again.`);
-    } finally {
-      setIsLoading(false);
-    }
+  // ─── SSO is unavailable until a provider is configured server-side ────────────
+  const handleSSO = (provider: 'Google' | 'GitHub') => {
+    setErrorMessage(isDe
+      ? `${provider}-Anmeldung ist noch nicht eingerichtet. Bitte verwenden Sie E-Mail und Passwort.`
+      : `${provider} sign-in is not configured yet. Please use email and password.`);
   };
 
   // ─── Handle Sign In ───────────────────────────────────────────────────────────
@@ -233,28 +185,6 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         return;
       }
 
-      if (typeof window !== 'undefined') {
-        try {
-          const localAccounts = JSON.parse(localStorage.getItem('webdev_registered_users') || '[]');
-          const matched = localAccounts.find(
-            (acc: any) => 
-              acc.email.toLowerCase() === signInEmail.trim().toLowerCase() && 
-              acc.password === signInPassword
-          );
-
-          if (matched) {
-            const { password: _, ...cleanProfile } = matched;
-            setSuccessMessage(isDe ? 'Anmeldedaten authentifiziert. Initialisierung...' : 'Credentials authenticated. Initializing...');
-            setTimeout(() => {
-              onLoginSuccess(cleanProfile);
-            }, 500);
-            return;
-          }
-        } catch {
-          // ignore
-        }
-      }
-
       setErrorMessage(data.message || (isDe ? 'Ungültige E-Mail-Adresse oder Passwort.' : 'Invalid email or password.'));
     } catch {
       setErrorMessage(isDe ? 'Server nicht erreichbar. Bitte überprüfen Sie Ihre Internetverbindung.' : 'Unable to reach server. Please check your connection.');
@@ -279,8 +209,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
       return;
     }
 
-    if (signUpPassword.length < 6) {
-      setErrorMessage(isDe ? 'Das Passwort muss mindestens 6 Zeichen lang sein.' : 'Password must be at least 6 characters.');
+    if (signUpPassword.length < 12 || signUpPassword.length > 128) {
+      setErrorMessage(isDe ? 'Das Passwort muss zwischen 12 und 128 Zeichen lang sein.' : 'Password must be between 12 and 128 characters.');
       return;
     }
 
@@ -313,39 +243,14 @@ export const AuthPage: React.FC<AuthPageProps> = ({
       });
 
       const data = await res.json();
-      let createdUser: UserProfile;
-
-      if (res.ok && data.success && data.user) {
-        createdUser = data.user;
-      } else {
-        createdUser = {
-          id: `user-${Date.now()}`,
-          name: signUpName.trim(),
-          email: signUpEmail.trim().toLowerCase(),
-          avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
-          role: 'client',
-          country: signUpCountry,
-          company: signUpCompany.trim() || 'Partner Enterprise',
-          phone: signUpPhone.trim() || '+49 171 000000',
-          savedProjects: ['proj-1'],
-          inquiries: []
-        };
-      }
-
-      if (typeof window !== 'undefined') {
-        try {
-          const localAccounts = JSON.parse(localStorage.getItem('webdev_registered_users') || '[]');
-          const filtered = localAccounts.filter((a: any) => a.email.toLowerCase() !== createdUser.email.toLowerCase());
-          filtered.push({ ...createdUser, password: signUpPassword });
-          localStorage.setItem('webdev_registered_users', JSON.stringify(filtered));
-        } catch (e) {
-          console.error('Failed to save locally', e);
-        }
+      if (!res.ok || !data.success || !data.user) {
+        setErrorMessage(data.message || (isDe ? 'Konto konnte nicht erstellt werden.' : 'The account could not be created.'));
+        return;
       }
 
       setSuccessMessage(isDe ? 'Konto erfolgreich erstellt!' : 'Account created successfully!');
       setTimeout(() => {
-        onLoginSuccess(createdUser);
+        onLoginSuccess(data.user);
       }, 600);
     } catch {
       setErrorMessage(isDe ? 'Registrierung fehlgeschlagen. Bitte versuchen Sie es erneut.' : 'Registration failed. Please try again.');
@@ -529,7 +434,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 isDark ? 'text-[#BBE7F1]' : 'text-cyan-900'
               }`}>
                 <Zap className={`w-3.5 h-3.5 shrink-0 ${isDark ? 'text-[#BBE7F1]' : 'text-cyan-600'}`} />
-                <span>{isDe ? 'Schnell-Demo:' : 'Quick Demo:'}</span>
+                <span>{isDe ? 'Kontozugang:' : 'Account Access:'}</span>
               </div>
               <div className="flex items-center gap-2">
                 <button
@@ -541,7 +446,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       : 'bg-white hover:bg-slate-50 text-cyan-900 border border-cyan-200'
                   }`}
                 >
-                  {isDe ? 'Kunde' : 'Client'}
+                  {isDe ? 'Kundenkonto' : 'Client Sign Up'}
                 </button>
                 <button
                   type="button"
@@ -552,7 +457,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       : 'bg-white hover:bg-slate-50 text-cyan-900 border border-cyan-200'
                   }`}
                 >
-                  Admin
+                  {isDe ? 'Admin-Anmeldung' : 'Admin Sign In'}
                 </button>
               </div>
             </div>
@@ -564,7 +469,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   ? 'text-emerald-300 bg-emerald-500/10 border border-emerald-500/20'
                   : 'text-emerald-800 bg-emerald-50 border border-emerald-200'
               }`}>
-                <Check className="w-3.5 h-3.5" />
+                <AlertCircle className="w-3.5 h-3.5" />
                 <span>{demoNotice}</span>
               </div>
             )}
@@ -942,8 +847,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       <input
                         type={showSignUpPassword ? 'text' : 'password'}
                         required
-                        minLength={6}
-                        placeholder={isDe ? 'Mind. 6 Zeichen' : 'Min 6 characters'}
+                        minLength={12}
+                        maxLength={128}
+                        placeholder={isDe ? 'Mind. 12 Zeichen' : 'Min 12 characters'}
                         value={signUpPassword}
                         onChange={(e) => setSignUpPassword(e.target.value)}
                         className={`w-full text-xs sm:text-sm p-3 pr-10 rounded-xl outline-none transition-all placeholder:text-slate-400 font-mono ${
@@ -1331,8 +1237,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               </h3>
               <p className={`text-xs mt-1 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 {isDe 
-                  ? 'Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Wiederherstellungslink.' 
-                  : "Enter your email and we'll send you a recovery link."}
+                  ? 'Passwort-Wiederherstellung ist nicht eingerichtet. Kontaktieren Sie den Support für Hilfe.'
+                  : 'Self-service password recovery is not configured. Contact support for help.'}
               </p>
             </div>
 
@@ -1344,10 +1250,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               }`}>
                 <div className={`flex items-center gap-2 font-bold ${isDark ? 'text-emerald-300' : 'text-emerald-900'}`}>
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>{isDe ? 'Wiederherstellungs-E-Mail gesendet' : 'Recovery Email Sent'}</span>
+                  <span>{isDe ? 'Support erforderlich' : 'Contact support'}</span>
                 </div>
                 <p className="leading-relaxed">
-                  {isDe ? 'Prüfen Sie ' : 'Check '}<strong>{forgotPasswordEmail}</strong>{isDe ? ' für Anweisungen zur Wiederherstellung.' : ' for instructions.'}
+                  {isDe ? 'Für ' : 'For '}<strong>{forgotPasswordEmail}</strong>{isDe ? ' kontaktieren Sie ' : ' contact '}
+                  <a className="underline font-semibold" href={`mailto:${siteSettings.email}?subject=Password%20reset%20assistance`}>{siteSettings.email}</a>.
                 </p>
                 <button
                   type="button"
@@ -1399,7 +1306,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       : 'bg-slate-950 hover:bg-slate-800 text-white'
                   }`}
                 >
-                  {isDe ? 'Wiederherstellungslink senden' : 'Send Recovery Link'}
+                  {isDe ? 'Supportkontakt anzeigen' : 'Show Support Contact'}
                 </button>
 
                 <p className={`text-[10px] text-center pt-1 ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>

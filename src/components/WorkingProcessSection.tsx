@@ -70,9 +70,6 @@ export const WorkingProcessSection: React.FC = () => {
 
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-16 space-y-3">
-          <div className="process-header-anim inline-flex items-center gap-2 text-cyan-300 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-            <span>Our Working Process & Methodology</span>
-          </div>
           <h2 className="process-header-anim text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-semibold text-white tracking-tight font-['Kufam']">
             Get your IT solutions in 3 easy steps
           </h2>

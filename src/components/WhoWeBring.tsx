@@ -79,10 +79,6 @@ export const WhoWeBring: React.FC<WhoWeBringProps> = ({ onAboutClick }) => {
           {/* Left Column: Content */}
           <div className="lg:col-span-6 space-y-5 sm:space-y-6">
             
-            {/* Section Eyebrow - Clean Modern */}
-            <div className="who-content-item inline-flex items-center gap-2 text-cyan-700 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-              <span>{t.whoKicker}</span>
-            </div>
 
             {/* Headline */}
             <h2 className="who-content-item text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-semibold text-slate-900 tracking-tight leading-[1.22] font-['Kufam']">

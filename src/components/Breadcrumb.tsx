@@ -198,10 +198,6 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
         {/* Page heading block */}
         <div className={`flex flex-col ${isCenter ? 'items-center text-center' : 'items-start text-left'} gap-2.5`}>
 
-          {/* Eyebrow label */}
-          <p className="text-[11px] sm:text-xs font-semibold tracking-[0.12em] uppercase text-sky-400/90">
-            {eyebrow}
-          </p>
 
           {/* Page title */}
           <h1 className="text-2xl sm:text-3xl lg:text-[34px] font-semibold text-white tracking-tight font-['Kufam'] leading-tight max-w-4xl">

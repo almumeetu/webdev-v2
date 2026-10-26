@@ -43,13 +43,13 @@ interface AdminCareersManagerProps {
   jobs: JobPosting[];
   applications: JobApplication[];
   initialTab?: 'jobs' | 'applications';
-  onAddJob: (job: Partial<JobPosting>) => void;
-  onUpdateJob: (id: string, job: Partial<JobPosting>) => void;
-  onToggleJobActive: (id: string) => void;
-  onDeleteJob: (id: string) => void;
-  onUpdateApplicationStatus: (id: string, status: JobApplication['status']) => void;
-  onUpdateApplicationNotes: (id: string, notes: string, rating?: number) => void;
-  onDeleteApplication: (id: string) => void;
+  onAddJob: (job: Partial<JobPosting>) => void | Promise<void>;
+  onUpdateJob: (id: string, job: Partial<JobPosting>) => void | Promise<void>;
+  onToggleJobActive: (id: string) => void | Promise<void>;
+  onDeleteJob: (id: string) => void | Promise<void>;
+  onUpdateApplicationStatus: (id: string, status: JobApplication['status']) => void | Promise<void>;
+  onUpdateApplicationNotes: (id: string, notes: string, rating?: number) => void | Promise<void>;
+  onDeleteApplication: (id: string) => void | Promise<void>;
 }
 
 export const AdminCareersManager: React.FC<AdminCareersManagerProps> = ({
@@ -105,6 +105,16 @@ export const AdminCareersManager: React.FC<AdminCareersManagerProps> = ({
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewStatus, setReviewStatus] = useState<ApplicationStatus>('new');
   const [saveSuccessMsg, setSaveSuccessMsg] = useState(false);
+  const [actionErrorMsg, setActionErrorMsg] = useState<string | null>(null);
+
+  const runAdminAction = async (action: () => void | Promise<void>) => {
+    setActionErrorMsg(null);
+    try {
+      await action();
+    } catch {
+      setActionErrorMsg('The change could not be saved. Please try again.');
+    }
+  };
 
   // Stats
   const stats = useMemo(() => {
@@ -201,8 +211,9 @@ export const AdminCareersManager: React.FC<AdminCareersManagerProps> = ({
     setShowJobModal(true);
   };
 
-  const handleJobSubmit = (e: React.FormEvent) => {
+  const handleJobSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setActionErrorMsg(null);
     const payload: Partial<JobPosting> = {
       title: jobForm.title.trim(),
       department: jobForm.department,
@@ -233,10 +244,15 @@ export const AdminCareersManager: React.FC<AdminCareersManagerProps> = ({
       deadline: jobForm.deadline.trim() || undefined
     };
 
-    if (editingJob) {
-      onUpdateJob(editingJob.id, payload);
-    } else {
-      onAddJob(payload);
+    try {
+      if (editingJob) {
+        await onUpdateJob(editingJob.id, payload);
+      } else {
+        await onAddJob(payload);
+      }
+    } catch {
+      setActionErrorMsg('The job posting could not be saved. Please try again.');
+      return;
     }
 
     setShowJobModal(false);
@@ -251,12 +267,20 @@ export const AdminCareersManager: React.FC<AdminCareersManagerProps> = ({
     setSaveSuccessMsg(false);
   };
 
-  const handleSaveAppReview = () => {
+  const handleSaveAppReview = async () => {
     if (!viewingApp) return;
-    onUpdateApplicationStatus(viewingApp.id, reviewStatus);
-    onUpdateApplicationNotes(viewingApp.id, reviewNotes, reviewRating);
-    setSaveSuccessMsg(true);
-    setTimeout(() => setSaveSuccessMsg(false), 2500);
+    setActionErrorMsg(null);
+    try {
+      await Promise.all([
+        onUpdateApplicationStatus(viewingApp.id, reviewStatus),
+        onUpdateApplicationNotes(viewingApp.id, reviewNotes, reviewRating),
+      ]);
+      setSaveSuccessMsg(true);
+      setTimeout(() => setSaveSuccessMsg(false), 2500);
+    } catch {
+      setSaveSuccessMsg(false);
+      setActionErrorMsg('The candidate review could not be saved. Please try again.');
+    }
   };
 
   // Status colors helper
@@ -281,6 +305,11 @@ export const AdminCareersManager: React.FC<AdminCareersManagerProps> = ({
 
   return (
     <div className="space-y-6">
+      {actionErrorMsg && (
+        <p role="alert" className="flex items-center gap-2 rounded-lg border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-xs text-rose-300">
+          <AlertCircle className="h-4 w-4 shrink-0" />{actionErrorMsg}
+        </p>
+      )}
       
       {/* ─── Top Stats Bar ─── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -508,7 +537,7 @@ export const AdminCareersManager: React.FC<AdminCareersManagerProps> = ({
                     <div className="flex items-center gap-2 shrink-0 border-t lg:border-t-0 pt-3 lg:pt-0 border-white/[0.06]">
                       {/* Active toggle button */}
                       <button
-                        onClick={() => onToggleJobActive(job.id)}
+                        onClick={() => void runAdminAction(() => onToggleJobActive(job.id))}
                         className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer border ${
                           job.isActive
                             ? 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
@@ -543,12 +572,12 @@ export const AdminCareersManager: React.FC<AdminCareersManagerProps> = ({
                       {/* Delete */}
                       <button
                         onClick={() => {
-                          if (confirm(`Are you sure you want to delete the job posting "${job.title}"?`)) {
-                            onDeleteJob(job.id);
+                          if (confirm(`Remove "${job.title}" from public listings? Existing applications will be retained.`)) {
+                            void runAdminAction(() => onDeleteJob(job.id));
                           }
                         }}
                         className="p-2 text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors cursor-pointer"
-                        title="Delete requisition"
+                        title="Archive requisition"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -687,7 +716,7 @@ export const AdminCareersManager: React.FC<AdminCareersManagerProps> = ({
                     {/* Status Dropdown */}
                     <select
                       value={app.status}
-                      onChange={(e) => onUpdateApplicationStatus(app.id, e.target.value as ApplicationStatus)}
+                      onChange={(e) => void runAdminAction(() => onUpdateApplicationStatus(app.id, e.target.value as ApplicationStatus))}
                       className={`text-xs font-bold px-2.5 py-1.5 rounded-lg border focus:outline-none cursor-pointer ${getStatusBadge(app.status)}`}
                     >
                       <option value="new">New</option>
@@ -724,7 +753,7 @@ export const AdminCareersManager: React.FC<AdminCareersManagerProps> = ({
                     <button
                       onClick={() => {
                         if (confirm(`Delete application from ${app.applicantName}?`)) {
-                          onDeleteApplication(app.id);
+                          void runAdminAction(() => onDeleteApplication(app.id));
                         }
                       }}
                       className="p-2 text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors cursor-pointer"
@@ -764,6 +793,9 @@ export const AdminCareersManager: React.FC<AdminCareersManagerProps> = ({
             </div>
 
             <form onSubmit={handleJobSubmit} className="p-6 overflow-y-auto space-y-4 text-xs flex-1">
+              {actionErrorMsg && (
+                <p role="alert" className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-xs text-rose-300">{actionErrorMsg}</p>
+              )}
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1 sm:col-span-2">
@@ -1163,6 +1195,9 @@ export const AdminCareersManager: React.FC<AdminCareersManagerProps> = ({
                   <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                   <span>Candidate status and notes saved successfully!</span>
                 </div>
+              )}
+              {actionErrorMsg && (
+                <p role="alert" className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-xs text-rose-300">{actionErrorMsg}</p>
               )}
 
               <div className="pt-3 border-t border-white/[0.08] flex items-center justify-between">

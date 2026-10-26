@@ -6,6 +6,13 @@
 
 set -e
 
+: "${DB_PASSWORD:?Set DB_PASSWORD in the shell to a strong, unique PostgreSQL password before running this script.}"
+if [[ ${#DB_PASSWORD} -lt 24 || "$DB_PASSWORD" == *$'\n'* || "$DB_PASSWORD" == *$'\r'* ]]; then
+  echo "DB_PASSWORD must be at least 24 characters and must not contain a newline."
+  exit 1
+fi
+SQL_DB_PASSWORD=${DB_PASSWORD//\'/\'\'}
+
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  WebDev SS — PostgreSQL Production Setup"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -23,14 +30,9 @@ systemctl enable postgresql
 # ── 3. Create database user and database ──────────────────────────────────────
 echo "[3/6] Creating database user and database..."
 sudo -u postgres psql <<EOF
--- Create user if not exists
-DO \$\$
-BEGIN
-  IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'webdevss_user') THEN
-    CREATE USER webdevss_user WITH PASSWORD 'Webdev1@Software-Solutions#';
-  END IF;
-END
-\$\$;
+-- Create the login only if it does not already exist. Password quoting is escaped above.
+SELECT format('CREATE USER webdevss_user WITH LOGIN PASSWORD %L', '${SQL_DB_PASSWORD}')
+WHERE NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'webdevss_user')\gexec
 
 -- Create database if not exists
 SELECT 'CREATE DATABASE webdevss_db OWNER webdevss_user'
@@ -58,7 +60,7 @@ echo "[4/6] ✓ pg_hba.conf updated"
 
 # ── 5. Test connection ─────────────────────────────────────────────────────────
 echo "[5/6] Testing database connection..."
-PGPASSWORD='Webdev1@Software-Solutions#' psql \
+PGPASSWORD="$DB_PASSWORD" psql \
   -h 127.0.0.1 -U webdevss_user -d webdevss_db -c "SELECT version();" \
   && echo "[5/6] ✓ Connection test PASSED" \
   || echo "[5/6] ✗ Connection test FAILED — check password in pg_hba.conf"
@@ -71,9 +73,12 @@ echo ""
 echo "  Next steps — run in your app directory:"
 echo ""
 echo "  cd /path/to/your/webdev-v2"
-echo "  npx prisma db push"
-echo "  npx prisma db seed   (optional: seed initial data)"
+echo "  Review and baseline a Prisma migration for this database, then run:"
+echo "  pnpm exec prisma migrate deploy"
+echo "  Set ADMIN_EMAIL and ADMIN_PASSWORD (12-128 chars) in the app environment before:"
+echo "  pnpm exec prisma db seed"
 echo ""
 echo "  Make sure your .env on VPS has:"
-echo "  DATABASE_URL=\"postgresql://webdevss_user:Webdev1%40Software-Solutions%23@localhost:5432/webdevss_db?schema=public\""
+echo "  DATABASE_URL=\"postgresql://webdevss_user:<URL-encoded-password>@localhost:5432/webdevss_db?schema=public\""
+echo "  SESSION_SECRET=<at-least-32-random-bytes>"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

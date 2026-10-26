@@ -27,10 +27,10 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
         <div className="flex items-center gap-1.5 text-slate-600">
           <Mail className="w-3.5 h-3.5 text-sky-600 shrink-0" />
           <a 
-            href="mailto:info@webdevsoftwaresolutions.com" 
+            href="mailto:webdevsoftwaresolutions26@gmail.com"
             className="text-[11px] sm:text-xs hover:text-slate-950 transition-colors font-medium"
           >
-            info@webdevsoftwaresolutions.com
+            webdevsoftwaresolutions26@gmail.com
           </a>
         </div>
 
@@ -69,7 +69,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
           {/* Clean Socials */}
           <div className="flex items-center space-x-2 text-slate-500 border-l border-slate-200 pl-3">
             <a 
-              href="https://github.com/almumeetusaikat" 
+              href="https://github.com/webdevsoftware"
               target="_blank" 
               rel="noopener noreferrer" 
               className="hover:text-slate-950 transition-colors p-1" 
@@ -89,7 +89,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onContactClick }) => {
               <TwitterIcon className="w-3.5 h-3.5" />
             </a>
             <a 
-              href="https://linkedin.com" 
+              href="https://www.linkedin.com/in/webdevss"
               target="_blank" 
               rel="noopener noreferrer" 
               className="hover:text-slate-950 transition-colors p-1" 

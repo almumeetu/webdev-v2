@@ -64,9 +64,6 @@ export const TechStackSection: React.FC = () => {
       <div className="absolute inset-y-0 right-0 w-24 md:w-48 bg-gradient-to-l from-slate-50 via-slate-50/80 to-transparent z-20 pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 text-center">
-        <div className="inline-flex items-center gap-2 text-cyan-700 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-          <span>The Engine Room & Tech Arsenal</span>
-        </div>
         <h2 className="mt-3 text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-semibold tracking-tight font-['Kufam']">
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-primary-600 to-violet-600">
             Powering World-Class Solutions

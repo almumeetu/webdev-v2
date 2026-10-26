@@ -1,8 +1,29 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+
+function subscribeToLanguage(onChange: () => void) {
+  window.addEventListener('storage', onChange);
+  window.addEventListener('webdev-language-change', onChange);
+  return () => {
+    window.removeEventListener('storage', onChange);
+    window.removeEventListener('webdev-language-change', onChange);
+  };
+}
+
+function getLanguageSnapshot() {
+  try {
+    return window.localStorage.getItem('webdev_lang') === 'de' ? 'de' : 'en';
+  } catch {
+    return 'en';
+  }
+}
+
+function getServerLanguageSnapshot() {
+  return 'en';
+}
 
 export default function GlobalError({
   error,
@@ -16,13 +37,7 @@ export default function GlobalError({
     console.error('Captured Next.js App Error:', error);
   }, [error]);
 
-  const [isDe, setIsDe] = React.useState(false);
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('webdev_language');
-      if (saved === 'de') setIsDe(true);
-    } catch {}
-  }, []);
+  const isDe = useSyncExternalStore(subscribeToLanguage, getLanguageSnapshot, getServerLanguageSnapshot) === 'de';
 
   return (
     <div className="min-h-screen bg-[#070b14] text-slate-100 flex items-center justify-center px-4 py-16">

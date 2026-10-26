@@ -112,10 +112,6 @@ export const TechnologyIndexSection: React.FC = () => {
           {/* Right Column: Content & Skill Bars matching Frame 00:05 */}
           <div className="lg:col-span-6 space-y-5 sm:space-y-6">
             
-            {/* Section Eyebrow - Clean Modern */}
-            <div className="tech-index-text inline-flex items-center gap-2 text-cyan-700 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-              <span>Technology Index & Competencies</span>
-            </div>
 
             {/* Bold Headline matching reference */}
             <h2 className="tech-index-text text-xl sm:text-2xl md:text-3xl lg:text-[30px] font-semibold text-slate-900 tracking-tight leading-[1.25] font-['Kufam']">

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useCallback, useSyncExternalStore } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -12,38 +12,47 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('dark');
-  const [mounted, setMounted] = useState(false);
+const THEME_CHANGE_EVENT = 'webdev-theme-change';
 
-  // Load theme from localStorage on mount
-  useEffect(() => {
-    setMounted(true);
-    const savedTheme = localStorage.getItem('webdev-theme') as Theme;
-    if (savedTheme) {
-      setThemeState(savedTheme);
-    } else {
-      // Check system preference
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setThemeState(prefersDark ? 'dark' : 'light');
-    }
+function subscribeToTheme(onChange: () => void) {
+  window.addEventListener('storage', onChange);
+  window.addEventListener(THEME_CHANGE_EVENT, onChange);
+  return () => {
+    window.removeEventListener('storage', onChange);
+    window.removeEventListener(THEME_CHANGE_EVENT, onChange);
+  };
+}
+
+function getThemeSnapshot(): Theme {
+  try {
+    const savedTheme = window.localStorage.getItem('webdev-theme');
+    if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
+  } catch {}
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function getServerThemeSnapshot(): Theme {
+  return 'dark';
+}
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const theme = useSyncExternalStore(subscribeToTheme, getThemeSnapshot, getServerThemeSnapshot);
+
+  const setTheme = useCallback((newTheme: Theme) => {
+    try {
+      localStorage.setItem('webdev-theme', newTheme);
+    } catch {}
+    document.documentElement.classList.toggle('dark', newTheme === 'dark');
+    window.dispatchEvent(new Event(THEME_CHANGE_EVENT));
   }, []);
 
-  // Update localStorage and document class when theme changes
   useEffect(() => {
-    if (mounted) {
-      localStorage.setItem('webdev-theme', theme);
-      document.documentElement.classList.toggle('dark', theme === 'dark');
-    }
-  }, [theme, mounted]);
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
 
-  const toggleTheme = () => {
-    setThemeState(prev => prev === 'dark' ? 'light' : 'dark');
-  };
-
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-  };
+  const toggleTheme = useCallback(() => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  }, [setTheme, theme]);
 
   // Always provide ThemeContext to children so hooks never throw during hydration
   return (

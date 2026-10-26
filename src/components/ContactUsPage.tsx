@@ -11,6 +11,7 @@ import {
   Navigation,
   Check,
   Cpu,
+  AlertCircle,
 } from 'lucide-react';
 import { Inquiry } from '../types';
 import { Breadcrumb } from './Breadcrumb';
@@ -48,6 +49,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Active Map Tab ('leverkusen' | 'joypurhat')
   const [activeMapTab, setActiveMapTab] = useState<'leverkusen' | 'joypurhat'>('leverkusen');
@@ -122,6 +124,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError(null);
 
     const payload = {
       firstName,
@@ -143,44 +146,15 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
       });
 
       const data = await res.json();
-      if (data.success && data.inquiry) {
-        onSubmitSuccess(data.inquiry);
-        setIsSubmitted(true);
-      } else {
-        const fallbackInq: Inquiry = {
-          id: `inq-${Date.now()}`,
-          firstName,
-          lastName,
-          email,
-          phoneNumber,
-          company,
-          projectType: serviceOfInterest,
-          budget: selectedBudget,
-          targetMarket: 'International',
-          message,
-          status: 'new',
-          createdAt: new Date().toISOString()
-        };
-        onSubmitSuccess(fallbackInq);
-        setIsSubmitted(true);
+      if (!res.ok || !data.success || !data.inquiry) {
+        throw new Error(data.message || 'Inquiry submission failed.');
       }
-    } catch {
-      const fallbackInq: Inquiry = {
-        id: `inq-${Date.now()}`,
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        company,
-        projectType: serviceOfInterest,
-        budget: selectedBudget,
-        targetMarket: 'International',
-        message,
-        status: 'new',
-        createdAt: new Date().toISOString()
-      };
-      onSubmitSuccess(fallbackInq);
+      onSubmitSuccess(data.inquiry);
       setIsSubmitted(true);
+    } catch {
+      setSubmitError(lang === 'de'
+        ? 'Die Anfrage konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.'
+        : 'Your inquiry could not be saved. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -277,7 +251,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         placeholder={lang === 'de' ? 'z. B. Thomas' : 'e.g. John'}
-                        className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/20 placeholder-slate-300 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
+                        className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/20 placeholder-slate-300 focus:bg-white focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                       />
                     </div>
 
@@ -291,7 +265,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         placeholder={lang === 'de' ? 'z. B. Müller' : 'e.g. Smith'}
-                        className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/20 placeholder-slate-300 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
+                        className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/20 placeholder-slate-300 focus:bg-white focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -308,7 +282,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="name@company.com"
-                        className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/20 placeholder-slate-300 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
+                        className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/20 placeholder-slate-300 focus:bg-white focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                       />
                     </div>
 
@@ -321,7 +295,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         placeholder="+49 172 976 6016"
-                        className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/20 placeholder-slate-300 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
+                        className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/20 placeholder-slate-300 focus:bg-white focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -336,7 +310,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                       value={company}
                       onChange={(e) => setCompany(e.target.value)}
                       placeholder={lang === 'de' ? 'z. B. Enterprise GmbH / Startup' : 'e.g. Enterprise Corp / Startup'}
-                      className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/20 placeholder-slate-300 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
+                      className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/20 placeholder-slate-300 focus:bg-white focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                     />
                   </div>
 
@@ -355,11 +329,16 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                           ? 'Beschreiben Sie Ihre Projektvision, geplante Meilensteine, technische Anforderungen oder Fragen...'
                           : 'Tell us about your project vision, target timeline, technical requirements, or questions...'
                       }
-                      className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/20 placeholder-slate-300 focus:bg-white focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
+                      className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-200 bg-slate-50/20 placeholder-slate-300 focus:bg-white focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none transition-all"
                     ></textarea>
                   </div>
 
                   {/* Submit Button */}
+                  {submitError && (
+                    <p role="alert" className="flex items-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-800">
+                      <AlertCircle className="h-4 w-4 shrink-0" />{submitError}
+                    </p>
+                  )}
                   <button
                     type="submit"
                     disabled={isSubmitting}

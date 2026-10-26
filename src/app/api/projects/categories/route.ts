@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { DEFAULT_PROJECT_CATEGORIES } from '@/types';
+import { requireAdmin } from '@/lib/auth';
 
 // GET all project categories
 export async function GET() {
@@ -23,6 +24,8 @@ export async function GET() {
 
 // POST new project category
 export async function POST(request: Request) {
+  const authResponse = await requireAdmin(request);
+  if (authResponse) return authResponse;
   try {
     const body = await request.json();
     const name = typeof body?.name === 'string' ? body.name.trim() : '';
@@ -46,6 +49,8 @@ export async function POST(request: Request) {
 
 // PUT rename project category
 export async function PUT(request: Request) {
+  const authResponse = await requireAdmin(request);
+  if (authResponse) return authResponse;
   try {
     const body = await request.json();
     const oldName = typeof body?.oldName === 'string' ? body.oldName.trim() : '';
@@ -85,6 +90,8 @@ export async function PUT(request: Request) {
 
 // DELETE project category
 export async function DELETE(request: Request) {
+  const authResponse = await requireAdmin(request);
+  if (authResponse) return authResponse;
   try {
     const { searchParams } = new URL(request.url);
     const name = searchParams.get('name')?.trim();

@@ -1,13 +1,24 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { initialServices } from '@/data/initialData';
+import { requireAdmin } from '@/lib/auth';
 
 // GET all services
 export async function GET() {
   try {
     const services = await prisma.service.findMany({ orderBy: { createdAt: 'asc' } });
     if (services.length > 0) {
-      return NextResponse.json({ success: true, source: 'postgresql', data: services });
+      const enriched = services.map((s) => {
+        const init = initialServices.find((i) => i.id === s.id);
+        return {
+          ...init,
+          ...s,
+          category: (s as any).category || init?.category || 'Development',
+        };
+      });
+      const existingIds = new Set(enriched.map((s) => s.id));
+      const missing = initialServices.filter((s) => !existingIds.has(s.id));
+      return NextResponse.json({ success: true, source: 'postgresql', data: [...enriched, ...missing] });
     }
   } catch (error) {
     console.warn('DB not accessible for services GET:', error);
@@ -17,6 +28,8 @@ export async function GET() {
 
 // POST new service
 export async function POST(request: Request) {
+  const authResponse = await requireAdmin(request);
+  if (authResponse) return authResponse;
   try {
     const body = await request.json();
     const created = await prisma.service.create({

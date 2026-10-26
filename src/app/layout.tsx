@@ -28,14 +28,10 @@ export const metadata: Metadata = {
     "Server Engineering",
     "Shopify WooCommerce",
   ],
-  alternates: {
-    canonical: "https://webdevss.tech",
-  },
   openGraph: {
     title: "WebDev Software Solutions | Full Stack & Cloud Engineering",
     description:
       "Enterprise web applications, high-performance MERN platforms, Linux server infrastructure, and conversion-focused e-commerce solutions for global businesses.",
-    url: "https://webdevss.tech",
     siteName: "WebDev Software Solutions",
     locale: "en_US",
     type: "website",

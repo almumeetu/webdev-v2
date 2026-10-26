@@ -164,7 +164,7 @@ export default function AdminPage() {
                   placeholder="admin@webdevss.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-white/10 bg-white/5 focus:bg-white/10 focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#9cd5e2]/30 outline-none text-white transition-all placeholder:text-slate-500"
+                  className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-white/10 bg-white/5 focus:bg-white/10 focus:border-[#9cd5e2] focus:ring-1 focus:ring-[#9cd5e2]/50 outline-none text-white transition-all placeholder:text-slate-500"
                 />
               </div>
 
@@ -181,7 +181,7 @@ export default function AdminPage() {
                     placeholder="••••••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full text-xs sm:text-sm p-3.5 pr-11 rounded-xl border border-white/10 bg-white/5 focus:bg-white/10 focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#9cd5e2]/30 outline-none text-white transition-all placeholder:text-slate-500"
+                    className="w-full text-xs sm:text-sm p-3.5 pr-11 rounded-xl border border-white/10 bg-white/5 focus:bg-white/10 focus:border-[#9cd5e2] focus:ring-1 focus:ring-[#9cd5e2]/50 outline-none text-white transition-all placeholder:text-slate-500"
                   />
                   <button
                     type="button"
@@ -300,7 +300,7 @@ export default function AdminPage() {
         onUpdateApplicationNotes={ctx.updateApplicationNotes}
         onDeleteApplication={ctx.deleteApplication}
         onUpdateSiteSettings={ctx.updateSiteSettings}
-        onResetDefaults={ctx.resetToDefaultData}
+        onResetDefaults={process.env.NODE_ENV === 'production' ? undefined : ctx.resetToDefaultData}
         onClose={() => router.push('/')}
       />
     </div>

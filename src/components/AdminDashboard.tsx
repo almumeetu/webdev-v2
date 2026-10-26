@@ -330,6 +330,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   // Service Form State
   const [serviceForm, setServiceForm] = useState({
     title: '',
+    category: 'Development',
     shortDesc: '',
     fullDesc: '',
     iconName: 'Code',
@@ -380,50 +381,65 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   };
 
   // Site Settings Form State
-  const [settingsForm, setSettingsForm] = useState<SiteSettings>(siteSettings ?? {
+  const defaultSettingsForm: SiteSettings = {
     companyName: 'WebDev Software Solutions',
     tagline: 'Enterprise-Grade Web Engineering · Germany & Bangladesh',
     logoUrl: '/images/logo/webdev-logo.png',
     darkLogoUrl: '/images/logo/dark-logo-webdevss.png',
     heroSlides: initialHeroSlides,
-    email: 'info@webdevsoftwaresolutions.com',
+    email: 'webdevsoftwaresolutions26@gmail.com',
     phone_bd: '+880 1722-301927',
     phone_de: '+49 172 9766016',
     address_bd: 'Housing Estate, Ward No: 07, Joypurhat-5900, Bangladesh',
     address_de: 'Küppersteg, 51373 Leverkusen, NRW, Germany',
-    socialLinks: { github: '', twitter: '', linkedin: '', whatsapp_bd: '', whatsapp_de: '' },
+    socialLinks: {
+      github: 'https://github.com/webdevsoftware',
+      twitter: 'https://x.com',
+      linkedin: 'https://www.linkedin.com/in/webdevss',
+      whatsapp_bd: '',
+      whatsapp_de: '',
+    },
     privacyPolicy: '',
     termsOfService: '',
     footerAboutText: '',
     gdprBadgeText: ''
-  });
+  };
+  const [settingsFormDraft, setSettingsFormDraft] = useState<SiteSettings | null>(null);
+  const settingsForm = settingsFormDraft ?? siteSettings ?? defaultSettingsForm;
+  const setSettingsForm: React.Dispatch<React.SetStateAction<SiteSettings>> = (next) => {
+    setSettingsFormDraft((previous) => {
+      const current = previous ?? siteSettings ?? defaultSettingsForm;
+      return typeof next === 'function' ? next(current) : next;
+    });
+  };
   const [settingsSaved, setSettingsSaved] = useState(false);
+  const [settingsSaveError, setSettingsSaveError] = useState<string | null>(null);
   const [editingSlideIndex, setEditingSlideIndex] = useState(0);
   const [heroSlidesSaved, setHeroSlidesSaved] = useState(false);
 
-  // Sync settingsForm when siteSettings prop changes
-  React.useEffect(() => {
-    if (siteSettings) {
-      setSettingsForm(prev => ({
-        ...siteSettings,
-        heroSlides: siteSettings.heroSlides && siteSettings.heroSlides.length > 0
-          ? siteSettings.heroSlides
-          : (prev.heroSlides || initialHeroSlides)
-      }));
-    }
-  }, [siteSettings]);
-
-  const handleSaveSettings = (e: React.FormEvent) => {
+  const handleSaveSettings = async (e: React.FormEvent) => {
     e.preventDefault();
-    onUpdateSiteSettings?.(settingsForm);
-    setSettingsSaved(true);
-    setTimeout(() => setSettingsSaved(false), 3000);
+    setSettingsSaveError(null);
+    try {
+      await onUpdateSiteSettings?.(settingsForm);
+      setSettingsSaved(true);
+      setTimeout(() => setSettingsSaved(false), 3000);
+    } catch {
+      setSettingsSaved(false);
+      setSettingsSaveError('Settings could not be saved. Please try again.');
+    }
   };
 
-  const handleSaveHeroSlides = () => {
-    onUpdateSiteSettings?.(settingsForm);
-    setHeroSlidesSaved(true);
-    setTimeout(() => setHeroSlidesSaved(false), 3000);
+  const handleSaveHeroSlides = async () => {
+    setSettingsSaveError(null);
+    try {
+      await onUpdateSiteSettings?.(settingsForm);
+      setHeroSlidesSaved(true);
+      setTimeout(() => setHeroSlidesSaved(false), 3000);
+    } catch {
+      setHeroSlidesSaved(false);
+      setSettingsSaveError('Hero slides could not be saved. Please try again.');
+    }
   };
 
   const handleUpdateCurrentSlide = (updatedSlide: Partial<HeroSlide>) => {
@@ -501,6 +517,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const resetServiceForm = () => {
     setServiceForm({
       title: '',
+      category: 'Development',
       shortDesc: '',
       fullDesc: '',
       iconName: 'Code',
@@ -667,6 +684,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     e.preventDefault();
     const serviceData = {
       title: serviceForm.title,
+      category: serviceForm.category || 'Development',
       shortDesc: serviceForm.shortDesc,
       fullDesc: serviceForm.fullDesc,
       iconName: serviceForm.iconName,
@@ -690,6 +708,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     setEditingItem(service);
     setServiceForm({
       title: service.title,
+      category: service.category || 'Development',
       shortDesc: service.shortDesc,
       fullDesc: service.fullDesc,
       iconName: service.iconName,
@@ -2641,6 +2660,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       <CheckCircle2 className="w-4 h-4" /> Settings saved successfully
                     </span>
                   )}
+                  {settingsSaveError && (
+                    <span role="alert" className="text-sm text-rose-300 font-semibold">{settingsSaveError}</span>
+                  )}
                 </div>
               </form>
             </div>
@@ -2673,6 +2695,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 <div className="p-4 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-sm flex items-center gap-2">
                   <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
                   <span>Hero slider changes saved successfully and updated live on the homepage!</span>
+                </div>
+              )}
+              {settingsSaveError && (
+                <div role="alert" className="p-4 rounded-md bg-rose-500/10 border border-rose-500/30 text-rose-300 text-sm">
+                  {settingsSaveError}
                 </div>
               )}
 
@@ -4066,6 +4093,22 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   className="w-full px-4 py-3 bg-[#0c0d12] border border-white/10 rounded-md text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all text-sm"
                   placeholder="e.g. Full Stack Development"
                 />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-2">Category *</label>
+                <select
+                  value={serviceForm.category}
+                  onChange={(e) => setServiceForm({...serviceForm, category: e.target.value})}
+                  className="w-full px-4 py-3 bg-[#0c0d12] border border-white/10 rounded-md text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all text-sm cursor-pointer"
+                >
+                  <option value="Development" className="bg-slate-900 text-white">Web & Mobile (Development)</option>
+                  <option value="Design" className="bg-slate-900 text-white">UI/UX & Branding (Design)</option>
+                  <option value="Marketing" className="bg-slate-900 text-white">Marketing & Meta Ads (Marketing)</option>
+                  <option value="AI & Automation" className="bg-slate-900 text-white">AI & Automation</option>
+                  <option value="Cloud & Security" className="bg-slate-900 text-white">Cloud & Security</option>
+                  <option value="E-Commerce" className="bg-slate-900 text-white">E-Commerce</option>
+                </select>
               </div>
 
               <div>

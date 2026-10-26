@@ -426,6 +426,14 @@ export const translations: Record<Language, Translations> = {
 
 export const germanHeroSlides: Record<number, Partial<HeroSlide>> = {
   0: {
+    badge: 'MOBILE LÖSUNGEN DER NÄCHSTEN GENERATION',
+    title: 'Native Mobile-Apps',
+    highlightText: 'iOS & Android.',
+    subtitle: 'Hochperformante Apps entwickelt mit modernen plattformübergreifenden Technologien.',
+    primaryBtnText: 'App-Projekt besprechen',
+    secondaryBtnText: 'Mobile Lösungen entdecken'
+  },
+  1: {
     badge: 'ENGINEERING DIGITALER ERLEBNISSE',
     title: 'Web- & Mobile-Engineering',
     highlightText: 'Skalierbar gebaut.',
@@ -433,21 +441,13 @@ export const germanHeroSlides: Record<number, Partial<HeroSlide>> = {
     primaryBtnText: 'Projekt starten',
     secondaryBtnText: 'Leistungen entdecken'
   },
-  1: {
+  2: {
     badge: 'MODERNE WEBENTWICKLUNG',
     title: 'Moderne Web-Apps',
     highlightText: 'Schnell & Skalierbar.',
     subtitle: 'Schnelle, sichere und responsive Webplattformen für beste Performance.',
     primaryBtnText: 'Website entwickeln',
     secondaryBtnText: 'Webleistungen ansehen'
-  },
-  2: {
-    badge: 'MOBILE LÖSUNGEN DER NÄCHSTEN GENERATION',
-    title: 'Native Mobile-Apps',
-    highlightText: 'iOS & Android.',
-    subtitle: 'Hochperformante Apps entwickelt mit modernen plattformübergreifenden Technologien.',
-    primaryBtnText: 'App-Projekt besprechen',
-    secondaryBtnText: 'Mobile Lösungen entdecken'
   },
   3: {
     badge: 'Corporate CMS & Enterprise-Portale',
@@ -461,11 +461,11 @@ export const germanHeroSlides: Record<number, Partial<HeroSlide>> = {
 
 export const germanServices: Record<string, Partial<ServiceDetail>> = {
   'serv-1': {
-    title: 'Full Stack & MERN Entwicklung',
-    shortDesc: 'Reaktive, maßgeschneiderte Webanwendungen mit MongoDB, Express, React 19 und Node.js für extreme Geschwindigkeit und Skalierbarkeit.',
-    fullDesc: 'Wir entwickeln individuelle Websoftware und skalierbare SaaS-Plattformen auf Basis des modernen MERN-Stacks. Von Enterprise-Dashboards bis hin zu Echtzeit-Kollaborationstools sind unsere Codebasen modular, typsicher in TypeScript und auf minimale Latenzzeiten optimiert.',
-    features: ['Single Page & Progressive Web Apps (PWA)', 'Echtzeit-WebSocket-Ereignisarchitektur', 'REST & GraphQL API-Design', 'Rollenbasierte Zugriffskontrolle (RBAC)'],
-    deliverables: ['Produktionsbereite Webanwendung', 'Vollständiger Quellcode & Dokumentation', 'Automatisierte Unit- und Integrationstests', 'Einrichtung der Deployment-Pipeline']
+    title: 'Full-Stack, SaaS & Single Page Apps',
+    shortDesc: 'Reaktive Single Page Applications (SPA), skalierbare Multi-Tenant SaaS-Plattformen und Enterprise-Webanwendungen mit React 19, Next.js und Node.js.',
+    fullDesc: 'Wir entwickeln individuelle Websoftware, Single Page Applications (SPA) und skalierbare SaaS-Plattformen auf Basis moderner Full-Stack-Architekturen. Von Enterprise-Dashboards und Subscription-SaaS bis hin zu Echtzeit-Kollaborationstools sind unsere Codebasen modular, typsicher in TypeScript und auf minimale Latenzzeiten optimiert.',
+    features: ['Single Page Applications (SPA) & PWAs', 'Skalierbare Multi-Tenant SaaS-Architektur', 'Echtzeit-WebSocket-Ereignisarchitektur', 'REST & GraphQL API-Design mit RBAC'],
+    deliverables: ['Produktionsbereite Web-/SaaS-Anwendung', 'Vollständiger Quellcode & Dokumentation', 'Automatisierte Unit- und Integrationstests', 'Einrichtung der Deployment-Pipeline']
   },
   'serv-2': {
     title: 'Cloud- & Server-Architektur',
@@ -475,11 +475,11 @@ export const germanServices: Record<string, Partial<ServiceDetail>> = {
     deliverables: ['Konfigurierter Produktionsserver', 'Automatisierte Backup-Skripte', 'Sicherheits-Auditbericht', 'Server-Monitoring-Dashboard']
   },
   'serv-3': {
-    title: 'E-Commerce Spezialist (Shopify & WooCommerce)',
-    shortDesc: 'Umsatzstarke individuelle Shopify-Storefronts, Headless E-Commerce Architekturen und hochoptimierte WooCommerce-Shops.',
-    fullDesc: 'Wir verwandeln Besucher in Kunden. Unsere E-Commerce-Entwicklung umfasst maßgeschneiderte Theme-Entwicklung, Headless Shopify mit React/Next.js, Multi-Währungs-Checkouts und nahtlose Warenwirtschaftsintegrationen.',
-    features: ['Ladezeiten unter einer Sekunde', 'Individuelle Produktkonfiguratoren & Filter', 'Multi-Währungs- & Mehrwertsteuer-Handling', 'Zahlungsgateway-Integrationen (Stripe, Klarna, PayPal)'],
-    deliverables: ['Schlüsselfertiger Onlineshop', 'Optimierter Checkout-Funnel', 'Anbindung an ERP & Warenwirtschaft', 'Mitarbeiterschulung & Dokumentation']
+    title: 'Headless E-Commerce & Landing-Pages',
+    shortDesc: 'Umsatzstarke E-Commerce Landing-Pages, individuelle Shopify-Storefronts, Headless E-Commerce Architekturen und hochoptimierte WooCommerce-Shops.',
+    fullDesc: 'Wir verwandeln Besucher in Kunden. Unsere E-Commerce-Entwicklung umfasst hochkonvertierende Produkt-Landing-Pages, maßgeschneiderte Theme-Entwicklung, Headless Shopify mit React/Next.js, Multi-Währungs-Checkouts und nahtlose Warenwirtschaftsintegrationen.',
+    features: ['Umsatzstarke E-Commerce Landing-Pages', 'Ladezeiten unter einer Sekunde & CRO-Funnels', 'Individuelle Produktkonfiguratoren & Filter', 'Multi-Währungs- & Mehrwertsteuer-Handling'],
+    deliverables: ['Schlüsselfertiger Onlineshop & Landing-Page', 'Optimierter Checkout-Funnel', 'Anbindung an ERP & Warenwirtschaft', 'Mitarbeiterschulung & Dokumentation']
   },
   'serv-4': {
     title: 'Enterprise CMS & WordPress-Lösungen',
@@ -501,6 +501,48 @@ export const germanServices: Record<string, Partial<ServiceDetail>> = {
     fullDesc: 'Entwicklung nativer mobiler Erlebnisse für iOS und Android mit einheitlicher Codebasis. Von Push-Benachrichtigungen bis hin zu Offline-Datensynchronisation bieten wir ganzheitliche mobile Lösungen.',
     features: ['Native Performance auf iOS und Android', 'Offline-First Datenarchitektur', 'Biometrische Anmeldung & Push-Notifications', 'Automatisierter App Store & Google Play Release'],
     deliverables: ['Kompilierte iOS- und Android-Builds', 'Quellcode & CI/CD-Konfiguration', 'App Store Einreichungsunterstützung', 'Wartungs- & Update-Plan']
+  },
+  'serv-7': {
+    title: 'UI/UX Design & Portfolio-Prototyping',
+    shortDesc: 'Portfolio- und Website-Design, nutzerzentrierte Interfaces, interaktive Figma-Prototypen, skalierbare Design-Systeme und Usability-Audits.',
+    fullDesc: 'Wir gestalten intuitive, ästhetisch ansprechende digitale Produkte, Portfolio- und Agentur-Showcases sowie Enterprise-Schnittstellen. Von Nutzerforschung und User-Flows bis hin zu pixelgenauen Figma-Design-Systemen stellen wir sicher, dass Ihre Anwendung Konversionen maximiert.',
+    features: ['Portfolio- & Agentur-Showcase-Design', 'Vollständiges Design-System & UI-Kit in Figma', 'Interaktive Prototypen & Klickmodelle', 'Barrierefreiheit (WCAG) & Responsive Design'],
+    deliverables: ['Figma Master-Datei mit Tokens & Komponenten', 'Klickbarer Prototyp für Kundenpräsentationen', 'UX-Audit & Empfehlungsbericht', 'Design-to-Code Übergabedokumentation']
+  },
+  'serv-8': {
+    title: 'Meta Ads & Paid Social (Facebook & Instagram)',
+    shortDesc: 'Umsatzorientierte Facebook- & Instagram-Kampagnen, CAPI-Tracking, Conversion-Funnel und Retargeting-Strategien.',
+    fullDesc: 'Maximieren Sie Ihren Return on Ad Spend (ROAS). Wir entwickeln, testen und skalieren datengetriebene Werbekampagnen auf Meta (Facebook & Instagram) mit fortschrittlichem Conversion API (CAPI) Server-Side Tracking, kreativen Ad-Formaten und A/B-Tests.',
+    features: ['Meta Pixel & Server-Side Conversions API (CAPI)', 'Zielgruppen-Segmentierung & Lookalike Audiences', 'Werbemittel-Erstellung & Copywriting', 'Laufende ROAS- & Budget-Optimierung'],
+    deliverables: ['Eingerichtetes Meta Business Manager Konto', 'Server-Side CAPI Tracking Setup', 'Monatliche Performance- & Conversion-Reports', 'Ad Creative Asset-Bibliothek']
+  },
+  'serv-9': {
+    title: 'SEO & Data-Driven Growth Marketing',
+    shortDesc: 'Technisches SEO, Top-Platzierungen bei Google, Conversion Rate Optimization (CRO) und nachhaltige organische Reichweite.',
+    fullDesc: 'Nachhaltiges Kundenwachstum durch organische Suchmaschinenoptimierung. Wir beheben technische Crawling-Barrieren, optimieren Core Web Vitals, erstellen hochwertige Keyword-Strategien und transformieren Besucher in treue Kunden.',
+    features: ['Technisches SEO & Core Web Vitals Audit', 'Umfassende Keyword- & Wettbewerbsanalyse', 'On-Page & Schema.org Rich Snippet Optimierung', 'Conversion Rate Optimization (CRO)']
+    ,deliverables: ['Ausführlicher SEO-Auditbericht', 'Technischer Maßnahmenplan zur Fehlerbehebung', 'Keyword-Targeting & Ranking-Matrix', 'Google Analytics 4 & Search Console Dashboard']
+  },
+  'serv-10': {
+    title: 'KI-Integration & Intelligente Prozessautomatisierung',
+    shortDesc: 'Maßgeschneiderte KI-Assistenten, LLM-Integrationen (OpenAI/Claude), intelligente Workflows und automatische Datenverarbeitung.',
+    fullDesc: 'Bringen Sie modernste künstliche Intelligenz in Ihre Unternehmensabläufe. Wir integrieren leistungsstarke Large Language Models (LLMs), entwickeln unternehmenseigene Chat-Agenten mit Retrieval-Augmented Generation (RAG) und automatisieren zeitintensive Workflows.',
+    features: ['OpenAI & Anthropic Claude API-Anbindung', 'Retrieval-Augmented Generation (RAG) mit Vektordatenbanken', 'Automatisierte Workflows mit n8n & Python', 'Datenschutzkonforme On-Premise / Private Cloud KI-Optionen'],
+    deliverables: ['Produktionsbereite KI-Integration', 'Vektorbasierte Dokumenten-Wissensdatenbank', 'Automatisierungs-Pipelines & Webhooks', 'API-Dokumentation & Nutzungsanleitung']
+  },
+  'serv-11': {
+    title: 'Cybersecurity Audits & DSGVO-Compliance',
+    shortDesc: 'Schwachstellenanalysen, Penetrationstests, DSGVO-konforme Sicherheitskonzepte und Härtung digitaler Infrastrukturen.',
+    fullDesc: 'Schützen Sie Ihr Unternehmen vor Datenverlust und Cyberbedrohungen. Wir führen gründliche Sicherheitsanalysen nach OWASP-Standards durch, härten Web- und Server-Infrastrukturen und stellen vollständige DSGVO-Konformität sicher.',
+    features: ['OWASP Top 10 Schwachstellen-Scans', 'Server- & Netzwerk-Härtung (Firewall, SSL/TLS)', 'DSGVO-Audit & Datenschutz-Compliance-Check', 'Notfall- & Incident-Response-Planung'],
+    deliverables: ['Detaillierter Schwachstellen- & Audit-Bericht', 'Maßnahmenkatalog zur Behebung kritischer Lücken', 'DSGVO-Compliance-Zertifikatsempfehlung', 'Sicherheits-Checkliste für Entwicklerteams']
+  },
+  'serv-12': {
+    title: 'Brand Identity & Corporate Design',
+    shortDesc: 'Einprägsame visuelle Markenidentitäten, Logo-Design, Typografie-Systeme und einheitliche digitale Marketing-Assets.',
+    fullDesc: 'Eine starke Marke schafft Vertrauen. Wir entwickeln ganzheitliche visuelle Identitäten für ambitionierte Technologie- und Dienstleistungsunternehmen – von prägnanten Logos und Typografie-Regeln bis hin zu digitalen Präsentationsvorlagen und Social-Media-Kits.',
+    features: ['Logo-Entwicklung & Vektor-Masterdateien', 'Farbpaletten- & Typografie-Spezifikationen', 'Brand-Guidelines & Brand-Book (PDF)', 'Vorlagen für Präsentationen & Social Media'],
+    deliverables: ['Umfassendes Brand Guidelines Dokument', 'Vektor-Logopaket (SVG, PNG, EPS, AI, PDF)', 'Digitale Design-Tokens (CSS/Figma)', 'Social Media Starter-Kit']
   }
 };
 

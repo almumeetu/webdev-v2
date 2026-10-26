@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import {
   ArrowUp,
   Lock,
-  MapPin
+  MapPin,
+  Phone
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon, TwitterIcon, WhatsAppIcon } from './SocialIcons';
 import {
@@ -191,25 +192,50 @@ export const Footer: React.FC = () => {
             <h2 className="text-base font-semibold text-slate-950">
               {lang === 'de' ? 'Standorte' : 'Locations'}
             </h2>
-            <div className="flex flex-col gap-4">
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=Leverkusen,+Germany"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-start gap-2.5 text-sm text-slate-600 transition-colors hover:text-slate-950"
-              >
-                <MapPin className="mt-0.5 h-[18px] w-[18px] shrink-0 text-sky-600" />
-                <span className="block font-medium text-slate-900 group-hover:text-sky-700 transition-colors">Leverkusen, Germany</span>
-              </a>
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=Joypurhat,+Bangladesh"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-start gap-2.5 text-sm text-slate-600 transition-colors hover:text-slate-950"
-              >
-                <MapPin className="mt-0.5 h-[18px] w-[18px] shrink-0 text-emerald-600" />
-                <span className="block font-medium text-slate-900 group-hover:text-emerald-700 transition-colors">Joypurhat, Bangladesh</span>
-              </a>
+            <div className="flex flex-col gap-5">
+              {/* Germany */}
+              <div className="flex flex-col gap-2">
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Leverkusen,+Germany"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-start gap-2.5 text-sm text-slate-600 transition-colors hover:text-slate-950"
+                >
+                  <MapPin className="mt-0.5 h-[18px] w-[18px] shrink-0 text-sky-600" />
+                  <span className="block font-medium text-slate-900 group-hover:text-sky-700 transition-colors">Leverkusen, Germany</span>
+                </a>
+                {siteSettings.phone_de && (
+                  <a
+                    href={`tel:${siteSettings.phone_de.replace(/\s+/g, '')}`}
+                    className="flex items-center gap-2.5 text-sm text-slate-500 hover:text-sky-700 transition-colors pl-0.5"
+                  >
+                    <Phone className="h-[15px] w-[15px] shrink-0 text-sky-500" />
+                    <span className="font-mono text-[13px]">{siteSettings.phone_de}</span>
+                  </a>
+                )}
+              </div>
+
+              {/* Bangladesh */}
+              <div className="flex flex-col gap-2">
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Joypurhat,+Bangladesh"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-start gap-2.5 text-sm text-slate-600 transition-colors hover:text-slate-950"
+                >
+                  <MapPin className="mt-0.5 h-[18px] w-[18px] shrink-0 text-emerald-600" />
+                  <span className="block font-medium text-slate-900 group-hover:text-emerald-700 transition-colors">Joypurhat, Bangladesh</span>
+                </a>
+                {siteSettings.phone_bd && (
+                  <a
+                    href={`tel:${siteSettings.phone_bd.replace(/\s+/g, '')}`}
+                    className="flex items-center gap-2.5 text-sm text-slate-500 hover:text-emerald-700 transition-colors pl-0.5"
+                  >
+                    <Phone className="h-[15px] w-[15px] shrink-0 text-emerald-500" />
+                    <span className="font-mono text-[13px]">{siteSettings.phone_bd}</span>
+                  </a>
+                )}
+              </div>
             </div>
           </section>
         </div>

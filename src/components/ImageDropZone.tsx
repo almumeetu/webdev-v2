@@ -167,7 +167,6 @@ export const ImageDropZone: React.FC<ImageDropZoneProps> = ({
       {value && value.trim() !== '' ? (
         <div className="relative rounded-md border border-white/10 bg-[#0c0d12] p-2.5 flex flex-col sm:flex-row items-center gap-3 group transition-all hover:border-white/20">
           <div className={`relative overflow-hidden rounded-md bg-zinc-900 border border-white/10 shrink-0 w-28 h-20 sm:w-32 sm:h-24 flex items-center justify-center`}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={value.trim()}
               alt="Preview"

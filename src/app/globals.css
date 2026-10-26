@@ -124,14 +124,31 @@ button:focus-visible,
   box-shadow: 0 0 0 5px rgba(34, 211, 238, 0.16) !important;
 }
 
+button[data-clean-hover]:focus-visible,
+[role="button"][data-clean-hover]:focus-visible {
+  outline-color: rgba(2, 132, 199, 0.9) !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.12) !important;
+}
+
 button:not([class~="rounded-full"]),
 [role="button"]:not([class~="rounded-full"]) {
   border-radius: 0.875rem !important;
 }
 
+/* Crisp 1px focus presentation across inputs and form controls */
+input:focus,
+input:focus-visible,
+textarea:focus,
+textarea:focus-visible,
+select:focus,
+select:focus-visible {
+  outline: none;
+}
+
 @media (hover: hover) and (pointer: fine) {
-  button:not(:disabled):hover,
-  [role="button"]:hover {
+  button:not(:disabled):hover:not([data-clean-hover]),
+  [role="button"]:hover:not([data-clean-hover]) {
     box-shadow:
       inset 0 0 0 1px rgba(34, 211, 238, 0.2),
       0 8px 24px -14px rgba(34, 211, 238, 0.82) !important;

@@ -124,10 +124,6 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
           {/* Right Column: FAQs Accordion */}
           <div className="lg:col-span-6 space-y-5 sm:space-y-6">
             
-            {/* Eyebrow Subheading - Clean Modern */}
-            <div className="faq-text-content inline-flex items-center gap-2 text-cyan-800 font-['Kufam'] text-xs sm:text-sm font-semibold tracking-wide">
-              <span>Frequently Asked Questions & Answers</span>
-            </div>
 
             {/* Headline */}
             <h2 className="faq-text-content text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-semibold text-slate-950 tracking-tight leading-[1.22] font-['Kufam']">

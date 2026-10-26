@@ -26,12 +26,14 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError(null);
 
     try {
       const payload = {
@@ -53,37 +55,19 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
       });
 
       const data = await res.json();
-      if (data.success && data.inquiry) {
-        onSubmitSuccess(data.inquiry);
-        setSuccessMessage(true);
-        setTimeout(() => {
-          setSuccessMessage(false);
-          onClose();
-        }, 2500);
+      if (!res.ok || !data.success || !data.inquiry) {
+        throw new Error(data.message || 'Inquiry submission failed.');
       }
-    } catch (err) {
-      console.error('Error submitting inquiry:', err);
-      // Fallback local creation
-      const localInquiry: Inquiry = {
-        id: `inq-${Date.now()}`,
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        company,
-        projectType,
-        budget,
-        targetMarket,
-        message,
-        createdAt: new Date().toISOString(),
-        status: 'new'
-      };
-      onSubmitSuccess(localInquiry);
+      onSubmitSuccess(data.inquiry);
       setSuccessMessage(true);
       setTimeout(() => {
         setSuccessMessage(false);
         onClose();
       }, 2500);
+    } catch {
+      setSubmitError(lang === 'de'
+        ? 'Die Anfrage konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.'
+        : 'Your inquiry could not be saved. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -137,6 +121,11 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-5">
+            {submitError && (
+              <p role="alert" className="flex items-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-800">
+                <AlertCircle className="h-4 w-4 shrink-0" />{submitError}
+              </p>
+            )}
             
             {/* Name Fields */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -150,7 +139,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
                   placeholder={lang === 'de' ? 'z. B. Lukas oder Tanvir' : 'e.g. Lukas or Tanvir'}
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 text-slate-900"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-1 focus:ring-[#9cd5e2] text-slate-900"
                 />
               </div>
 
@@ -164,7 +153,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
                   placeholder={lang === 'de' ? 'z. B. Schneider oder Rahman' : 'e.g. Schneider or Rahman'}
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 text-slate-900"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-1 focus:ring-[#9cd5e2] text-slate-900"
                 />
               </div>
             </div>
@@ -181,7 +170,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
                   placeholder="name@company.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 text-slate-900"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-1 focus:ring-[#9cd5e2] text-slate-900"
                 />
               </div>
 
@@ -195,7 +184,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
                   placeholder="+49 ... oder +880 ..."
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 text-slate-900"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-1 focus:ring-[#9cd5e2] text-slate-900"
                 />
               </div>
             </div>
@@ -209,7 +198,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
                 <select
                   value={projectType}
                   onChange={(e) => setProjectType(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 bg-white text-slate-900"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-1 focus:ring-[#9cd5e2] bg-white text-slate-900"
                 >
                   <option value="Full Stack & MERN">{lang === 'de' ? 'Full Stack & MERN Plattform' : 'Full Stack & MERN Platform'}</option>
                   <option value="Cloud & Server Architecture">{lang === 'de' ? 'Linux Server & DevOps Infrastruktur' : 'Linux Server & DevOps Architecture'}</option>
@@ -227,7 +216,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
                 <select
                   value={targetMarket}
                   onChange={(e) => setTargetMarket(e.target.value as any)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 bg-white text-slate-900"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-1 focus:ring-[#9cd5e2] bg-white text-slate-900"
                 >
                   <option value="Germany">{lang === 'de' ? 'Deutschland & DACH-Region (Europa)' : 'Germany & DACH Region (Europe)'}</option>
                   <option value="Bangladesh">{lang === 'de' ? 'Bangladesch & Südasien' : 'Bangladesh & South Asia'}</option>
@@ -248,7 +237,7 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
                 placeholder={lang === 'de' ? 'Beschreiben Sie gewünschte Features, Serverlast, Schnittstellen (z. B. MERN-Stack, Shopify, Hetzner-Server, Zahlungs-Gateways)...' : 'Describe features, server load, integrations (e.g. MERN stack, Shopify, Hetzner server setup, payment gateways)...'}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-2 focus:ring-[#BBE7F1]/50 text-slate-900"
+                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#9cd5e2] focus:ring-1 focus:ring-[#9cd5e2] text-slate-900"
               />
             </div>
 

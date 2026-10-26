@@ -204,13 +204,13 @@ export const initialTeam: TeamMember[] = [
     image: '/images/team/CEO.png',
     bio: 'Founder & CEO, PMP® certified Project Manager and Senior Software Engineer with 10+ years of diverse industry experience in enterprise software development and project management across Germany and Europe. Skilled in Python/Django, AWS, and Agile/Scrum delivery. Proven track record in improving efficiency, managing cross-functional teams, and driving client success in high-impact European projects.',
     skills: ['Founder & CEO', 'PMP® Project Management', 'Agile & Scrum Master', 'European Delivery Lead', 'Python & Django', 'AWS Cloud Infrastructure', 'RESTful APIs', 'Software Architecture', 'Jira & Enterprise Agile'],
-    email: 'info@webdevsoftwaresolutions.com',
+    email: 'webdevsoftwaresolutions26@gmail.com',
     phone: '+49 172 9766016',
-    linkedin: 'https://linkedin.com',
+    linkedin: 'https://www.linkedin.com/in/moyenuddin/',
     experienceYears: 10,
     education: [
-      'Ruhr-Universität Bochum, Germany — Master of Science (M.Sc.) in Computational Engineering (2010 - 2013)',
-      'Rajshahi University of Engineering & Technology (RUET) — Bachelor of Science in Engineering (B.Sc. Engg.), Computer Science & Engineering (2001 - 2005)'
+      'Universität Rostock, Germany — Master of Science (M.Sc.), Computational Engineering (2010–2013)',
+      'Rajshahi University of Engineering & Technology (RUET), Bangladesh — Bachelor of Science in Engineering, Computer Science & Engineering (2004–2008)'
     ],
     certifications: [
       'PMP® - Project Management Professional (Project Management Institute, 2022)',
@@ -280,7 +280,7 @@ export const initialTeam: TeamMember[] = [
     image: '/images/team/Full-Stack.png',
     bio: 'Energetic Full Stack Software Engineer & Business Development Specialist with 4+ years of expertise in architecting scalable web applications, e-commerce platforms, and full-stack enterprise systems. Specialized in Next.js, React, Node.js, Express, TypeScript, MongoDB, and secure cloud server infrastructure. Passionate about engineering high-converting web solutions for global clients across USA, Germany, UK, and South Asia.',
     skills: ['Next.js 15', 'React 19', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'Cloud DevOps', 'Nginx & Linux', 'PostgreSQL', 'System Architecture', 'REST & GraphQL APIs', 'Docker'],
-    email: 'info@webdevsoftwaresolutions.com',
+    email: 'webdevsoftwaresolutions26@gmail.com',
     phone: '+880 1722-301927',
     linkedin: 'https://linkedin.com',
     github: 'https://github.com/almumeetusaikat',
@@ -324,7 +324,7 @@ export const initialTeam: TeamMember[] = [
     image: '/images/team/android-developer.png',
     bio: 'Dedicated Mobile Application Engineer with 4+ years of comprehensive software development experience, including 2.5 years dedicated to native and cross-platform mobile engineering across Android and iOS, plus 1.5 years of web development. High proficiency in Kotlin, Swift, Flutter, and React Native with clean MVVM architecture, Jetpack Compose, asynchronous coroutines, and robust RESTful API integration.',
     skills: ['Android (Kotlin)', 'iOS (Swift)', 'Flutter', 'React Native', 'Jetpack Compose', 'MVVM Architecture', 'REST APIs', 'Coroutines', 'Next.js', 'TypeScript', 'Git'],
-    email: 'info@webdevsoftwaresolutions.com',
+    email: 'webdevsoftwaresolutions26@gmail.com',
     phone: '+880 1722-301927',
     github: 'https://github.com',
     linkedin: 'https://linkedin.com',
@@ -376,7 +376,152 @@ export const initialTeam: TeamMember[] = [
   }
 ];
 
-export const initialServices: ServiceDetail[] = [];
+export const initialServices: ServiceDetail[] = [
+  {
+    id: 'serv-1',
+    title: 'Full-Stack, SaaS & Single Page Apps',
+    category: 'Development',
+    shortDesc: 'Single Page Applications (SPA), scalable multi-tenant SaaS platforms, and reactive web applications engineered with Next.js, React, Node.js, and TypeScript.',
+    fullDesc: 'We develop bespoke web software, Single Page Applications (SPA), and scalable SaaS platforms using modern full-stack architectures. From enterprise dashboards and subscription SaaS to real-time collaboration tools, our codebases are modular, fully type-safe in TypeScript, and optimized for sub-second latency.',
+    iconName: 'Code2',
+    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80',
+    techs: ['Next.js', 'React', 'SaaS', 'SPA', 'Node.js', 'TypeScript', 'Tailwind CSS', 'PostgreSQL'],
+    features: ['Single Page Applications (SPA) & PWAs', 'Scalable Multi-Tenant SaaS Architecture', 'Real-time WebSocket event architecture', 'REST & GraphQL API design with RBAC'],
+    deliverables: ['Production-ready SaaS / Web application', 'Complete source code & documentation', 'Automated unit/integration tests', 'Deployment pipeline setup']
+  },
+  {
+    id: 'serv-2',
+    title: 'Cloud & Infrastructure',
+    category: 'Cloud & Security',
+    shortDesc: 'Reliable Linux servers, Docker & Kubernetes orchestration, cloud migrations, and 24/7 automated monitoring with 99.99% uptime SLA.',
+    fullDesc: 'Whether hosting on Hetzner Germany, AWS, DigitalOcean, or private bare-metal servers, our engineering team sets up hardened environments, automated backups, zero-downtime CI/CD workflows, and DDoS defenses.',
+    iconName: 'Server',
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',
+    techs: ['Linux (Ubuntu/Debian)', 'Nginx', 'Docker', 'Kubernetes', 'AWS / Hetzner', 'SSL/TLS', 'Redis'],
+    features: ['Zero-downtime containerized deployments', 'Hardened Linux firewall & security audits', 'Database clustering & replication', '24/7 uptime monitoring & alerting'],
+    deliverables: ['Configured production server', 'Automated backup scripts', 'Security hardening report', 'Server monitoring dashboard']
+  },
+  {
+    id: 'serv-3',
+    title: 'Headless E-Commerce & Landing Pages',
+    category: 'E-Commerce',
+    shortDesc: 'High-converting e-commerce landing pages, custom Shopify Plus storefronts, and hyper-optimized WooCommerce stores with multi-currency support.',
+    fullDesc: 'We turn browsers into buyers. Our e-commerce engineering covers high-converting product landing pages, custom theme architecture, headless Shopify with React/Next.js, complex multi-currency checkout, and seamless inventory management across Europe and South Asia.',
+    iconName: 'ShoppingCart',
+    image: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=800&q=80',
+    techs: ['Shopify Plus', 'Landing Pages', 'WooCommerce', 'Headless Storefronts', 'Stripe', 'Klarna', 'Tailwind CSS'],
+    features: ['High-converting E-Commerce landing pages', 'Sub-second page load times & CRO funnels', 'Custom product customizers & filters', 'Multi-currency & localized payment gateways'],
+    deliverables: ['Turnkey store & high-converting landing page', 'Payment & shipping integrations', 'Mobile checkout optimization', 'Staff training walkthrough']
+  },
+  {
+    id: 'serv-4',
+    title: 'Enterprise CMS & WordPress Solutions',
+    category: 'Development',
+    shortDesc: 'Modern, secure WordPress portals, clean custom themes, and headless CMS architectures built without bloated page builders.',
+    fullDesc: 'We build professional corporate websites and content platforms with custom themes, tailor-made Gutenberg blocks, optimized database indexing, and strict security hardening.',
+    iconName: 'Globe',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
+    techs: ['WordPress', 'PHP', 'Tailwind CSS', 'Headless WP', 'GraphQL', 'MySQL', 'Redis'],
+    features: ['Custom themes with zero page-builder bloat', 'Google Core Web Vitals 95+ score', 'GDPR/DSGVO compliance & cookie consent', 'Automated security snapshots & updates'],
+    deliverables: ['Custom WordPress installation', 'Tailored Gutenberg block library', 'SEO & performance audit', 'Editor training walkthrough']
+  },
+  {
+    id: 'serv-5',
+    title: 'APIs & Microservices Engineering',
+    category: 'Development',
+    shortDesc: 'Secure, high-volume REST and GraphQL APIs, real-time microservices, and seamless third-party enterprise integrations.',
+    fullDesc: 'We build mission-critical engines and microservices powering modern platforms. From payment webhooks and ERP integrations to high-throughput message queues, we ensure your backend operates flawlessly under heavy traffic.',
+    iconName: 'Cpu',
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80',
+    techs: ['Node.js', 'Express', 'Python', 'FastAPI', 'PostgreSQL', 'MongoDB', 'Redis', 'RabbitMQ'],
+    features: ['RESTful & GraphQL architecture', 'JWT & OAuth2 authentication', 'Redis caching for sub-millisecond responses', 'Complete Swagger & Postman documentation'],
+    deliverables: ['Tested & deployed API endpoints', 'Interactive Swagger documentation', 'Postman test collection', 'SDK example code']
+  },
+  {
+    id: 'serv-6',
+    title: 'Mobile App Development (iOS, Android & Flutter)',
+    category: 'Development',
+    shortDesc: 'High-performance cross-platform and native mobile applications with clean architecture, offline-first sync, and 60fps UX.',
+    fullDesc: 'We build enterprise-ready native Android (Kotlin) and iOS (Swift) apps alongside cross-platform Flutter and React Native experiences. From asynchronous coroutines and Jetpack Compose to hardware sensors and real-time WebSockets, our mobile apps deliver delightful user experiences.',
+    iconName: 'Smartphone',
+    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80',
+    techs: ['Flutter', 'React Native', 'Kotlin', 'Swift', 'Jetpack Compose', 'MVVM Architecture', 'REST APIs'],
+    features: ['Native performance on iOS & Android', 'Offline-first database syncing', 'Biometric security & push notifications', 'Automated App Store & Google Play release'],
+    deliverables: ['Production App Store & Google Play builds', 'Complete source code with modular architecture', 'API integration & Swagger contracts', 'Continuous delivery CI/CD pipelines']
+  },
+  {
+    id: 'serv-7',
+    title: 'UI/UX Design & Portfolio Prototyping',
+    category: 'Design',
+    shortDesc: 'User-centered digital experiences, portfolio & agency showcase design, high-fidelity Figma prototypes, modern design systems, and conversion-focused UX audits.',
+    fullDesc: 'We engineer human-centric digital interfaces that combine captivating aesthetics with seamless usability. From wireframes, portfolio & company showcases to clickable Figma prototypes and complete design token architectures, we turn complex user flows into intuitive experiences that drive conversions.',
+    iconName: 'Palette',
+    image: 'https://images.unsplash.com/photo-1581291518655-9523c932deda?auto=format&fit=crop&w=800&q=80',
+    techs: ['Figma', 'Portfolio Design', 'Design Systems', 'Wireframing', 'User Research', 'Prototyping', 'WCAG 2.1'],
+    features: ['Portfolio & creative agency showcase design', 'Figma design system & reusable component libraries', 'Clickable mobile & desktop interactive prototypes', 'Usability audits & accessibility compliance (WCAG)'],
+    deliverables: ['Complete Figma source file with tokens & styles', 'Interactive clickable prototype link', 'UX research & heuristic audit report', 'Developer-ready design handover specs']
+  },
+  {
+    id: 'serv-8',
+    title: 'Meta Ads & Paid Social (Facebook & Instagram)',
+    category: 'Marketing',
+    shortDesc: 'High-ROI Facebook & Instagram ad campaigns, full-funnel creative strategies, Meta Pixel / CAPI setup, and targeted audience scaling.',
+    fullDesc: 'Transform paid social advertising into a predictable customer acquisition machine. We design, launch, and optimize high-converting Meta ad campaigns across Facebook and Instagram with server-side Conversions API (CAPI), audience retargeting funnels, dynamic creative testing, and weekly ROAS optimization.',
+    iconName: 'Megaphone',
+    image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80',
+    techs: ['Meta Ads Manager', 'Facebook Pixel', 'Conversions API (CAPI)', 'A/B Testing', 'Lookalike Audiences', 'Ad Creative Design', 'Retargeting'],
+    features: ['Server-side Meta Conversions API (CAPI) integration', 'Laser-targeted custom & lookalike audience buildout', 'High-converting ad creative copy & graphic design', 'Continuous ROAS scaling & budget optimization'],
+    deliverables: ['Configured Meta Business Portfolio & ad accounts', 'Complete CAPI & event tracking audit', 'High-converting ad creatives & copywriting', 'Weekly performance dashboard & reporting']
+  },
+  {
+    id: 'serv-9',
+    title: 'SEO & Data-Driven Growth Marketing',
+    category: 'Marketing',
+    shortDesc: 'Technical SEO audits, high-intent Google ranking optimization, conversion rate optimization (CRO), and organic customer acquisition.',
+    fullDesc: 'Dominate organic search results and turn searchers into paying clients. Our growth engineers resolve technical crawling bottlenecks, optimize Google Core Web Vitals, execute high-authority backlink and content strategies, and build conversion-optimized landing pages that maximize pipeline revenue.',
+    iconName: 'Search',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
+    techs: ['Technical SEO', 'Google Analytics 4', 'Search Console', 'Ahrefs', 'SEMrush', 'Schema.org', 'CRO'],
+    features: ['Deep technical SEO & Core Web Vitals audit', 'Keyword opportunity & competitor gap analysis', 'Structured schema markup & on-page optimization', 'Conversion Rate Optimization (CRO) & funnel analysis'],
+    deliverables: ['Comprehensive technical SEO audit & fix roadmap', 'High-intent keyword matrix & content calendar', 'Custom GA4 & Looker Studio reporting dashboard', 'Monthly search performance & ROI review']
+  },
+  {
+    id: 'serv-10',
+    title: 'AI Integration & Intelligent Automation',
+    category: 'AI & Automation',
+    shortDesc: 'Custom AI assistants, OpenAI & Claude LLM integrations, retrieval-augmented generation (RAG), and smart enterprise workflow automations.',
+    fullDesc: 'Supercharge your business with state-of-the-art artificial intelligence. We integrate LLMs (OpenAI, Anthropic Claude, open-source models) directly into your web applications, build private RAG knowledge bases over internal documents, and automate repetitive workflows using n8n and Python microservices.',
+    iconName: 'Brain',
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80',
+    techs: ['OpenAI API', 'Anthropic Claude', 'LangChain', 'Pinecone / pgvector', 'Python', 'n8n / Zapier', 'RAG'],
+    features: ['LLM agent integration with domain-specific knowledge', 'Retrieval-Augmented Generation (RAG) vector search', 'Automated document processing & data extraction', 'Autonomous multi-step business workflow triggers'],
+    deliverables: ['Production-ready AI integration & endpoints', 'Vectorized document database setup', 'Automated workflow pipelines & webhooks', 'API documentation & model fine-tuning report']
+  },
+  {
+    id: 'serv-11',
+    title: 'Cybersecurity Audits & GDPR Compliance',
+    category: 'Cloud & Security',
+    shortDesc: 'Comprehensive vulnerability assessments, penetration testing, DSGVO/GDPR compliance audits, and enterprise security hardening.',
+    fullDesc: 'Protect your enterprise assets, reputation, and customer data from modern cyber threats. We perform rigorous OWASP vulnerability scans, penetration testing, server firewall and SSL/TLS hardening, and assist European and global businesses in achieving watertight GDPR (DSGVO) compliance.',
+    iconName: 'ShieldCheck',
+    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80',
+    techs: ['OWASP Top 10', 'Penetration Testing', 'Nginx Hardening', 'GDPR / DSGVO', 'SSL/TLS 1.3', 'Fail2ban', 'UFW / iptables'],
+    features: ['OWASP Top 10 web vulnerability assessments', 'Server network & port hardening audits', 'GDPR/DSGVO cookie consent & data policy review', 'Automated security snapshot & intrusion alerts'],
+    deliverables: ['Executive summary & technical vulnerability report', 'Step-by-step remediation roadmap', 'GDPR compliance verification certificate', 'Developer security best practices checklist']
+  },
+  {
+    id: 'serv-12',
+    title: 'Brand Identity & Creative Strategy',
+    category: 'Design',
+    shortDesc: 'Memorable corporate visual identities, typography guidelines, vector assets, and consistent cross-platform digital brand systems.',
+    fullDesc: 'Stand out in crowded markets with a distinctive, professional brand identity. We craft comprehensive visual guidelines, iconic logos, color harmony systems, typography hierarchies, and complete marketing collateral that make your business instantly recognizable and trustworthy.',
+    iconName: 'Brush',
+    image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80',
+    techs: ['Brand Guidelines', 'Vector Identity', 'Typography', 'Color Systems', 'Social Media Kits', 'Pitch Decks', 'Figma'],
+    features: ['Custom vector logo creation in all responsive formats', 'Comprehensive color palette & typography hierarchy', 'Complete Brand Style Guide (PDF & Figma tokens)', 'Social media launch kits & investor deck templates'],
+    deliverables: ['Complete Brand Guidelines book', 'Vector logo pack (SVG, PNG, EPS, AI, PDF)', 'Digital brand assets & social templates', 'Typography & CSS design token export']
+  }
+];
 
 export const initialBlogs: BlogPost[] = [
   {
@@ -457,54 +602,54 @@ The combination of React 19 server actions, unified hydration, and TypeScript co
 export const initialTestimonials: Testimonial[] = [];
 
 export const clientLogos = [
-  { 
-    name: 'All Strings Nylon', 
-    symbol: 'ASN', 
+  {
+    name: 'All Strings Nylon',
+    symbol: 'ASN',
     image: '/images/brands/allstringsnylon.png',
     country: 'USA',
     location: 'North Carolina, United States',
     category: 'High-End Concert Classical Guitars',
     badge: '🇺🇸 USA Client'
   },
-  { 
-    name: 'Gilmore Electric', 
-    symbol: 'GE', 
+  {
+    name: 'Gilmore Electric',
+    symbol: 'GE',
     image: '/images/brands/gilmoreelectric.png',
     country: 'USA',
     location: 'Florida, United States',
     category: 'Commercial Electrical & Industrial SaaS',
     badge: '🇺🇸 USA Client'
   },
-  { 
-    name: 'Start Campus', 
-    symbol: 'SC', 
+  {
+    name: 'Start Campus',
+    symbol: 'SC',
     image: '/images/brands/start-campus.png',
     country: 'Europe',
     location: 'Sines, Portugal (EU)',
     category: 'Sustainable Mega Data Center Telemetry',
     badge: '🇪🇺 EU Enterprise'
   },
-  { 
-    name: 'Bavaria FinTech AG', 
-    symbol: 'BF', 
+  {
+    name: 'Bavaria FinTech AG',
+    symbol: 'BF',
     image: '',
     country: 'Germany',
     location: 'Frankfurt, Germany',
     category: 'Cloud Banking & Microservices Platform',
     badge: '🇩🇪 German FinTech'
   },
-  { 
-    name: 'Marfione Guitar', 
-    symbol: 'MG', 
+  {
+    name: 'Marfione Guitar',
+    symbol: 'MG',
     image: '/images/brands/marfione-guitar.webp',
     country: 'USA',
     location: 'United States',
     category: 'Boutique Custom Master Builder',
     badge: '🇺🇸 USA Client'
   },
-  { 
-    name: 'Agneya Singh', 
-    symbol: 'AS', 
+  {
+    name: 'Agneya Singh',
+    symbol: 'AS',
     image: '/images/brands/agneyasingh.png',
     country: 'International',
     location: 'United States & Global',
@@ -557,7 +702,7 @@ export const companyOffices = [
     city: 'Küppersteg, Leverkusen, Germany',
     address: 'Küppersteg, 51373 Leverkusen, NRW, Germany',
     phone: '+49 172 9766016',
-    email: 'info@webdevsoftwaresolutions.com',
+    email: 'webdevsoftwaresolutions26@gmail.com',
     hours: 'Mon - Sat: 9:00 AM - 8:00 PM (CET)',
     isHQ: false
   },
@@ -566,7 +711,7 @@ export const companyOffices = [
     city: 'Joypurhat, Bangladesh',
     address: 'Housing Estate, Word No: 07, Joypurhat-5900, Joypurhat, Bangladesh',
     phone: '+880 1722-301927',
-    email: 'info@webdevsoftwaresolutions.com',
+    email: 'webdevsoftwaresolutions26@gmail.com',
     hours: 'Mon - Sat: 9:00 AM - 8:00 PM (BST)',
     isHQ: true
   }
@@ -608,32 +753,6 @@ export const initialBlogPosts = initialBlogs;
 export const initialHeroSlides: HeroSlide[] = [
   {
     id: 'slide-1',
-    badge: 'ENGINEERING DIGITAL EXPERIENCES',
-    title: 'Web & Mobile Engineering',
-    highlightText: 'Built to Scale.',
-    subtitle: 'Reliable, high-performance web and mobile products engineered for business growth.',
-    primaryBtnText: 'Start Your Project',
-    primaryBtnAction: 'quote',
-    secondaryBtnText: 'Explore Services',
-    secondaryBtnAction: 'services',
-    backgroundImage: '/images/background/webdev-bg.webp',
-    tag: '01 / Software Engineering'
-  },
-  {
-    id: 'slide-2',
-    badge: 'MODERN WEB ENGINEERING',
-    title: 'Modern Web Apps',
-    highlightText: 'Fast & Scalable.',
-    subtitle: 'Fast, secure, and responsive web platforms built for performance.',
-    primaryBtnText: 'Build Your Website',
-    primaryBtnAction: 'quote',
-    secondaryBtnText: 'View Web Services',
-    secondaryBtnAction: 'services',
-    backgroundImage: '/images/background/hero-img-1.webp',
-    tag: '02 / Web Development'
-  },
-  {
-    id: 'slide-3',
     badge: 'NEXT-GENERATION MOBILE SOLUTIONS',
     title: 'Native Mobile Apps',
     highlightText: 'iOS & Android.',
@@ -643,7 +762,33 @@ export const initialHeroSlides: HeroSlide[] = [
     secondaryBtnText: 'Explore Mobile Solutions',
     secondaryBtnAction: 'services',
     backgroundImage: '/images/background/webdev-bg (1).webp',
-    tag: '03 / Mobile App Development'
+    tag: '01 / Mobile App Development'
+  },
+  {
+    id: 'slide-2',
+    badge: 'ENGINEERING DIGITAL EXPERIENCES',
+    title: 'Web & Mobile Engineering',
+    highlightText: 'Built to Scale.',
+    subtitle: 'Reliable, high-performance web and mobile products engineered for business growth.',
+    primaryBtnText: 'Start Your Project',
+    primaryBtnAction: 'quote',
+    secondaryBtnText: 'Explore Services',
+    secondaryBtnAction: 'services',
+    backgroundImage: '/images/background/webdev-bg.webp',
+    tag: '02 / Software Engineering'
+  },
+  {
+    id: 'slide-3',
+    badge: 'MODERN WEB ENGINEERING',
+    title: 'Modern Web Apps',
+    highlightText: 'Fast & Scalable.',
+    subtitle: 'Fast, secure, and responsive web platforms built for performance.',
+    primaryBtnText: 'Build Your Website',
+    primaryBtnAction: 'quote',
+    secondaryBtnText: 'View Web Services',
+    secondaryBtnAction: 'services',
+    backgroundImage: '/images/background/hero-img-1.webp',
+    tag: '03 / Web Development'
   }
 ];
 
@@ -653,15 +798,15 @@ export const initialSiteSettings: SiteSettings = {
   logoUrl: '/images/logo/webdev-logo.png',
   darkLogoUrl: '/images/logo/dark-logo-webdevss.png',
   heroSlides: initialHeroSlides,
-  email: 'info@webdevsoftwaresolutions.com',
+  email: 'webdevsoftwaresolutions26@gmail.com',
   phone_bd: '+880 1722-301927',
   phone_de: '+49 172 9766016',
   address_bd: 'Housing Estate, Ward No: 07, Joypurhat-5900, Bangladesh',
   address_de: 'Küppersteg, 51373 Leverkusen, NRW, Germany',
   socialLinks: {
-    github: 'https://github.com/almumeetusaikat',
+    github: 'https://github.com/webdevsoftware',
     twitter: 'https://x.com',
-    linkedin: 'https://linkedin.com',
+    linkedin: 'https://www.linkedin.com/in/webdevss',
     whatsapp_bd: 'https://wa.me/8801722301927',
     whatsapp_de: 'https://wa.me/491729766016'
   },
@@ -685,13 +830,13 @@ Processing is based on your consent (Art. 6(1)(a) GDPR), contract performance (A
 We retain inquiry data for up to 36 months or as required by applicable law. You may request deletion at any time.
 
 ## 5. Your Rights
-Under GDPR, you have the right to access, rectify, erase, restrict, or port your data. To exercise any right, email us at **info@webdevsoftwaresolutions.com**.
+Under GDPR, you have the right to access, rectify, erase, restrict, or port your data. To exercise any right, email us at **webdevsoftwaresolutions26@gmail.com**.
 
 ## 6. Cookies
 Our website uses essential session cookies only. No tracking or advertising cookies are used.
 
 ## 7. Contact & Data Controller
-**WebDev Software Solutions** · Küppersteg, 51373 Leverkusen, Germany · info@webdevsoftwaresolutions.com
+**WebDev Software Solutions** · Küppersteg, 51373 Leverkusen, Germany · webdevsoftwaresolutions26@gmail.com
 
 *Last updated: January 2026*`,
 
@@ -721,7 +866,7 @@ These Terms are governed by the laws of Germany (NRW jurisdiction, Leverkusen) f
 We reserve the right to update these Terms. Continued use of our services constitutes acceptance of the updated Terms.
 
 ## 8. Contact
-**WebDev Software Solutions** · Küppersteg, 51373 Leverkusen, Germany · info@webdevsoftwaresolutions.com
+**WebDev Software Solutions** · Küppersteg, 51373 Leverkusen, Germany · webdevsoftwaresolutions26@gmail.com
 
 *Last updated: January 2026*`,
 

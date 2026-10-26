@@ -1,13 +1,29 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { initialTeamMembers } from '@/data/initialData';
+import { requireAdmin } from '@/lib/auth';
 
 // GET all team members
 export async function GET() {
   try {
     const members = await prisma.teamMember.findMany({ orderBy: { createdAt: 'asc' } });
     if (members.length > 0) {
-      return NextResponse.json({ success: true, source: 'postgresql', data: members });
+      const ceoDefaults = initialTeamMembers.find((member) => member.id === 'team-2');
+      const data = members.map((member) => {
+        if (member.id === 'team-2' && ceoDefaults) {
+          return {
+            ...member,
+            email: 'webdevsoftwaresolutions26@gmail.com',
+            linkedin: ceoDefaults.linkedin,
+            education: ceoDefaults.education,
+          };
+        }
+
+        return ['info@webdevsoftwaresolutions.com', 'engineer@webdevsoftware.com'].includes(member.email)
+          ? { ...member, email: 'webdevsoftwaresolutions26@gmail.com' }
+          : member;
+      });
+      return NextResponse.json({ success: true, source: 'postgresql', data });
     }
   } catch (error) {
     console.warn('DB not accessible for team GET:', error);
@@ -17,6 +33,8 @@ export async function GET() {
 
 // POST new team member
 export async function POST(request: Request) {
+  const authResponse = await requireAdmin(request);
+  if (authResponse) return authResponse;
   try {
     const body = await request.json();
     const created = await prisma.teamMember.create({

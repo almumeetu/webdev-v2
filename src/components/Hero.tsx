@@ -60,12 +60,12 @@ function PlatformTile({
   );
 }
 
-function EngineeringVisual({ isDe }: { isDe: boolean }) {
+function EngineeringVisual({ isDe, slideIndex = 1 }: { isDe: boolean; slideIndex?: number }) {
   return (
     <div className={styles.architectureStage}>
       <div className={styles.stageCaption}>
         <span>{isDe ? 'Systemarchitektur' : 'System architecture'}</span>
-        <span className={styles.stageCaptionMeta}>01 / PLATFORM</span>
+        <span className={styles.stageCaptionMeta}>0{slideIndex + 1} / PLATFORM</span>
       </div>
 
       <div className={styles.cloudNode}>
@@ -97,12 +97,12 @@ function EngineeringVisual({ isDe }: { isDe: boolean }) {
   );
 }
 
-function WebExperienceVisual({ isDe }: { isDe: boolean }) {
+function WebExperienceVisual({ isDe, slideIndex = 2 }: { isDe: boolean; slideIndex?: number }) {
   return (
     <div className={styles.browserStage}>
       <div className={styles.stageCaption}>
         <span>{isDe ? 'Web-App Vorschau' : 'Web app preview'}</span>
-        <span className={styles.stageCaptionMeta}>02 / WEB</span>
+        <span className={styles.stageCaptionMeta}>0{slideIndex + 1} / WEB</span>
       </div>
 
       <div className={styles.browserWindow}>
@@ -200,12 +200,12 @@ function PhoneMockup({
   );
 }
 
-function MobileExperienceVisual({ isDe }: { isDe: boolean }) {
+function MobileExperienceVisual({ isDe, slideIndex = 0 }: { isDe: boolean; slideIndex?: number }) {
   return (
     <div className={styles.mobileStage}>
       <div className={styles.stageCaption}>
         <span>{isDe ? 'Mobile-Erlebnis' : 'Mobile experience'}</span>
-        <span className={styles.stageCaptionMeta}>03 / MOBILE</span>
+        <span className={styles.stageCaptionMeta}>0{slideIndex + 1} / MOBILE</span>
       </div>
 
       <div className={styles.deviceShowcase}>
@@ -225,23 +225,45 @@ function MobileExperienceVisual({ isDe }: { isDe: boolean }) {
   );
 }
 
+function getSlideVisualType(slide: HeroSlide, index: number): 'mobile' | 'web' | 'engineering' {
+  const title = (slide.title || '').toLowerCase();
+  const tag = (slide.tag || '').toLowerCase();
+  const badge = (slide.badge || '').toLowerCase();
+  if (title.includes('native mobile') || title.includes('mobile-apps') || title.includes('mobile apps') || tag.includes('mobile') || badge.includes('mobile')) {
+    return 'mobile';
+  }
+  if (title.includes('modern web') || title.includes('web-apps') || title.includes('web apps') || tag.includes('web development') || badge.includes('web engineering')) {
+    return 'web';
+  }
+  if (title.includes('web & mobile') || title.includes('engineering') || tag.includes('software engineering') || badge.includes('digital experiences')) {
+    return 'engineering';
+  }
+  return index === 0 ? 'mobile' : index === 1 ? 'engineering' : 'web';
+}
+
 function EngineeringShowcase({ slide, index, isDe }: { slide: HeroSlide; index: number; isDe: boolean }) {
-  const themeClass = [styles.themeEngineering, styles.themeWeb, styles.themeMobile][index] || styles.themeEngineering;
+  const visualType = getSlideVisualType(slide, index);
+  const themeClass = visualType === 'mobile'
+    ? styles.themeMobile
+    : visualType === 'web'
+    ? styles.themeWeb
+    : styles.themeEngineering;
+
   const localBackground = slide.backgroundImage?.startsWith('/') && !slide.backgroundImage.startsWith('//')
     ? slide.backgroundImage
     : undefined;
 
   const imageDescription = isDe
-    ? [
-      'Vernetzte Cloud-, Web-, Android- und iOS-Architektur mit Flutter, React Native und Kotlin.',
-      'Vorschau einer responsiven Webanwendung mit Leistungs-, Sicherheits- und Mobilansicht.',
-      'Drei Smartphone-Vorschauen für eine plattformübergreifende App auf Android und iOS.',
-    ][index] || 'Digitale Produktentwicklung von Web bis Mobile.'
-    : [
-      'Connected cloud, web, Android, and iOS architecture with Flutter, React Native, and Kotlin.',
-      'A responsive web application preview with performance, security, and mobile views.',
-      'Three smartphone previews for a cross-platform app on Android and iOS.',
-    ][index] || 'Digital product engineering from web to mobile.';
+    ? visualType === 'mobile'
+      ? 'Drei Smartphone-Vorschauen für eine plattformübergreifende App auf Android und iOS.'
+      : visualType === 'web'
+      ? 'Vorschau einer responsiven Webanwendung mit Leistungs-, Sicherheits- und Mobilansicht.'
+      : 'Vernetzte Cloud-, Web-, Android- und iOS-Architektur mit Flutter, React Native und Kotlin.'
+    : visualType === 'mobile'
+      ? 'Three smartphone previews for a cross-platform app on Android and iOS.'
+      : visualType === 'web'
+      ? 'A responsive web application preview with performance, security, and mobile views.'
+      : 'Connected cloud, web, Android, and iOS architecture with Flutter, React Native, and Kotlin.';
 
   return (
     <div className={`${styles.showcase} ${themeClass}`} role="img" aria-label={imageDescription}>
@@ -263,12 +285,18 @@ function EngineeringShowcase({ slide, index, isDe }: { slide: HeroSlide; index: 
           </span>
         </div>
 
-        <div className={styles.showcaseVisual} key={`visual-${index}`}>
-          {index === 1 ? <WebExperienceVisual isDe={isDe} /> : index === 2 ? <MobileExperienceVisual isDe={isDe} /> : <EngineeringVisual isDe={isDe} />}
+        <div className={styles.showcaseVisual} key={`visual-${slide.id || index}`}>
+          {visualType === 'mobile' ? (
+            <MobileExperienceVisual isDe={isDe} slideIndex={index} />
+          ) : visualType === 'web' ? (
+            <WebExperienceVisual isDe={isDe} slideIndex={index} />
+          ) : (
+            <EngineeringVisual isDe={isDe} slideIndex={index} />
+          )}
         </div>
 
         <div className={styles.techFooter}>
-          {(index === 1
+          {(visualType === 'web'
             ? [{ label: 'Next.js', Icon: SiNextdotjs, color: 'blue' }, { label: 'API', Icon: Code2, color: 'blue' }, { label: 'Cloud', Icon: Cloud, color: 'cyan' }]
             : ENGINEERING_TECH
           ).map(({ label, Icon, color }) => (

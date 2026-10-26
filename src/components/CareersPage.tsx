@@ -157,6 +157,9 @@ export const CareersPage: React.FC = () => {
       };
 
       const result = await addApplication(payload);
+      if (!result.success || !result.id) {
+        throw new Error('Application service is unavailable.');
+      }
       setSubmitSuccessId(result.id);
     } catch {
       setErrorMessage('An unexpected error occurred while saving your application. Please try again.');
@@ -200,7 +203,7 @@ export const CareersPage: React.FC = () => {
                     ? 'Offene Stellen nach Rolle, Technologie oder Stichwort durchsuchen (z. B. React, Cloud, UI/UX)...'
                     : 'Search open positions by role, skill, or keyword (e.g., React, Cloud, UI/UX)...'
                 }
-                className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
               />
               {searchTerm && (
                 <button
@@ -221,7 +224,7 @@ export const CareersPage: React.FC = () => {
               <select
                 value={selectedWorkplace}
                 onChange={(e) => setSelectedWorkplace(e.target.value)}
-                className="bg-white border border-slate-200/90 rounded-xl px-3 py-2 text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] cursor-pointer shadow-2xs"
+                className="bg-white border border-slate-200/90 rounded-xl px-3 py-2 text-xs font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] cursor-pointer shadow-2xs"
               >
                 <option value="all">{lang === 'de' ? 'Alle Standorte / Remote' : 'All Locations / Workplaces'}</option>
                 <option value="Remote">{lang === 'de' ? '100% Remote' : '100% Remote'}</option>
@@ -654,7 +657,7 @@ export const CareersPage: React.FC = () => {
                             placeholder={lang === 'de' ? 'z. B. Max Mustermann' : 'e.g. John Doe'}
                             value={applicationForm.applicantName}
                             onChange={(e) => setApplicationForm({ ...applicationForm, applicantName: e.target.value })}
-                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                           />
                         </div>
 
@@ -669,7 +672,7 @@ export const CareersPage: React.FC = () => {
                             placeholder="name@example.com"
                             value={applicationForm.email}
                             onChange={(e) => setApplicationForm({ ...applicationForm, email: e.target.value })}
-                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                           />
                         </div>
                       </div>
@@ -686,7 +689,7 @@ export const CareersPage: React.FC = () => {
                             placeholder="+49 ... / +880 ..."
                             value={applicationForm.phoneNumber}
                             onChange={(e) => setApplicationForm({ ...applicationForm, phoneNumber: e.target.value })}
-                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                           />
                         </div>
 
@@ -700,7 +703,7 @@ export const CareersPage: React.FC = () => {
                             placeholder={lang === 'de' ? 'z. B. Leverkusen, Deutschland' : 'e.g. Leverkusen, Germany or Dhaka, BD'}
                             value={applicationForm.location}
                             onChange={(e) => setApplicationForm({ ...applicationForm, location: e.target.value })}
-                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                           />
                         </div>
                       </div>
@@ -715,7 +718,7 @@ export const CareersPage: React.FC = () => {
                             placeholder="https://linkedin.com/in/..."
                             value={applicationForm.linkedinUrl}
                             onChange={(e) => setApplicationForm({ ...applicationForm, linkedinUrl: e.target.value })}
-                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                           />
                         </div>
 
@@ -728,7 +731,7 @@ export const CareersPage: React.FC = () => {
                             placeholder="https://github.com/..."
                             value={applicationForm.githubUrl}
                             onChange={(e) => setApplicationForm({ ...applicationForm, githubUrl: e.target.value })}
-                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                           />
                         </div>
 
@@ -741,7 +744,7 @@ export const CareersPage: React.FC = () => {
                             placeholder="https://mywebsite.com"
                             value={applicationForm.portfolioUrl}
                             onChange={(e) => setApplicationForm({ ...applicationForm, portfolioUrl: e.target.value })}
-                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                           />
                         </div>
                       </div>
@@ -757,7 +760,7 @@ export const CareersPage: React.FC = () => {
                             max="30"
                             value={applicationForm.experienceYears}
                             onChange={(e) => setApplicationForm({ ...applicationForm, experienceYears: Number(e.target.value) })}
-                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                           />
                         </div>
 
@@ -770,7 +773,7 @@ export const CareersPage: React.FC = () => {
                             placeholder={lang === 'de' ? 'z. B. 70.000 € / Jahr' : 'e.g. €70,000 / yr or $3,000 / mo'}
                             value={applicationForm.expectedSalary}
                             onChange={(e) => setApplicationForm({ ...applicationForm, expectedSalary: e.target.value })}
-                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                           />
                         </div>
 
@@ -783,7 +786,7 @@ export const CareersPage: React.FC = () => {
                             placeholder={lang === 'de' ? 'z. B. Sofort / 1 Monat' : 'e.g. Immediate / 1 Month'}
                             value={applicationForm.earliestStartDate}
                             onChange={(e) => setApplicationForm({ ...applicationForm, earliestStartDate: e.target.value })}
-                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                            className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                           />
                         </div>
                       </div>
@@ -801,7 +804,7 @@ export const CareersPage: React.FC = () => {
                           placeholder="https://drive.google.com/file/d/..."
                           value={applicationForm.resumeUrl}
                           onChange={(e) => setApplicationForm({ ...applicationForm, resumeUrl: e.target.value })}
-                          className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                          className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                         />
                       </div>
 
@@ -819,7 +822,7 @@ export const CareersPage: React.FC = () => {
                           }
                           value={applicationForm.coverLetter}
                           onChange={(e) => setApplicationForm({ ...applicationForm, coverLetter: e.target.value })}
-                          className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs resize-none"
+                          className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs resize-none"
                         />
                       </div>
 
@@ -933,7 +936,7 @@ export const CareersPage: React.FC = () => {
                       placeholder={lang === 'de' ? 'z. B. Max Mustermann' : 'Jane Doe'}
                       value={applicationForm.applicantName}
                       onChange={(e) => setApplicationForm({ ...applicationForm, applicantName: e.target.value })}
-                      className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                      className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                     />
                   </div>
 
@@ -947,7 +950,7 @@ export const CareersPage: React.FC = () => {
                       placeholder="jane@example.com"
                       value={applicationForm.email}
                       onChange={(e) => setApplicationForm({ ...applicationForm, email: e.target.value })}
-                      className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                      className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                     />
                   </div>
                 </div>
@@ -963,7 +966,7 @@ export const CareersPage: React.FC = () => {
                       placeholder="+49 ... or +880 ..."
                       value={applicationForm.phoneNumber}
                       onChange={(e) => setApplicationForm({ ...applicationForm, phoneNumber: e.target.value })}
-                      className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                      className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                     />
                   </div>
 
@@ -976,7 +979,7 @@ export const CareersPage: React.FC = () => {
                       placeholder={lang === 'de' ? 'Stadt, Land' : 'City, Country'}
                       value={applicationForm.location}
                       onChange={(e) => setApplicationForm({ ...applicationForm, location: e.target.value })}
-                      className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                      className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                     />
                   </div>
                 </div>
@@ -991,7 +994,7 @@ export const CareersPage: React.FC = () => {
                       placeholder="https://..."
                       value={applicationForm.githubUrl || applicationForm.portfolioUrl}
                       onChange={(e) => setApplicationForm({ ...applicationForm, githubUrl: e.target.value, portfolioUrl: e.target.value })}
-                      className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                      className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                     />
                   </div>
 
@@ -1004,7 +1007,7 @@ export const CareersPage: React.FC = () => {
                       placeholder="https://drive.google.com/..."
                       value={applicationForm.resumeUrl}
                       onChange={(e) => setApplicationForm({ ...applicationForm, resumeUrl: e.target.value })}
-                      className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs"
+                      className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs"
                     />
                   </div>
                 </div>
@@ -1018,7 +1021,7 @@ export const CareersPage: React.FC = () => {
                     placeholder={lang === 'de' ? 'z. B. Next.js 15, PostgreSQL, Kubernetes, Golang, UI/UX...' : 'e.g. Next.js 15, PostgreSQL, Kubernetes, Golang, UI/UX...'}
                     value={applicationForm.coverLetter}
                     onChange={(e) => setApplicationForm({ ...applicationForm, coverLetter: e.target.value })}
-                    className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9cd5e2] focus:border-transparent transition-all shadow-2xs resize-none"
+                    className="w-full text-xs p-3 rounded-xl bg-white border border-slate-200/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] transition-all shadow-2xs resize-none"
                   />
                 </div>
 

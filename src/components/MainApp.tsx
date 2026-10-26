@@ -77,15 +77,20 @@ function MainAppContent() {
   const [siteSettings, setSiteSettings] = useState<SiteSettings>(initialSiteSettings);
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem('webdev_site_settings');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        setSiteSettings((prev) => ({ ...prev, ...parsed }));
+    let active = true;
+    const loadSettings = async () => {
+      try {
+        const response = await fetch('/api/site-settings', { cache: 'no-store' });
+        const payload = await response.json();
+        if (active && response.ok && payload.success && payload.data) {
+          setSiteSettings(payload.data as SiteSettings);
+        }
+      } catch (error) {
+        console.error('Failed to load site settings:', error);
       }
-    } catch (e) {
-      console.error('Failed to parse saved siteSettings', e);
-    }
+    };
+    void loadSettings();
+    return () => { active = false; };
   }, []);
 
   // ─── Auth ───────────────────────────────────────────────────────────────────
@@ -115,7 +120,7 @@ function MainAppContent() {
     handleHashCheck();
     window.addEventListener('hashchange', handleHashCheck);
     return () => window.removeEventListener('hashchange', handleHashCheck);
-  }, []);
+  }, [currentView]);
 
   const handleNavigate = (view: string, subParam?: string) => {
     const targetView = view === 'quote' ? 'contact' : view;
@@ -195,7 +200,7 @@ function MainAppContent() {
       image: data.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
       bio: data.bio || 'Experienced software engineer at WebDev Software Solutions.',
       skills: data.skills || ['Full-Stack MERN', 'TypeScript', 'Node.js'],
-      email: data.email || 'engineer@webdevsoftware.com',
+      email: data.email || 'webdevsoftwaresolutions26@gmail.com',
       experienceYears: data.experienceYears || 5,
       headline: data.headline,
       location: data.location,
@@ -297,15 +302,17 @@ function MainAppContent() {
   const handleDeleteInquiry = (id: string) => setInquiries((prev) => prev.filter((i) => i.id !== id));
 
   // ─── Site Settings ───────────────────────────────────────────────────────────
-  const handleUpdateSiteSettings = (settings: SiteSettings) => {
-    setSiteSettings(settings);
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.setItem('webdev_site_settings', JSON.stringify(settings));
-      } catch (e) {
-        console.error('Failed to persist siteSettings', e);
-      }
+  const handleUpdateSiteSettings = async (settings: SiteSettings) => {
+    const response = await fetch('/api/site-settings', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(settings),
+    });
+    const payload = await response.json();
+    if (!response.ok || !payload.success || !payload.data) {
+      throw new Error(payload.message || 'Failed to save site settings.');
     }
+    setSiteSettings(payload.data as SiteSettings);
   };
 
   // ─── Admin View ──────────────────────────────────────────────────────────────
@@ -403,12 +410,6 @@ function MainAppContent() {
               onExplorePortfolio={() => handleNavigate('portfolio')}
             />
 
-            <RecentProjectsSection
-              projects={projects}
-              onSelectProject={(project) => { setSelectedProject(project); handleNavigate('project-detail'); }}
-              onViewAllProjects={() => handleNavigate('portfolio')}
-            />
-
             <DeliveryApproachSection />
 
             <GlobalEcosystemSection />
@@ -447,6 +448,7 @@ function MainAppContent() {
             <div className="pt-6 sm:pt-8 lg:pt-10 pb-12 sm:pb-16 lg:pb-20">
               <OurServicesSection
                 services={services}
+                showAll={true}
                 onSelectService={(serviceId) => {
                   const found = services.find((s) => s.id === serviceId) || services[0];
                   setSelectedService(found);

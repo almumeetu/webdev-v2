@@ -10,7 +10,7 @@ import {
   Mail,
   Clock,
   ArrowLeft,
-  ShieldCheck
+  ShieldCheck,
 } from 'lucide-react';
 import { Inquiry } from '../types';
 import { useGsapContext } from '../utils/gsapHelper';
@@ -52,6 +52,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useGsapContext(pageRef, () => {
     if (!pageRef.current) return;
@@ -75,6 +76,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError(null);
 
     try {
       const payload = {
@@ -99,51 +101,13 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
       });
 
       const data = await res.json();
-      if (data.success && data.inquiry) {
-        onSubmitSuccess(data.inquiry);
-        setIsSubmitted(true);
-      } else {
-        // Fallback local inquiry
-        const fallbackInq: Inquiry = {
-          id: `inq-${Date.now()}`,
-          firstName,
-          lastName,
-          email,
-          phoneNumber,
-          company,
-          projectType,
-          budget,
-          currency,
-          timezone,
-          ndaRequested,
-          targetMarket,
-          message,
-          status: 'new',
-          createdAt: new Date().toISOString()
-        };
-        onSubmitSuccess(fallbackInq);
-        setIsSubmitted(true);
+      if (!res.ok || !data.success || !data.inquiry) {
+        throw new Error(data.message || 'Inquiry submission failed.');
       }
-    } catch {
-      const fallbackInq: Inquiry = {
-        id: `inq-${Date.now()}`,
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        company,
-        projectType,
-        budget,
-        currency,
-        timezone,
-        ndaRequested,
-        targetMarket,
-        message,
-        status: 'new',
-        createdAt: new Date().toISOString()
-      };
-      onSubmitSuccess(fallbackInq);
+      onSubmitSuccess(data.inquiry);
       setIsSubmitted(true);
+    } catch {
+      setSubmitError('The consultation request could not be saved. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -201,7 +165,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                   {/* Name Row */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
                     <div className="space-y-1">
-                      <label className="text-[11px] font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
+                      <label className="text-xs font-medium text-slate-800 uppercase tracking-wider">
                         First Name *
                       </label>
                       <input
@@ -210,12 +174,12 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         placeholder="e.g. Lars"
-                        className="w-full text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
+                        className="w-full text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl border border-slate-200 focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
                       />
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[11px] font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
+                      <label className="text-xs font-medium text-slate-800 uppercase tracking-wider">
                         Last Name *
                       </label>
                       <input
@@ -224,7 +188,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         placeholder="e.g. Weber"
-                        className="w-full text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
+                        className="w-full text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl border border-slate-200 focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
                       />
                     </div>
                   </div>
@@ -232,7 +196,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                   {/* Email & Phone */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
                     <div className="space-y-1">
-                      <label className="text-[11px] font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
+                      <label className="text-xs font-medium text-slate-800 uppercase tracking-wider">
                         Business Email *
                       </label>
                       <input
@@ -241,12 +205,12 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="lars.weber@enterprise.de"
-                        className="w-full text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
+                        className="w-full text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl border border-slate-200 focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
                       />
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[11px] font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
+                      <label className="text-xs font-medium text-slate-800 uppercase tracking-wider">
                         Phone / WhatsApp
                       </label>
                       <input
@@ -254,7 +218,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         placeholder="+49 171 0000000 / +880..."
-                        className="w-full text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
+                        className="w-full text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl border border-slate-200 focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
                       />
                     </div>
                   </div>
@@ -262,7 +226,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                   {/* Company & Project Type */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
                     <div className="space-y-1">
-                      <label className="text-[11px] font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
+                      <label className="text-xs font-medium text-slate-800 uppercase tracking-wider">
                         Company / Organization
                       </label>
                       <input
@@ -270,18 +234,18 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                         value={company}
                         onChange={(e) => setCompany(e.target.value)}
                         placeholder="Enterprise GmbH / Corp"
-                        className="w-full text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
+                        className="w-full text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl border border-slate-200 focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none"
                       />
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[11px] font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
+                      <label className="text-xs font-medium text-slate-800 uppercase tracking-wider">
                         Project Domain / Service
                       </label>
                       <select
                         value={projectType}
                         onChange={(e) => setProjectType(e.target.value)}
-                        className="w-full text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none bg-white"
+                        className="w-full text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl border border-slate-200 focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none bg-white"
                       >
                         <option value="Full Stack & MERN">Full Stack MERN / Next.js Web App</option>
                         <option value="Cloud & Server Architecture">Cloud & Linux Server Infrastructure</option>
@@ -295,7 +259,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
 
                   {/* Target Market */}
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
+                    <label className="text-xs font-medium text-slate-800 uppercase tracking-wider">
                       Target Deployment Market & Compliance
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -304,7 +268,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                           key={m}
                           type="button"
                           onClick={() => setTargetMarket(m)}
-                          className={`py-2 px-3 text-xs font-bold rounded-xl border transition-all cursor-pointer ${
+                          className={`py-2 px-3 text-xs font-medium rounded-xl border transition-all cursor-pointer ${
                             targetMarket === m
                               ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
                               : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
@@ -319,14 +283,14 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                   {/* Preferred Meeting Timezone */}
                   {/* Preferred Meeting Timezone */}
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider flex items-center gap-1.5">
+                    <label className="text-xs font-medium text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
                       <Clock className="w-3.5 h-3.5 text-cyan-700" />
                       <span>Preferred Meeting Timezone (Sprint Sync)</span>
                     </label>
                     <select
                       value={timezone}
                       onChange={(e) => setTimezone(e.target.value)}
-                      className="w-full text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none bg-white font-medium"
+                      className="w-full text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl border border-slate-200 focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none bg-white font-medium"
                     >
                       <option value="US Eastern (EST/EDT)">🇺🇸 US Eastern (EST/EDT) - New York / Miami / Atlanta</option>
                       <option value="US Pacific (PST/PDT)">🇺🇸 US Pacific (PST/PDT) - San Francisco / Seattle / LA</option>
@@ -356,7 +320,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
 
                   {/* Message / Brief */}
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-900 font-['Archivo'] uppercase tracking-wider">
+                    <label className="text-xs font-medium text-slate-800 uppercase tracking-wider">
                       Project Brief & Technical Requirements *
                     </label>
                     <textarea
@@ -365,15 +329,20 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder="Outline your application goals, target timelines, expected user concurrency, and specific integrations needed..."
-                      className="w-full text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none resize-none"
+                      className="w-full text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl border border-slate-200 focus:ring-1 focus:ring-[#9cd5e2] focus:border-[#9cd5e2] outline-none resize-none"
                     />
                   </div>
 
                   {/* Submit Button */}
+                  {submitError && (
+                    <p role="alert" className="flex items-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-800">
+                      <AlertCircle className="h-4 w-4 shrink-0" />{submitError}
+                    </p>
+                  )}
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-bold text-xs sm:text-sm py-2.5 sm:py-3 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                    className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 font-medium text-xs sm:text-sm py-2.5 sm:py-3 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
                   >
                     {isSubmitting ? (
                       <span>Transmitting Consultation Dossier...</span>
@@ -481,7 +450,7 @@ export const ContactQuotePage: React.FC<ContactQuotePageProps> = ({
                 </div>
                 <div className="flex items-center gap-2">
                   <Mail className="w-3.5 h-3.5 text-cyan-700 shrink-0" />
-                  <span>info@webdevsoftwaresolutions.com</span>
+                  <span>webdevsoftwaresolutions26@gmail.com</span>
                 </div>
               </div>
             </div>

@@ -97,8 +97,8 @@ export const TermsOfServicePage: React.FC<TermsOfServicePageProps> = ({ content,
         <div className="mt-8 text-center">
           <p className="text-xs text-slate-500">
             {lang === 'de' ? 'Für vertragliche oder rechtliche Rückfragen kontaktieren Sie uns unter ' : 'For legal questions or contract inquiries, contact us at '}
-            <a href="mailto:info@webdevsoftwaresolutions.com" className="text-cyan-800 hover:text-cyan-900 font-semibold">
-              info@webdevsoftwaresolutions.com
+            <a href="mailto:webdevsoftwaresolutions26@gmail.com" className="text-cyan-800 hover:text-cyan-900 font-semibold">
+              webdevsoftwaresolutions26@gmail.com
             </a>
           </p>
         </div>
