@@ -23,7 +23,6 @@ import { ServicesMenu } from './ServicesMenu';
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
-  const isHome = pathname === '/';
   const router = useRouter();
   const { currentUser, siteSettings, logout } = useAppContext();
   const { lang, t } = useLanguage();
@@ -51,11 +50,24 @@ export const Navbar: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const scrollY = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      setIsScrolled(scrollY > 10);
     };
+
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll, { passive: true });
+
+    // Catch asynchronous scroll restoration after navigation or page load
+    const rafId = requestAnimationFrame(handleScroll);
+    const timerId = setTimeout(handleScroll, 100);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+      cancelAnimationFrame(rafId);
+      clearTimeout(timerId);
+    };
   }, [pathname]);
 
   // Close user dropdown on outside click
@@ -109,9 +121,8 @@ export const Navbar: React.FC = () => {
   const handleDirectRoute = (route: string) => {
     router.push(route);
     if (typeof window !== 'undefined') {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     }
-    setIsScrolled(false);
     setMobileMenuOpen(false);
     setUserDropdownOpen(false);
   };
@@ -144,9 +155,7 @@ export const Navbar: React.FC = () => {
           ? 'bg-white/98 backdrop-blur-2xl py-2.5 sm:py-3 shadow-lg border-b border-slate-200/90'
           : isScrolled
             ? 'site-header-edge bg-white/95 backdrop-blur-xl py-2 sm:py-2.5 shadow-xs border-b border-slate-200/80'
-            : isHome
-              ? 'bg-transparent py-2.5 sm:py-3 border-b border-slate-900/[0.05]'
-              : 'bg-white/90 backdrop-blur-xl py-2.5 sm:py-3 border-b border-slate-200/80'
+            : 'bg-white/90 backdrop-blur-xl py-2.5 sm:py-3 border-b border-slate-200/80'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
