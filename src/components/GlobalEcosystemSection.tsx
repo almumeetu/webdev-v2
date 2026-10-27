@@ -28,10 +28,12 @@ export const GlobalEcosystemSection: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
-            {brands.map((brand) => (
+            {brands.map((brand, idx) => (
               <div
                 key={brand.name}
-                className="flex min-h-24 flex-col items-center justify-center gap-2 rounded-xl bg-white/90 p-3 shadow-sm ring-1 ring-slate-200/60 transition-shadow hover:shadow-md"
+                className={`flex min-h-24 flex-col items-center justify-center gap-2 rounded-xl bg-white/90 p-3 shadow-sm ring-1 ring-slate-200/60 transition-shadow hover:shadow-md ${
+                  idx === 4 ? 'col-span-2 sm:col-span-1 max-w-[200px] w-full mx-auto sm:max-w-none' : ''
+                }`}
               >
                 <img
                   src={brand.image}

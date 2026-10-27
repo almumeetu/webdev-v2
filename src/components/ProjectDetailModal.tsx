@@ -57,14 +57,14 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
               )}
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-extrabold font-['Archivo']">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold font-['Archivo'] leading-tight">
               {project.title}
             </h2>
           </div>
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 sm:p-8 space-y-6">
+        <div className="p-5 sm:p-8 space-y-6">
           
           {/* Quick Meta Row */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 text-xs">
@@ -142,10 +142,10 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
           )}
 
           {/* Footer Actions */}
-          <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <div className="pt-4 border-t border-slate-100 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3">
             <button
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 cursor-pointer"
+              className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 cursor-pointer text-center"
             >
               {lang === 'de' ? 'Fenster schließen' : 'Close Window'}
             </button>
@@ -155,9 +155,9 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
                 onClose();
                 onGetQuoteForSimilar();
               }}
-              className="bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 border border-[#9cd5e2] text-xs font-bold px-6 py-3 rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+              className="w-full sm:w-auto bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] text-slate-950 border border-[#9cd5e2] text-xs font-bold px-6 py-3 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm text-center"
             >
-              <span>{lang === 'de' ? 'Ähnliche Lösung für Ihr Unternehmen beauftragen' : 'Build A Similar Solution For Your Business'}</span>
+              <span>{lang === 'de' ? 'Ähnliche Lösung beauftragen' : 'Build A Similar Solution'}</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </button>
           </div>

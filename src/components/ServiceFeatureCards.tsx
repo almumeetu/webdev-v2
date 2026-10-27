@@ -68,11 +68,11 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
       <div
         key={`${item.id}-${keySuffix}`}
         onClick={() => onSelectFeature && onSelectFeature(item.id)}
-        className="w-[290px] sm:w-[330px] md:w-[350px] lg:w-[380px] xl:w-[388px] shrink-0 bg-white hover:bg-slate-50/70 border border-slate-200/90 hover:border-cyan-400/80 rounded-2xl p-5 sm:p-6 transition-all duration-200 hover:-translate-y-1 cursor-pointer flex flex-col justify-between group shadow-xs hover:shadow-xl hover:shadow-cyan-950/5 select-none"
+        className="w-[275px] sm:w-[330px] md:w-[350px] lg:w-[380px] xl:w-[388px] shrink-0 bg-white hover:bg-slate-50/70 border border-slate-200/90 hover:border-cyan-400/80 rounded-2xl p-4 sm:p-6 transition-all duration-200 hover:-translate-y-1 cursor-pointer flex flex-col justify-between group shadow-xs hover:shadow-xl hover:shadow-cyan-950/5 select-none"
       >
         <div>
-          <div className="mb-4">
-            <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 shadow-2xs shrink-0 ${item.iconBg}`}>
+          <div className="mb-3.5 sm:mb-4">
+            <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-300 shadow-2xs shrink-0 ${item.iconBg}`}>
               <Icon className="w-5 h-5" />
             </div>
           </div>
@@ -81,12 +81,12 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
             {item.title}
           </h3>
           
-          <p className="mt-2.5 text-sm text-slate-600 leading-relaxed font-normal">
+          <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
             {item.desc}
           </p>
         </div>
 
-        <div className="mt-6 pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm text-slate-600 group-hover:text-cyan-800 font-medium transition-colors">
+        <div className="mt-5 sm:mt-6 pt-3 sm:pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm text-slate-600 group-hover:text-cyan-800 font-medium transition-colors">
           <span>{isDe ? 'Standard entdecken' : 'Explore Standard'}</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
         </div>
@@ -96,13 +96,13 @@ export const ServiceFeatureCards: React.FC<ServiceFeatureCardsProps> = ({ onSele
 
 
   return (
-    <section className="bg-white py-10 sm:py-14 border-b border-slate-200/80 text-slate-900 relative z-20 overflow-hidden">
+    <section className="bg-white py-8 sm:py-14 border-b border-slate-200/80 text-slate-900 relative z-20 overflow-hidden">
         
         {/* Infinite Marquee Slider — full viewport width */}
-        <div className="relative w-full overflow-hidden group/marquee py-2">
+        <div className="relative w-full overflow-hidden group/marquee py-1 sm:py-2">
           {/* Edge fade overlays spanning full width */}
-          <div className="pointer-events-none absolute left-0 inset-y-0 w-16 sm:w-28 md:w-40 bg-gradient-to-r from-white to-transparent z-10" />
-          <div className="pointer-events-none absolute right-0 inset-y-0 w-16 sm:w-28 md:w-40 bg-gradient-to-l from-white to-transparent z-10" />
+          <div className="pointer-events-none absolute left-0 inset-y-0 w-6 sm:w-16 md:w-36 bg-gradient-to-r from-white to-transparent z-10" />
+          <div className="pointer-events-none absolute right-0 inset-y-0 w-6 sm:w-16 md:w-36 bg-gradient-to-l from-white to-transparent z-10" />
 
           {/* Marquee Track: Seamless loop with 2 identical sets, pauses smoothly on hover */}
           <div 

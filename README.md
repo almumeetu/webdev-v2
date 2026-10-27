@@ -23,6 +23,18 @@ pnpm exec prisma migrate deploy
 
 Provision the administrator with `ADMIN_EMAIL` and a unique `ADMIN_PASSWORD` between 12 and 128 characters, then run `pnpm exec prisma db seed`. The seeder does not create a sample client or use a default password.
 
+### Recover missing local careers tables
+
+If `/api/careers` returns Prisma `P2021`, inspect the database with
+`pnpm exec prisma migrate diff --from-schema-datasource prisma/schema.prisma --to-schema-datamodel prisma/schema.prisma --script`.
+When **both** `public.JobPosting` and `public.JobApplication` are missing from the local development database, apply the targeted repair:
+
+```bash
+pnpm exec prisma db execute --schema prisma/schema.prisma --file prisma/repairs/add-careers-tables.sql
+```
+
+This transactional, one-time repair adds only the two careers tables and their foreign key. It fails if either table already exists and does not seed job listings. It is not a migration baseline; production still requires the migration process described above.
+
 ## Production deployment
 
 The `deploy.sh` script deploys `main` by default (`DEPLOY_BRANCH` can override it), installs the frozen lockfile, generates Prisma Client, builds, and reloads PM2. It does not change the database when a release contains no Prisma schema change or migration. It stops if the schema changes without a migration. Configure `DATABASE_URL` and `SESSION_SECRET` in the server environment first.

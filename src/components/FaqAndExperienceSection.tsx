@@ -101,20 +101,20 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
               <div className="absolute inset-0 bg-slate-950/20"></div>
 
               {/* Verified Trust overlay chip */}
-              <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-semibold text-slate-800 shadow-md flex items-center gap-1.5 border border-slate-200/80">
-                <RiShieldCheckLine className="w-3.5 h-3.5 text-cyan-600" />
-                <span>GDPR & ISO Standard Compliant</span>
+              <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-white/95 backdrop-blur-md px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold text-slate-800 shadow-md flex items-center gap-1.5 border border-slate-200/80 max-w-[calc(100%-1.5rem)]">
+                <RiShieldCheckLine className="w-3.5 h-3.5 text-cyan-600 shrink-0" />
+                <span className="truncate">GDPR & ISO Standard Compliant</span>
               </div>
 
               {/* 10+ Years of experience badge */}
-              <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 bg-slate-900/95 text-white p-4 sm:p-5 rounded-2xl shadow-2xl flex items-center gap-3 sm:gap-4 border border-slate-700/80 backdrop-blur-md">
+              <div className="absolute bottom-3 left-3 sm:bottom-6 sm:left-6 bg-slate-900/95 text-white p-3 sm:p-5 rounded-xl sm:rounded-2xl shadow-2xl flex items-center gap-2.5 sm:gap-4 border border-slate-700/80 backdrop-blur-md">
                 <div 
                   ref={expCounterRef}
-                  className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-['Archivo'] tracking-tight text-[#BBE7F1]"
+                  className="text-xl sm:text-3xl lg:text-4xl font-extrabold font-['Archivo'] tracking-tight text-[#BBE7F1]"
                 >
                   10+
                 </div>
-                <div className="text-xs sm:text-sm font-semibold uppercase tracking-wider leading-snug text-slate-300">
+                <div className="text-[10px] sm:text-sm font-semibold uppercase tracking-wider leading-snug text-slate-300">
                   Years of<br />Engineering<br />Experience
                 </div>
               </div>

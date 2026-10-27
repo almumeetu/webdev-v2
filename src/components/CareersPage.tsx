@@ -271,10 +271,10 @@ export const CareersPage: React.FC = () => {
 
         {/* ─── 3. Open Roles ─── */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl sm:text-2xl font-bold font-['Archivo'] tracking-tight text-slate-950 flex items-center gap-2.5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 items-start">
+            <h2 className="text-xl sm:text-2xl font-bold font-['Archivo'] tracking-tight text-slate-950 flex items-center gap-2.5 flex-wrap">
               <span>{lang === 'de' ? 'Offene Stellen' : 'Open Engineering Roles'}</span>
-              <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded-full border ${
+              <span className={`text-xs font-mono font-bold px-2.5 py-0.5 rounded-full border ${
                 totalActiveJobs > 0 
                   ? 'bg-cyan-50 text-cyan-800 border-cyan-200' 
                   : 'bg-slate-100 text-slate-600 border-slate-200'
@@ -287,7 +287,7 @@ export const CareersPage: React.FC = () => {
 
             <button
               onClick={handleOpenGeneralApply}
-              className="text-xs text-cyan-800 hover:text-cyan-950 font-bold flex items-center gap-1 cursor-pointer transition-colors"
+              className="text-xs text-cyan-800 hover:text-cyan-950 font-bold flex items-center gap-1.5 cursor-pointer transition-colors py-1 px-2.5 rounded-lg bg-cyan-50/60 sm:bg-transparent"
             >
               <span>{lang === 'de' ? 'Initiativbewerbung' : 'Join Talent Pool'}</span>
               <ArrowRight className="w-3.5 h-3.5" />

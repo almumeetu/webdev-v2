@@ -94,14 +94,14 @@ export const TechnologyIndexSection: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
               
               {/* Floating tech badge */}
-              <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 bg-slate-900/90 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-slate-700/80 text-white flex items-center justify-between shadow-2xl">
-                <div>
-                  <div className="text-xs sm:text-sm text-emerald-400 font-mono font-bold tracking-wider">ENTERPRISE DELIVERY TRACK RECORD</div>
-                  <div className="text-sm sm:text-base font-bold text-slate-100">Modern Architecture • High Velocity & Quality</div>
+              <div className="absolute bottom-3 left-3 right-3 sm:bottom-6 sm:left-6 sm:right-6 bg-slate-900/90 backdrop-blur-md p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-slate-700/80 text-white flex items-center justify-between shadow-2xl">
+                <div className="min-w-0 pr-2">
+                  <div className="text-[10px] sm:text-xs text-emerald-400 font-mono font-bold tracking-wider truncate">ENTERPRISE DELIVERY TRACK RECORD</div>
+                  <div className="text-xs sm:text-base font-bold text-slate-100 leading-snug">Modern Architecture • High Velocity & Quality</div>
                 </div>
                 <div 
                   ref={badgeNumRef} 
-                  className="w-11 h-11 rounded-xl bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] flex items-center justify-center font-bold text-base sm:text-lg shadow-lg shrink-0 ml-3"
+                  className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-[#BBE7F1] text-slate-950 border border-[#9cd5e2] flex items-center justify-center font-bold text-sm sm:text-lg shadow-lg shrink-0 ml-1.5 sm:ml-3"
                 >
                   99%
                 </div>

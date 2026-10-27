@@ -535,7 +535,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                 <div className="text-xs text-slate-600 space-y-1 font-normal">
                   <div>{lang === 'de' ? 'Deutschland Zentrale:' : 'Germany Hub:'} <a href="tel:+491729766016" className="font-medium text-slate-800 hover:text-cyan-800 hover:underline">+49 172 9766016</a></div>
                   <div>{lang === 'de' ? 'Globales F&E-Labor:' : 'Global R&D Lab:'} <a href="tel:+8801722301927" className="font-medium text-slate-800 hover:text-cyan-800 hover:underline">+880 1722-301927</a></div>
-                  <div>{lang === 'de' ? 'Direkte E-Mail:' : 'Direct Email:'} <a href="mailto:webdevsoftwaresolutions26@gmail.com" className="font-medium text-slate-800 hover:text-cyan-800 hover:underline">webdevsoftwaresolutions26@gmail.com</a></div>
+                  <div>{lang === 'de' ? 'Direkte E-Mail:' : 'Direct Email:'} <a href="mailto:webdevsoftwaresolutions26@gmail.com" className="font-medium text-slate-800 hover:text-cyan-800 hover:underline break-all">webdevsoftwaresolutions26@gmail.com</a></div>
                 </div>
               </div>
 

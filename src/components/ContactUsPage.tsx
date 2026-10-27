@@ -342,14 +342,14 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] disabled:opacity-60 text-slate-950 font-medium text-xs sm:text-sm py-4 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider"
+                    className="w-full bg-[#BBE7F1] hover:bg-[#a7dfed] active:bg-[#9cd5e2] disabled:opacity-60 text-slate-950 font-medium text-xs sm:text-sm py-3.5 sm:py-4 px-4 rounded-xl border border-[#9cd5e2] shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {isSubmitting ? (
                       <span>{lang === 'de' ? 'Anfrage wird übertragen...' : 'Transmitting Inquiry...'}</span>
                     ) : (
                       <>
                         <Send className="w-4 h-4 text-slate-950" />
-                        <span>{lang === 'de' ? 'ANFRAGE ZUR PRÜFUNG ABSENDEN' : 'SUBMIT INQUIRY FOR PERSONAL REVIEW'}</span>
+                        <span>{lang === 'de' ? 'Anfrage zur Prüfung absenden' : 'Submit Inquiry For Review'}</span>
                       </>
                     )}
                   </button>

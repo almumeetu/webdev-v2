@@ -107,7 +107,7 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
           </div>
 
           {/* Modern Clean Tab Navigation */}
-          <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-slate-100 border border-slate-200 overflow-x-auto no-scrollbar">
+          <div className="inline-flex max-w-full w-full sm:w-auto items-center gap-1 p-1 rounded-xl bg-slate-100 border border-slate-200 overflow-x-auto no-scrollbar">
             {categories.map((cat) => {
               const Icon = cat.icon;
               const isSelected = selectedCategory === cat.name;
@@ -116,13 +116,13 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
                   type="button"
                   key={cat.name}
                   onClick={() => setSelectedCategory(cat.name)}
-                  className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0 ${
+                  className={`px-3.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0 ${
                     isSelected
                       ? 'bg-white text-slate-900 shadow-sm'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isSelected ? 'text-sky-600' : 'text-slate-400'}`} />
+                  <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isSelected ? 'text-sky-600' : 'text-slate-400'}`} />
                   <span>{cat.label}</span>
                 </button>
               );
@@ -136,8 +136,8 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
           className="w-full overflow-hidden relative group/slider py-2 rounded-2xl"
         >
           {/* Subtle edge fade overlays matching section background */}
-          <div className="absolute left-0 inset-y-0 w-8 sm:w-20 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 inset-y-0 w-8 sm:w-20 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 inset-y-0 w-5 sm:w-16 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 inset-y-0 w-5 sm:w-16 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
           {/* Continuous Marquee Track with slow graceful speed */}
           <div 
@@ -148,7 +148,7 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
               <div
                 key={`${project.id}-${idx}`}
                 onClick={() => onSelectProject(project)}
-                className="w-[280px] xs:w-[310px] sm:w-[340px] shrink-0 bg-white rounded-2xl overflow-hidden border border-slate-200/90 hover:border-[#9cd5e2] shadow-xs hover:shadow-xl transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-1.5 cursor-pointer flex flex-col justify-between group"
+                className="w-[275px] sm:w-[340px] shrink-0 bg-white rounded-2xl overflow-hidden border border-slate-200/90 hover:border-[#9cd5e2] shadow-xs hover:shadow-xl transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-1.5 cursor-pointer flex flex-col justify-between group"
               >
                 {/* Card Image Banner */}
                 <div className="relative h-48 sm:h-52 overflow-hidden bg-slate-100">

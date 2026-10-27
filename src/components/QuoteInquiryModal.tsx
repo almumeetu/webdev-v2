@@ -78,24 +78,24 @@ export const QuoteInquiryModal: React.FC<QuoteInquiryModalProps> = ({
       <div className="bg-white text-slate-900 rounded-3xl shadow-2xl max-w-2xl w-full overflow-hidden border border-slate-200 relative my-8">
         
         {/* Modal Header */}
-        <div className="bg-[#090d18] text-white p-6 sm:p-8 relative">
+        <div className="bg-[#090d18] text-white p-5 sm:p-8 pr-14 sm:pr-16 relative">
           <button
             onClick={onClose}
-            className="absolute top-6 right-6 w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+            className="absolute top-5 right-5 sm:top-6 sm:right-6 w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
             aria-label="Close"
           >
             <X className="w-5 h-5" />
           </button>
 
-          <div className="inline-flex items-center gap-2 bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-xs font-mono font-medium mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>{lang === 'de' ? 'KONTAKT AUFNEHMEN • SCHNELLE ANALYSE & ARCHITEKTUR' : "LET'S CONNECT • RAPID SCOPING & ARCHITECTURE"}</span>
+          <div className="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-mono font-medium mb-2.5 max-w-full">
+            <Sparkles className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">{lang === 'de' ? 'KONTAKT AUFNEHMEN • ARCHITEKTUR' : "LET'S CONNECT • ARCHITECTURE"}</span>
           </div>
 
-          <h3 className="text-2xl sm:text-3xl font-extrabold font-['Archivo']">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold font-['Archivo'] leading-tight">
             {lang === 'de' ? 'Haben Sie ein Projekt oder eine Cloud-Infrastruktur im Sinn?' : 'Got an App or Server in Mind?'}
           </h3>
-          <p className="text-slate-400 text-xs sm:text-sm mt-1">
+          <p className="text-slate-400 text-xs sm:text-sm mt-1 leading-relaxed">
             {lang === 'de'
               ? 'Senden Sie uns Ihre Anforderungen. Unsere Lösungsarchitekten erstellen innerhalb von 24 Stunden eine kostenfreie Architekturanalyse und Kostenschätzung.'
               : 'Send us your requirements, and our solutions architects will prepare a complimentary architecture review and estimate within 24 hours.'}

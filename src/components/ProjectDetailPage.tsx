@@ -276,11 +276,11 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
               )}
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <div className="flex flex-wrap items-center gap-3 shrink-0 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={() => onGetQuoteForSimilar(project.title)}
-                className="bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-extrabold text-xs sm:text-sm px-6 py-3.5 rounded-xl border border-[#9cd5e2] transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
+                className="w-full sm:w-auto bg-[#BBE7F1] hover:bg-[#a7dfed] text-slate-950 font-extrabold text-xs sm:text-sm px-6 py-3.5 rounded-xl border border-[#9cd5e2] transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
               >
                 <span>{lang === 'de' ? 'Projekt unverbindlich anfragen' : 'Request Consultation'}</span>
                 <ArrowRight className="w-4 h-4 text-slate-950" />
@@ -289,23 +289,21 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
           </div>
 
           {/* Bottom Action */}
-          <div className="pt-6 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
+          <div className="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
             <button
               onClick={onBack}
-              className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold px-6 py-3.5 rounded-xl transition-all cursor-pointer"
+              className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold px-6 py-3.5 rounded-xl transition-all cursor-pointer text-center"
             >
               {lang === 'de' ? '← Zurück zum Portfolio' : '← Back to Portfolio'}
             </button>
 
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => onGetQuoteForSimilar(project.title)}
-                className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl border border-slate-700 shadow-sm transition-all flex items-center gap-2 cursor-pointer"
-              >
-                <span>{lang === 'de' ? 'Individuelles Angebot' : 'Request Custom Quote'}</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
+            <button
+              onClick={() => onGetQuoteForSimilar(project.title)}
+              className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl border border-slate-700 shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>{lang === 'de' ? 'Individuelles Angebot' : 'Request Custom Quote'}</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
 
         </div>
