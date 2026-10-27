@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { 
-  Phone, 
-  Menu, 
-  X, 
-  ChevronDown, 
-  User as UserIcon, 
+import {
+  Phone,
+  Menu,
+  X,
+  ChevronDown,
+  User as UserIcon,
   ArrowRight,
   ArrowUpRight,
   MapPin,
@@ -51,7 +51,7 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      setIsScrolled(scrollY > 10);
+      setIsScrolled(scrollY > 15);
     };
 
     handleScroll();
@@ -60,13 +60,17 @@ export const Navbar: React.FC = () => {
 
     // Catch asynchronous scroll restoration after navigation or page load
     const rafId = requestAnimationFrame(handleScroll);
-    const timerId = setTimeout(handleScroll, 100);
+    const timer1 = setTimeout(handleScroll, 50);
+    const timer2 = setTimeout(handleScroll, 150);
+    const timer3 = setTimeout(handleScroll, 300);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
       cancelAnimationFrame(rafId);
-      clearTimeout(timerId);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
     };
   }, [pathname]);
 
@@ -85,20 +89,20 @@ export const Navbar: React.FC = () => {
     };
   }, [userDropdownOpen]);
 
-    // Lock body scroll when mobile menu is open
-    useEffect(() => {
-      if (mobileMenuOpen) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = '';
-      }
-      return () => {
-        document.body.style.overflow = '';
-      };
-    }, [mobileMenuOpen]);
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
 
-    useEffect(() => {
-      if (!mobileMenuOpen) return;
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
 
     const desktopBreakpoint = window.matchMedia('(min-width: 1024px)');
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -148,14 +152,14 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header 
+    <header
       id="main-header"
       className={`w-full sticky top-0 z-50 transition-all duration-300 ${
         mobileMenuOpen
           ? 'bg-white/98 backdrop-blur-2xl py-2.5 sm:py-3 shadow-lg border-b border-slate-200/90'
           : isScrolled
             ? 'site-header-edge bg-white/95 backdrop-blur-xl py-2 sm:py-2.5 shadow-xs border-b border-slate-200/80'
-            : 'bg-white/90 backdrop-blur-xl py-2.5 sm:py-3 border-b border-slate-200/80'
+            : 'bg-white/95 backdrop-blur-xl py-2.5 sm:py-3 border-b border-slate-200/80'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
