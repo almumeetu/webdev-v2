@@ -19,6 +19,9 @@ import {
   RiBrainLine,
   RiPaintBrushLine,
   RiShieldCheckLine,
+  RiHospitalLine,
+  RiBuildingLine,
+  RiRestaurantLine,
 } from 'react-icons/ri';
 
 interface OurServicesSectionProps {
@@ -97,6 +100,9 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
     Brain:        { Icon: RiBrainLine,           color: 'text-purple-600',  bg: 'bg-purple-50  border-purple-200' },
     ShieldCheck:  { Icon: RiShieldKeyholeLine,   color: 'text-emerald-600', bg: 'bg-emerald-50 border-emerald-200'},
     Brush:        { Icon: RiPaintBrushLine,      color: 'text-orange-600',  bg: 'bg-orange-50  border-orange-200' },
+    HeartPulse:   { Icon: RiHospitalLine,        color: 'text-rose-600',    bg: 'bg-rose-50    border-rose-200'   },
+    Building2:    { Icon: RiBuildingLine,        color: 'text-sky-700',     bg: 'bg-sky-50     border-sky-200'    },
+    UtensilsCrossed: { Icon: RiRestaurantLine,   color: 'text-amber-700',   bg: 'bg-amber-50   border-amber-200'  },
     default:      { Icon: RiShieldCheckLine,     color: 'text-sky-600',     bg: 'bg-sky-50     border-sky-200'    },
   };
 

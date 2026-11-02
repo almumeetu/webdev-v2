@@ -6,7 +6,8 @@ import { Hero } from '@/components/Hero';
 import { ServiceFeatureCards } from '@/components/ServiceFeatureCards';
 import { WhoWeBring } from '@/components/WhoWeBring';
 import { OurServicesSection } from '@/components/OurServicesSection';
-import { MeetOurTeamSection } from '@/components/MeetOurTeamSection';
+import { GermanyServicesSection } from '@/components/GermanyServicesSection';
+import { GermanyClientTrustSection } from '@/components/GermanyClientTrustSection';
 import { GlobalTrustSection } from '@/components/GlobalTrustSection';
 import { DeliveryApproachSection } from '@/components/DeliveryApproachSection';
 import { GlobalEcosystemSection } from '@/components/GlobalEcosystemSection';
@@ -14,7 +15,7 @@ import { LatestNewsSection } from '@/components/LatestNewsSection';
 
 export default function HomePage() {
   const router = useRouter();
-  const { teamMembers, blogs, services, siteSettings } = useAppContext();
+  const { blogs, services, siteSettings } = useAppContext();
 
   return (
     <>
@@ -48,12 +49,14 @@ export default function HomePage() {
         onViewAllServices={() => router.push('/services')}
       />
 
-      <MeetOurTeamSection
-        teamMembers={teamMembers}
-        onSelectMember={(member) => router.push(`/team/${member.id}`)}
-        onViewAllTeam={() => router.push('/team')}
-        featuredOnly
+      {/* Germany-specific industry solutions (Doctors, Clinics, KMU Business, Restaurants) */}
+      <GermanyServicesSection
+        onContactClick={() => router.push('/contact')}
+        onSelectService={(serviceId) => router.push(`/services/${serviceId}`)}
       />
+
+      {/* Germany client trust section (GDPR, NDA, CET Hours, Leverkusen HQ) */}
+      <GermanyClientTrustSection onOpenQuote={() => router.push('/contact')} />
 
       <GlobalTrustSection
         onOpenQuote={() => router.push('/contact')}

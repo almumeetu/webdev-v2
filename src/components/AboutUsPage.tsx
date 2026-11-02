@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   Building2, 
   Globe, 
@@ -15,6 +16,8 @@ import { useGsapContext } from '../utils/gsapHelper';
 import gsap from 'gsap';
 import { Breadcrumb } from './Breadcrumb';
 import { useLanguage } from '../context/LanguageContext';
+import { useAppContext } from '../context/AppContext';
+import { MeetOurTeamSection } from './MeetOurTeamSection';
 
 interface AboutUsPageProps {
   onBackToHome: () => void;
@@ -27,6 +30,8 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
   onOpenQuote,
   onExploreTeam
 }) => {
+  const router = useRouter();
+  const { teamMembers } = useAppContext();
   const containerRef = useRef<HTMLDivElement>(null);
   const { t, lang } = useLanguage();
   const collaborationSteps = lang === 'de'
@@ -356,7 +361,17 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
           </div>
         </div>
 
+      </div>
 
+      {/* ── CEO & Leadership Section (Transferred from Home Page) ── */}
+      <MeetOurTeamSection
+        teamMembers={teamMembers}
+        onSelectMember={(member) => router.push(`/team/${member.id}`)}
+        onViewAllTeam={onExploreTeam}
+        featuredOnly
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 lg:pb-24">
         {/* CTA Banner */}
         <div className="about-anim-fade p-8 sm:p-12 rounded-2xl bg-slate-900 text-white text-center space-y-6 shadow-lg">
           <h3 className="text-2xl sm:text-3xl font-bold">
@@ -383,8 +398,8 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
             </button>
           </div>
         </div>
-
       </div>
+
     </div>
   );
 };

@@ -520,6 +520,42 @@ export const initialServices: ServiceDetail[] = [
     techs: ['Brand Guidelines', 'Vector Identity', 'Typography', 'Color Systems', 'Social Media Kits', 'Pitch Decks', 'Figma'],
     features: ['Custom vector logo creation in all responsive formats', 'Comprehensive color palette & typography hierarchy', 'Complete Brand Style Guide (PDF & Figma tokens)', 'Social media launch kits & investor deck templates'],
     deliverables: ['Complete Brand Guidelines book', 'Vector logo pack (SVG, PNG, EPS, AI, PDF)', 'Digital brand assets & social templates', 'Typography & CSS design token export']
+  },
+  {
+    id: 'serv-13',
+    title: 'Arztpraxis & Klinik-Websites (Healthcare)',
+    category: 'Healthcare & Medical',
+    shortDesc: 'DSGVO-konforme Websites für Arztpraxen, Kliniken und Krankenhäuser — mit Online-Terminbuchung, Patientenportal und barrierefreiem Design.',
+    fullDesc: 'Wir entwickeln professionelle, DSGVO-konforme Webauftritte für medizinische Einrichtungen in Deutschland. Von der Arztpraxis bis zum Krankenhaus — mit modernem Design, Online-Terminbuchung (z. B. Calendly, Doctolib-Integration), Patientenformularen, barrierefreier Gestaltung (WCAG 2.1) und sicherer Datenübertragung nach deutschen Datenschutzstandards. Ihre Patienten finden Sie schnell, buchen unkompliziert — und Sie wirken professionell und vertrauenswürdig.',
+    iconName: 'HeartPulse',
+    image: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=800&q=80',
+    techs: ['Next.js', 'DSGVO', 'Online-Terminbuchung', 'Barrierefreiheit (WCAG)', 'Patientenportal', 'SSL/TLS', 'SEO'],
+    features: ['Online-Terminbuchung & Kalenderintegration (Doctolib, Calendly)', 'DSGVO-konformes Kontaktformular & Datenschutz', 'Barrierefreies Design nach WCAG 2.1', 'Leistungsübersicht, Team-Profile & Standortkarte'],
+    deliverables: ['Fertige Praxis-/Klinik-Website mit CMS', 'Online-Terminbuchungsintegration', 'DSGVO-konforme Datenschutzdokumentation', 'Google My Business & lokale SEO-Optimierung']
+  },
+  {
+    id: 'serv-14',
+    title: 'Business & Corporate Websites (KMU)',
+    category: 'Business Solutions',
+    shortDesc: 'Professionelle Unternehmenswebsites für kleine und mittelständische Betriebe (KMU) in Deutschland — schnell, modern und gefunden bei Google.',
+    fullDesc: 'Maßgeschneiderte Unternehmenswebsites für Handwerksbetriebe, Beratungsunternehmen, Kanzleien, Agenturen und lokale Dienstleister in Deutschland. Wir bauen schnelle, mobiloptimierte Websites mit professionellem Design, klarer Struktur, Google-optimiertem Content und einfacher Pflege über ein intuitives CMS.',
+    iconName: 'Building2',
+    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
+    techs: ['Next.js', 'WordPress', 'Lokale SEO', 'Google Maps', 'DSGVO', 'Kontaktformular', 'CMS'],
+    features: ['Professionelles Corporate Design & Branding', 'Lokale SEO für Google-Rankings in Deutschland', 'DSGVO-konforme Kontaktformulare & Cookie-Banner', 'Mobil-optimiert & blitzschnell (Core Web Vitals 90+)'],
+    deliverables: ['Fertige Unternehmenswebsite mit CMS', 'Google My Business Optimierung', 'DSGVO-Paket (Datenschutz, Impressum, Cookie)', 'Lokale SEO-Grundoptimierung']
+  },
+  {
+    id: 'serv-15',
+    title: 'Restaurant, Hotel & Gastronomie-Websites',
+    category: 'Hospitality & Local',
+    shortDesc: 'Appetitliche Websites für Restaurants, Hotels, Cafés und Gaststätten — mit Online-Reservierung, Speisekarte und Google-Sichtbarkeit.',
+    fullDesc: 'Wir entwickeln ansprechende, mobilfreundliche Websites für die Gastronomie und Hotellerie in Deutschland und Europa. Mit integrierten Reservierungssystemen (OpenTable, Resy, eigene Lösung), digitaler Speisekarte, Bildergalerien und SEO-Optimierung für lokale Google-Suchen gewinnen Sie mehr Gäste — direkt über Ihre Website ohne teure Drittplattform-Provisionen.',
+    iconName: 'UtensilsCrossed',
+    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80',
+    techs: ['Next.js', 'Online-Reservierung', 'Digitale Speisekarte', 'Google Maps', 'Lokale SEO', 'DSGVO', 'Instagram Feed'],
+    features: ['Online-Tischreservierung & Buchungskalender', 'Digitale Speisekarte mit PDF & Webansicht', 'Fotogalerie & Instagram-Feed-Integration', 'Lokale Google-SEO für mehr Laufkundschaft'],
+    deliverables: ['Fertige Restaurant-/Hotel-Website', 'Reservierungssystem-Integration', 'Digitale Speisekarte (DE/EN)', 'Google Maps & lokale SEO-Einrichtung']
   }
 ];
 

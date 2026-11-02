@@ -328,18 +328,8 @@ export const Navbar: React.FC = () => {
                 )}
               </div>
             ) : (
-              /* Sleek Auth Links when logged out */
+              /* Only show CTA button when logged out - sign-in hidden (admin accesses /auth directly) */
               <div className="flex items-center gap-2">
-                <button
-                  id="nav-signin-btn"
-                  data-clean-hover
-                  onClick={onOpenAuth}
-                  className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-xl border border-slate-200/90 text-slate-700 hover:text-slate-950 hover:bg-slate-100 transition-all cursor-pointer shadow-2xs"
-                >
-                  <LogIn className="w-3.5 h-3.5 text-sky-700" />
-                  <span>{t.navSignIn}</span>
-                </button>
-
                 {/* Primary Proposal Action CTA Button */}
                 <button
                   id="nav-quote-cta"
@@ -468,22 +458,17 @@ export const Navbar: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    onClick={() => { setMobileMenuOpen(false); onOpenAuth(); }}
-                    className="flex min-h-11 items-center justify-center gap-1.5 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 text-xs font-medium cursor-pointer"
-                  >
-                    <LogIn className="w-3.5 h-3.5 text-sky-700" />
-                    <span>{t.navSignIn}</span>
-                  </button>
-                  <button
-                    onClick={() => { setMobileMenuOpen(false); onOpenSignUp(); }}
-                    className="flex min-h-11 items-center justify-center gap-1.5 py-2.5 rounded-xl border border-[#9cd5e2] bg-[#BBE7F1] text-slate-950 text-xs font-medium cursor-pointer"
-                  >
-                    <UserPlus className="w-3.5 h-3.5 text-slate-950" />
-                    <span>{t.navSignUp}</span>
-                  </button>
-                </div>
+                /* No sign-in/sign-up in mobile menu - admin accesses /auth directly */
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    handleNavClick('contact');
+                  }}
+                  className="w-full flex min-h-11 items-center justify-center gap-1.5 py-2.5 rounded-xl border border-sky-200 bg-sky-50 text-sky-800 text-xs font-semibold cursor-pointer"
+                >
+                  <ArrowRight className="w-3.5 h-3.5 text-sky-700" />
+                  <span>{lang === 'de' ? 'Projekt anfragen' : 'Request a Project'}</span>
+                </button>
               )}
             </div>
 
