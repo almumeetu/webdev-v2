@@ -9,7 +9,7 @@ export default function ServiceDetailRoute() {
   const router = useRouter();
   const { services } = useAppContext();
 
-  const service = services.find((s) => s.id === (params.id as string)) || services[0];
+  const service = services.find((s) => s.id === (params.id as string)) || null;
 
   return (
     <ServiceDetailPage

@@ -24,7 +24,8 @@ import {
   Megaphone,
   Search,
   Bot,
-  PenTool
+  PenTool,
+  HeartPulse
 } from 'lucide-react';
 import { ServiceDetail, Project } from '../types';
 import { initialServices, initialProjects } from '../data/initialData';
@@ -111,6 +112,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       case 'Brain': return <Bot className={className} />;
       case 'Brush': return <PenTool className={className} />;
       case 'ShieldCheck': return <ShieldCheck className={className} />;
+      case 'HeartPulse': return <HeartPulse className={className} />;
       default: return <ShieldCheck className={className} />;
     }
   };
@@ -124,6 +126,9 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   const relevantProjects = initialProjects
     .filter((p) => {
       const titleLower = service.title.toLowerCase();
+      if (service.id === 'serv-13') {
+        return p.id === 'proj-8' || p.category.includes('Web Application');
+      }
       if (titleLower.includes('mern') || titleLower.includes('full stack') || titleLower.includes('web application')) {
         return p.category.includes('Full Stack') || p.category.includes('Web Application');
       }

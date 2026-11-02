@@ -376,7 +376,7 @@ export const initialTeam: TeamMember[] = [
   }
 ];
 
-export const initialServices: ServiceDetail[] = [
+const baseServices: ServiceDetail[] = [
   {
     id: 'serv-1',
     title: 'Full-Stack, SaaS & Single Page Apps',
@@ -523,15 +523,15 @@ export const initialServices: ServiceDetail[] = [
   },
   {
     id: 'serv-13',
-    title: 'Arztpraxis & Klinik-Websites (Healthcare)',
+    title: 'Medical Website Design for Doctors, Clinics & Hospitals',
     category: 'Healthcare & Medical',
-    shortDesc: 'DSGVO-konforme Websites für Arztpraxen, Kliniken und Krankenhäuser — mit Online-Terminbuchung, Patientenportal und barrierefreiem Design.',
-    fullDesc: 'Wir entwickeln professionelle, DSGVO-konforme Webauftritte für medizinische Einrichtungen in Deutschland. Von der Arztpraxis bis zum Krankenhaus — mit modernem Design, Online-Terminbuchung (z. B. Calendly, Doctolib-Integration), Patientenformularen, barrierefreier Gestaltung (WCAG 2.1) und sicherer Datenübertragung nach deutschen Datenschutzstandards. Ihre Patienten finden Sie schnell, buchen unkompliziert — und Sie wirken professionell und vertrauenswürdig.',
+    shortDesc: 'Trusted, accessible healthcare websites for German and international doctors, chambers, clinics, and hospitals — built for patient journeys, reputation, and appointment enquiries.',
+    fullDesc: 'We design and build polished medical websites for doctors, specialist practices, medical chambers, clinics, and hospitals serving Germany and international patients. Each experience brings together clear doctor and department profiles, treatment and service pages, locations, multilingual content, appointment or enquiry flows, and a calm, trustworthy visual system. We plan privacy-conscious forms, secure hosting, accessibility, structured medical SEO, and integrations such as Doctolib, Jameda, Calendly, maps, and hospital systems where appropriate.',
     iconName: 'HeartPulse',
     image: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=800&q=80',
-    techs: ['Next.js', 'DSGVO', 'Online-Terminbuchung', 'Barrierefreiheit (WCAG)', 'Patientenportal', 'SSL/TLS', 'SEO'],
-    features: ['Online-Terminbuchung & Kalenderintegration (Doctolib, Calendly)', 'DSGVO-konformes Kontaktformular & Datenschutz', 'Barrierefreies Design nach WCAG 2.1', 'Leistungsübersicht, Team-Profile & Standortkarte'],
-    deliverables: ['Fertige Praxis-/Klinik-Website mit CMS', 'Online-Terminbuchungsintegration', 'DSGVO-konforme Datenschutzdokumentation', 'Google My Business & lokale SEO-Optimierung']
+    techs: ['Next.js', 'Headless CMS', 'DSGVO / GDPR', 'Doctolib & Jameda', 'Online appointments', 'WCAG accessibility', 'Medical SEO', 'SSL/TLS'],
+    features: ['Doctor, specialist, department & chamber profile pages', 'Clinic, hospital and multi-location service architecture', 'Online appointment, referral and enquiry journeys', 'German/English-ready content with international patient pathways', 'Privacy-conscious forms, consent and secure hosting', 'Accessible UX, structured data and local medical SEO'],
+    deliverables: ['Complete medical website with an easy-to-edit CMS', 'Doctor, clinic, hospital and chamber profile templates', 'Appointment, contact and international patient enquiry integrations', 'Technical SEO, accessibility and privacy launch checklist']
   },
   {
     id: 'serv-14',
@@ -557,6 +557,13 @@ export const initialServices: ServiceDetail[] = [
     features: ['Online-Tischreservierung & Buchungskalender', 'Digitale Speisekarte mit PDF & Webansicht', 'Fotogalerie & Instagram-Feed-Integration', 'Lokale Google-SEO für mehr Laufkundschaft'],
     deliverables: ['Fertige Restaurant-/Hotel-Website', 'Reservierungssystem-Integration', 'Digitale Speisekarte (DE/EN)', 'Google Maps & lokale SEO-Einrichtung']
   }
+];
+
+export const initialServices: ServiceDetail[] = [
+  ...['serv-13', 'serv-14', 'serv-15']
+    .map((id) => baseServices.find((service) => service.id === id))
+    .filter((service): service is ServiceDetail => Boolean(service)),
+  ...baseServices.filter((service) => !['serv-13', 'serv-14', 'serv-15'].includes(service.id)),
 ];
 
 export const initialBlogs: BlogPost[] = [
@@ -915,4 +922,3 @@ export const initialTestimonialsData: Testimonial[] = [];
 export const initialJobPostings: JobPosting[] = [];
 
 export const initialJobApplications: JobApplication[] = [];
-

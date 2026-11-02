@@ -368,13 +368,23 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         techs: init.techs,
       } as ServiceDetail;
     };
+    const deduplicateServices = (items: ServiceDetail[]) =>
+      Array.from(new Map(items.map((item) => [item.id, item])).values());
+    const orderServices = (items: ServiceDetail[]) => {
+      const byId = new Map(items.map((item) => [item.id, item]));
+      const orderedDefaults = initialServices
+        .map((item) => byId.get(item.id))
+        .filter((item): item is ServiceDetail => Boolean(item));
+      const customServices = items.filter((item) => !initialServices.some((initial) => initial.id === item.id));
+      return [...orderedDefaults, ...customServices];
+    };
 
     const dbServices = await apiFetch<ServiceDetail[]>('/api/services');
     if (dbServices && dbServices.length > 0) {
-      const mergedDb = dbServices.map(mergeServiceWithDefaults);
+      const mergedDb = deduplicateServices(dbServices.map(mergeServiceWithDefaults));
       const existingIds = new Set(mergedDb.map((s) => s.id));
       const missing = initialServices.filter((s) => !existingIds.has(s.id));
-      const allServices = [...mergedDb, ...missing];
+      const allServices = orderServices([...mergedDb, ...missing]);
       setServices(allServices);
       try {
         localStorage.setItem('webdev_services', JSON.stringify(allServices));
@@ -384,10 +394,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         const saved = localStorage.getItem('webdev_services');
         if (saved) {
           const parsed: ServiceDetail[] = JSON.parse(saved);
-          const enriched = parsed.map(mergeServiceWithDefaults);
+          const enriched = deduplicateServices(parsed.map(mergeServiceWithDefaults));
           const existingIds = new Set(enriched.map((s) => s.id));
           const missing = initialServices.filter((s) => !existingIds.has(s.id));
-          const merged = missing.length > 0 ? [...enriched, ...missing] : enriched;
+          const merged = orderServices(missing.length > 0 ? [...enriched, ...missing] : enriched);
           setServices(merged);
           localStorage.setItem('webdev_services', JSON.stringify(merged));
         } else {

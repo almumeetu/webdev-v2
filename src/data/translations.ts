@@ -543,6 +543,13 @@ export const germanServices: Record<string, Partial<ServiceDetail>> = {
     fullDesc: 'Eine starke Marke schafft Vertrauen. Wir entwickeln ganzheitliche visuelle Identitäten für ambitionierte Technologie- und Dienstleistungsunternehmen – von prägnanten Logos und Typografie-Regeln bis hin zu digitalen Präsentationsvorlagen und Social-Media-Kits.',
     features: ['Logo-Entwicklung & Vektor-Masterdateien', 'Farbpaletten- & Typografie-Spezifikationen', 'Brand-Guidelines & Brand-Book (PDF)', 'Vorlagen für Präsentationen & Social Media'],
     deliverables: ['Umfassendes Brand Guidelines Dokument', 'Vektor-Logopaket (SVG, PNG, EPS, AI, PDF)', 'Digitale Design-Tokens (CSS/Figma)', 'Social Media Starter-Kit']
+  },
+  'serv-13': {
+    title: 'Medizinisches Webdesign für Ärzte, Kliniken & Krankenhäuser',
+    shortDesc: 'Vertrauenswürdige, barrierearme Websites für Ärzte, Ärztekammern, Praxen, Kliniken und Krankenhäuser in Deutschland und international.',
+    fullDesc: 'Wir gestalten und entwickeln professionelle medizinische Websites für Ärzte, Facharztpraxen, Ärztekammern, Kliniken und Krankenhäuser mit deutschen und internationalen Zielgruppen. Klare Arzt- und Teamprofile, Fachbereiche, Behandlungsseiten, Standorte, mehrsprachige Inhalte sowie Termin- und Anfragewege werden in einer ruhigen, vertrauensvollen Nutzerführung verbunden. Datenschutzbewusste Formulare, sicheres Hosting, medizinisches SEO und Integrationen wie Doctolib, Jameda, Calendly oder Karten-Dienste werden passend zu Ihrem Prozess geplant.',
+    features: ['Arzt-, Facharzt-, Abteilungs- & Kammerprofile', 'Praxis-, Klinik-, Krankenhaus- & Multi-Standort-Strukturen', 'Online-Termine, Überweisungen & Patientenanfragen', 'DE/EN-fähige Inhalte für internationale Patienten', 'Datenschutzbewusste Formulare, Einwilligungen & Hosting', 'Barrierearme UX, strukturierte Daten & lokales Medizin-SEO'],
+    deliverables: ['Fertige medizinische Website mit einfach pflegbarem CMS', 'Vorlagen für Arzt-, Klinik-, Krankenhaus- & Kammerprofile', 'Integrationen für Termine, Kontakt & internationale Patientenanfragen', 'Technische SEO-, Barrierefreiheits- & Datenschutz-Checkliste']
   }
 };
 
