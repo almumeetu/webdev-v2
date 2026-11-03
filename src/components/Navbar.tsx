@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   Phone,
@@ -41,6 +42,7 @@ export const Navbar: React.FC = () => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const userDropdownRef = useRef<HTMLDivElement>(null);
   const mobileMenuToggleRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   // Clean user display name: removes any (CTO & Admin) parenthetical suffixes
   const cleanUserName = useMemo(() => {
@@ -91,24 +93,77 @@ export const Navbar: React.FC = () => {
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    if (!mobileMenuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = previousOverflow;
     };
   }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const frameId = requestAnimationFrame(() => {
+      mobileMenuRef.current?.querySelector<HTMLElement>('button, a, summary')?.focus();
+    });
+    return () => cancelAnimationFrame(frameId);
+  }, [mobileMenuOpen]);
+
+  // Close the drawer when the user taps outside it or the toggle.
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const closeOnOutsideClick = (event: MouseEvent) => {
+      if (!(event.target instanceof Node)) return;
+      if (mobileMenuRef.current?.contains(event.target)) return;
+      if (mobileMenuToggleRef.current?.contains(event.target)) return;
+      setMobileMenuOpen(false);
+      mobileMenuToggleRef.current?.focus();
+      event.preventDefault();
+      event.stopPropagation();
+    };
+
+    document.addEventListener('click', closeOnOutsideClick, true);
+    return () => document.removeEventListener('click', closeOnOutsideClick, true);
+  }, [mobileMenuOpen]);
+
+  // Close the drawer on browser back/forward navigation.
+  useEffect(() => {
+    const closeOnHistoryNavigation = () => setMobileMenuOpen(false);
+    window.addEventListener('popstate', closeOnHistoryNavigation);
+    return () => window.removeEventListener('popstate', closeOnHistoryNavigation);
+  }, []);
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
 
     const desktopBreakpoint = window.matchMedia('(min-width: 1024px)');
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return;
-      setMobileMenuOpen(false);
-      mobileMenuToggleRef.current?.focus();
+      if (event.key === 'Escape') {
+        setMobileMenuOpen(false);
+        mobileMenuToggleRef.current?.focus();
+        return;
+      }
+
+      if (event.key !== 'Tab') return;
+      const focusableElements = Array.from(
+        mobileMenuRef.current?.querySelectorAll<HTMLElement>('a[href], button:not(:disabled), summary') ?? [],
+      ).filter((element) => element.getClientRects().length > 0);
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+      if (!firstElement || !lastElement) return;
+
+      if (!mobileMenuRef.current?.contains(document.activeElement)) {
+        event.preventDefault();
+        (event.shiftKey ? lastElement : firstElement).focus();
+      } else if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
     };
     const closeOnDesktop = () => {
       if (desktopBreakpoint.matches) setMobileMenuOpen(false);
@@ -362,14 +417,47 @@ export const Navbar: React.FC = () => {
         </div>
 
         {/* ─── 4. Mobile Navigation Drawer ─── */}
-        {mobileMenuOpen && (
+        {mobileMenuOpen && typeof document !== 'undefined' && createPortal(
           <div
+            ref={mobileMenuRef}
             id="mobile-navigation"
-            role="region"
+            role="dialog"
+            aria-modal="true"
             aria-label={lang === 'de' ? 'Mobiles Navigationsmenü' : 'Mobile navigation menu'}
-            className="lg:hidden mt-2.5 pt-3 border-t border-slate-200 pb-6 space-y-2 max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain animate-in fade-in slide-in-from-top-2 duration-200 bg-white/98 rounded-2xl p-3.5 sm:p-4 shadow-xl border border-slate-200/90"
+            style={{
+              paddingTop: 'env(safe-area-inset-top, 0px)',
+              paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+            }}
+            className="fixed inset-0 z-[100] flex h-[100dvh] flex-col bg-white text-slate-900 lg:hidden"
           >
-            
+            <div className="flex h-16 shrink-0 items-center justify-between gap-4 border-b border-slate-200 px-4 sm:px-6">
+              <div className="flex min-w-0 items-center">
+                {siteSettings.logoUrl && siteSettings.logoUrl.trim() !== '' ? (
+                  <img
+                    src={siteSettings.logoUrl}
+                    alt={siteSettings.companyName}
+                    className="h-9 w-auto max-w-[65vw] object-contain"
+                  />
+                ) : (
+                  <span className="max-w-[65vw] truncate text-base font-semibold text-slate-900">
+                    {siteSettings.companyName || 'Navigation'}
+                  </span>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  mobileMenuToggleRef.current?.focus();
+                }}
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition-colors hover:bg-slate-50 hover:text-slate-950"
+                aria-label={lang === 'de' ? 'Menü schließen' : 'Close navigation menu'}
+              >
+                <X className="h-5 w-5" aria-hidden="true" />
+              </button>
+            </div>
+
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3.5 py-3 sm:px-4 sm:py-4">
             {/* Quick Hub Notice - Leverkusen Primary Focus */}
             <div className="mb-2 flex items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs">
               <div className="flex items-center gap-1.5 font-medium text-slate-800 text-xs">
@@ -511,7 +599,9 @@ export const Navbar: React.FC = () => {
               </button>
             </div>
 
-          </div>
+            </div>
+          </div>,
+          document.body,
         )}
       </div>
     </header>
