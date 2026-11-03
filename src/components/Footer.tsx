@@ -12,7 +12,7 @@ import {
   MapPin,
   Phone
 } from 'lucide-react';
-import { GithubIcon, LinkedinIcon, TwitterIcon, WhatsAppIcon } from './SocialIcons';
+import { FacebookIcon, GithubIcon, LinkedinIcon, WhatsAppIcon, YouTubeIcon } from './SocialIcons';
 import {
   HiOutlineCode,
   HiOutlineCollection,
@@ -90,11 +90,18 @@ export const Footer: React.FC = () => {
       color: 'text-slate-800 hover:border-slate-400 hover:bg-slate-100',
     },
     {
-      key: 'twitter',
-      href: siteSettings.socialLinks.twitter,
-      label: 'Twitter / X',
-      Icon: TwitterIcon,
-      color: 'text-slate-800 hover:border-slate-400 hover:bg-slate-100',
+      key: 'facebook',
+      href: 'https://www.facebook.com/webdevss',
+      label: 'Facebook',
+      Icon: FacebookIcon,
+      color: 'text-[#1877F2] hover:border-blue-300 hover:bg-blue-50',
+    },
+    {
+      key: 'youtube',
+      href: 'https://www.youtube.com/@webdevss',
+      label: 'YouTube',
+      Icon: YouTubeIcon,
+      color: 'text-[#FF0000] hover:border-red-300 hover:bg-red-50',
     },
     {
       key: 'whatsapp',

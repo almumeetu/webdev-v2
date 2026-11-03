@@ -487,15 +487,15 @@ const baseServices: ServiceDetail[] = [
   },
   {
     id: 'serv-10',
-    title: 'AI Integration & Intelligent Automation',
+    title: 'AI Solutions & Business Process Automation',
     category: 'AI & Automation',
-    shortDesc: 'Custom AI assistants, OpenAI & Claude LLM integrations, retrieval-augmented generation (RAG), and smart enterprise workflow automations.',
-    fullDesc: 'Supercharge your business with state-of-the-art artificial intelligence. We integrate LLMs (OpenAI, Anthropic Claude, open-source models) directly into your web applications, build private RAG knowledge bases over internal documents, and automate repetitive workflows using n8n and Python microservices.',
+    shortDesc: 'Practical AI assistants, private knowledge search, document processing, and reliable workflow automation for customer and internal operations.',
+    fullDesc: 'We design and deliver production-ready AI features around your existing systems—not disconnected chatbots. Our team maps the business process, selects the right model and data boundary, connects approved knowledge sources, and adds validation, human review, monitoring, and access controls before release. Solutions can support customer service, internal knowledge search, document classification, structured data extraction, and API-based workflow automation while keeping privacy, cost, and operational ownership in view.',
     iconName: 'Brain',
     image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80',
-    techs: ['OpenAI API', 'Anthropic Claude', 'LangChain', 'Pinecone / pgvector', 'Python', 'n8n / Zapier', 'RAG'],
-    features: ['LLM agent integration with domain-specific knowledge', 'Retrieval-Augmented Generation (RAG) vector search', 'Automated document processing & data extraction', 'Autonomous multi-step business workflow triggers'],
-    deliverables: ['Production-ready AI integration & endpoints', 'Vectorized document database setup', 'Automated workflow pipelines & webhooks', 'API documentation & model fine-tuning report']
+    techs: ['OpenAI API', 'Anthropic API', 'Azure OpenAI', 'Python', 'FastAPI', 'PostgreSQL / pgvector', 'n8n', 'RAG'],
+    features: ['AI assistants with scoped access to approved business data', 'RAG search with citations and source-aware responses', 'Document classification, extraction, and review queues', 'Guarded workflow automation with webhooks and API integrations'],
+    deliverables: ['Solution architecture and data-flow specification', 'Secure AI service or application integration', 'Knowledge ingestion and evaluation pipeline', 'Monitoring, API documentation, and handover guide']
   },
   {
     id: 'serv-11',

@@ -44,14 +44,14 @@ function subscribeToLanguage(onChange: () => void) {
 
 function getLanguageSnapshot(): Language {
   try {
-    return window.localStorage.getItem('webdev_lang') === 'de' ? 'de' : 'en';
+    return window.localStorage.getItem('webdev_lang') === 'en' ? 'en' : 'de';
   } catch {
-    return 'en';
+    return 'de';
   }
 }
 
 function getServerLanguageSnapshot(): Language {
-  return 'en';
+  return 'de';
 }
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -197,10 +197,10 @@ export const useLanguage = (): LanguageContextType => {
   const context = useContext(LanguageContext);
   if (!context) {
     return {
-      lang: 'en',
+      lang: 'de',
       setLang: () => {},
       toggleLang: () => {},
-      t: translations.en,
+      t: translations.de,
       localizeService: (s) => s,
       localizeProject: (p) => p,
       localizeTeamMember: (m) => m,

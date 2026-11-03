@@ -103,6 +103,10 @@ export const WorkingProcessSection: React.FC = () => {
                     <img
                       src={step.image}
                       alt={step.title}
+                      loading="lazy"
+                      decoding="async"
+                      width="640"
+                      height="360"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />

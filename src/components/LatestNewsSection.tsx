@@ -82,6 +82,9 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
                     src={blog.image}
                     alt={blog.title}
                     loading="lazy"
+                    decoding="async"
+                    width="640"
+                    height="360"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 ) : null}
@@ -97,6 +100,10 @@ export const LatestNewsSection: React.FC<LatestNewsSectionProps> = ({
                         <img
                           src={blog.authorImage}
                           alt={blog.author}
+                          loading="lazy"
+                          decoding="async"
+                          width="20"
+                          height="20"
                           className="w-5 h-5 rounded-[6px] object-cover border border-slate-200 flex-shrink-0"
                         />
                       ) : (

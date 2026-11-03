@@ -308,38 +308,18 @@ export const PortfolioShowcasePage: React.FC<PortfolioShowcasePageProps> = ({
 
                       {/* Info on right side */}
                       <div className="flex-1 min-w-0 space-y-1.5">
-                        <div className="flex items-center justify-between gap-1 text-[11px]">
-                          <span className="font-mono font-medium text-cyan-800 uppercase tracking-wide truncate">
-                            {project.category}
-                          </span>
-                          <span className="text-slate-400 shrink-0">
+                        <div className="flex items-start justify-between gap-3">
+                          <h4 className={`text-sm font-semibold font-['Kufam'] leading-snug line-clamp-2 transition-colors ${
+                          isActive ? 'text-slate-950 font-bold' : 'text-slate-900 group-hover:text-cyan-800'
+                          }`}>
+                            {project.title}
+                          </h4>
+                          <span className="text-slate-400 shrink-0" aria-label={project.clientCountry}>
                             {getCountryFlag(project.clientCountry)}
                           </span>
                         </div>
 
-                        <h4 className={`text-sm font-semibold font-['Kufam'] leading-snug line-clamp-1 transition-colors ${
-                          isActive ? 'text-slate-950 font-bold' : 'text-slate-900 group-hover:text-cyan-800'
-                        }`}>
-                          {project.title}
-                        </h4>
-
-                        <div className="flex items-center justify-between pt-0.5">
-                          <div className="flex items-center gap-1">
-                            {project.techStack?.slice(0, 2).map((tech, idx) => (
-                              <span
-                                key={idx}
-                                className="text-[10px] font-medium bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded"
-                              >
-                                {tech}
-                              </span>
-                            ))}
-                            {(project.techStack?.length || 0) > 2 && (
-                              <span className="text-[10px] text-slate-400 font-mono">
-                                +{(project.techStack?.length || 0) - 2}
-                              </span>
-                            )}
-                          </div>
-
+                        <div className="flex justify-end pt-1">
                           <span className={`text-[11px] font-medium flex items-center gap-0.5 ${
                             isActive ? 'text-cyan-800' : 'text-slate-400 group-hover:text-slate-700'
                           }`}>

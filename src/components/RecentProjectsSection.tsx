@@ -156,6 +156,10 @@ export const RecentProjectsSection: React.FC<RecentProjectsSectionProps> = ({
                     <img
                       src={project.image}
                       alt={project.title}
+                      loading="lazy"
+                      decoding="async"
+                      width="640"
+                      height="360"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : null}

@@ -19,6 +19,20 @@ export const metadata: Metadata = {
   },
   description:
     "Enterprise web applications, high-performance MERN platforms, Linux server infrastructure, and conversion-focused e-commerce solutions for global businesses.",
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   keywords: [
     "WebDev Software Solutions",
     "webdevss.tech",
@@ -33,7 +47,7 @@ export const metadata: Metadata = {
     description:
       "Enterprise web applications, high-performance MERN platforms, Linux server infrastructure, and conversion-focused e-commerce solutions for global businesses.",
     siteName: "WebDev Software Solutions",
-    locale: "en_US",
+    locale: "de_DE",
     type: "website",
   },
   twitter: {
@@ -57,22 +71,31 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'WebDev Software Solutions',
+    url: 'https://webdevss.tech',
+    logo: 'https://webdevss.tech/images/logo/dark-logo-webdevss-big.webp',
+    description: 'Enterprise web applications, full-stack software, cloud architecture, and e-commerce solutions.',
+    sameAs: [
+      'https://github.com/webdevsoftware',
+      'https://www.linkedin.com/in/webdevss',
+    ],
+  };
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="de" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.png" type="image/png" sizes="256x256" />
         <link rel="apple-touch-icon" href="/apple-icon.png" />
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Kufam:wght@400;500;600;700&family=Archivo:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
-          rel="stylesheet"
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
-      <body className="min-h-screen bg-[#0b0f19] text-slate-100 antialiased selection:bg-[#BBE7F1] selection:text-slate-950">
+      <body className="min-h-screen bg-[#0b0f19] font-sans text-slate-100 antialiased selection:bg-[#BBE7F1] selection:text-slate-950">
         <ThemeProvider>
           <LanguageProvider>
             <AppProvider>

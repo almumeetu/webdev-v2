@@ -524,11 +524,11 @@ export const germanServices: Record<string, Partial<ServiceDetail>> = {
     ,deliverables: ['Ausführlicher SEO-Auditbericht', 'Technischer Maßnahmenplan zur Fehlerbehebung', 'Keyword-Targeting & Ranking-Matrix', 'Google Analytics 4 & Search Console Dashboard']
   },
   'serv-10': {
-    title: 'KI-Integration & Intelligente Prozessautomatisierung',
-    shortDesc: 'Maßgeschneiderte KI-Assistenten, LLM-Integrationen (OpenAI/Claude), intelligente Workflows und automatische Datenverarbeitung.',
-    fullDesc: 'Bringen Sie modernste künstliche Intelligenz in Ihre Unternehmensabläufe. Wir integrieren leistungsstarke Large Language Models (LLMs), entwickeln unternehmenseigene Chat-Agenten mit Retrieval-Augmented Generation (RAG) und automatisieren zeitintensive Workflows.',
-    features: ['OpenAI & Anthropic Claude API-Anbindung', 'Retrieval-Augmented Generation (RAG) mit Vektordatenbanken', 'Automatisierte Workflows mit n8n & Python', 'Datenschutzkonforme On-Premise / Private Cloud KI-Optionen'],
-    deliverables: ['Produktionsbereite KI-Integration', 'Vektorbasierte Dokumenten-Wissensdatenbank', 'Automatisierungs-Pipelines & Webhooks', 'API-Dokumentation & Nutzungsanleitung']
+    title: 'KI-Lösungen & Geschäftsprozess-Automation',
+    shortDesc: 'Praxisnahe KI-Assistenten, private Wissenssuche, Dokumentenverarbeitung und zuverlässige Prozessautomation für Kunden- und interne Abläufe.',
+    fullDesc: 'Wir entwickeln produktionsreife KI-Funktionen, die in Ihre bestehenden Systeme und Prozesse passen – keine isolierten Chatbots. Wir analysieren den Anwendungsfall, wählen Modell und Datenzugriff passend aus, binden freigegebene Wissensquellen an und ergänzen Validierung, menschliche Freigaben, Monitoring und Zugriffskontrollen. So entstehen Lösungen für Kundenservice, interne Wissenssuche, Dokumentenklassifizierung, strukturierte Datenextraktion und API-basierte Workflow-Automation – mit Blick auf Datenschutz, Kosten und nachhaltigen Betrieb.',
+    features: ['KI-Assistenten mit begrenztem Zugriff auf freigegebene Unternehmensdaten', 'RAG-Wissenssuche mit Quellenangaben und nachvollziehbaren Antworten', 'Dokumentenklassifizierung, Datenextraktion und Prüfwarteschlangen', 'Kontrollierte Workflow-Automation mit Webhooks und API-Integrationen'],
+    deliverables: ['Lösungsarchitektur und Datenfluss-Spezifikation', 'Sichere KI-Service- oder Anwendungsintegration', 'Ingestion- und Evaluations-Pipeline für Wissensquellen', 'Monitoring, API-Dokumentation und Übergabeleitfaden']
   },
   'serv-11': {
     title: 'Cybersecurity Audits & DSGVO-Compliance',

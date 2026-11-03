@@ -96,6 +96,9 @@ export const FaqAndExperienceSection: React.FC<FaqAndExperienceSectionProps> = (
               <img
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1000&q=80"
                 alt="WebDev software engineer coding"
+                loading="lazy"
+                width="1000"
+                height="667"
                 className="w-full h-[360px] sm:h-[440px] lg:h-[480px] object-cover"
               />
               <div className="absolute inset-0 bg-slate-950/20"></div>

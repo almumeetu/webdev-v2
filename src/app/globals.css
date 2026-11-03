@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Kufam", sans-serif;
-  --font-body: "Kufam", sans-serif;
-  --font-heading: "Kufam", sans-serif;
-  --font-kufam: "Kufam", sans-serif;
-  --font-archivo: "Kufam", sans-serif;
-  --font-instrument: "Kufam", sans-serif;
+  --font-sans: Arial, sans-serif;
+  --font-body: Arial, sans-serif;
+  --font-heading: Arial, sans-serif;
+  --font-kufam: Arial, sans-serif;
+  --font-archivo: Arial, sans-serif;
+  --font-instrument: Arial, sans-serif;
   --font-weight-bold: 550;
   --font-weight-extrabold: 550;
   --font-weight-black: 600;
@@ -36,7 +36,7 @@
 
 @layer base {
   html {
-    font-family: "Kufam", sans-serif;
+    font-family: "Inter", "Arial", sans-serif;
     font-weight: 400;
     overflow-x: clip;
     max-width: 100%;
@@ -44,7 +44,7 @@
   }
 
   body {
-    font-family: "Kufam", sans-serif;
+    font-family: "Inter", "Arial", sans-serif;
     font-weight: 400;
     background-color: #ffffff;
     color: #0f172a;
@@ -57,7 +57,7 @@
   
   /* Headings: smaller sizes, avoid bold, clean and readable */
   h1, h2, h3, h4, h5, h6 {
-    font-family: "Kufam", sans-serif;
+    font-family: "Inter", "Arial", sans-serif;
     font-weight: 550;
     letter-spacing: -0.015em;
   }
@@ -98,7 +98,7 @@
   .subheading,
   .stylish-italic-subheading,
   .cursive-subheading {
-    font-family: "Kufam", sans-serif !important;
+    font-family: "Inter", "Arial", sans-serif !important;
     font-style: normal !important;
     font-weight: 500 !important;
     letter-spacing: 0.01em;
@@ -176,7 +176,7 @@ button:disabled {
   font-weight: 600 !important;
 }
 
-/* Universal font mappings for Kufam across full site */
+/* Keep legacy font utility classes on the unified site typeface. */
 [class*="font-['Kufam']"],
 [class*="font-['Outfit']"],
 [class*="font-['Archivo']"],
@@ -189,7 +189,7 @@ button:disabled {
 .font-instrument,
 .font-heading,
 .font-body {
-  font-family: "Kufam", sans-serif !important;
+  font-family: "Inter", "Arial", sans-serif !important;
 }
 
 /* Standard Section Container - Unified 1440px width design system standard across all sections */
@@ -878,5 +878,3 @@ html, body {
     transition-duration: 0.01ms;
   }
 }
-
-

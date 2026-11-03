@@ -79,12 +79,12 @@ const serviceGroups: ServiceGroupItem[] = [
   {
     id: 'serv-10',
     Icon: Bot,
-    en: 'AI & Process Automation',
-    de: 'KI & Prozessautomation',
+    en: 'AI Solutions & Automation',
+    de: 'KI-Lösungen & Automation',
     items: [
-      { id: 'serv-10', en: 'OpenAI & Claude LLM Integration', de: 'OpenAI & Claude LLM Integration' },
-      { id: 'serv-10', en: 'RAG Vector Knowledge Bases', de: 'RAG Vektor-Wissensdatenbanken' },
-      { id: 'serv-5', en: 'APIs & Microservices Backend', de: 'APIs & Microservices Backend' },
+      { id: 'serv-10', en: 'AI Assistants for Customer & Team Workflows', de: 'KI-Assistenten für Kunden- & Teamprozesse' },
+      { id: 'serv-10', en: 'Secure RAG Knowledge Systems', de: 'Sichere RAG-Wissenssysteme' },
+      { id: 'serv-10', en: 'Document Processing & API Automation', de: 'Dokumentenverarbeitung & API-Automation' },
     ],
   },
 
@@ -158,14 +158,6 @@ const serviceGroups: ServiceGroupItem[] = [
       { id: 'serv-8', en: 'High-ROI Retargeting Funnels', de: 'Retargeting & ROI-Funnels' },
     ],
   },
-];
-
-const deliverySteps = [
-  ['Scope', 'Analyse'],
-  ['Sprints', 'Sprints'],
-  ['Quality', 'Qualität'],
-  ['Deploy', 'Rollout'],
-  ['Handover', 'Übergabe'],
 ];
 
 const megaMenuServiceGroups = serviceGroups.slice(0, 8);
@@ -268,7 +260,7 @@ export function ServicesMenu({
             ? 'navbar-mobile-nav-link flex min-h-11 w-full justify-between px-4 py-2.5 text-[15px]'
             : 'navbar-nav-link inline-flex px-3 py-1.5 text-[14.5px]'
         } items-center gap-1.5 text-left cursor-pointer ${
-          active || open ? 'font-semibold text-sky-700' : 'text-slate-600 hover:text-sky-700'
+          active || open ? 'font-semibold text-[#0284c7]' : 'text-slate-600 hover:text-[#0284c7]'
         }`}
       >
         {t.navServices}
@@ -298,100 +290,55 @@ export function ServicesMenu({
         >
           {/* Desktop mega menu inner container */}
           {!mobile && (
-            <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
               {/* Header row */}
-              <div className="flex items-center justify-between gap-3 border-b border-slate-100 py-2.5">
-                <div className="flex items-center gap-2.5">
-                  <p className="text-[14.5px] font-bold text-slate-900">
-                    {locale ? 'Services & Fachbereiche' : 'Services & Capabilities'}
-                  </p>
-                  <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-sky-50 text-sky-700 border border-sky-200/60">
-                    {locale ? '8 Kernkompetenzen' : '8 Core Disciplines'}
-                  </span>
-                </div>
+              <div className="flex items-center justify-between gap-3 border-b border-slate-100 py-4">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#0284c7]">
+                  {locale ? 'Unsere Leistungen' : 'Our services'}
+                </p>
                 <Link
                   href="/services"
                   onClick={navigate}
-                  className="inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-sky-700 hover:text-sky-900 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-500 transition-colors"
+                  className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0284c7] transition-colors hover:text-[#0369a1] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0284c7]"
                 >
                   {locale ? 'Alle Services ansehen' : 'View all services'}
                   <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
                 </Link>
               </div>
 
-              {/* Eight service groups: five columns on wide screens, with the final three on row two. */}
-              <div className="grid grid-cols-1 gap-2 py-2.5 sm:grid-cols-2 lg:grid-cols-5">
-                {megaMenuServiceGroups.map(({ id, Icon, en, de, items, featured, badgeEn, badgeDe }) => {
-                  const isMedical = id === 'serv-13';
-
+              {/* Reference-style, borderless service columns. */}
+              <div className="grid grid-cols-1 gap-x-8 gap-y-8 py-7 sm:grid-cols-2 lg:grid-cols-5">
+                {megaMenuServiceGroups.map(({ id, Icon, en, de, items }) => {
                   return (
-                    <section
-                      key={id}
-                      className={`min-w-0 rounded-lg border p-2 transition-colors ${
-                        isMedical
-                          ? 'border-sky-300/80 bg-gradient-to-br from-sky-50/90 via-blue-50/40 to-white shadow-xs ring-1 ring-sky-400/20'
-                          : featured
-                          ? 'border-slate-200 bg-slate-50/70'
-                          : 'border-slate-200/70 bg-white hover:border-sky-200 hover:shadow-xs'
-                      }`}
-                    >
-                      <div className="mb-1.5 flex items-start justify-between gap-1.5">
-                        <h2 className="min-w-0">
+                    <section key={id} className="min-w-0">
+                      <div className="mb-3 flex items-center gap-2.5">
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#9cd5e2] bg-[#BBE7F1]/35 text-[#0284c7]">
+                          <Icon className="h-4 w-4" aria-hidden="true" />
+                        </span>
+                        <h2 className="min-w-0 text-[14px] font-semibold leading-tight text-slate-900">
                           <Link
                             href={`/services/${id}`}
                             onClick={navigate}
-                            className="group flex min-w-0 items-center gap-1.5 rounded-lg focus-visible:outline-2 focus-visible:outline-sky-500 transition-colors"
+                            className="transition-colors hover:text-[#0284c7] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]"
                           >
-                            <span
-                              className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md transition-colors ${
-                                isMedical
-                                  ? 'bg-sky-600 text-white shadow-xs'
-                                  : 'bg-sky-50 text-sky-600 group-hover:bg-sky-100 group-hover:text-sky-700'
-                              }`}
-                            >
-                              <Icon className="h-3 w-3" aria-hidden="true" />
-                            </span>
-                            <span
-                              className={`min-w-0 text-[12px] font-bold leading-tight transition-colors ${
-                                isMedical
-                                  ? 'text-sky-950 group-hover:text-sky-700'
-                                  : 'text-slate-900 group-hover:text-sky-700'
-                              }`}
-                            >
-                              {locale ? de : en}
-                            </span>
+                            {locale ? de : en}
                           </Link>
                         </h2>
-                        {featured && (
-                          <span
-                            className={`inline-flex items-center px-1.5 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider ${
-                              isMedical
-                                ? 'bg-sky-600 text-white shadow-2xs'
-                                : 'bg-slate-200/80 text-slate-700'
-                            }`}
-                          >
-                            {locale ? badgeDe : badgeEn}
-                          </span>
-                        )}
                       </div>
 
-                      <ul className="space-y-0.5">
+                      <ul className="space-y-1">
                         {items.map((item, idx) => (
                           <li key={idx}>
                             <Link
                               href={`/services/${item.id}`}
                               onClick={navigate}
-                              className={`group flex items-center justify-between gap-1.5 rounded-lg px-1.5 py-0.5 text-[11.5px] leading-snug transition-colors focus-visible:outline-2 focus-visible:outline-sky-500 ${
-                                isMedical
-                                  ? 'text-slate-700 hover:bg-sky-100/70 hover:text-sky-900 font-medium'
-                                  : 'text-slate-600 hover:bg-sky-50/60 hover:text-sky-700'
-                              }`}
+                              className="group flex items-start gap-2 rounded-md text-[13px] leading-snug text-slate-500 transition-colors hover:text-[#0284c7] focus-visible:outline-2 focus-visible:outline-[#0284c7]"
                             >
-                              <span className="truncate">{locale ? item.de : item.en}</span>
                               <ArrowUpRight
                                 aria-hidden="true"
-                                className="h-3 w-3 shrink-0 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 text-sky-600"
+                                className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-400 transition-colors group-hover:text-[#0284c7]"
                               />
+                              <span>{locale ? item.de : item.en}</span>
                             </Link>
                           </li>
                         ))}
@@ -401,19 +348,23 @@ export function ServicesMenu({
                 })}
               </div>
 
-              {/* Delivery process footer */}
-              <div className="flex items-center gap-6 border-t border-slate-100 bg-slate-50/50 -mx-4 px-4 py-2 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-                <span className="shrink-0 text-xs font-semibold text-slate-700">
-                  {locale ? 'Unser Ablauf' : 'Delivery process'}
-                </span>
-                <ol className="grid flex-1 grid-cols-5 gap-2">
-                  {deliverySteps.map((step, index) => (
-                    <li key={step[0]} className="flex items-center gap-1.5 text-[10px] text-slate-600">
-                      <span className="font-mono text-sky-600">0{index + 1}</span>
-                      {step[locale]}
-                    </li>
-                  ))}
-                </ol>
+              <div className="flex items-center justify-between gap-4 border-t border-slate-100 bg-slate-50/70 -mx-5 px-5 py-4 sm:-mx-8 sm:px-8 lg:-mx-10 lg:px-10">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0284c7]">
+                    {locale ? 'Kompetenz, die Wirkung zeigt' : 'Expertise that moves business'}
+                  </p>
+                  <p className="mt-1 text-[13px] text-slate-600">
+                    {locale ? 'Von der Idee bis zum zuverlässigen Produkt.' : 'From first idea to a dependable product.'}
+                  </p>
+                </div>
+                <Link
+                  href="/contact"
+                  onClick={navigate}
+                  className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-[#9cd5e2] bg-[#BBE7F1] px-4 py-2 text-[12px] font-semibold text-slate-950 transition-colors hover:bg-[#a7dfed] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]"
+                >
+                  {locale ? 'Projekt starten' : 'Start a project'}
+                  <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                </Link>
               </div>
             </div>
           )}
@@ -428,7 +379,7 @@ export function ServicesMenu({
                 <Link
                   href="/services"
                   onClick={navigate}
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-700 hover:text-sky-900"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0284c7] hover:text-[#0369a1]"
                 >
                   {locale ? 'Alle Services' : 'View all'}
                   <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -438,11 +389,13 @@ export function ServicesMenu({
                 const isMedical = id === 'serv-13';
 
                 return (
-                  <details key={id} className={`group py-3 ${isMedical ? 'bg-sky-50/50 rounded-xl px-2' : ''}`}>
+                  <details key={id} className={`group py-3 ${isMedical ? 'rounded-xl bg-[#BBE7F1]/20 px-2' : ''}`}>
                     <summary className="flex cursor-pointer list-none items-center gap-2.5 [&::-webkit-details-marker]:hidden">
                       <span
                         className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${
-                          isMedical ? 'bg-sky-600 text-white' : 'bg-sky-50 text-sky-600'
+                          isMedical
+                            ? 'border border-[#9cd5e2] bg-[#BBE7F1] text-slate-950'
+                            : 'border border-[#9cd5e2] bg-[#BBE7F1]/35 text-[#0284c7]'
                         }`}
                       >
                         <Icon className="h-4 w-4" aria-hidden="true" />
@@ -454,7 +407,9 @@ export function ServicesMenu({
                         {featured && (
                           <span
                             className={`inline-flex items-center px-1.5 py-0.2 rounded text-[9px] font-bold uppercase ${
-                              isMedical ? 'bg-sky-600 text-white' : 'bg-slate-200 text-slate-700'
+                              isMedical
+                                ? 'border border-[#9cd5e2] bg-[#BBE7F1] text-slate-950'
+                                : 'bg-slate-200 text-slate-700'
                             }`}
                           >
                             {locale ? badgeDe : badgeEn}
@@ -472,12 +427,12 @@ export function ServicesMenu({
                           <Link
                             href={`/services/${item.id}`}
                             onClick={navigate}
-                            className="group flex items-center justify-between gap-2 rounded-lg px-2 py-2 text-[13.5px] leading-snug text-slate-600 transition-colors hover:bg-sky-50/60 hover:text-sky-700"
+                            className="group flex items-center justify-between gap-2 rounded-lg px-2 py-2 text-[13.5px] leading-snug text-slate-600 transition-colors hover:bg-[#BBE7F1]/35 hover:text-[#0284c7]"
                           >
                             <span>{locale ? item.de : item.en}</span>
                             <ArrowUpRight
                               aria-hidden="true"
-                              className="h-3.5 w-3.5 shrink-0 opacity-0 transition-opacity group-hover:opacity-100 text-sky-600"
+                              className="h-3.5 w-3.5 shrink-0 text-[#0284c7] opacity-0 transition-opacity group-hover:opacity-100"
                             />
                           </Link>
                         </li>

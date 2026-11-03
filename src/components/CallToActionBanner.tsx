@@ -22,20 +22,29 @@ export const CallToActionBanner: React.FC<CallToActionBannerProps> = ({ onContac
     const el = bgRef.current;
     if (!el) return;
 
+    let frameId: number | null = null;
+
     const handleScroll = () => {
-      if (!bannerRef.current) return;
-      const rect = bannerRef.current.getBoundingClientRect();
-      const viewH = window.innerHeight;
-      // only run while section is in viewport
-      if (rect.bottom < 0 || rect.top > viewH) return;
-      const progress = (viewH - rect.top) / (viewH + rect.height);
-      const shift = (progress - 0.5) * 80; // ±40px travel
-      el.style.transform = `translateY(${shift}px)`;
+      if (frameId !== null) return;
+      frameId = window.requestAnimationFrame(() => {
+        frameId = null;
+        if (!bannerRef.current) return;
+        const rect = bannerRef.current.getBoundingClientRect();
+        const viewH = window.innerHeight;
+        // Only update while the section is visible.
+        if (rect.bottom < 0 || rect.top > viewH) return;
+        const progress = (viewH - rect.top) / (viewH + rect.height);
+        const shift = (progress - 0.5) * 80;
+        el.style.transform = `translate3d(0, ${shift}px, 0)`;
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (frameId !== null) window.cancelAnimationFrame(frameId);
+    };
   }, []);
 
   /* ── Entrance animation ── */

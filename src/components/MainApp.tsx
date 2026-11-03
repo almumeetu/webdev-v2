@@ -130,7 +130,7 @@ function MainAppContent() {
       if (found) {
         setSelectedService(found);
         setCurrentView('service-detail');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'auto' });
         return;
       }
     }
@@ -142,7 +142,7 @@ function MainAppContent() {
 
     setCurrentView(targetView);
     if (subParam) setActiveServiceId(subParam);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
   // ─── Inquiry ────────────────────────────────────────────────────────────────

@@ -19,7 +19,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   // Ensure every route transition starts at the very top of the page
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
     }
@@ -31,7 +31,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className={`min-h-screen ${isHome ? 'bg-slate-50' : 'bg-white'} text-slate-900 flex flex-col font-['Kufam'] font-sans antialiased selection:bg-[#BBE7F1] selection:text-slate-950`}>
+    <div className={`min-h-screen ${isHome ? 'bg-slate-50' : 'bg-white'} text-slate-900 flex flex-col font-sans antialiased selection:bg-[#BBE7F1] selection:text-slate-950`}>
       <TopBar />
       <Navbar />
       <main className="flex-1">{children}</main>

@@ -39,6 +39,9 @@ export const GlobalEcosystemSection: React.FC = () => {
                   src={brand.image}
                   alt={brand.name}
                   loading="lazy"
+                  decoding="async"
+                  width="180"
+                  height="48"
                   className="h-9 w-full object-contain sm:h-10"
                 />
                 <span className="text-center text-[10px] font-medium leading-tight text-slate-500 sm:text-[11px]">

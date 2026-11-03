@@ -169,6 +169,10 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
             <img
               src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80"
               alt="Engineering Team"
+              loading="lazy"
+              decoding="async"
+              width="1000"
+              height="667"
               className="rounded-2xl shadow-lg w-full object-cover h-[320px] sm:h-[400px] border border-slate-200"
             />
             <div className="absolute bottom-4 left-4 right-4 bg-white p-4 rounded-xl shadow-lg border border-slate-200">
@@ -210,15 +214,15 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
               <ul className="text-xs text-slate-700 space-y-1.5">
                 <li className="flex items-start gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-sky-600 shrink-0 mt-0.5" />
-                  <span>{lang === 'de' ? 'DSGVO & ISO-27001' : 'GDPR & ISO-27001'}</span>
+                  <span>{lang === 'de' ? 'DSGVO-orientierte Projekt- und Datenprozesse' : 'GDPR-aware project and data practices'}</span>
                 </li>
                 <li className="flex items-start gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-sky-600 shrink-0 mt-0.5" />
-                  <span>{lang === 'de' ? 'Hetzner Frankfurt' : 'Hetzner Frankfurt'}</span>
+                  <span>{lang === 'de' ? 'Hetzner-Infrastruktur in Frankfurt' : 'Hetzner infrastructure in Frankfurt'}</span>
                 </li>
                 <li className="flex items-start gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-sky-600 shrink-0 mt-0.5" />
-                  <span>Küppersteg, 51373 Leverkusen</span>
+                  <span>{lang === 'de' ? 'Kundenbetreuung und Delivery in Küppersteg' : 'Client delivery and coordination in Küppersteg'}</span>
                 </li>
               </ul>
             </div>
@@ -234,15 +238,15 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
               <ul className="text-xs text-slate-700 space-y-1.5">
                 <li className="flex items-start gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                  <span>{lang === 'de' ? 'Next.js & TypeScript' : 'Next.js & TypeScript'}</span>
+                  <span>{lang === 'de' ? 'Webentwicklung mit Next.js und TypeScript' : 'Web engineering with Next.js and TypeScript'}</span>
                 </li>
                 <li className="flex items-start gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                  <span>{lang === 'de' ? 'Flutter, React Native & Kotlin' : 'Flutter, React Native & Kotlin'}</span>
+                  <span>{lang === 'de' ? 'Mobile Apps mit Flutter, React Native und Kotlin' : 'Mobile apps with Flutter, React Native, and Kotlin'}</span>
                 </li>
                 <li className="flex items-start gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                  <span>{lang === 'de' ? 'PostgreSQL, Supabase & Prisma' : 'PostgreSQL, Supabase & Prisma'}</span>
+                  <span>{lang === 'de' ? 'PostgreSQL, Supabase, Prisma und KI-Integrationen' : 'PostgreSQL, Supabase, Prisma, and AI integrations'}</span>
                 </li>
               </ul>
             </div>

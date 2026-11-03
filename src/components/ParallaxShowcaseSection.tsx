@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { 
   Server, 
   ShieldCheck, 
@@ -21,33 +21,46 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
   onContactClick
 }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [scrollYOffset, setScrollYOffset] = useState(0);
+  const backgroundRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const contactBadgeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Only enable parallax scroll listener on desktop viewports (>= 1024px)
     // On mobile devices, constant scroll setState triggers re-render thrashing and card overlapping
     if (typeof window === 'undefined') return;
 
-    let ticking = false;
+    let frameId: number | null = null;
 
     const handleScroll = () => {
-      if (window.innerWidth < 1024) {
-        setScrollYOffset(0);
-        return;
-      }
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          if (sectionRef.current) {
-            const rect = sectionRef.current.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-            // Calculate relative offset as section scrolls into view
-            const centerDistance = rect.top + rect.height / 2 - windowHeight / 2;
-            setScrollYOffset(centerDistance);
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
+      if (frameId !== null) return;
+      frameId = window.requestAnimationFrame(() => {
+        frameId = null;
+        if (!sectionRef.current) return;
+
+        if (window.innerWidth < 1024) {
+          [backgroundRef, cardRef, badgeRef, contactBadgeRef].forEach((ref) => {
+            if (ref.current) ref.current.style.transform = '';
+          });
+          return;
+        }
+
+        const rect = sectionRef.current.getBoundingClientRect();
+        const centerDistance = rect.top + rect.height / 2 - window.innerHeight / 2;
+        if (backgroundRef.current) {
+          backgroundRef.current.style.transform = `translate3d(0, ${centerDistance * 0.12}px, 0)`;
+        }
+        if (cardRef.current) {
+          cardRef.current.style.transform = `translate3d(0, ${centerDistance * -0.15}px, 0)`;
+        }
+        if (badgeRef.current) {
+          badgeRef.current.style.transform = `translate3d(0, ${centerDistance * 0.18}px, 0)`;
+        }
+        if (contactBadgeRef.current) {
+          contactBadgeRef.current.style.transform = `translate3d(0, ${centerDistance * -0.22}px, 0)`;
+        }
+      });
     };
 
     if (window.innerWidth >= 1024) {
@@ -57,7 +70,9 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
 
     const handleResize = () => {
       if (window.innerWidth < 1024) {
-        setScrollYOffset(0);
+        [backgroundRef, cardRef, badgeRef, contactBadgeRef].forEach((ref) => {
+          if (ref.current) ref.current.style.transform = '';
+        });
       } else {
         handleScroll();
       }
@@ -67,15 +82,9 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
+      if (frameId !== null) window.cancelAnimationFrame(frameId);
     };
   }, []);
-
-  // Compute smooth parallax translate values (strictly 0 on mobile to prevent overlapping)
-  const isDesktop = typeof window !== 'undefined' ? window.innerWidth >= 1024 : false;
-  const bgShift = isDesktop ? scrollYOffset * 0.12 : 0;
-  const cardFloat1 = isDesktop ? scrollYOffset * -0.15 : 0;
-  const cardFloat2 = isDesktop ? scrollYOffset * 0.18 : 0;
-  const badgeFloat = isDesktop ? scrollYOffset * -0.22 : 0;
 
   return (
     <section 
@@ -85,8 +94,8 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
     >
       {/* 1. Parallax Layer: Ambient Glows & High-Tech Circuit Background */}
       <div 
+        ref={backgroundRef}
         className="absolute inset-0 pointer-events-none transform-gpu will-change-transform"
-        style={{ transform: bgShift ? `translate3d(0, ${bgShift}px, 0)` : undefined }}
       >
         <div className="hidden md:block absolute top-1/4 left-1/5 w-[500px] h-[500px] bg-[#BBE7F1]/10 rounded-full blur-[140px]" />
         <div className="hidden md:block absolute bottom-1/4 right-1/5 w-[450px] h-[450px] bg-sky-500/15 rounded-full blur-[130px]" />
@@ -158,8 +167,8 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
             
             {/* Parallax Card 1: Core System Architecture Terminal */}
             <div 
+              ref={cardRef}
               className="rounded-3xl bg-slate-900/90 border border-slate-800 p-6 sm:p-7 shadow-2xl backdrop-blur-xl space-y-5 transform-gpu will-change-transform"
-              style={{ transform: cardFloat1 ? `translate3d(0, ${cardFloat1}px, 0)` : undefined }}
             >
               {/* Terminal Window Header */}
               <div className="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -206,8 +215,8 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
 
             {/* Parallax Floating Badge 2: Floating High-Availability Pill */}
             <div 
+              ref={badgeRef}
               className="hidden sm:flex absolute -bottom-8 -left-8 bg-gradient-to-r from-slate-900/95 to-slate-950/95 border border-[#9cd5e2]/40 p-4 rounded-2xl shadow-xl backdrop-blur-md items-center gap-3 transform-gpu will-change-transform z-20"
-              style={{ transform: `translate3d(0, ${cardFloat2}px, 0)` }}
             >
               <div className="w-10 h-10 rounded-xl bg-[#BBE7F1]/20 text-cyan-300 flex items-center justify-center font-bold">
                 <Zap className="w-5 h-5 text-cyan-300" />
@@ -220,8 +229,8 @@ export const ParallaxShowcaseSection: React.FC<ParallaxShowcaseSectionProps> = (
 
             {/* Parallax Floating Badge 3: Top Right Direct Contact Badge */}
             <div 
+              ref={contactBadgeRef}
               className="hidden sm:flex absolute -top-8 -right-6 bg-slate-900/95 border border-slate-700/80 p-3.5 rounded-2xl shadow-xl backdrop-blur-md items-center gap-2.5 transform-gpu will-change-transform z-20"
-              style={{ transform: `translate3d(0, ${badgeFloat}px, 0)` }}
             >
               <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
                 <CheckCircle2 className="w-4 h-4" />
